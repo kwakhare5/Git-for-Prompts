@@ -6,3 +6,4 @@
 - [2026-04-20T09:15:22] feat: introduce prompt branch checkpointer
 - [2026-04-20T11:50:08] style: align CLI terminal prompt output
 - [2026-04-20T14:30:41] fix: handle empty prompt commit messages
+- [2026-04-20T17:15:19] perf: cache compiled prompt embeddings
