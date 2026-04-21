@@ -8,3 +8,4 @@
 - [2026-04-20T14:30:41] fix: handle empty prompt commit messages
 - [2026-04-20T17:15:19] perf: cache compiled prompt embeddings
 - [2026-04-20T20:45:03] test: verify prompt merge conflict resolution
+- [2026-04-21T10:30:48] refactor: optimize prompt generation loop
