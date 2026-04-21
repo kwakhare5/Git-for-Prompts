@@ -9,3 +9,4 @@
 - [2026-04-20T17:15:19] perf: cache compiled prompt embeddings
 - [2026-04-20T20:45:03] test: verify prompt merge conflict resolution
 - [2026-04-21T10:30:48] refactor: optimize prompt generation loop
+- [2026-04-21T15:05:12] style: update preset selector CLI flags
