@@ -11,3 +11,4 @@
 - [2026-04-21T10:30:48] refactor: optimize prompt generation loop
 - [2026-04-21T15:05:12] style: update preset selector CLI flags
 - [2026-04-21T18:40:37] chore: bump core dependencies
+- [2026-05-01T09:10:44] feat: add prompt history checkout shortcut
