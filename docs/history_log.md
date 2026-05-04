@@ -14,3 +14,4 @@
 - [2026-05-01T09:10:44] feat: add prompt history checkout shortcut
 - [2026-05-01T14:30:19] style: refine prompt summary card borders
 - [2026-05-04T10:20:05] refactor: streamline prompt AST parser
+- [2026-05-04T13:50:41] fix: resolve edge case in prompt token counter
