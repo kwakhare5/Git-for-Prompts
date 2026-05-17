@@ -17,3 +17,6 @@
 - [2026-05-04T13:50:41] fix: resolve edge case in prompt token counter
 - [2026-05-04T17:15:33] docs: document prompt versioning CLI flags
 - [2026-05-17T11:15:10] style: align dark mode toggle switch
+- [2026-05-17T15:40:28] test: add unit tests for prompt diff renderer
+- [2026-05-19T08:50:39] perf: optimize prompt search index caching
+- [2026-05-19T14:10:02] refactor: clean up unused prompt helper types
