@@ -16,3 +16,4 @@
 - [2026-05-04T10:20:05] refactor: streamline prompt AST parser
 - [2026-05-04T13:50:41] fix: resolve edge case in prompt token counter
 - [2026-05-04T17:15:33] docs: document prompt versioning CLI flags
+- [2026-05-17T11:15:10] style: align dark mode toggle switch
