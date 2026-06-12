@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { apiKeys, prompts, versions } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
-import bcrypt from 'bcryptjs';
 import { createHash } from 'crypto';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/prompts/[id]/latest
@@ -15,6 +15,7 @@ import { createHash } from 'crypto';
 //   200 — prompt content JSON
 //   401 — missing / invalid Authorization header or key mismatch
 //   404 — prompt not found or not owned by this key's owner
+//   429 — rate limit exceeded (60 req/min per IP)
 //   500 — unexpected server error (no stack trace exposed)
 // ─────────────────────────────────────────────────────────────────────────────
 export const dynamic = 'force-dynamic';
@@ -24,6 +25,25 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    // 0. Rate limiting — check by IP before any DB work
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+      ?? req.headers.get('x-real-ip')
+      ?? '127.0.0.1';
+
+    const { success, remaining } = await checkRateLimit(`api:${ip}`);
+    if (!success) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Max 60 requests per minute.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': '60',
+            'X-RateLimit-Remaining': '0',
+          },
+        },
+      );
+    }
+
     // 1. Extract Bearer token from Authorization header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader?.startsWith('Bearer ')) {
@@ -39,10 +59,12 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid API key format' }, { status: 401 });
     }
 
-    // 3. O(1) key lookup via SHA-256 hash, then bcrypt verification.
-    //    SHA-256 is deterministic so we can query the indexed column directly.
-    //    bcrypt.compare is the final proof — SHA-256 alone is not sufficient
-    //    because SHA-256 is fast (brute-forceable for short secrets).
+    // 3. O(1) key lookup via SHA-256 hash.
+    //    Our API keys have 128 bits of entropy (randomBytes(16)) — SHA-256
+    //    collision attacks are computationally infeasible for secrets of this
+    //    size. bcrypt is for low-entropy user passwords; using it here added
+    //    ~100ms CPU-bound latency per request with no security benefit.
+    //    The SHA-256 index lookup is both the lookup AND the verification.
     const lookupHash = createHash('sha256').update(token).digest('hex');
 
     const [candidateKey] = await db
@@ -52,12 +74,6 @@ export async function GET(
       .limit(1);
 
     if (!candidateKey) {
-      return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
-    }
-
-    // Verify with bcrypt as the authoritative check
-    const isValid = await bcrypt.compare(token, candidateKey.keyHash);
-    if (!isValid) {
       return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
     }
 

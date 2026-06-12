@@ -76,24 +76,41 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isAutoplayPaused, activeTab]);
 
-  // States for Feature Graphic 3 (Pipeline)
-  const [pipelineState, setPipelineState] = useState<number>(0);
+  // States for Feature Graphic 1 (Git Tree)
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [commitTyped, setCommitTyped] = useState('');
+  const commitMsg = '"feat: adjust refund criteria for v3"';
   useEffect(() => {
-    if (activeFeature !== 2 || activeTab !== 'tour') return;
-    const interval = setInterval(() => {
-      setPipelineState((prev) => (prev + 1) % 4);
-    }, 1500);
-    return () => clearInterval(interval);
+    if (activeFeature !== 0 || activeTab !== 'tour') return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCommitTyped('');
+    let i = 0;
+    const typer = setInterval(() => {
+      i++;
+      setCommitTyped(commitMsg.slice(0, i));
+      if (i >= commitMsg.length) clearInterval(typer);
+    }, 55);
+    return () => clearInterval(typer);
   }, [activeFeature, activeTab]);
 
-  // States for Feature Graphic 4 (API Packet Flow)
-  const [apiProgress, setApiProgress] = useState<number>(0);
+  // States for Feature Graphic 3 (Pipeline)
+  const [pipelineState, setPipelineState] = useState<number>(0);
+  const [showPassedBadge, setShowPassedBadge] = useState(false);
   useEffect(() => {
-    if (activeFeature !== 3 || activeTab !== 'tour') return;
-    const interval = setInterval(() => {
-      setApiProgress((prev) => (prev === 100 ? 0 : 100));
-    }, 2000);
-    return () => clearInterval(interval);
+    if (activeFeature !== 2 || activeTab !== 'tour') return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPipelineState(0);
+    setShowPassedBadge(false);
+    const steps = [800, 1500, 2300, 3100, 4200];
+    const timers = steps.map((delay, i) => setTimeout(() => {
+      if (i < 4) setPipelineState(i + 1);
+      if (i === 4) setShowPassedBadge(true);
+    }, delay));
+    const reset = setTimeout(() => {
+      setPipelineState(0);
+      setShowPassedBadge(false);
+    }, 7200);
+    return () => { timers.forEach(clearTimeout); clearTimeout(reset); };
   }, [activeFeature, activeTab]);
 
   // States for New 'What Git for Prompts Fixes' Section
@@ -185,28 +202,117 @@ export default function Home() {
       
       {/* Local Premium Styles */}
       <style>{`
+        /* ── Graphic 1 (original) ───────────────────────── */
         @keyframes draw-line {
-          to { stroke-dashoffset: 0; }
+          from { stroke-dashoffset: 320; }
+          to   { stroke-dashoffset: 0; }
+        }
+        @keyframes draw-branch {
+          from { stroke-dashoffset: 200; }
+          to   { stroke-dashoffset: 0; }
         }
         @keyframes pulse-glow {
-          0%, 100% { opacity: 0.6; }
-          50% { opacity: 1; }
+          0%, 100% { opacity: 0.6; box-shadow: 0 0 8px rgba(16,185,129,0.3); }
+          50%       { opacity: 1;   box-shadow: 0 0 22px rgba(16,185,129,0.7); }
         }
+        /* ── Graphic 1 NEW (pure SVG) ───────────────────── */
+        @keyframes draw-trunk {
+          from { stroke-dashoffset: 140; }
+          to   { stroke-dashoffset: 0; }
+        }
+        @keyframes draw-branch-g1 {
+          from { stroke-dashoffset: 230; }
+          to   { stroke-dashoffset: 0; }
+        }
+        @keyframes svg-glow {
+          0%, 100% { filter: drop-shadow(0 0 3px rgba(16,185,129,0.5)); }
+          50%       { filter: drop-shadow(0 0 10px rgba(16,185,129,0.9)); }
+        }
+        .animate-draw-trunk {
+          stroke-dasharray: 140;
+          stroke-dashoffset: 140;
+          animation: draw-trunk 1.2s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .animate-draw-branch-g1 {
+          stroke-dasharray: 230;
+          stroke-dashoffset: 230;
+          animation: draw-branch-g1 1.4s 0.9s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .svg-node-active {
+          animation: svg-glow 2s ease-in-out infinite;
+        }
+        /* ── Graphic 2 (diff wipe CSS sweep) ────────────── */
+        @keyframes wipe-scan {
+          0%   { width: 30%; }
+          100% { width: 70%; }
+        }
+        .animate-wipe-scan {
+          animation: wipe-scan 3.5s ease-in-out infinite alternate;
+        }
+        /* ── Graphic 4 (packet bounce) ───────────────────── */
+        @keyframes packet-req {
+          0%   { left: 0%;               opacity: 1; }
+          42%  { left: calc(100% - 36px); opacity: 1; }
+          50%  { left: calc(100% - 36px); opacity: 0; }
+          100% { left: calc(100% - 36px); opacity: 0; }
+        }
+        @keyframes packet-res {
+          0%   { left: calc(100% - 36px); opacity: 0; }
+          50%  { left: calc(100% - 36px); opacity: 0; }
+          58%  { left: calc(100% - 36px); opacity: 1; }
+          100% { left: 4px;               opacity: 1; }
+        }
+        .animate-packet-req {
+          animation: packet-req 4.5s ease-in-out infinite;
+        }
+        .animate-packet-res {
+          animation: packet-res 4.5s ease-in-out infinite;
+        }
+        /* ── Shared ──────────────────────────────────────── */
         @keyframes cdn-flow {
-          0% { stroke-dashoffset: 24; }
+          0%   { stroke-dashoffset: 24; }
           100% { stroke-dashoffset: 0; }
         }
+        @keyframes badge-pop {
+          0%   { transform: scale(0.6); opacity: 0; }
+          60%  { transform: scale(1.1); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes packet-glow {
+          0%, 100% { box-shadow: 0 0 6px rgba(56,189,248,0.5); }
+          50%       { box-shadow: 0 0 16px rgba(56,189,248,1); }
+        }
         .animate-draw-line {
-          stroke-dasharray: 100;
-          stroke-dashoffset: 100;
-          animation: draw-line 1.5s forwards ease-in-out;
+          stroke-dasharray: 320;
+          stroke-dashoffset: 320;
+          animation: draw-line 1.8s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .animate-draw-branch {
+          stroke-dasharray: 200;
+          stroke-dashoffset: 200;
+          animation: draw-branch 1.4s 0.6s cubic-bezier(.4,0,.2,1) forwards;
         }
         .animate-cdn-flow {
-          stroke-dasharray: 6;
-          animation: cdn-flow 1s linear infinite;
+          stroke-dasharray: 6 6;
+          animation: cdn-flow 0.8s linear infinite;
+        }
+        .animate-badge-pop {
+          animation: badge-pop 0.5s cubic-bezier(.4,0,.2,1) forwards;
+        }
+        .animate-packet-glow {
+          animation: packet-glow 1.2s ease-in-out infinite;
+        }
+        .node-pulse {
+          animation: pulse-glow 2s ease-in-out infinite;
         }
         .glow-green {
-          box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+          box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        .glow-green-strong {
+          box-shadow: 0 0 28px rgba(16, 185, 129, 0.45);
+        }
+        .glow-sky {
+          box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
         .glow-red {
           box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
@@ -216,6 +322,7 @@ export default function Home() {
           background-size: 16px 16px;
         }
       `}</style>
+
 
       {/* Header - Floating Premium Glass Navbar */}
       <header 
@@ -555,287 +662,395 @@ export default function Home() {
                 
                 <div className="relative z-10 flex-1 flex flex-col h-full">
                   
-                  {/* Graphic 1: Branching Tree Mockup */}
+                  {/* Graphic 1: Branching Git Tree — Pure SVG, all labels in viewBox */}
                   {activeFeature === 0 && (
-                    <div className="flex-1 flex flex-col p-6 justify-between h-full animate-in fade-in duration-300">
-                      <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Interactive Version History</span>
-                        <span className="text-[10px] font-mono text-zinc-600">v1 → v2 (Active)</span>
+                    <div className="flex-1 flex flex-col p-5 justify-between h-full animate-in fade-in duration-400">
+                      <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-2">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Version History — Git Tree</span>
+                        <span className="text-[10px] font-mono text-emerald-500/80">● Live branch: main</span>
                       </div>
 
-                      <div className="flex-1 flex items-center justify-center relative">
-                        {/* Connecting Path Graph */}
-                        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                          <path 
-                            d="M 100 200 H 260 C 310 200, 310 120, 380 120 H 460" 
-                            stroke="#27272a" 
-                            strokeWidth="2" 
-                            fill="none" 
+                      <div className="flex-1 relative min-h-0">
+                        <svg
+                          viewBox="0 0 500 230"
+                          preserveAspectRatio="xMidYMid meet"
+                          className="absolute inset-0 w-full h-full"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          {/* Dashed trunk continuation */}
+                          <line x1="60" y1="148" x2="460" y2="148" stroke="#27272a" strokeWidth="2" strokeDasharray="5 5" />
+                          {/* Trunk v1→v2 — animated draw */}
+                          <line x1="100" y1="148" x2="240" y2="148" stroke="#52525b" strokeWidth="2.5" className="animate-draw-trunk" />
+                          {/* Branch arc v2→v3 — animated draw, delayed */}
+                          <path d="M 240 148 C 295 148 305 75 355 75 L 405 75" stroke="#10b981" strokeWidth="2.5" fill="none" className="animate-draw-branch-g1" />
+
+                          {/* v1 circle */}
+                          <circle cx="100" cy="148" r="20" fill="#09090b" stroke="#3f3f46" strokeWidth="2"
+                            className="cursor-pointer"
+                            onMouseEnter={() => setHoveredNode('v1')}
+                            onMouseLeave={() => setHoveredNode(null)}
                           />
-                          <path 
-                            d="M 100 200 H 260 C 310 200, 310 120, 380 120 H 460" 
-                            stroke="#10b981" 
-                            strokeWidth="2" 
-                            fill="none" 
-                            className="animate-draw-line"
+                          <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
+                          <text x="100" y="178" textAnchor="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
+
+                          {/* v2 circle + fork dot */}
+                          <circle cx="240" cy="148" r="20" fill="#09090b" stroke="#3f3f46" strokeWidth="2"
+                            className="cursor-pointer"
+                            onMouseEnter={() => setHoveredNode('v2')}
+                            onMouseLeave={() => setHoveredNode(null)}
                           />
-                          <line x1="260" y1="200" x2="480" y2="200" stroke="#27272a" strokeWidth="2" strokeDasharray="4 4" />
+                          <circle cx="240" cy="148" r="5" fill="#52525b" style={{ pointerEvents: 'none' }} />
+                          <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
+                          <text x="240" y="178" textAnchor="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>+ refund fix</text>
+
+                          {/* v3 active — glowing */}
+                          <circle cx="405" cy="75" r="24" fill="#052e16" stroke="#10b981" strokeWidth="2.5"
+                            className="svg-node-active cursor-pointer"
+                            onMouseEnter={() => setHoveredNode('v3')}
+                            onMouseLeave={() => setHoveredNode(null)}
+                          />
+                          <text x="405" y="75" textAnchor="middle" dominantBaseline="middle" fill="#34d399" fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v3</text>
+                          <text x="405" y="44" textAnchor="middle" fill="#10b981" fontSize="9" fontFamily="monospace" fontWeight="600" style={{ pointerEvents: 'none', userSelect: 'none' }}>● Active</text>
+
+                          {/* main trunk stub */}
+                          <circle cx="455" cy="148" r="18" fill="#09090b" stroke="#27272a" strokeWidth="1.5" />
+                          <text x="455" y="148" textAnchor="middle" dominantBaseline="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ userSelect: 'none' }}>main</text>
                         </svg>
 
-                        {/* Nodes Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-between px-16">
-                          
-                          {/* Node 1 */}
-                          <div className="flex flex-col items-center gap-2 z-10">
-                            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center font-mono text-xs font-bold text-zinc-400 hover:border-zinc-500 transition-colors cursor-pointer">
-                              v1
+                        {/* Hover metadata card — HTML corner popup */}
+                        {hoveredNode && (
+                          <div className="absolute top-2 right-2 bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-[9px] font-mono space-y-0.5 shadow-xl z-20 animate-in fade-in duration-150">
+                            <div className="text-zinc-500 uppercase font-semibold tracking-wider">Commit — {hoveredNode}</div>
+                            <div className="text-zinc-300">
+                              {hoveredNode === 'v1' && 'Initial prompt draft'}
+                              {hoveredNode === 'v2' && 'feat: add refund check'}
+                              {hoveredNode === 'v3' && 'feat: adjust criteria (active)'}
                             </div>
-                            <span className="text-[9px] font-mono text-zinc-500">Initial draft</span>
-                          </div>
-
-                          {/* Branch Marker */}
-                          <div className="w-2 h-2 rounded-full bg-zinc-800 z-10 translate-x-[-15px]" />
-
-                          {/* Node 2 (Branch active) */}
-                          <div className="flex flex-col items-center gap-2 z-10 translate-y-[-40px]">
-                            <div className="w-10 h-10 rounded-xl bg-zinc-950 border-2 border-emerald-500 flex items-center justify-center font-mono text-xs font-bold text-emerald-400 glow-green cursor-pointer">
-                              v2
+                            <div className="text-zinc-600">
+                              {hoveredNode === 'v1' && 'karan · 2h ago'}
+                              {hoveredNode === 'v2' && 'karan · 45m ago'}
+                              {hoveredNode === 'v3' && 'karan · 10m ago'}
                             </div>
-                            <span className="text-[9px] font-mono text-emerald-500 font-bold">Active</span>
                           </div>
-
-                          {/* Main trunk node */}
-                          <div className="flex flex-col items-center gap-2 z-10">
-                            <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center font-mono text-xs text-zinc-500">
-                              main
-                            </div>
-                            <span className="text-[9px] font-mono text-zinc-600">Trunk</span>
-                          </div>
-
-                        </div>
+                        )}
                       </div>
 
-                      {/* Commit details wrapper */}
-                      <div className="border border-zinc-900 bg-zinc-950/60 rounded-lg p-3 font-mono text-[11px] text-zinc-400 space-y-1">
-                        <div className="flex justify-between text-[9px] text-zinc-500 uppercase font-semibold">
-                          <span>Commit Metadata</span>
-                          <span>branch: main</span>
+                      {/* Typewriter commit log */}
+                      <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1 shrink-0">
+                        <div className="flex justify-between text-[9px] text-zinc-600 uppercase font-semibold">
+                          <span>Latest Commit</span>
+                          <span className="text-emerald-600">branch: main</span>
                         </div>
-                        <div className="text-zinc-200 flex items-center gap-1.5">
-                          <span className="text-emerald-400 font-semibold font-mono">commit e2d91bc</span> 
-                          <span>- &quot;Clarified returns policy &amp; added support signature&quot;</span>
+                        <div className="flex items-center gap-1.5 text-zinc-200">
+                          <span className="text-emerald-400 font-semibold">commit 4d9863f</span>
+                          <span className="text-zinc-500">—</span>
+                          <span className="text-zinc-300">{commitTyped}<span className="inline-block w-[5px] h-[11px] bg-zinc-400 ml-0.5 align-middle animate-pulse" /></span>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {/* Graphic 2: Draggable Wipe (Polished) */}
+
+
+                  {/* Graphic 2: Diff Wipe — CSS auto-scan, user can drag */}
                   {activeFeature === 1 && (
-                    <div 
+                    <div
                       ref={wipeContainerRef}
-                      className="flex-1 flex flex-col p-6 justify-between h-full select-none animate-in fade-in duration-300"
+                      className="flex-1 flex flex-col p-5 justify-between h-full select-none animate-in fade-in duration-400"
                       onMouseMove={(e) => {
                         if (!isWiping || !wipeContainerRef.current) return;
                         const rect = wipeContainerRef.current.getBoundingClientRect();
                         const x = e.clientX - rect.left;
-                        const pct = Math.max(15, Math.min(85, (x / rect.width) * 100));
+                        const pct = Math.max(5, Math.min(95, (x / rect.width) * 100));
                         setWipePos(pct);
                       }}
                       onMouseUp={() => setIsWiping(false)}
                       onMouseLeave={() => setIsWiping(false)}
                     >
-                      <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+                      <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
                         <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Side-by-Side Prompt Diff</span>
-                        <span className="text-[9px] text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded font-mono">Drag divider to wipe</span>
+                        <span className="text-[9px] text-zinc-500 bg-zinc-900/70 border border-zinc-800 px-2 py-0.5 rounded font-mono">
+                          ↔ Drag handle to compare
+                        </span>
                       </div>
 
                       {/* Diff Container */}
-                      <div className="flex-1 border border-zinc-900 rounded-lg overflow-hidden relative bg-zinc-950 h-full mt-4 cursor-ew-resize">
-                        
-                        {/* Left Panel (Deleted/Original) */}
-                        <div 
-                          className="absolute inset-y-0 left-0 bg-red-950/10 p-4 overflow-hidden"
-                          style={{ width: `${wipePos}%` }}
-                        >
-                          <div className="flex items-center gap-2 mb-2 border-b border-red-950/50 pb-1.5">
-                            <span className="text-[9px] font-mono uppercase tracking-wider text-red-400 font-bold bg-red-950/30 px-1.5 py-0.5 rounded">v1 Original</span>
-                          </div>
-                          <div className="font-mono text-[10px] leading-relaxed text-red-300/80 space-y-1 font-mono">
-                            <div className="opacity-40 font-mono">01 System: You answer queries.</div>
-                            <div className="bg-red-950/40 border-l-2 border-red-500 pl-1 font-mono">- You answer questions about customer returns.</div>
-                            <div className="opacity-40 font-mono">03 User: Help returns query.</div>
-                          </div>
-                        </div>
+                      <div className="flex-1 border border-zinc-900 rounded-lg overflow-hidden relative bg-zinc-950 cursor-ew-resize">
 
-                        {/* Right Panel (Added/Refined) */}
-                        <div 
-                          className="absolute inset-y-0 right-0 bg-emerald-950/10 p-4 overflow-hidden border-l border-zinc-900"
-                          style={{ left: `${wipePos}%` }}
+                        {/* Left panel — Original v1 */}
+                        <div
+                          className={`absolute inset-y-0 left-0 bg-red-950/10 overflow-hidden ${!isWiping ? 'animate-wipe-scan' : ''}`}
+                          style={isWiping ? { width: `${wipePos}%`, animation: 'none' } : undefined}
                         >
-                          <div className="flex items-center gap-2 mb-2 border-b border-emerald-950/50 pb-1.5">
-                            <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400 font-bold bg-emerald-950/30 px-1.5 py-0.5 rounded">v2 Refined</span>
-                          </div>
-                          <div className="font-mono text-[10px] leading-relaxed text-emerald-300/80 space-y-1 font-mono">
-                            <div className="opacity-40 font-mono">01 System: You answer queries.</div>
-                            <div className="bg-emerald-950/40 border-l-2 border-emerald-500 pl-1 font-mono">
-                              + You are a polite returns agent. Offer a refund if broken. Sign off &quot;Customer Support Team&quot;.
+                          <div className="p-3 min-w-[260px]">
+                            <div className="flex items-center gap-1.5 mb-2 pb-1.5 border-b border-red-950/40">
+                              <span className="w-2 h-2 rounded-full bg-red-500/70 inline-block" />
+                              <span className="text-[9px] font-mono uppercase tracking-wider text-red-400 font-bold">v1  Original</span>
                             </div>
-                            <div className="opacity-40 font-mono">03 User: Help returns query.</div>
+                            <div className="font-mono text-[10px] leading-[1.8] space-y-px">
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">01  System: You answer queries.</div>
+                              <div className="flex gap-1 overflow-hidden">
+                                <span className="text-red-600 w-4 shrink-0">−</span>
+                                <span className="bg-red-950/50 border-l-2 border-red-500 pl-1.5 text-red-300/90 whitespace-nowrap overflow-hidden">You answer questions about customer returns.</span>
+                              </div>
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">03  ...</div>
+                              <div className="flex gap-1 overflow-hidden">
+                                <span className="text-red-600 w-4 shrink-0">−</span>
+                                <span className="bg-red-950/50 border-l-2 border-red-500 pl-1.5 text-red-300/90 whitespace-nowrap overflow-hidden">Thank you for your message.</span>
+                              </div>
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">05  User: {'{customer_query}'}</div>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Sliding Handle */}
-                        <div 
-                          className="absolute inset-y-0 w-[2px] bg-zinc-700 flex items-center justify-center cursor-ew-resize hover:bg-zinc-500 transition-colors"
-                          style={{ left: `${wipePos}%` }}
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            setIsWiping(true);
-                          }}
+                        {/* Right panel — Refined v2 */}
+                        <div
+                          className="absolute inset-y-0 right-0 bg-emerald-950/10 overflow-hidden border-l border-zinc-800"
+                          style={isWiping ? { left: `${wipePos}%` } : undefined}
                         >
-                          <div className="w-5 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex flex-col gap-0.5 items-center justify-center shadow-2xl">
-                            <span className="w-0.5 h-2 bg-zinc-500 rounded-full" />
-                            <span className="w-0.5 h-2 bg-zinc-500 rounded-full" />
+                          <div className="p-3 min-w-[260px]">
+                            <div className="flex items-center gap-1.5 mb-2 pb-1.5 border-b border-emerald-950/40">
+                              <span className="w-2 h-2 rounded-full bg-emerald-500/70 inline-block" />
+                              <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400 font-bold">v2  Refined</span>
+                            </div>
+                            <div className="font-mono text-[10px] leading-[1.8] space-y-px">
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">01  System: You answer queries.</div>
+                              <div className="flex gap-1 overflow-hidden">
+                                <span className="text-emerald-500 w-4 shrink-0">+</span>
+                                <span className="bg-emerald-950/40 border-l-2 border-emerald-500 pl-1.5 text-emerald-300/90 whitespace-nowrap overflow-hidden">You are a polite returns agent. Offer a full refund if broken.</span>
+                              </div>
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">03  ...</div>
+                              <div className="flex gap-1 overflow-hidden">
+                                <span className="text-emerald-500 w-4 shrink-0">+</span>
+                                <span className="bg-emerald-950/40 border-l-2 border-emerald-500 pl-1.5 text-emerald-300/90 whitespace-nowrap overflow-hidden">Sign off: &quot;Customer Support Team&quot;.</span>
+                              </div>
+                              <div className="text-zinc-600 whitespace-nowrap overflow-hidden">05  User: {'{customer_query}'}</div>
+                            </div>
                           </div>
                         </div>
 
+                        {/* Divider handle */}
+                        <div
+                          className={`absolute inset-y-0 z-10 flex items-center justify-center pointer-events-none ${!isWiping ? 'animate-wipe-scan' : ''}`}
+                          style={isWiping ? { left: `calc(${wipePos}% - 12px)`, width: '24px', animation: 'none' } : { width: '24px', marginLeft: '-12px' }}
+                        >
+                          <div className="h-full w-[2px] bg-zinc-600" />
+                          <div
+                            className="absolute w-7 h-10 rounded-xl bg-zinc-900 border border-zinc-600 shadow-xl flex items-center justify-center cursor-ew-resize pointer-events-auto"
+                            onMouseDown={(e) => { e.preventDefault(); setIsWiping(true); }}
+                          >
+                            <span className="text-[11px] text-zinc-400 leading-none select-none">⟷</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Diff stats footer */}
+                      <div className="flex items-center gap-3 pt-2.5 font-mono text-[9px] text-zinc-600">
+                        <span className="text-red-400">−2 removed</span>
+                        <span className="text-zinc-700">·</span>
+                        <span className="text-emerald-400">+2 added</span>
+                        <span className="text-zinc-700">·</span>
+                        <span>v1 → v2 · 3 lines changed</span>
                       </div>
                     </div>
                   )}
 
-                  {/* Graphic 3: Pipeline runner (Polished) */}
+
+
+
+
+
+                  {/* Graphic 3: Pipeline — flex row with inline connection bars */}
                   {activeFeature === 2 && (
-                    <div className="flex-1 flex flex-col p-6 justify-between h-full animate-in fade-in duration-300">
+                    <div className="flex-1 flex flex-col p-5 justify-between h-full animate-in fade-in duration-400">
                       <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
                         <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Automated Scoring Pipeline</span>
-                        <span className="text-[9px] font-mono text-emerald-400">Simulation Running</span>
+                        <span className={`text-[9px] font-mono transition-colors ${showPassedBadge ? 'text-emerald-400' : 'text-zinc-500'}`}>
+                          {showPassedBadge ? '● All assertions passed' : '● Simulation running…'}
+                        </span>
                       </div>
 
-                      {/* Connection flowchart nodes */}
-                      <div className="grid grid-cols-3 gap-4 py-4 relative z-10">
-                        
-                        <div className="absolute left-[15%] right-[15%] top-1/2 -translate-y-1/2 h-0.5 bg-zinc-900 z-0">
-                          <div 
-                            className="h-full bg-emerald-500 transition-all duration-1000"
-                            style={{ width: pipelineState >= 1 ? '100%' : '0%' }}
+                      {/* Node row — flex so bars naturally span between nodes */}
+                      <div className="flex items-center py-5 px-1">
+
+                        {/* Node 1 — Input */}
+                        <div className={`relative flex-none w-[28%] p-3 rounded-xl border text-center transition-all duration-300 ${
+                          pipelineState >= 1 ? 'bg-zinc-900/80 border-zinc-700' : 'bg-zinc-950 border-zinc-900'
+                        }`}>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold tracking-wider">1. Input</span>
+                          <span className="text-[9px] text-zinc-300 font-mono block mt-1 truncate font-semibold">returns_v2</span>
+                          {pipelineState >= 1 && (
+                            <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-zinc-950" />
+                          )}
+                        </div>
+
+                        {/* Bar 1: Node1 → Node2 */}
+                        <div className="flex-1 mx-2 h-[2px] bg-zinc-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-700"
+                            style={{ width: pipelineState >= 2 ? '100%' : '0%' }}
                           />
                         </div>
 
-                        {/* Node 1 */}
-                        <div className="bg-zinc-950 border border-zinc-900 p-3 rounded-lg text-center z-10">
-                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">1. Prompt Version</span>
-                          <span className="text-[9px] text-zinc-300 font-mono block mt-1 truncate">returns_policy_v2</span>
-                        </div>
-
-                        {/* Node 2 */}
-                        <div className={`border p-3 rounded-lg text-center z-10 transition-all duration-300 ${
-                          pipelineState >= 1 ? 'bg-zinc-900 border-emerald-800 glow-green' : 'bg-zinc-950 border-zinc-900'
+                        {/* Node 2 — LLM */}
+                        <div className={`relative flex-none w-[28%] p-3 rounded-xl border text-center transition-all duration-500 ${
+                          pipelineState >= 2
+                            ? 'bg-zinc-900 border-emerald-800 glow-green'
+                            : pipelineState === 1
+                            ? 'bg-zinc-900/50 border-zinc-700 animate-pulse'
+                            : 'bg-zinc-950 border-zinc-900'
                         }`}>
-                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">2. Model (Groq)</span>
-                          <span className="text-[9px] text-emerald-400 font-mono block mt-1 font-bold">
-                            {pipelineState >= 2 ? 'Response OK' : 'Querying...'}
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold tracking-wider">2. Groq LLM</span>
+                          <span className={`text-[9px] font-mono block mt-1 font-bold transition-colors ${
+                            pipelineState >= 2 ? 'text-emerald-400' : pipelineState === 1 ? 'text-zinc-400' : 'text-zinc-600'
+                          }`}>
+                            {pipelineState >= 2 ? 'Responded ✓' : pipelineState === 1 ? 'Calling…' : 'Idle'}
                           </span>
+                          {pipelineState >= 2 && (
+                            <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-zinc-950" />
+                          )}
                         </div>
 
-                        {/* Node 3 */}
-                        <div className="bg-zinc-950 border border-zinc-900 p-3 rounded-lg text-center z-10">
-                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">3. Grading Suite</span>
-                          <span className="text-[9px] text-zinc-400 font-mono block mt-1 font-bold">Evaluating</span>
+                        {/* Bar 2: Node2 → Node3 */}
+                        <div className="flex-1 mx-2 h-[2px] bg-zinc-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-700"
+                            style={{ width: pipelineState >= 3 ? '100%' : '0%' }}
+                          />
                         </div>
 
+                        {/* Node 3 — Grader */}
+                        <div className={`relative flex-none w-[28%] p-3 rounded-xl border text-center transition-all duration-500 ${
+                          showPassedBadge
+                            ? 'bg-emerald-950/30 border-emerald-700 glow-green-strong'
+                            : pipelineState >= 3
+                            ? 'bg-zinc-900/80 border-zinc-700'
+                            : 'bg-zinc-950 border-zinc-900'
+                        }`}>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold tracking-wider">3. Grader</span>
+                          <span className={`text-[9px] font-mono block mt-1 font-bold transition-colors ${
+                            showPassedBadge ? 'text-emerald-300' : pipelineState >= 3 ? 'text-zinc-400' : 'text-zinc-600'
+                          }`}>
+                            {showPassedBadge ? 'Scored ✓' : pipelineState >= 3 ? 'Grading…' : 'Idle'}
+                          </span>
+                          {showPassedBadge && (
+                            <span className="absolute -top-1.5 -right-1.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-zinc-950" />
+                          )}
+                        </div>
                       </div>
 
-                      {/* Assertion checklist window */}
-                      <div className="border border-zinc-900 bg-zinc-950 rounded-lg p-4 font-mono text-[10px] text-zinc-400 space-y-2 min-h-[120px] flex flex-col justify-center">
-                        <div className="flex items-center gap-2 text-zinc-500 font-mono">
-                          <span>⏱️ [0.1s]</span>
-                          <span>Parsing input JSON variables...</span>
+                      {/* Log window */}
+                      <div className="border border-zinc-900 bg-zinc-950 rounded-lg p-3.5 font-mono text-[10px] text-zinc-400 space-y-1.5 min-h-[110px] flex flex-col justify-center relative overflow-hidden">
+                        <div className="flex items-center gap-2 text-zinc-600">
+                          <span className="text-zinc-700">⏱ [0.0s]</span>
+                          <span>Dispatching test: &quot;customer_returns_query&quot;</span>
                         </div>
                         {pipelineState >= 1 && (
-                          <div className="flex items-center gap-2 text-zinc-300 font-mono">
-                            <span>🤖 [0.4s]</span>
-                            <span>Calling llama-3.3-70b-versatile (primary)...</span>
+                          <div className="flex items-center gap-2 text-zinc-400 animate-in slide-in-from-bottom-1 duration-200">
+                            <span className="text-zinc-600">🤖 [0.4s]</span>
+                            <span>Calling llama-3.3-70b-versatile via Groq…</span>
                           </div>
                         )}
                         {pipelineState >= 2 && (
-                          <div className="flex items-center justify-between text-emerald-400 font-semibold font-mono animate-in fade-in">
-                            <span>✔️ Assert &quot;Must offer a refund if item is broken&quot;</span>
-                            <span>PASSED (100/100)</span>
+                          <div className="flex items-center justify-between text-emerald-400 font-semibold animate-in slide-in-from-bottom-1 duration-200">
+                            <span>✔ Assert &quot;Offer refund if broken&quot;</span>
+                            <span className="text-emerald-500">PASS 100/100</span>
                           </div>
                         )}
                         {pipelineState >= 3 && (
-                          <div className="flex items-center justify-between text-emerald-400 font-semibold font-mono animate-in fade-in">
-                            <span>✔️ Assert &quot;Sign off with support department team&quot;</span>
-                            <span>PASSED (100/100)</span>
+                          <div className="flex items-center justify-between text-emerald-400 font-semibold animate-in slide-in-from-bottom-1 duration-200">
+                            <span>✔ Assert &quot;Sign off with support team&quot;</span>
+                            <span className="text-emerald-500">PASS 100/100</span>
+                          </div>
+                        )}
+                        {showPassedBadge && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm">
+                            <div className="animate-badge-pop flex flex-col items-center gap-1">
+                              <div className="px-5 py-2 rounded-xl bg-emerald-950 border-2 border-emerald-500 glow-green-strong">
+                                <span className="font-mono font-bold text-emerald-300 text-sm tracking-widest">● ALL PASSED</span>
+                              </div>
+                              <span className="text-[9px] font-mono text-emerald-600">2/2 assertions · 100/100</span>
+                            </div>
                           </div>
                         )}
                       </div>
                     </div>
                   )}
 
-                  {/* Graphic 4: Runtime Fetch (Polished) */}
+
+                  {/* Graphic 4: Runtime API Delivery — pure CSS packet animation */}
                   {activeFeature === 3 && (
-                    <div className="flex-1 flex flex-col p-6 justify-between h-full animate-in fade-in duration-300">
+                    <div className="flex-1 flex flex-col p-5 justify-between h-full animate-in fade-in duration-400">
                       <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Live Client Integration</span>
-                        <span className="text-[9px] font-mono text-sky-400">CDN Request Flow</span>
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Runtime API Delivery</span>
+                        <span className="text-[9px] font-mono text-zinc-500">● Live endpoint</span>
                       </div>
 
-                      {/* Pulse graph connection */}
-                      <div className="flex items-center justify-between py-6 px-10 relative z-10">
-                        
-                        {/* Connecting Dotted Line */}
-                        <svg className="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-[10px] pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                          <line 
-                            x1="80" y1="5" x2="420" y2="5" 
-                            stroke="#3f3f46" 
-                            strokeWidth="1.5" 
-                            strokeDasharray="6 6" 
-                            className="animate-cdn-flow" 
-                          />
-                        </svg>
+                      {/* Packet flow diagram */}
+                      <div className="flex items-center gap-3 px-2 py-5">
 
-                        {/* Client Node */}
-                        <div className="p-3 border border-zinc-900 rounded-lg bg-zinc-950 flex flex-col items-center z-10 w-28">
-                          <span className="text-[8px] font-mono text-zinc-500 uppercase font-semibold">Your Server</span>
-                          <span className="text-[10px] text-zinc-300 font-mono mt-1 font-bold">App Backend</span>
+                        {/* Client node */}
+                        <div className="shrink-0 p-3 border border-zinc-800 rounded-xl bg-zinc-950 flex flex-col items-center w-28">
+                          <div className="w-5 h-5 mb-1.5 rounded bg-zinc-800 border border-zinc-700 flex items-center justify-center">
+                            <span className="text-[8px] font-mono text-zinc-400">&#123;&#125;</span>
+                          </div>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase font-semibold">Your App</span>
+                          <span className="text-[9px] text-zinc-300 font-mono mt-0.5 font-bold">Backend</span>
                         </div>
 
-                        {/* Packet Particle */}
-                        <div 
-                          className="absolute h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.8)] transition-all duration-1000 ease-in-out z-20"
-                          style={{ 
-                            left: apiProgress === 100 ? '78%' : '22%',
-                            top: '50%',
-                            transform: 'translate(-50%, -50%)'
-                          }}
-                        />
+                        {/* Connection track */}
+                        <div className="flex-1 relative h-10 flex items-center">
+                          {/* Dashed track */}
+                          <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#27272a" strokeWidth="1.5" strokeDasharray="5 5" className="animate-cdn-flow" />
+                          </svg>
 
-                        {/* GFP Node */}
-                        <div className="p-3 border border-zinc-900 rounded-lg bg-zinc-950 flex flex-col items-center z-10 w-28 border-emerald-900/60 glow-green">
-                          <span className="text-[8px] font-mono text-emerald-400 uppercase font-semibold">GFP Edge CDN</span>
-                          <span className="text-[10px] text-emerald-300 font-mono mt-1 font-bold">returns_v2</span>
+                          {/* Request packet — pure CSS left→right */}
+                          <div className="animate-packet-req absolute top-1/2 -translate-y-1/2 flex items-center gap-1">
+                            <div className="w-2.5 h-2.5 rounded-full bg-sky-400" style={{ boxShadow: '0 0 6px rgba(56,189,248,0.8)' }} />
+                            <span className="text-[8px] font-mono text-sky-400 whitespace-nowrap">GET</span>
+                          </div>
+
+                          {/* Response packet — pure CSS right→left */}
+                          <div className="animate-packet-res absolute top-1/2 -translate-y-1/2 flex items-center gap-1">
+                            <span className="text-[8px] font-mono text-emerald-400 whitespace-nowrap">200</span>
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 6px rgba(52,211,153,0.8)' }} />
+                          </div>
+
+                          {/* Track label */}
+                          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[8px] font-mono text-zinc-700 whitespace-nowrap">
+                            api.gitforprompts.com
+                          </div>
                         </div>
 
+                        {/* GFP node */}
+                        <div className="shrink-0 p-3 border border-emerald-900/60 rounded-xl bg-zinc-950 flex flex-col items-center w-28">
+                          <div className="w-5 h-5 mb-1.5 rounded bg-emerald-950/50 border border-emerald-900/60 flex items-center justify-center">
+                            <span className="text-[8px] font-mono text-emerald-400">GFP</span>
+                          </div>
+                          <span className="text-[8px] font-mono text-emerald-500 uppercase font-semibold">Edge CDN</span>
+                          <span className="text-[9px] text-emerald-300 font-mono mt-0.5 font-bold">returns_v2</span>
+                        </div>
                       </div>
 
-                      {/* Client code response block */}
+                      {/* Response JSON panel */}
                       <div className="border border-zinc-900 bg-zinc-950 rounded-lg overflow-hidden font-mono text-[10px]">
-                        <div className="px-3 py-1.5 border-b border-zinc-900 bg-zinc-900/30 text-[9px] text-zinc-500 flex justify-between font-mono">
-                          <span>GET /api/v1/prompts/returns/latest</span>
-                          <span className="text-emerald-400 font-semibold font-mono">200 OK (14ms)</span>
+                        <div className="px-3 py-1.5 border-b border-zinc-900 bg-zinc-900/40 flex justify-between items-center">
+                          <span className="text-zinc-500 text-[9px]">GET /api/v1/prompts/<span className="text-sky-500">p_returns</span>/latest</span>
+                          <span className="text-[9px] font-semibold text-emerald-400">200 OK · 14ms</span>
                         </div>
-                        <pre className="p-3 text-zinc-400 overflow-x-auto select-none font-mono">
-                          {`{
-  "id": "prompt_returns_v2",
-  "version": 2,
-  "content": "You are a polite returns department agent. Offer a refund..."
-}`}
+                        <pre className="p-3 overflow-x-auto select-none leading-[1.7]">
+                          <span className="text-zinc-600">{'{'}</span>{`
+  `}<span className="text-sky-400">&quot;id&quot;</span><span className="text-zinc-500">:</span> <span className="text-amber-300">&quot;p_customer_returns&quot;</span><span className="text-zinc-600">,</span>{`
+  `}<span className="text-sky-400">&quot;version&quot;</span><span className="text-zinc-500">:</span> <span className="text-violet-400">2</span><span className="text-zinc-600">,</span>{`
+  `}<span className="text-sky-400">&quot;content&quot;</span><span className="text-zinc-500">:</span> <span className="text-emerald-300">&quot;You are a polite returns agent…&quot;</span>{`
+`}<span className="text-zinc-600">{'}'}</span>
                         </pre>
                       </div>
-
                     </div>
                   )}
+
+
 
                 </div>
               </div>
