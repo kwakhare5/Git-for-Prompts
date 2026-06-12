@@ -315,14 +315,14 @@ export default function Home() {
       {/* Header - Floating Premium Glass Navbar */}
       <header 
         className={cn(
-          "sticky z-50 mx-auto flex items-center justify-between border border-zinc-900/60 bg-zinc-950/70 backdrop-blur-md rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300",
+          "sticky z-50 mx-auto flex items-center justify-between border border-zinc-900/60 bg-zinc-950/70 backdrop-blur-md rounded-lg shadow-2xl transition-all duration-300",
           isScrolled 
             ? "top-2 max-w-3xl w-[calc(100%-1rem)] px-4 py-1.5 mt-1 border-zinc-800 bg-zinc-950/90" 
             : "top-4 max-w-5xl w-[calc(100%-2rem)] px-5 py-2.5 mt-4"
         )}
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+          <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
             <GitBranch className="h-4.5 w-4.5 text-zinc-300" />
           </div>
           <div className={`flex flex-col transition-all duration-300 ${isScrolled ? 'hidden md:flex' : 'flex'}`}>
@@ -385,7 +385,7 @@ export default function Home() {
           <Show when="signed-in">
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full border border-zinc-850 bg-zinc-900/40 text-zinc-200 hover:bg-zinc-900 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-lg border border-zinc-850 bg-zinc-900/40 text-zinc-200 hover:bg-zinc-900 transition-colors shadow-sm"
             >
               Dashboard
             </Link>
@@ -400,7 +400,7 @@ export default function Home() {
             <Link
               href="/sign-up"
               className={cn(
-                "inline-flex items-center justify-center font-semibold rounded-full bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)]",
+                "inline-flex items-center justify-center font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)]",
                 isScrolled ? "px-3.5 py-1 text-[11px]" : "px-4 py-1.5 text-xs"
               )}
             >
@@ -412,7 +412,7 @@ export default function Home() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button size="icon" variant="ghost" className="rounded-full hover:bg-zinc-900 h-8 w-8">
+                <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
                   <Menu className="size-4 text-zinc-300" />
                 </Button>
               </SheetTrigger>
@@ -423,7 +423,7 @@ export default function Home() {
                 <div className="flex h-14 items-center justify-between border-b border-zinc-900 px-4">
                   <span className="font-bold text-sm">Menu</span>
                   <SheetClose asChild>
-                    <Button size="icon" variant="ghost" className="rounded-full hover:bg-zinc-900 h-8 w-8">
+                    <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
                       <X className="size-4 text-zinc-300" />
                       <span className="sr-only">Close</span>
                     </Button>
