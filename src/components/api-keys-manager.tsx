@@ -1,0 +1,273 @@
+'use client';
+
+import { useState, useTransition } from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import { generateApiKey, deleteApiKey } from '@/lib/actions/api-keys';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────────────────────────────────
+interface ApiKeyRow {
+  id: string;
+  name: string;
+  keyPrefix: string;
+  // Dates are serialized to ISO strings by Next.js when passed as server component props
+  lastUsedAt: string | null;
+  createdAt: string;
+}
+
+interface Props {
+  initialKeys: ApiKeyRow[];
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ApiKeysManager — full client component for key generation + management
+// ─────────────────────────────────────────────────────────────────────────────
+export function ApiKeysManager({ initialKeys }: Props) {
+  const [keys, setKeys] = useState<ApiKeyRow[]>(initialKeys);
+  const [name, setName] = useState('');
+  const [newKey, setNewKey] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  // ── Generate ────────────────────────────────────────────────────────────────
+  function handleGenerate() {
+    if (!name.trim()) return;
+    setError(null);
+
+    startTransition(async () => {
+      try {
+        const result = await generateApiKey({ name: name.trim() });
+        setNewKey(result.plainKey);
+        setName('');
+        setKeys((prev) => [
+          ...prev,
+          {
+            id: result.id,
+            name: result.name,
+            keyPrefix: 'gfp_live_',
+            lastUsedAt: null,
+            createdAt: result.createdAt,
+          },
+        ]);
+      } catch {
+        setError('Failed to generate key. Please try again.');
+      }
+    });
+  }
+
+  // ── Copy ────────────────────────────────────────────────────────────────────
+  function handleCopy() {
+    if (!newKey) return;
+    navigator.clipboard.writeText(newKey).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  // ── Dismiss newly generated key banner ──────────────────────────────────────
+  function dismissNewKey() {
+    setNewKey(null);
+    setCopied(false);
+  }
+
+  // ── Delete ──────────────────────────────────────────────────────────────────
+  function handleDelete(id: string) {
+    setDeletingId(id);
+    startTransition(async () => {
+      try {
+        await deleteApiKey({ id });
+        setKeys((prev) => prev.filter((k) => k.id !== id));
+      } catch {
+        setError('Failed to delete key. Please try again.');
+      } finally {
+        setDeletingId(null);
+      }
+    });
+  }
+
+  return (
+    <div className="space-y-8">
+
+      {/* ── New Key Banner (shown once after generation) ── */}
+      {newKey && (
+        <div className="rounded-lg border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-emerald-400">
+                ✓ Key generated — copy it now
+              </p>
+              <p className="mt-0.5 text-xs text-emerald-600">
+                This is the only time your full key will be shown. We don&apos;t store it.
+              </p>
+            </div>
+            <button
+              onClick={dismissNewKey}
+              className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors shrink-0"
+              aria-label="Dismiss"
+            >
+              ✕ Dismiss
+            </button>
+          </div>
+
+          {/* Key display */}
+          <div className="flex items-center gap-2">
+            <code className="flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2.5 font-mono text-xs text-zinc-200 break-all select-all">
+              {newKey}
+            </code>
+            <button
+              id="copy-api-key-btn"
+              onClick={handleCopy}
+              className="shrink-0 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 transition-colors"
+            >
+              {copied ? '✓ Copied' : 'Copy'}
+            </button>
+          </div>
+
+          {/* curl usage hint */}
+          <div className="rounded-md border border-zinc-800 bg-zinc-900/50 px-3 py-2.5">
+            <p className="text-[10px] text-zinc-500 mb-1.5 font-mono">Example usage</p>
+            <code className="font-mono text-[11px] text-zinc-400 break-all">
+              {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
+            </code>
+          </div>
+        </div>
+      )}
+
+      {/* ── Error ── */}
+      {error && (
+        <div className="rounded-lg border border-red-700/50 bg-red-950/40 px-4 py-3 text-sm text-red-400">
+          {error}
+        </div>
+      )}
+
+      {/* ── Generate Form ── */}
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-5">
+        <h2 className="text-sm font-semibold text-zinc-200 mb-1">Generate new key</h2>
+        <p className="text-xs text-zinc-500 mb-4">
+          Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
+        </p>
+
+        <div className="flex gap-2">
+          <input
+            id="api-key-name-input"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
+            placeholder="Key name…"
+            maxLength={255}
+            className="flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 transition-shadow"
+          />
+          <button
+            id="generate-api-key-btn"
+            onClick={handleGenerate}
+            disabled={isPending || !name.trim()}
+            className="rounded-md bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          >
+            {isPending ? 'Generating…' : 'Generate'}
+          </button>
+        </div>
+      </div>
+
+      {/* ── Key List ── */}
+      <div>
+        <h2 className="text-sm font-semibold text-zinc-200 mb-3">
+          Active keys
+          {keys.length > 0 && (
+            <span className="ml-2 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-mono text-zinc-400">
+              {keys.length}
+            </span>
+          )}
+        </h2>
+
+        {keys.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-zinc-800 py-12 text-center">
+            <p className="text-sm text-zinc-500">No API keys yet.</p>
+            <p className="text-xs text-zinc-600 mt-1">Generate your first key above.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-zinc-800 rounded-lg border border-zinc-800">
+            {keys.map((key) => (
+              <div
+                key={key.id}
+                className="flex items-center justify-between gap-4 px-4 py-3.5"
+              >
+                {/* Key info */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-sm font-medium text-zinc-200 truncate">
+                      {key.name}
+                    </span>
+                    <code className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
+                      {key.keyPrefix}••••••••
+                    </code>
+                  </div>
+                  <div className="mt-1 flex items-center gap-3 text-xs text-zinc-500">
+                    <span>
+                      Created {formatDistanceToNow(new Date(key.createdAt), { addSuffix: true })}
+                    </span>
+                    <span className="text-zinc-700">·</span>
+                    <span>
+                      {key.lastUsedAt
+                        ? `Last used ${formatDistanceToNow(new Date(key.lastUsedAt), { addSuffix: true })}`
+                        : 'Never used'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Delete */}
+                <button
+                  onClick={() => handleDelete(key.id)}
+                  disabled={deletingId === key.id || isPending}
+                  aria-label={`Delete key "${key.name}"`}
+                  className="shrink-0 rounded-md border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-red-700/50 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  {deletingId === key.id ? 'Deleting…' : 'Revoke'}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ── API Reference ── */}
+      <div className="rounded-lg border border-zinc-800 bg-zinc-900/20 p-5 space-y-4">
+        <h2 className="text-sm font-semibold text-zinc-200">API reference</h2>
+
+        <div>
+          <p className="text-xs text-zinc-500 mb-2">
+            Fetch the latest version of any prompt you own:
+          </p>
+          <code className="block rounded-md border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-300 whitespace-pre">
+            {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
+          </code>
+        </div>
+
+        <div>
+          <p className="text-xs text-zinc-500 mb-2">Response shape:</p>
+          <code className="block rounded-md border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-400 whitespace-pre">
+            {`{\n  "promptId": "uuid",\n  "promptName": "string",\n  "versionNumber": 3,\n  "commitMessage": "string | null",\n  "content": "string",\n  "createdAt": "ISO 8601"\n}`}
+          </code>
+        </div>
+
+        <div className="flex gap-4 text-xs">
+          <span className="flex items-center gap-1.5 text-zinc-500">
+            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-emerald-500">200</span>
+            Success
+          </span>
+          <span className="flex items-center gap-1.5 text-zinc-500">
+            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-amber-500">401</span>
+            Invalid / missing key
+          </span>
+          <span className="flex items-center gap-1.5 text-zinc-500">
+            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-red-500">404</span>
+            Prompt not found
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
