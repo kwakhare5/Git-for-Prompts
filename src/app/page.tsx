@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Show } from '@clerk/nextjs';
 import { 
@@ -21,6 +21,16 @@ import {
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
+  const [activeFeature, setActiveFeature] = useState<number>(0);
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isAutoplayPaused || activeTab !== 'tour') return;
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % 4);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isAutoplayPaused, activeTab]);
   const [activeSubTab, setActiveSubTab] = useState<'edit' | 'diff' | 'tests'>('edit');
   
   const [versions, setVersions] = useState<Array<{
@@ -147,85 +157,67 @@ export default function Home() {
               </div>
             </section>
 
-            {/* Pillars Grid */}
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
-                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
-                  <History className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-zinc-100">Immutable Versioning</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  Every save writes a permanent version snapshot. Roll back or compare against historical edits instantly.
-                </p>
+            {/* Interactive Tour Panel */}
+            <section 
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4 items-stretch"
+              onMouseEnter={() => setIsAutoplayPaused(true)}
+              onMouseLeave={() => setIsAutoplayPaused(false)}
+            >
+              {/* Left Column - Feature Cards */}
+              <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
+                {[
+                  {
+                    num: '01',
+                    title: 'Branching Commits',
+                    desc: 'Save prompt updates as Git-like commits. Track authors, timelines, and messages in an immutable tree.'
+                  },
+                  {
+                    num: '02',
+                    title: 'Visual Diff Comparisons',
+                    desc: 'Wipe across prompt versions with a draggable divider. Identify deletions and additions instantly.'
+                  },
+                  {
+                    num: '03',
+                    title: 'Automated Test Runner',
+                    desc: 'Simulate concurrent model checks. Assert output parameters against natural language guidelines.'
+                  },
+                  {
+                    num: '04',
+                    title: 'Runtime API Delivery',
+                    desc: 'Fetch active versions dynamically via API key. Decouple prompt updates from app redeployments.'
+                  }
+                ].map((feature, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setActiveFeature(idx);
+                      setIsAutoplayPaused(true);
+                    }}
+                    className={`w-full flex items-start gap-4 p-5 rounded-xl border text-left transition-all cursor-pointer ${
+                      activeFeature === idx
+                        ? 'bg-zinc-900/60 border-zinc-800 text-zinc-100 shadow-lg shadow-zinc-950/40 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[3px] before:bg-zinc-50 before:rounded-r'
+                        : 'bg-zinc-900/10 border-zinc-950 hover:bg-zinc-900/20 hover:border-zinc-900 text-zinc-500 hover:text-zinc-300'
+                    }`}
+                  >
+                    <span className={`font-mono text-xs font-bold leading-5 ${activeFeature === idx ? 'text-zinc-50' : 'text-zinc-600'}`}>
+                      {feature.num}
+                    </span>
+                    <div className="space-y-1">
+                      <h4 className="font-semibold text-sm">{feature.title}</h4>
+                      <p className="text-xs text-zinc-500 leading-relaxed font-light">{feature.desc}</p>
+                    </div>
+                  </button>
+                ))}
               </div>
 
-              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
-                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
-                  <GitBranch className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-zinc-100">Monaco Diff Viewer</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  Trace prompt updates side-by-side. Highlight deletions and additions using a code-inspired layout.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
-                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
-                  <Play className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-zinc-100">Dual-Provider Testing</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  Execute test suites concurrently on Groq (Llama 3.3) with OpenRouter fallback. Verify responses in seconds.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
-                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-zinc-100">Prompt API Delivery</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  Decouple prompt cycles from code deployments. Fetch prompt versions dynamically in your apps via public API.
-                </p>
-              </div>
-            </section>
-
-            {/* Use Cases */}
-            <section className="border-t border-zinc-900 pt-16 space-y-12">
-              <div className="text-center space-y-2">
-                <span className="text-xs font-mono tracking-widest text-zinc-600 uppercase">Use Cases</span>
-                <h2 className="text-3xl font-bold text-zinc-100">Why Developers Choose Git for Prompts</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Flame className="h-5 w-5 text-red-500" />
-                    <h4 className="font-semibold text-zinc-200">Regression Testing</h4>
+              {/* Right Column - Motion Demo Canvas */}
+              <div className="lg:col-span-7 h-[420px] rounded-xl border border-zinc-900 bg-zinc-900/10 backdrop-blur-sm overflow-hidden flex flex-col relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/40 via-zinc-900/20 to-zinc-950/40 pointer-events-none" />
+                <div className="relative z-10 flex-1 flex flex-col h-full">
+                  {/* Canvas rendering will go in Tasks 2-6 */}
+                  <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
+                    Graphic Canvas Loading
                   </div>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Ensure updates to prompts don't break existing features. Automatically grade LLM outputs against strict criteria before pushing prompts to live systems.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Shield className="h-5 w-5 text-emerald-500" />
-                    <h4 className="font-semibold text-zinc-200">System of Record & Audit</h4>
-                  </div>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Maintain a historical timeline of prompt changes. Know exactly who updated a prompt, when, and what commit message accompanied the revision.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Terminal className="h-5 w-5 text-sky-500" />
-                    <h4 className="font-semibold text-zinc-200">Decoupled Release Cycles</h4>
-                  </div>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Stop rebuilding and redeploying your server code just to fix a spelling mistake or refine a system instruction. Fetch versions dynamically from our API.
-                  </p>
                 </div>
               </div>
             </section>
