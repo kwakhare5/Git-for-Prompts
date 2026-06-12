@@ -7,120 +7,25 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Show } from '@clerk/nextjs';
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavGridCard,
-  NavSmallItem,
-  NavItemMobile,
-  type NavItemType,
-} from '@/components/ui/navigation-menu';
-import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { 
   GitBranch, 
   Play, 
   Sparkles, 
-  BookOpen, 
   Check, 
   ArrowRight,
   Copy,
-  Cpu,
   Clock,
   RefreshCw,
-  Globe,
-  Shield,
-  Layers,
-  Users,
-  Star,
-  FileText,
-  HelpCircle,
   Menu,
   X
 } from 'lucide-react';
-
-const productLinks: NavItemType[] = [
-  {
-    title: 'Version Control',
-    href: '#',
-    description: 'Track prompt updates with Git-like commits',
-    icon: GitBranch,
-  },
-  {
-    title: 'Visual Diffing',
-    href: '#',
-    description: 'Compare prompt drafts side-by-side',
-    icon: Layers,
-  },
-  {
-    title: 'Test Assertions',
-    href: '#',
-    description: 'Run automated evaluations on templates',
-    icon: Play,
-  },
-  {
-    title: 'Runtime API',
-    href: '#',
-    icon: Cpu,
-  },
-  {
-    title: 'Edge CDN',
-    href: '#',
-    icon: Globe,
-  },
-  {
-    title: 'Access Keys',
-    href: '#',
-    icon: Shield,
-  },
-];
-
-const companyLinks: NavItemType[] = [
-  {
-    title: 'About Us',
-    href: '#',
-    description: 'Treating prompts with engineering discipline',
-    icon: Users,
-  },
-  {
-    title: 'Documentation',
-    href: '#',
-    description: 'Learn how to integrate the prompt SDK',
-    icon: BookOpen,
-  },
-  {
-    title: 'API Reference',
-    href: '#',
-    description: 'Endpoint schemas and token headers',
-    icon: FileText,
-  },
-  {
-    title: 'Guides',
-    href: '#',
-    description: 'Best practices for prompt engineering',
-    icon: HelpCircle,
-  },
-  {
-    title: 'Blog',
-    href: '#',
-    description: 'Product updates and announcements',
-    icon: Star,
-  },
-];
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
@@ -331,54 +236,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Desktop Menu using Radix NavigationMenu */}
-        <div className="hidden md:block">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-xs text-zinc-400 hover:text-zinc-200 bg-transparent hover:bg-transparent">Features</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid w-full md:w-[600px] md:grid-cols-[1fr_.40fr]">
-                    <ul className="grid grow gap-3 p-4 md:grid-cols-2 md:border-r border-zinc-900/80">
-                      {productLinks.slice(0, 3).map((link) => (
-                        <li key={link.title}>
-                          <NavGridCard link={link} className="bg-zinc-950 hover:bg-zinc-900 border-zinc-900 hover:border-zinc-800" />
-                        </li>
-                      ))}
-                    </ul>
-                    <ul className="space-y-1.5 p-4 bg-zinc-900/10">
-                      {productLinks.slice(3).map((link) => (
-                        <li key={link.title}>
-                          <NavSmallItem
-                            item={link}
-                            href={link.href}
-                            className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/50"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <Link href="#docs" legacyBehavior passHref>
-                  <button className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none">
-                    Docs
-                  </button>
-                </Link>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
-                <button
-                  onClick={() => setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
-                  className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
-                >
-                  {activeTab === 'tour' ? 'Sandbox' : 'Tour'}
-                </button>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+        {/* Desktop Menu - Simple, Direct Necessary Links Only */}
+        <div className="hidden md:flex items-center gap-1">
+          <Link href="#features" className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer">
+            Features
+          </Link>
+          <Link href="#docs" className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer">
+            Docs
+          </Link>
+          <button
+            onClick={() => setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
+            className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none"
+          >
+            {activeTab === 'tour' ? 'Sandbox' : 'Tour'}
+          </button>
         </div>
 
         <div className="flex items-center gap-3">
@@ -429,58 +300,29 @@ export default function Home() {
                     </Button>
                   </SheetClose>
                 </div>
-                <div className="container grid gap-y-2 overflow-y-auto px-4 pt-5 pb-12">
-                  <Accordion type="single" collapsible className="w-full">
-                    <AccordionItem value="features" className="border-zinc-900">
-                      <AccordionTrigger className="text-zinc-200 hover:no-underline py-3 text-sm">
-                        Features
-                      </AccordionTrigger>
-                      <AccordionContent className="space-y-1">
-                        <ul className="grid gap-1">
-                          {productLinks.map((link) => (
-                            <li key={link.title}>
-                              <SheetClose asChild>
-                                <NavItemMobile item={link} href={link.href} className="text-zinc-300 hover:bg-zinc-900" />
-                              </SheetClose>
-                            </li>
-                          ))}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="company" className="border-zinc-900">
-                      <AccordionTrigger className="text-zinc-200 hover:no-underline py-3 text-sm">
-                        Company (About & Blog)
-                      </AccordionTrigger>
-                      <AccordionContent className="space-y-1">
-                        <ul className="grid gap-1">
-                          {companyLinks.filter(l => l.title !== 'Documentation' && l.title !== 'API Reference' && l.title !== 'Guides').map((link) => (
-                            <li key={link.title}>
-                              <SheetClose asChild>
-                                <NavItemMobile item={link} href={link.href} className="text-zinc-300 hover:bg-zinc-900" />
-                              </SheetClose>
-                            </li>
-                          ))}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                  <div className="py-3 border-b border-zinc-900">
+                <div className="container grid gap-y-4 px-4 pt-5 pb-12">
+                  <div className="flex flex-col gap-3">
                     <SheetClose asChild>
-                      <Link href="#docs" className="text-sm font-medium text-zinc-200 hover:text-zinc-50 transition-colors block">
+                      <Link href="#features" className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md">
+                        Features
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link href="#docs" className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md">
                         Documentation
                       </Link>
                     </SheetClose>
-                  </div>
-                  
-                  <div className="pt-4 border-t border-zinc-900 mt-4 flex flex-col gap-2">
                     <button
                       onClick={() => {
                         setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour');
                       }}
-                      className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors"
+                      className="w-full text-left py-2 px-3 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900 rounded-md transition-colors bg-transparent border-none cursor-pointer"
                     >
                       {activeTab === 'tour' ? 'Try Sandbox' : 'View Tour'}
                     </button>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-zinc-900 mt-4 flex flex-col gap-2">
                     <Link
                       href="/sign-in"
                       className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors"
@@ -1002,7 +844,7 @@ export default function Home() {
 
 
             {/* Inspiration from OneClarity: "What we help teams fix" Section */}
-            <section className="border-t border-zinc-900 pt-20 px-6 max-w-6xl mx-auto space-y-12 select-none">
+            <section id="features" className="border-t border-zinc-900 pt-20 px-6 max-w-6xl mx-auto space-y-12 select-none">
               
               <div className="text-center space-y-3 max-w-2xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-100 font-sans">
@@ -1237,7 +1079,7 @@ export default function Home() {
             </section>
 
             {/* Integration Guide Section */}
-            <section className="max-w-6xl mx-auto px-6 border-t border-zinc-900 pt-20 pb-12 space-y-8">
+            <section id="docs" className="max-w-6xl mx-auto px-6 border-t border-zinc-900 pt-20 pb-12 space-y-8">
               <div className="max-w-2xl space-y-3">
                 <h3 className="text-2xl font-bold text-zinc-100">Integration: Fetching at Runtime</h3>
                 <p className="text-sm text-zinc-400 leading-relaxed font-light">
