@@ -330,8 +330,112 @@ const { content } = await response.json();`}</code>
 
                 {/* Workspace Content Panel */}
                 <div className="flex-1 p-5 flex flex-col">
-                  {/* Content for tabs will go here in Task 4 & 5 */}
-                  <div className="text-zinc-500 text-sm font-mono">Workspace Panel Loaded</div>
+                  {/* Edit Tab */}
+                  {activeSubTab === 'edit' && (
+                    <div className="flex-1 flex flex-col space-y-4 animate-in fade-in duration-200">
+                      <div className="flex-1 flex flex-col border border-zinc-900 rounded-lg bg-zinc-950 overflow-hidden min-h-[300px]">
+                        <div className="px-4 py-2 border-b border-zinc-900 bg-zinc-900/30 flex items-center justify-between text-xs text-zinc-500 font-mono">
+                          <span>prompt_template.txt</span>
+                          <span>v{activeVersionNumber}</span>
+                        </div>
+                        <textarea
+                          value={editorContent}
+                          onChange={(e) => setEditorContent(e.target.value)}
+                          className="flex-1 p-4 bg-transparent outline-none resize-none font-mono text-sm leading-relaxed text-zinc-100"
+                          placeholder="Write your prompt system instruction..."
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <input
+                          type="text"
+                          value={commitInput}
+                          onChange={(e) => setCommitInput(e.target.value)}
+                          placeholder="Commit message (e.g. Adjust refund instructions)"
+                          className="md:col-span-3 px-4 py-2 text-sm rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700"
+                        />
+                        <button
+                          onClick={() => {
+                            if (!editorContent.trim()) return;
+                            const nextVersion = versions.length + 1;
+                            const msg = commitInput.trim() || `Update version ${nextVersion}`;
+                            
+                            const newVer = {
+                              versionNumber: nextVersion,
+                              content: editorContent,
+                              commitMessage: msg,
+                              createdAt: 'Just now'
+                            };
+                            
+                            setVersions([...versions, newVer]);
+                            setActiveVersionNumber(nextVersion);
+                            setCommitInput('');
+                          }}
+                          className="px-4 py-2 text-sm font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-colors cursor-pointer"
+                        >
+                          Commit Save
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Diff Tab */}
+                  {activeSubTab === 'diff' && (() => {
+                    const v1Content = versions[0].content;
+                    const originalLines = v1Content.split('\n');
+                    const modifiedLines = editorContent.split('\n');
+
+                    return (
+                      <div className="flex-1 flex flex-col space-y-4 animate-in fade-in duration-200">
+                        <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
+                          <span className="px-2 py-0.5 rounded bg-red-950/30 text-red-400 border border-red-900/50">v1 (Original)</span>
+                          <span className="text-zinc-600">→</span>
+                          <span className="px-2 py-0.5 rounded bg-emerald-950/30 text-emerald-400 border border-emerald-900/50">v{activeVersionNumber} (Active Sandbox)</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-zinc-900 rounded-lg overflow-hidden bg-zinc-950 min-h-[300px]">
+                          {/* Original View */}
+                          <div className="p-4 border-r border-zinc-900 bg-zinc-900/5 overflow-y-auto max-h-[350px]">
+                            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-2">Original</span>
+                            <pre className="font-mono text-xs leading-relaxed text-zinc-400 space-y-1">
+                              {originalLines.map((line, idx) => (
+                                <div 
+                                  key={idx} 
+                                  className={`px-1.5 py-0.5 rounded ${
+                                    editorContent.includes(line) ? '' : 'bg-red-950/30 text-red-300 border border-red-900/30 font-semibold'
+                                  }`}
+                                >
+                                  {editorContent.includes(line) ? ' ' : '- '} {line}
+                                </div>
+                              ))}
+                            </pre>
+                          </div>
+
+                          {/* Sandbox View */}
+                          <div className="p-4 overflow-y-auto max-h-[350px]">
+                            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-2">Sandbox (Edited)</span>
+                            <pre className="font-mono text-xs leading-relaxed text-zinc-400 space-y-1">
+                              {modifiedLines.map((line, idx) => (
+                                <div 
+                                  key={idx} 
+                                  className={`px-1.5 py-0.5 rounded ${
+                                    v1Content.includes(line) ? '' : 'bg-emerald-950/30 text-emerald-300 border border-emerald-900/30 font-semibold'
+                                  }`}
+                                >
+                                  {v1Content.includes(line) ? ' ' : '+ '} {line}
+                                </div>
+                              ))}
+                            </pre>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Tests Tab Placeholder */}
+                  {activeSubTab === 'tests' && (
+                    <div className="text-zinc-500 text-sm font-mono">Test execution panel will go here</div>
+                  )}
                 </div>
               </div>
             </div>
