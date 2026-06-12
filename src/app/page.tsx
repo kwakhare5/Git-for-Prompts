@@ -85,9 +85,151 @@ export default function Home() {
       {/* Content */}
       <main className="flex-1 flex flex-col">
         {activeTab === 'tour' ? (
-          <div className="max-w-6xl mx-auto px-6 py-16 w-full space-y-24">
-            {/* Tour Tab Content Placeholder */}
-            <div className="text-center text-zinc-500 font-mono text-sm">Product Tour View</div>
+          <div className="max-w-6xl mx-auto px-6 py-12 w-full space-y-20">
+            {/* Hero */}
+            <section className="text-center space-y-6 py-8">
+              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-zinc-50 via-zinc-200 to-zinc-400 bg-clip-text text-transparent max-w-4xl mx-auto leading-tight">
+                Treat your prompts like code.
+              </h1>
+              <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
+                Version, test, A/B compare, and deploy AI prompt templates using a clean, developer-first Git workflow. No more prompt chaos in Notion or Google Docs.
+              </p>
+              <div className="flex items-center justify-center gap-4 pt-4">
+                <button
+                  onClick={() => setActiveTab('sandbox')}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all cursor-pointer shadow-lg hover:shadow-zinc-50/10"
+                >
+                  Try Sandbox <ArrowRight className="h-4 w-4" />
+                </button>
+                <Link
+                  href="/sign-up"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:border-zinc-700 transition-all"
+                >
+                  Sign Up Free
+                </Link>
+              </div>
+            </section>
+
+            {/* Pillars Grid */}
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
+                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  <History className="h-5 w-5" />
+                </div>
+                <h3 className="font-semibold text-zinc-100">Immutable Versioning</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Every save writes a permanent version snapshot. Roll back or compare against historical edits instantly.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
+                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  <GitBranch className="h-5 w-5" />
+                </div>
+                <h3 className="font-semibold text-zinc-100">Monaco Diff Viewer</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Trace prompt updates side-by-side. Highlight deletions and additions using a code-inspired layout.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
+                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  <Play className="h-5 w-5" />
+                </div>
+                <h3 className="font-semibold text-zinc-100">Dual-Provider Testing</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Execute test suites concurrently on Groq (Llama 3.3) with OpenRouter fallback. Verify responses in seconds.
+                </p>
+              </div>
+
+              <div className="p-6 rounded-xl border border-zinc-900 bg-zinc-900/30 backdrop-blur-sm space-y-3">
+                <div className="p-2 w-fit rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  <Sparkles className="h-5 w-5" />
+                </div>
+                <h3 className="font-semibold text-zinc-100">Prompt API Delivery</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Decouple prompt cycles from code deployments. Fetch prompt versions dynamically in your apps via public API.
+                </p>
+              </div>
+            </section>
+
+            {/* Use Cases */}
+            <section className="border-t border-zinc-900 pt-16 space-y-12">
+              <div className="text-center space-y-2">
+                <span className="text-xs font-mono tracking-widest text-zinc-600 uppercase">Use Cases</span>
+                <h2 className="text-3xl font-bold text-zinc-100">Why Developers Choose Git for Prompts</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Flame className="h-5 w-5 text-red-500" />
+                    <h4 className="font-semibold text-zinc-200">Regression Testing</h4>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Ensure updates to prompts don't break existing features. Automatically grade LLM outputs against strict criteria before pushing prompts to live systems.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Shield className="h-5 w-5 text-emerald-500" />
+                    <h4 className="font-semibold text-zinc-200">System of Record & Audit</h4>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Maintain a historical timeline of prompt changes. Know exactly who updated a prompt, when, and what commit message accompanied the revision.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Terminal className="h-5 w-5 text-sky-500" />
+                    <h4 className="font-semibold text-zinc-200">Decoupled Release Cycles</h4>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Stop rebuilding and redeploying your server code just to fix a spelling mistake or refine a system instruction. Fetch versions dynamically from our API.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Integration Guide Section */}
+            <section className="border-t border-zinc-900 pt-16 pb-12 space-y-8">
+              <div className="max-w-2xl space-y-3">
+                <h3 className="text-2xl font-bold text-zinc-100">Integration: Fetching at Runtime</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Load the latest active version of your prompt dynamically in your application using our simple HTTP endpoint.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-zinc-900 bg-zinc-950 overflow-hidden font-mono text-sm max-w-3xl">
+                <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-900 bg-zinc-900/30">
+                  <span className="text-xs text-zinc-500">typescript - api_client.ts</span>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(`const response = await fetch("https://gitforprompts.com/api/v1/prompts/[prompt-id]/latest", {
+  headers: {
+    "Authorization": "Bearer " + process.env.GFP_API_KEY
+  }
+});
+const { content } = await response.json();`);
+                    }}
+                    className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors p-1 cursor-pointer"
+                  >
+                    <Copy className="h-3 w-3" /> Copy
+                  </button>
+                </div>
+                <pre className="p-5 overflow-x-auto text-zinc-300 font-mono">
+                  <code>{`const response = await fetch("https://gitforprompts.com/api/v1/prompts/[prompt-id]/latest", {
+  headers: {
+    "Authorization": "Bearer " + process.env.GFP_API_KEY
+  }
+});
+
+const { content } = await response.json();`}</code>
+                </pre>
+              </div>
+            </section>
           </div>
         ) : (
           <div className="flex-1 flex flex-col p-6 max-w-7xl mx-auto w-full">
