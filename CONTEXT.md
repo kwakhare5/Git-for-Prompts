@@ -30,3 +30,12 @@ A cryptographically hashed token that enables developer applications to programm
 
 #### Playground (Demo)
 A client-side, ephemeral simulation of the Git for Prompts workspace. Located on the public landing page, it allows unauthenticated users to edit prompts, see diffs, and run simulated test executions entirely in browser memory.
+
+#### Interactive Tour Panel
+A visual showcase on the landing page composed of vertical feature tabs on the left and an animated motion demo canvas on the right that explains product capabilities.
+
+#### Split-Screen Wipe
+A draggable visual separator on the diff canvas where sliding the cursor sweeps between the original (v1) and modified prompt versions to highlight line differences.
+
+#### Model Flow Graph
+A visual node flow diagram depicting input parameters feeding into the LLM node and executing assertion checklists, showing green/red checkmarks dynamically.
