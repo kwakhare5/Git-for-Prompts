@@ -43,6 +43,16 @@ export default function Home() {
     }, 1500);
     return () => clearInterval(interval);
   }, [activeFeature, activeTab]);
+
+  const [apiProgress, setApiProgress] = useState<number>(0);
+
+  useEffect(() => {
+    if (activeFeature !== 3 || activeTab !== 'tour') return;
+    const interval = setInterval(() => {
+      setApiProgress((prev) => (prev === 100 ? 0 : 100));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [activeFeature, activeTab]);
   
   const [versions, setVersions] = useState<Array<{
     versionNumber: number;
@@ -416,10 +426,54 @@ Thank you.`}
                     </div>
                   )}
 
-                  {/* Graphic 4 Placeholder */}
+                  {/* Graphic 4: Runtime Fetch Flow */}
                   {activeFeature === 3 && (
-                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
-                      Graphic 4 (API Fetch Packet Flow) Loading...
+                    <div className="flex-1 flex flex-col p-6 space-y-6 animate-in fade-in duration-300 h-full justify-between select-none">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Runtime Client Request</span>
+                        <span className="text-[10px] font-mono text-sky-400">Public API Endpoint</span>
+                      </div>
+
+                      {/* Packet flow pipeline */}
+                      <div className="grid grid-cols-2 gap-12 relative items-center py-6 z-10">
+                        {/* Connecting Path Line */}
+                        <div className="absolute left-[25%] right-[25%] top-1/2 -translate-y-1/2 h-0.5 border-t border-dashed border-zinc-800 z-0" />
+
+                        <div className="p-4 border border-zinc-900 rounded-lg bg-zinc-950/60 relative z-10 flex flex-col items-center">
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase font-semibold">Your server</span>
+                          <span className="text-xs text-zinc-300 mt-1 font-mono font-semibold">App Backend</span>
+                        </div>
+
+                        <div className="p-4 border border-zinc-900 rounded-lg bg-zinc-950/60 relative z-10 flex flex-col items-center">
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase font-semibold text-emerald-400">GFP server</span>
+                          <span className="text-xs text-zinc-300 mt-1 font-mono font-semibold">Active v2</span>
+                        </div>
+
+                        {/* Floating Packet */}
+                        <div 
+                          className="absolute h-2 w-2 rounded-full bg-sky-400 shadow-md shadow-sky-400/50 transition-all duration-1000 ease-in-out z-20"
+                          style={{ 
+                            left: `${apiProgress === 100 ? '73%' : '27%'}`,
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)'
+                          }}
+                        />
+                      </div>
+
+                      {/* API JSON Payload Console */}
+                      <div className="border border-zinc-900 bg-zinc-950/80 rounded-lg overflow-hidden font-mono text-[10px] max-h-[140px] flex flex-col">
+                        <div className="px-3 py-1.5 border-b border-zinc-900 bg-zinc-900/30 text-[9px] text-zinc-500 flex justify-between font-mono">
+                          <span>GET /api/v1/prompts/latest</span>
+                          <span className="text-emerald-400 font-semibold">200 OK</span>
+                        </div>
+                        <pre className="p-3 text-zinc-400 overflow-x-auto select-none font-mono">
+                          {`{
+  "id": "p_customer_support",
+  "version": 2,
+  "content": "You are a polite returns department..."
+}`}
+                        </pre>
+                      </div>
                     </div>
                   )}
                 </div>
