@@ -21,6 +21,43 @@ import {
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
+  const [activeSubTab, setActiveSubTab] = useState<'edit' | 'diff' | 'tests'>('edit');
+  
+  const [versions, setVersions] = useState<Array<{
+    versionNumber: number;
+    content: string;
+    commitMessage: string;
+    createdAt: string;
+  }>>([
+    {
+      versionNumber: 1,
+      content: `You answer questions about customer returns.`,
+      commitMessage: 'Initial draft',
+      createdAt: '1 hour ago'
+    },
+    {
+      versionNumber: 2,
+      content: `You are a polite returns department agent. If the customer received a broken item, offer a full refund. Sign off with "Customer Support Team".`,
+      commitMessage: 'Clarified returns policy',
+      createdAt: '10 minutes ago'
+    }
+  ]);
+
+  const [activeVersionNumber, setActiveVersionNumber] = useState(2);
+  const [editorContent, setEditorContent] = useState(
+    `You are a polite returns department agent. If the customer received a broken item, offer a full refund. Sign off with "Customer Support Team".`
+  );
+  const [commitInput, setCommitInput] = useState('');
+  
+  const testCase = {
+    name: 'Returns Refund Request',
+    input_text: 'I bought shoes yesterday and they arrived with a cracked sole. Can I get my money back?',
+    expectedCriteria: 'Must offer a full refund and sign off with "Customer Support Team".'
+  };
+
+  const [testResult, setTestResult] = useState<'idle' | 'running' | 'passed' | 'failed'>('idle');
+  const [testOutput, setTestOutput] = useState('');
+  const [testLogs, setTestLogs] = useState<string[]>([]);
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800">
@@ -233,8 +270,71 @@ const { content } = await response.json();`}</code>
           </div>
         ) : (
           <div className="flex-1 flex flex-col p-6 max-w-7xl mx-auto w-full">
-            {/* Sandbox Tab Content Placeholder */}
-            <div className="text-center text-zinc-500 font-mono text-sm">Interactive Sandbox View</div>
+            <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 border border-zinc-900 rounded-xl overflow-hidden bg-zinc-950/20 backdrop-blur-sm min-h-[500px]">
+              {/* Sandbox Sidebar */}
+              <div className="border-r border-zinc-900 bg-zinc-900/10 p-5 space-y-6">
+                <div>
+                  <h3 className="font-semibold text-sm text-zinc-200">customer-support-returns</h3>
+                  <p className="text-xs text-zinc-500 mt-1">Simulated sandbox playground</p>
+                </div>
+
+                <div className="space-y-3">
+                  <span className="text-[10px] font-mono tracking-wider text-zinc-500 uppercase">Version History</span>
+                  <div className="space-y-1.5">
+                    {versions.slice().reverse().map((v) => (
+                      <button
+                        key={v.versionNumber}
+                        onClick={() => {
+                          setActiveVersionNumber(v.versionNumber);
+                          setEditorContent(v.content);
+                        }}
+                        className={`w-full flex flex-col items-start text-left p-3 rounded-lg border transition-all cursor-pointer ${
+                          activeVersionNumber === v.versionNumber
+                            ? 'bg-zinc-900/80 border-zinc-700 text-zinc-100 shadow-sm'
+                            : 'bg-zinc-900/20 border-zinc-900 hover:border-zinc-800 text-zinc-400 hover:text-zinc-300'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          <span className="font-mono text-[10px] font-semibold text-zinc-400">v{v.versionNumber}</span>
+                          <span className="text-[10px] text-zinc-500">{v.createdAt}</span>
+                        </div>
+                        <p className="text-xs truncate w-full mt-1.5 text-zinc-400">
+                          {v.commitMessage}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Sandbox Workspace Area */}
+              <div className="lg:col-span-3 flex flex-col">
+                {/* Tab bar */}
+                <div className="flex items-center justify-between border-b border-zinc-900 bg-zinc-900/10 px-5">
+                  <div className="flex">
+                    {(['edit', 'diff', 'tests'] as const).map((tab) => (
+                      <button
+                        key={tab}
+                        onClick={() => setActiveSubTab(tab)}
+                        className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                          activeSubTab === tab
+                            ? 'border-zinc-50 text-zinc-100'
+                            : 'border-transparent text-zinc-500 hover:text-zinc-300'
+                        }`}
+                      >
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Workspace Content Panel */}
+                <div className="flex-1 p-5 flex flex-col">
+                  {/* Content for tabs will go here in Task 4 & 5 */}
+                  <div className="text-zinc-500 text-sm font-mono">Workspace Panel Loaded</div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </main>
