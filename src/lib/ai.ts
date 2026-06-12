@@ -34,8 +34,10 @@ const MAX_CONCURRENT_TESTS = 10; // Groq is fast enough for high concurrency
 
 /**
  * Robustly extracts a JSON object from a string.
+ * Exported for unit testing — this is the highest-risk parsing function
+ * in the codebase (breaks all test results if AI response format changes).
  */
-function extractJson(text: string): unknown {
+export function extractJson(text: string): unknown {
   const start = text.indexOf('{');
   const end = text.lastIndexOf('}');
   if (start === -1 || end === -1 || end < start) {
