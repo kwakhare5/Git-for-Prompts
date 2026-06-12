@@ -34,6 +34,15 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [isAutoplayPaused, activeTab]);
   const [activeSubTab, setActiveSubTab] = useState<'edit' | 'diff' | 'tests'>('edit');
+  const [pipelineState, setPipelineState] = useState<number>(0);
+
+  useEffect(() => {
+    if (activeFeature !== 2 || activeTab !== 'tour') return;
+    const interval = setInterval(() => {
+      setPipelineState((prev) => (prev + 1) % 4);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, [activeFeature, activeTab]);
   
   const [versions, setVersions] = useState<Array<{
     versionNumber: number;
@@ -334,10 +343,76 @@ Thank you.`}
                     </div>
                   )}
 
-                  {/* Graphic 3 Placeholder */}
+                  {/* Graphic 3: Interactive Model Flow Graph */}
                   {activeFeature === 2 && (
-                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
-                      Graphic 3 (Model Flow Pipeline) Loading...
+                    <div className="flex-1 flex flex-col p-6 space-y-6 animate-in fade-in duration-300 h-full justify-between select-none">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Pipeline Flow Visualizer</span>
+                        <span className="text-[10px] font-mono text-emerald-400">Automated Run Simulation</span>
+                      </div>
+
+                      {/* Nodes Map */}
+                      <div className="grid grid-cols-3 gap-4 relative py-4 z-10">
+                        {/* Pathway Lines */}
+                        <div className="absolute left-[15%] right-[15%] top-1/2 -translate-y-1/2 h-0.5 bg-zinc-900 z-0">
+                          <div 
+                            className={`h-full bg-emerald-500 transition-all duration-1000 ${
+                              pipelineState > 0 ? 'w-full' : 'w-0'
+                            }`} 
+                          />
+                        </div>
+
+                        <div className={`p-3 rounded-lg border text-center z-10 transition-all ${
+                          pipelineState >= 0 ? 'bg-zinc-900/40 border-zinc-850' : 'bg-zinc-950 border-zinc-900'
+                        }`}>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">1. Input variables</span>
+                          <span className="text-[9px] text-zinc-200 mt-1 font-mono block truncate">{"{ query: cracked sole }"}</span>
+                        </div>
+
+                        <div className={`p-3 rounded-lg border text-center z-10 transition-all ${
+                          pipelineState >= 1 ? 'bg-zinc-900/80 border-emerald-800 ring-1 ring-emerald-500/30' : 'bg-zinc-950 border-zinc-900'
+                        }`}>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">2. Model (Groq)</span>
+                          <span className="text-[9px] text-emerald-400 mt-1 font-mono block font-bold animate-pulse">
+                            {pipelineState >= 2 ? 'Response OK' : 'Processing...'}
+                          </span>
+                        </div>
+
+                        <div className={`p-3 rounded-lg border text-center z-10 transition-all ${
+                          pipelineState >= 2 ? 'bg-zinc-900/40 border-zinc-850' : 'bg-zinc-950 border-zinc-900'
+                        }`}>
+                          <span className="text-[8px] font-mono text-zinc-500 uppercase block font-semibold">3. Assertions</span>
+                          <span className="text-[9px] text-zinc-200 mt-1 font-mono block font-bold">Grading Suite</span>
+                        </div>
+                      </div>
+
+                      {/* Checks Logs Panel */}
+                      <div className="border border-zinc-900 bg-zinc-950/80 rounded-lg p-4 font-mono text-[10px] text-zinc-400 space-y-2 min-h-[140px] flex flex-col justify-center">
+                        {pipelineState >= 0 && (
+                          <div className="flex items-center gap-2 text-zinc-500 font-mono">
+                            <span>⏱️ [0.1s]</span>
+                            <span>Parsing input JSON payload...</span>
+                          </div>
+                        )}
+                        {pipelineState >= 1 && (
+                          <div className="flex items-center gap-2 text-zinc-300 font-mono animate-in fade-in duration-200">
+                            <span>🤖 [0.5s]</span>
+                            <span>Querying llama-3.3-70b-versatile (primary)...</span>
+                          </div>
+                        )}
+                        {pipelineState >= 2 && (
+                          <div className="flex items-center justify-between text-emerald-400 font-semibold animate-in slide-in-from-bottom-2 duration-300 font-mono">
+                            <span>✔️ Assert "Refund offered check"</span>
+                            <span>PASSED (100%)</span>
+                          </div>
+                        )}
+                        {pipelineState >= 3 && (
+                          <div className="flex items-center justify-between text-emerald-400 font-semibold animate-in slide-in-from-bottom-2 duration-300 font-mono">
+                            <span>✔️ Assert "Support sign-off signature"</span>
+                            <span>PASSED (100%)</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 
