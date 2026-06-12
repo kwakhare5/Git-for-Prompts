@@ -1,12 +1,10 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-// Routes that require a logged-in user.
-// Everything else (landing page, sign-in, sign-up, public API) is open.
-const isProtected = createRouteMatcher([
-  '/dashboard(.*)',
-  // Protect all /api routes EXCEPT the public v1 API (authenticated via API key)
-  '/api/(?!v1)(.*)',
-])
+// Only dashboard routes require Clerk session auth.
+// - /api/v1/** handles its own auth via API key (Bearer token + SHA-256)
+// - Server actions each call auth() directly — no middleware needed
+// - Landing page, sign-in, sign-up are public
+const isProtected = createRouteMatcher(['/dashboard(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtected(req)) {
