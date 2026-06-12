@@ -23,6 +23,8 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
   const [activeFeature, setActiveFeature] = useState<number>(0);
   const [isAutoplayPaused, setIsAutoplayPaused] = useState<boolean>(false);
+  const [wipePos, setWipePos] = useState<number>(50);
+  const [isWiping, setIsWiping] = useState<boolean>(false);
 
   useEffect(() => {
     if (isAutoplayPaused || activeTab !== 'tour') return;
@@ -264,10 +266,71 @@ export default function Home() {
                     </div>
                   )}
 
-                  {/* Graphic 2 Placeholder */}
+                  {/* Graphic 2: Draggable Split-Screen Wipe */}
                   {activeFeature === 1 && (
-                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
-                      Graphic 2 (Draggable Diff Wipe) Loading...
+                    <div 
+                      className="flex-1 flex flex-col p-6 space-y-4 animate-in fade-in duration-300 h-full select-none"
+                      onMouseMove={(e) => {
+                        if (!isWiping) return;
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const pct = Math.max(15, Math.min(85, (x / rect.width) * 100));
+                        setWipePos(pct);
+                      }}
+                      onMouseUp={() => setIsWiping(false)}
+                      onMouseLeave={() => setIsWiping(false)}
+                    >
+                      <div className="flex items-center justify-between text-xs text-zinc-500 font-mono">
+                        <span className="text-[10px] uppercase tracking-wider">Drag Slider to Compare Diff</span>
+                        <span className="text-[10px] text-zinc-600">Left: v1 | Right: v2</span>
+                      </div>
+
+                      <div className="flex-1 border border-zinc-900 rounded-lg overflow-hidden relative bg-zinc-950 h-full cursor-ew-resize">
+                        {/* Left Side Original v1 */}
+                        <div 
+                          className="absolute inset-y-0 left-0 bg-red-950/20 p-4 overflow-hidden"
+                          style={{ width: `${wipePos}%` }}
+                        >
+                          <span className="text-[9px] font-mono uppercase tracking-wider text-red-400 block mb-2 font-semibold border-b border-red-950 pb-1">v1 Original</span>
+                          <pre className="font-mono text-[10px] leading-relaxed text-red-300 select-none">
+                            {`System: You answer questions about customer returns.
+
+User: Help queries.
+
+Thank you.`}
+                          </pre>
+                        </div>
+
+                        {/* Right Side Modified v2 */}
+                        <div 
+                          className="absolute inset-y-0 right-0 bg-emerald-950/20 p-4 overflow-hidden border-l border-zinc-800"
+                          style={{ left: `${wipePos}%` }}
+                        >
+                          <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400 block mb-2 font-semibold border-b border-emerald-950 pb-1">v2 Refined</span>
+                          <pre className="font-mono text-[10px] leading-relaxed text-emerald-300 select-none">
+                            {`System: You are a polite returns department agent. If the customer received a broken item, offer a full refund. Sign off with "Customer Support Team".
+
+User: Help queries.
+
+Thank you.`}
+                          </pre>
+                        </div>
+
+                        {/* Divider Drag Bar */}
+                        <div 
+                          className="absolute inset-y-0 w-1 bg-zinc-700 hover:bg-zinc-500 transition-colors flex items-center justify-center cursor-ew-resize"
+                          style={{ left: `${wipePos}%` }}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            setIsWiping(true);
+                          }}
+                        >
+                          <div className="w-4 h-8 rounded bg-zinc-900 border border-zinc-700 flex flex-col gap-0.5 items-center justify-center shadow-lg shadow-black/80">
+                            <span className="w-0.5 h-1.5 bg-zinc-400 rounded-full" />
+                            <span className="w-0.5 h-1.5 bg-zinc-400 rounded-full" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
 
