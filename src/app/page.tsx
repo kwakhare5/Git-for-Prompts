@@ -214,10 +214,76 @@ export default function Home() {
               <div className="lg:col-span-7 h-[420px] rounded-xl border border-zinc-900 bg-zinc-900/10 backdrop-blur-sm overflow-hidden flex flex-col relative">
                 <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/40 via-zinc-900/20 to-zinc-950/40 pointer-events-none" />
                 <div className="relative z-10 flex-1 flex flex-col h-full">
-                  {/* Canvas rendering will go in Tasks 2-6 */}
-                  <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
-                    Graphic Canvas Loading
-                  </div>
+                  {/* Graphic 1: Branching Commits Tree */}
+                  {activeFeature === 0 && (
+                    <div className="flex-1 flex flex-col p-6 space-y-6 animate-in fade-in duration-300 h-full justify-between">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Git Tree Visualizer</span>
+                        <span className="text-[10px] font-mono text-emerald-400">Autoplay Loop Running</span>
+                      </div>
+
+                      <div className="flex-1 flex items-center justify-center relative">
+                        {/* Branching SVG lines */}
+                        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                          {/* Main line */}
+                          <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="#27272a" strokeWidth="2" strokeDasharray="4 4" />
+                          <line x1="10%" y1="50%" x2="50%" y2="50%" stroke="#52525b" strokeWidth="3" />
+                          
+                          {/* Branch line */}
+                          <path d="M 180,175 Q 220,175 280,105 T 380,105" stroke="#10b981" strokeWidth="3" fill="none" className="animate-draw-line" />
+                        </svg>
+
+                        {/* Nodes overlay */}
+                        <div className="absolute inset-0 flex items-center justify-around px-8">
+                          <div className="flex flex-col items-center gap-1.5 z-10">
+                            <div className="w-8 h-8 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-zinc-400">v1</div>
+                            <span className="text-[9px] font-mono text-zinc-500">Initial draft</span>
+                          </div>
+
+                          <div className="flex flex-col items-center gap-1.5 z-10 translate-y-[-35px]">
+                            <div className="w-8 h-8 rounded-full bg-emerald-950 border-2 border-emerald-500 flex items-center justify-center font-mono text-[10px] font-bold text-emerald-400 animate-pulse">v2</div>
+                            <span className="text-[9px] font-mono text-emerald-500 font-semibold">Current</span>
+                          </div>
+
+                          <div className="flex flex-col items-center gap-1.5 z-10">
+                            <div className="w-8 h-8 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-zinc-400">main</div>
+                            <span className="text-[9px] font-mono text-zinc-500">Master trunk</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border border-zinc-900 bg-zinc-900/30 rounded-lg p-3.5 font-mono text-xs text-zinc-400 space-y-1.5">
+                        <div className="flex items-center justify-between text-zinc-500 text-[10px] uppercase">
+                          <span>Commit Log Panel</span>
+                          <span className="text-zinc-600">karanwakhare</span>
+                        </div>
+                        <div className="text-zinc-200">
+                          <span className="text-emerald-400 font-semibold">commit 4d9863f</span> - "feat: adjust Support response criteria"
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Graphic 2 Placeholder */}
+                  {activeFeature === 1 && (
+                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
+                      Graphic 2 (Draggable Diff Wipe) Loading...
+                    </div>
+                  )}
+
+                  {/* Graphic 3 Placeholder */}
+                  {activeFeature === 2 && (
+                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
+                      Graphic 3 (Model Flow Pipeline) Loading...
+                    </div>
+                  )}
+
+                  {/* Graphic 4 Placeholder */}
+                  {activeFeature === 3 && (
+                    <div className="flex-1 flex items-center justify-center text-zinc-500 text-xs font-mono">
+                      Graphic 4 (API Fetch Packet Flow) Loading...
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
