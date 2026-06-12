@@ -6,6 +6,7 @@ import { prompts } from '@/db/schema';
 import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '@/lib/validations/prompt';
 import { revalidatePath } from 'next/cache';
 import { eq, and } from 'drizzle-orm';
+import { ZodError } from 'zod';
 
 export async function createPrompt(input: unknown) {
   const { userId } = await auth();
@@ -22,8 +23,9 @@ export async function createPrompt(input: unknown) {
     revalidatePath('/dashboard');
     return prompt;
   } catch (err) {
-    // Re-throw auth errors as-is; wrap everything else
+    // Re-throw auth errors as-is; surface Zod validation errors; wrap everything else
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to create prompt');
   }
 }
@@ -49,6 +51,7 @@ export async function updatePrompt(promptId: string, input: unknown) {
   } catch (err) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to update prompt');
   }
 }
@@ -72,6 +75,7 @@ export async function deletePrompt(input: unknown) {
   } catch (err) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to delete prompt');
   }
 }

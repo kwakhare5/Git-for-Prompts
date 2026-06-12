@@ -6,6 +6,7 @@ import { versions, prompts } from '@/db/schema';
 import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/version';
 import { revalidatePath } from 'next/cache';
 import { eq, desc, and } from 'drizzle-orm';
+import { ZodError } from 'zod';
 
 export async function createVersion(input: unknown) {
   const { userId } = await auth();
@@ -60,6 +61,7 @@ export async function createVersion(input: unknown) {
   } catch (err) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to create version');
   }
 }
@@ -82,6 +84,14 @@ export async function restoreVersion(input: unknown) {
 
     if (!versionToRestore) throw new Error('Version not found');
     if (!prompt) throw new Error('Prompt not found or access denied');
+
+    // Security: ensure the version actually belongs to the requested prompt.
+    // Without this, a user could pass their own promptId + a foreign versionId
+    // to read another user's prompt content into their own version history.
+    if (versionToRestore.promptId !== validated.promptId) {
+      throw new Error('Version does not belong to this prompt');
+    }
+
 
     // Wrap restore in a transaction — same race condition risk as createVersion
     const restoredVersion = await db.transaction(async (tx) => {
@@ -120,6 +130,7 @@ export async function restoreVersion(input: unknown) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message.includes('not found')) throw err;
     if (err instanceof Error && err.message.includes('access denied')) throw err;
+    if (err instanceof Error && err.message.includes('does not belong')) throw err;
     throw new Error('Failed to restore version');
   }
 }

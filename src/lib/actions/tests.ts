@@ -7,6 +7,7 @@ import { createTestCaseSchema, runTestsSchema, runComparisonSchema, deleteTestCa
 import { runSingleTestCase, runWithConcurrency, MAX_CONCURRENT_TESTS } from '@/lib/ai';
 import { revalidatePath } from 'next/cache';
 import { eq, and } from 'drizzle-orm';
+import { ZodError } from 'zod';
 
 export async function createTestCase(input: unknown) {
   const { userId } = await auth();
@@ -33,6 +34,7 @@ export async function createTestCase(input: unknown) {
   } catch (err) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to create test case');
   }
 }
@@ -67,6 +69,7 @@ export async function deleteTestCase(input: unknown) {
     if (err instanceof Error && err.message === 'Unauthorized') throw err;
     if (err instanceof Error && err.message === 'Test case not found') throw err;
     if (err instanceof Error && err.message === 'Access denied') throw err;
+    if (err instanceof ZodError) throw new Error(err.issues[0].message);
     throw new Error('Failed to delete test case');
   }
 }

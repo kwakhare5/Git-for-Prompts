@@ -35,7 +35,28 @@ A client-side, ephemeral simulation of the Git for Prompts workspace. Located on
 A visual showcase on the landing page composed of vertical feature tabs on the left and an animated motion demo canvas on the right that explains product capabilities.
 
 #### Split-Screen Wipe
-A draggable visual separator on the diff canvas where sliding the cursor sweeps between the original (v1) and modified prompt versions to highlight line differences.
+A draggable visual separator on the diff canvas. The divider starts statically at 50% on load — **no auto-scanning**. User must drag the handle to compare versions. When the user drags manually the divider follows the cursor freely across the full panel width. Auto-wipe animation is removed entirely.
 
 #### Model Flow Graph
 A visual node flow diagram depicting input parameters feeding into the LLM node and executing assertion checklists, showing green/red checkmarks dynamically.
+
+---
+
+### Motion Graphics Decisions
+
+#### Rendering Architecture
+All Tour Panel motion graphics use **pure SVG** — shapes, lines, arcs, and text are all SVG elements sharing a single `viewBox` coordinate system. No HTML `<div>` overlays are mixed with SVG graphics. This eliminates the class of positioning bugs caused by mismatched HTML % values vs SVG coordinate space.
+
+#### Animation Approach
+CSS keyframe animations drive stroke-dash for path-drawing effects. React `useState` + `useEffect` drive state machine transitions (e.g., pipeline node stages). No external animation libraries.
+
+#### Diff Wipe Behavior
+Auto-scan IS enabled — the divider sweeps 30%↔70% continuously using a **CSS `@keyframes` animation** (not a JS `setInterval`). CSS animation runs on the GPU and is inherently smooth. On mouse hover the CSS animation pauses and the user can manually drag the divider to any position. On mouse leave the CSS animation resumes. Text in both panels uses `overflow-hidden whitespace-nowrap` so content clips cleanly at panel edges without wrapping.
+
+#### Pipeline (Graphic 3) Behavior
+JS state machine drives node lighting (5 stages via `setTimeout`). Connection bars between nodes use **flex layout** — nodes and bars are flex siblings, not absolutely-positioned children of a grid. This guarantees bars always span exactly between node edges. Animation loops continuously.
+
+#### API Flow (Graphic 4) Behavior
+Packet travel animation uses **pure CSS `@keyframes`** — no JS `setTimeout`. A single dot animates left→right (request) then right→left (response) in an infinite loop. The JSON payload panel and node border glows remain React state driven but the moving dot is pure CSS.
+
+
