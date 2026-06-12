@@ -8,6 +8,7 @@ import { clerkAppearance } from '@/lib/clerk-appearance';
 import { cn } from '@/lib/utils';
 
 const navItems = [
+  { label: 'Home & Guide', href: '/', icon: '⌂', enabled: true },
   { label: 'Dashboard', href: '/dashboard', icon: '▦', enabled: true },
   { label: 'API Keys', href: '/dashboard/api-keys', icon: '⌘', enabled: true },
   { label: 'Settings', href: '/dashboard/settings', icon: '⚙', enabled: false },
@@ -80,9 +81,9 @@ export function Sidebar() {
         <nav className="flex-1 space-y-0.5 p-2 pt-3" aria-label="Main navigation">
           {navItems.map((item) => {
             const isActive =
-              item.href === '/dashboard'
-                // Dashboard is active on /dashboard AND all /dashboard/prompts/* routes,
-                // but NOT when the user is on /dashboard/api-keys (a separate section).
+              item.href === '/'
+                ? pathname === '/'
+                : item.href === '/dashboard'
                 ? pathname.startsWith('/dashboard') && !pathname.startsWith('/dashboard/api-keys')
                 : pathname.startsWith(item.href);
 
