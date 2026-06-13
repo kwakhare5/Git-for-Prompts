@@ -154,10 +154,10 @@ export function GitTreeGraphic() {
           <line x1="60" y1="148" x2="460" y2="148" stroke="rgba(63, 63, 70, 0.4)" strokeWidth="1.5" strokeDasharray="4 4" />
           
           {/* Trunk v1→v2 — animated draw (as path for reliable cross-browser SVG animation) */}
-          <path d="M 120 148 L 220 148" stroke="#52525b" strokeWidth="2.5" fill="none" className="animate-draw-trunk-local" />
+          <path d="M 120 148 L 220 148" stroke="#52525b" strokeWidth="2.5" fill="none" strokeDasharray="100" strokeDashoffset="100" className="animate-draw-trunk-local" />
           
           {/* Branch arc v2→v3 — animated draw, offset exactly to avoid border intersections */}
-          <path d="M 260 148 C 300 148 310 75 355 75 L 381 75" stroke="#10b981" strokeWidth="2.5" fill="none" className="animate-draw-branch-g1-local" />
+          <path d="M 260 148 C 300 148 310 75 355 75 L 381 75" stroke="#10b981" strokeWidth="2.5" fill="none" strokeDasharray="160" strokeDashoffset="160" className="animate-draw-branch-g1-local" />
 
           {/* v1 circle */}
           <g
