@@ -8,26 +8,26 @@ interface TerminalLine {
   type: 'cmd' | 'output' | 'success' | 'info';
 }
 
+const script: { cmd: string; outputs: TerminalLine[] }[] = [
+  { cmd: 'gfp login', outputs: [
+    { text: 'Logging into Git for Prompts...', type: 'info' },
+    { text: '✓ Authenticated as karan (user_3F2JhB...)', type: 'success' }
+  ]},
+  { cmd: 'gfp pull customer-support --version 3', outputs: [
+    { text: 'Downloading customer-support version 3...', type: 'info' },
+    { text: '✓ Created prompt_template.txt (208 tokens)', type: 'success' }
+  ]},
+  { cmd: 'gfp test customer-support', outputs: [
+    { text: 'Running local prompt evaluations...', type: 'info' },
+    { text: '● returns_refund_request ... PASS (100/100)', type: 'success' },
+    { text: '● returns_late_shipment  ... PASS (100/100)', type: 'success' },
+    { text: '✓ All 2 assertions passed.', type: 'success' }
+  ]}
+];
+
 function MockTerminal() {
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentTyped, setCurrentTyped] = useState('');
-
-  const script = [
-    { cmd: 'gfp login', outputs: [
-      { text: 'Logging into Git for Prompts...', type: 'info' },
-      { text: '✓ Authenticated as karan (user_3F2JhB...)', type: 'success' }
-    ]},
-    { cmd: 'gfp pull customer-support --version 3', outputs: [
-      { text: 'Downloading customer-support version 3...', type: 'info' },
-      { text: '✓ Created prompt_template.txt (208 tokens)', type: 'success' }
-    ]},
-    { cmd: 'gfp test customer-support', outputs: [
-      { text: 'Running local prompt evaluations...', type: 'info' },
-      { text: '● returns_refund_request ... PASS (100/100)', type: 'success' },
-      { text: '● returns_late_shipment  ... PASS (100/100)', type: 'success' },
-      { text: '✓ All 2 assertions passed.', type: 'success' }
-    ]}
-  ];
 
   useEffect(() => {
     let isMounted = true;
