@@ -59,4 +59,14 @@ JS state machine drives node lighting (5 stages via `setTimeout`). Connection ba
 #### API Flow (Graphic 4) Behavior
 Packet travel animation uses **pure CSS `@keyframes`** — no JS `setTimeout`. A single dot animates left→right (request) then right→left (response) in an infinite loop. The JSON payload panel and node border glows remain React state driven but the moving dot is pure CSS.
 
+---
+
+### Website Architecture & Decomposition
+
+Refer to [ADR 001](file:///d:/Git%20for%20Prompts/docs/adr/001-website-architecture.md) for full modular structure.
+- **Landing Page Group**: Moved into route group `src/app/(landing)/` with subcomponents in `_components/` to separate visual graphics from application panels.
+- **Protected Workspace**: Placed under `src/app/(dashboard)/` using Clerk authentication context and `src/proxy.ts` middleware route guards.
+- **Reusable Monaco Editors**: Stored in `src/components/` as shared UI primitives.
+
+
 
