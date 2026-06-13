@@ -53,6 +53,10 @@ Git for Prompts is a purpose-built version control system designed to eliminate 
 | ✅ | **Dual-Provider Testing** | High-speed test runner using **Groq (Llama 3.3)** with **OpenRouter** fallback. |
 | ✅ | **Public API v1** | Programmatically fetch the latest prompt versions via secure API keys. |
 | ✅ | **Monospace Fidelity** | Strict monospace typography for all prompt text to ensure developer-first UX. |
+| ✅ | **Interactive Git Tree** | Clickable version nodes in an SVG tree with a Prompt Inspector preview panel. |
+| ✅ | **Test Pipeline Sim** | Visual test runner showing real-time logs for Damaged Returns vs Late Shipment checks. |
+| ✅ | **Mock Terminal CLI** | Side-by-side terminal simulation showcasing auth, pull, and test command behaviors. |
+| ✅ | **Go SDK Support** | Multilingual SDK tab selector containing Node.js, Python, cURL, and Go client snippets. |
 
 <br/>
 
