@@ -144,7 +144,7 @@ No `any` types allowed. If you don't know the type, figure it out.
 - GitHub OAuth is the primary login method (brand alignment — target users are GitHub devs)
 - Google OAuth as secondary option
 - Email/password as fallback
-- Middleware at `src/middleware.ts` protects all routes except `/`, `/sign-in`, `/sign-up`
+- Middleware at `src/proxy.ts` protects all routes except `/`, `/sign-in`, `/sign-up`
 - `userId` from Clerk is stored as `owner_id` in all database records
 - Never store passwords. Never build custom auth.
 
@@ -251,7 +251,7 @@ git-for-prompts/
 │   │   │   └── test.ts
 │   │   ├── ai.ts                 # OpenRouter API client + test runner logic
 │   │   └── utils.ts              # cn() and other utilities
-│   └── middleware.ts             # Clerk auth middleware
+│   └── proxy.ts                  # Clerk auth middleware (Next.js 16 convention)
 ├── .env.local                    # Local environment variables (never commit)
 ├── .env.example                  # Template with all required keys (commit this)
 ├── drizzle.config.ts             # Drizzle Kit config
