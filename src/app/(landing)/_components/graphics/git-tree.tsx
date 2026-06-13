@@ -81,6 +81,26 @@ export function GitTreeGraphic() {
         .svg-node-active-local {
           animation: svg-glow-local 2s ease-in-out infinite;
         }
+
+        /* Coordinated premium hover effects & transitions */
+        .node-v1, .node-v2, .node-v3 {
+          cursor: pointer;
+        }
+        .node-v1 circle, .node-v2 circle {
+          transition: stroke 0.25s cubic-bezier(.4,0,.2,1), fill 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        .node-v1:hover circle, .node-v2:hover circle {
+          stroke: #e4e4e7; /* zinc-200 */
+          fill: #18181b; /* zinc-900 */
+        }
+        .node-v3 circle {
+          transition: stroke 0.25s cubic-bezier(.4,0,.2,1), fill 0.25s cubic-bezier(.4,0,.2,1), filter 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        .node-v3:hover circle {
+          stroke: #34d399; /* emerald-400 */
+          fill: #042f1a; /* emerald-950 */
+          filter: drop-shadow(0 0 12px rgba(16,185,129,0.95)) !important;
+        }
       `}</style>
 
       <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-2 z-10">
@@ -124,24 +144,23 @@ export function GitTreeGraphic() {
           <path d="M 260 148 C 300 148 310 75 355 75 L 381 75" stroke="#10b981" strokeWidth="2.5" fill="none" className="animate-draw-branch-g1-local" />
 
           {/* v1 circle */}
-          <g>
-            <circle cx="100" cy="148" r="20" fill="#09090b" stroke="#27272a" strokeWidth="1.5"
-              className="cursor-pointer hover:stroke-zinc-500 transition-colors"
-              onMouseEnter={() => setHoveredNode('v1')}
-              onMouseLeave={() => setHoveredNode(null)}
-            />
+          <g
+            className="node-v1"
+            onMouseEnter={() => setHoveredNode('v1')}
+            onMouseLeave={() => setHoveredNode(null)}
+          >
+            <circle cx="100" cy="148" r="20" fill="#09090b" stroke="#27272a" strokeWidth="1.5" />
             <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
             <text x="100" y="180" textAnchor="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
           </g>
 
-          {/* v2 circle + fork dot */}
-          <g className="animate-v2-node">
-            <circle cx="240" cy="148" r="20" fill="#09090b" stroke="#3f3f46" strokeWidth="1.5"
-              className="cursor-pointer hover:stroke-zinc-400 transition-colors"
-              onMouseEnter={() => setHoveredNode('v2')}
-              onMouseLeave={() => setHoveredNode(null)}
-            />
-            <circle cx="240" cy="148" r="4" fill="#a1a1aa" style={{ pointerEvents: 'none' }} />
+          {/* v2 circle */}
+          <g
+            className="node-v2 animate-v2-node"
+            onMouseEnter={() => setHoveredNode('v2')}
+            onMouseLeave={() => setHoveredNode(null)}
+          >
+            <circle cx="240" cy="148" r="20" fill="#09090b" stroke="#3f3f46" strokeWidth="1.5" />
             <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
           </g>
           
@@ -150,11 +169,13 @@ export function GitTreeGraphic() {
           </g>
 
           {/* v3 active — glowing */}
-          <g className="animate-v3-node">
+          <g
+            className="node-v3 animate-v3-node"
+            onMouseEnter={() => setHoveredNode('v3')}
+            onMouseLeave={() => setHoveredNode(null)}
+          >
             <circle cx="405" cy="75" r="24" fill="#022c22" stroke="#10b981" strokeWidth="2"
-              className="svg-node-active-local cursor-pointer"
-              onMouseEnter={() => setHoveredNode('v3')}
-              onMouseLeave={() => setHoveredNode(null)}
+              className="svg-node-active-local"
             />
             <text x="405" y="75" textAnchor="middle" dominantBaseline="middle" fill="#34d399" fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v3</text>
           </g>

@@ -183,3 +183,26 @@ The four animated motion graphics in the landing page Tour Panel have three clas
 - [ ] API packet dot travels smoothly left→right then right→left
 - [ ] `npx tsc --noEmit` → 0 errors
 - [ ] `npm run lint` → 0 errors
+
+---
+
+## Visual Polish Upgrades (2026-06-13)
+
+### 1. Git Tree v2 Node
+* **Teapot Fix**: Delete overlapping center dot `<circle cx="240" cy="148" r="4" ... />` inside the `v2` node.
+* **Unified Group Hover Target**: Shift mouse event listeners (`onMouseEnter`, `onMouseLeave`) to parent `<g>` nodes (`node-v1`, `node-v2`, `node-v3`).
+* **Hover Highlights**: Add CSS transitions to circles (`transition: stroke 0.25s ease, fill 0.25s ease, filter 0.25s ease;`).
+  * `v1` / `v2` hover: Border `#e4e4e7`, Fill `#18181b`.
+  * `v3` hover: Border `#34d399`, Fill `#042f1a`, bright green filter shadow glow.
+
+### 2. API Flow Loop
+* **Staggered Keyframes**: Adjust `@keyframes packet-res-local` so the green response packet fades out completely to `opacity: 0` between `90%` and `100%` of the cycle, preventing loop boundary text collisions with the incoming `GET` packet.
+
+### 3. Hero Dashboard Mockup
+* **Card Highlight Sync**: Set active highlight styles on the `v1`, `v2`, and `v3` commit sidebar cards in `hero.tsx` corresponding to the current active step (`heroStep` 0, 1, 2 respectively).
+* **Text Coherence**: Align `heroPrompt` content to the exact text templates used in the sandbox:
+  * v1: `You answer questions about customer returns.`
+  * v2: `You are a polite returns agent. Offer a full refund if broken.`
+  * v3: `You are a polite returns agent. Offer a full refund if broken. Sign off: "Customer Support Team".`
+* **Typewriter Effect**: Implement a typewriter script that types out the prompt character-by-character at the beginning of each step transition.
+
