@@ -1,6 +1,10 @@
 import { vi, describe, it, expect, beforeAll, afterAll } from 'vitest';
 import dotenv from 'dotenv';
 import { eq, and } from 'drizzle-orm';
+import type { db as dbInstance } from '@/db';
+import type * as schemaTypes from '@/db/schema';
+import type { createPrompt as createPromptFn, updatePrompt as updatePromptFn, deletePrompt as deletePromptFn } from '../prompts';
+import type { createVersion as createVersionFn, restoreVersion as restoreVersionFn } from '../versions';
 
 // 1. Mock Clerk authentication module
 vi.mock('@clerk/nextjs/server', () => {
@@ -22,13 +26,13 @@ import { auth } from '@clerk/nextjs/server';
 dotenv.config({ path: '.env.local' });
 
 // We define references for modules loaded dynamically
-let db: any;
-let schema: any;
-let createPrompt: any;
-let updatePrompt: any;
-let deletePrompt: any;
-let createVersion: any;
-let restoreVersion: any;
+let db: typeof dbInstance;
+let schema: typeof schemaTypes;
+let createPrompt: typeof createPromptFn;
+let updatePrompt: typeof updatePromptFn;
+let deletePrompt: typeof deletePromptFn;
+let createVersion: typeof createVersionFn;
+let restoreVersion: typeof restoreVersionFn;
 
 describe('Server Actions Integration Tests', () => {
   const TEST_USER_ID = 'user_clerk_actions_test_holder_456';
@@ -58,7 +62,7 @@ describe('Server Actions Integration Tests', () => {
     // Default auth mock behaviour: logged in as TEST_USER_ID
     vi.mocked(auth).mockImplementation(async () => ({
       userId: TEST_USER_ID,
-    }) as any);
+    } as unknown as Awaited<ReturnType<typeof auth>>));
   });
 
   afterAll(async () => {
@@ -78,11 +82,12 @@ describe('Server Actions Integration Tests', () => {
       // Temporarily mock user session as null
       vi.mocked(auth).mockImplementationOnce(async () => ({
         userId: null,
-      }) as any);
+      } as unknown as Awaited<ReturnType<typeof auth>>));
 
       await expect(createPrompt({ name: 'Blocked prompt' })).rejects.toThrow('Unauthorized');
     });
   });
+
 
   describe('Prompt Actions', () => {
     it('successfully creates a prompt and saves to database', async () => {

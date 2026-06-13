@@ -7,10 +7,14 @@ import { eq } from 'drizzle-orm';
 // 1. Synchronously load environment variables first
 dotenv.config({ path: '.env.local' });
 
+import type { db as dbInstance } from '@/db';
+import type * as schemaTypes from '@/db/schema';
+import type { GET as getHandler } from './route';
+
 // We define variables for the dynamically imported modules
-let db: any;
-let GET: any;
-let schema: any;
+let db: typeof dbInstance;
+let GET: typeof getHandler;
+let schema: typeof schemaTypes;
 
 describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
   const plainTextKey = 'gfp_live_test_integration_token_xyz987';
