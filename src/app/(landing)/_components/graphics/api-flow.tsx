@@ -30,7 +30,9 @@ export function ApiFlowGraphic() {
           0%   { left: calc(100% - 36px); opacity: 0; }
           50%  { left: calc(100% - 36px); opacity: 0; }
           58%  { left: calc(100% - 36px); opacity: 1; }
-          100% { left: 4px;               opacity: 1; }
+          90%  { left: 4px;               opacity: 1; }
+          96%  { left: 4px;               opacity: 0; }
+          100% { left: 4px;               opacity: 0; }
         }
         @keyframes cdn-flow-local {
           0%   { stroke-dashoffset: 24; }
