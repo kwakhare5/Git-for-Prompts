@@ -9,7 +9,7 @@ export function GitTreeGraphic() {
   const commitMsg = '"feat: adjust refund criteria for v3"';
 
   useEffect(() => {
-    // Start typing after v3 has popped in (2.2s delay)
+    // Start typing after v3 has popped in (2.4s delay)
     const delayTimer = setTimeout(() => {
       let i = 0;
       const typer = setInterval(() => {
@@ -19,7 +19,7 @@ export function GitTreeGraphic() {
       }, 50);
 
       return () => clearInterval(typer);
-    }, 2200);
+    }, 2400);
 
     return () => clearTimeout(delayTimer);
   }, [animationKey]);
@@ -61,24 +61,24 @@ export function GitTreeGraphic() {
         .animate-draw-trunk-local {
           stroke-dasharray: 100;
           stroke-dashoffset: 100;
-          animation: draw-trunk-local 1.0s cubic-bezier(.4,0,.2,1) forwards;
+          animation: draw-trunk-local 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .animate-draw-branch-g1-local {
           stroke-dasharray: 160;
           stroke-dashoffset: 160;
-          animation: draw-branch-g1-local 1.0s 1.0s cubic-bezier(.4,0,.2,1) forwards;
+          animation: draw-branch-g1-local 1.2s 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .animate-v2-node {
           transform-box: fill-box;
           transform-origin: center;
           opacity: 0;
-          animation: pop-node-local 0.4s 1.0s cubic-bezier(.34,1.56,.64,1) forwards;
+          animation: pop-node-local 0.4s 1.0s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .animate-v3-node {
           transform-box: fill-box;
           transform-origin: center;
           opacity: 0;
-          animation: pop-node-local 0.4s 2.0s cubic-bezier(.34,1.56,.64,1) forwards;
+          animation: pop-node-local 0.4s 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .animate-v2-text {
           opacity: 0;
@@ -86,7 +86,7 @@ export function GitTreeGraphic() {
         }
         .animate-v3-text {
           opacity: 0;
-          animation: fade-in-local 0.4s 2.1s ease-out forwards;
+          animation: fade-in-local 0.4s 2.3s ease-out forwards;
         }
         .svg-node-active-local {
           animation: svg-glow-local 2s ease-in-out infinite;
@@ -153,11 +153,11 @@ export function GitTreeGraphic() {
           {/* Dashed trunk continuation */}
           <line x1="60" y1="148" x2="460" y2="148" stroke="rgba(63, 63, 70, 0.4)" strokeWidth="1.5" strokeDasharray="4 4" />
           
-          {/* Trunk v1→v2 — animated draw */}
-          <line x1="120" y1="148" x2="220" y2="148" stroke="#52525b" strokeWidth="2.5" className="animate-draw-trunk-local" />
+          {/* Trunk v1→v2 — animated draw (as path for reliable cross-browser SVG animation) */}
+          <path d="M 120 148 L 220 148" stroke="#52525b" strokeWidth="2.5" fill="none" strokeDasharray="100" strokeDashoffset="100" className="animate-draw-trunk-local" />
           
           {/* Branch arc v2→v3 — animated draw, offset exactly to avoid border intersections */}
-          <path d="M 260 148 C 300 148 310 75 355 75 L 381 75" stroke="#10b981" strokeWidth="2.5" fill="none" className="animate-draw-branch-g1-local" />
+          <path d="M 260 148 C 300 148 310 75 355 75 L 381 75" stroke="#10b981" strokeWidth="2.5" fill="none" strokeDasharray="160" strokeDashoffset="160" className="animate-draw-branch-g1-local" />
 
           {/* v1 circle */}
           <g
