@@ -172,3 +172,82 @@
   }
 }
 
+/* ── Landing Page Motion Graphics Styles ── */
+.dots-bg {
+  background-image: radial-gradient(rgba(63, 63, 70, 0.15) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.glow-green-strong {
+  box-shadow: 0 0 28px rgba(16, 185, 129, 0.45);
+}
+
+@keyframes badge-pop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-badge-pop {
+  animation: badge-pop 0.5s cubic-bezier(.4, 0, .2, 1) forwards;
+}
+
+/* ── API Flow Graphics Animations ── */
+@keyframes client-node-pulse {
+  0%, 8% { border-color: rgba(56, 189, 248, 0.85); box-shadow: 0 0 16px rgba(56, 189, 248, 0.25); }
+  15%, 93% { border-color: rgba(39, 39, 42, 0.8); box-shadow: 0 0 0px rgba(56, 189, 248, 0); }
+  98%, 100% { border-color: rgba(56, 189, 248, 0.85); box-shadow: 0 0 16px rgba(56, 189, 248, 0.25); }
+}
+
+@keyframes gfp-node-pulse {
+  0%, 40%, 60%, 100% { border-color: rgba(16, 185, 129, 0.2); box-shadow: 0 0 0px rgba(16, 185, 129, 0); }
+  45%, 52% { border-color: rgba(16, 185, 129, 0.85); box-shadow: 0 0 16px rgba(16, 185, 129, 0.25); }
+}
+
+@keyframes packet-req {
+  0%   { left: 4px;               opacity: 1; }
+  40%  { left: calc(100% - 36px); opacity: 1; }
+  45%  { left: calc(100% - 36px); opacity: 0; }
+  100% { left: calc(100% - 36px); opacity: 0; }
+}
+
+@keyframes packet-res {
+  0%   { left: calc(100% - 36px); opacity: 0; }
+  50%  { left: calc(100% - 36px); opacity: 0; }
+  55%  { left: calc(100% - 36px); opacity: 1; }
+  90%  { left: 4px;               opacity: 1; }
+  95%  { left: 4px;               opacity: 0; }
+  100% { left: 4px;               opacity: 0; }
+}
+
+@keyframes cdn-flow {
+  0%   { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-client-node {
+  animation: client-node-pulse 4.5s ease-in-out infinite;
+}
+
+.animate-gfp-node {
+  animation: gfp-node-pulse 4.5s ease-in-out infinite;
+}
+
+.animate-packet-req {
+  animation: packet-req 4.5s ease-in-out infinite;
+}
+
+.animate-packet-res {
+  animation: packet-res 4.5s ease-in-out infinite;
+}
+
+.animate-cdn-flow {
+  stroke-dasharray: 6 6;
+  animation: cdn-flow 0.8s linear infinite;
+}
+
+
