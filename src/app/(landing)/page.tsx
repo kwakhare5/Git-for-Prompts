@@ -30,7 +30,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
-    if (sectionId === 'features' || sectionId === 'docs') {
+    if (sectionId === 'features' || sectionId === 'docs' || sectionId === 'home') {
       e.preventDefault();
       if (activeTab !== 'tour') {
         setActiveTab('tour');
@@ -88,7 +88,7 @@ export default function Home() {
   const [testLogs, setTestLogs] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800 relative overflow-x-hidden">
+    <div id="home" className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800 relative overflow-x-hidden">
       
 
 
@@ -109,11 +109,11 @@ export default function Home() {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-1">
           <Link 
-            href="#features" 
-            onClick={(e) => handleNavClick(e, 'features')}
+            href="#home" 
+            onClick={(e) => handleNavClick(e, 'home')}
             className="px-3.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
           >
-            Features
+            Home
           </Link>
           <Link 
             href="#docs" 
@@ -179,11 +179,11 @@ export default function Home() {
                   <div className="flex flex-col gap-3">
                     <SheetClose asChild>
                       <Link 
-                        href="#features" 
-                        onClick={(e) => handleNavClick(e, 'features')}
+                        href="#home" 
+                        onClick={(e) => handleNavClick(e, 'home')}
                         className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md"
                       >
-                        Features
+                        Home
                       </Link>
                     </SheetClose>
                     <SheetClose asChild>

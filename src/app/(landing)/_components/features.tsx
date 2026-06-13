@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GitTreeGraphic } from './graphics/git-tree';
 import { DiffWipeGraphic } from './graphics/diff-wipe';
 import { PipelineGraphic } from './graphics/pipeline';
@@ -8,6 +8,14 @@ import { ApiFlowGraphic } from './graphics/api-flow';
 
 export function Features() {
   const [activeFeature, setActiveFeature] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % 4);
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [activeFeature]);
 
   const features = [
     {
