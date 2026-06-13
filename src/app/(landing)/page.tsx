@@ -75,7 +75,10 @@ export default function Home() {
     `You are a polite returns department agent. If the customer received a broken item, offer a full refund. Sign off with "Customer Support Team".`
   );
   const [commitInput, setCommitInput] = useState('');
-  const [activeSubTab, setActiveSubTab] = useState<'edit' | 'diff' | 'tests'>('edit');
+  const [activeSubTab, setActiveSubTab] = useState<'edit' | 'diff' | 'tests' | 'compare'>('edit');
+  const [compareVerA, setCompareVerA] = useState(1);
+  const [compareVerB, setCompareVerB] = useState(2);
+  const [compareStatus, setCompareStatus] = useState<'idle' | 'running' | 'done'>('idle');
   
   const testCase = {
     name: 'Returns Refund Request',
@@ -297,7 +300,7 @@ export default function Home() {
                 {/* Tab bar */}
                 <div className="flex items-center justify-between border-b border-zinc-900 bg-zinc-900/10 px-5">
                   <div className="flex">
-                    {(['edit', 'diff', 'tests'] as const).map((tab) => (
+                    {(['edit', 'diff', 'tests', 'compare'] as const).map((tab) => (
                       <button
                         key={tab}
                         onClick={() => setActiveSubTab(tab)}
@@ -563,6 +566,243 @@ export default function Home() {
                     </div>
                   )}
 
+                  {/* Compare Tab */}
+                  {activeSubTab === 'compare' && (() => {
+                    const verAObj = versions.find(v => v.versionNumber === compareVerA);
+                    const verBObj = versions.find(v => v.versionNumber === compareVerB);
+
+                    const evaluateContent = (content: string) => {
+                      const hasRefund = content.toLowerCase().includes('refund');
+                      const hasTeam = content.toLowerCase().includes('customer support team');
+                      return {
+                        hasRefund,
+                        hasTeam,
+                        score: (hasRefund ? 1 : 0) + (hasTeam ? 1 : 0)
+                      };
+                    };
+
+                    const evalA = verAObj ? evaluateContent(verAObj.content) : { hasRefund: false, hasTeam: false, score: 0 };
+                    const evalB = verBObj ? evaluateContent(verBObj.content) : { hasRefund: false, hasTeam: false, score: 0 };
+                    const total = 2;
+
+                    const winnerSide = evalA.score > evalB.score ? 'A' : evalB.score > evalA.score ? 'B' : 'tie';
+
+                    return (
+                      <div className="flex-1 flex flex-col space-y-6 animate-in fade-in duration-200">
+                        {/* Selector bar */}
+                        <div className="flex items-end gap-4 flex-wrap">
+                          <div className="space-y-1">
+                            <label className="text-xs text-zinc-500 block">Version A</label>
+                            <select
+                              value={compareVerA}
+                              onChange={(e) => {
+                                setCompareVerA(Number(e.target.value));
+                                setCompareStatus('idle');
+                              }}
+                              className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-300 font-mono focus:outline-none transition-colors"
+                            >
+                              {versions.map((v) => (
+                                <option key={v.versionNumber} value={v.versionNumber} disabled={v.versionNumber === compareVerB}>
+                                  v{v.versionNumber} ({v.commitMessage})
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="text-zinc-650 pb-1.5 font-mono text-sm select-none">vs</div>
+
+                          <div className="space-y-1">
+                            <label className="text-xs text-zinc-500 block">Version B</label>
+                            <select
+                              value={compareVerB}
+                              onChange={(e) => {
+                                setCompareVerB(Number(e.target.value));
+                                setCompareStatus('idle');
+                              }}
+                              className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-300 font-mono focus:outline-none transition-colors"
+                            >
+                              {versions.map((v) => (
+                                <option key={v.versionNumber} value={v.versionNumber} disabled={v.versionNumber === compareVerA}>
+                                  v{v.versionNumber} ({v.commitMessage})
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="ml-auto">
+                            <button
+                              onClick={() => {
+                                setCompareStatus('running');
+                                setTimeout(() => {
+                                  setCompareStatus('done');
+                                }, 1000);
+                              }}
+                              disabled={compareStatus === 'running' || compareVerA === compareVerB}
+                              className="bg-zinc-50 text-zinc-950 hover:bg-zinc-200 disabled:opacity-40 flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg shadow-md transition-all cursor-pointer"
+                            >
+                              {compareStatus === 'running' ? (
+                                <span className="flex items-center gap-2">
+                                  <svg className="animate-spin h-4 w-4 text-zinc-950" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                  </svg>
+                                  Running...
+                                </span>
+                              ) : (
+                                'Run Comparison'
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Inline warnings */}
+                        {compareVerA === compareVerB && (
+                          <p className="text-xs text-amber-400 font-mono">⚠ Select two different versions to compare.</p>
+                        )}
+
+                        {/* Running state */}
+                        {compareStatus === 'running' && (
+                          <div className="rounded-lg border border-zinc-900 bg-zinc-900/10 p-12 flex flex-col items-center gap-4 text-center">
+                            <svg className="animate-spin h-8 w-8 text-zinc-400" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                            <p className="text-sm text-zinc-400 font-mono font-medium">
+                              Running all test cases against both versions simultaneously...
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Winner banner */}
+                        {compareStatus === 'done' && (
+                          <div
+                            className={`rounded-lg border p-4 flex items-center justify-between gap-4 transition-all ${
+                              winnerSide === 'tie'
+                                ? 'border-zinc-800 bg-zinc-900/50'
+                                : 'border-emerald-800/60 bg-emerald-950/20'
+                            }`}
+                          >
+                            <div className="flex items-baseline gap-3">
+                              <span className={`text-lg font-bold ${winnerSide === 'tie' ? 'text-zinc-350' : 'text-emerald-450'}`}>
+                                {winnerSide === 'tie' ? '🤝 Tie' : `🏆 v${winnerSide === 'A' ? compareVerA : compareVerB} wins`}
+                              </span>
+                              {winnerSide !== 'tie' ? (
+                                <span className="text-sm text-zinc-500 font-mono">
+                                  {evalA.score}/{total} vs {evalB.score}/{total}
+                                </span>
+                              ) : (
+                                <span className="text-sm text-zinc-500 font-mono">
+                                  Both versions scored {evalA.score}/{total}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-3 shrink-0">
+                              <div className="text-center min-w-[3rem]">
+                                <div className="text-[10px] font-mono text-zinc-500 mb-0.5">v{compareVerA}</div>
+                                <div className={`text-xl font-bold tabular-nums ${winnerSide === 'A' ? 'text-emerald-450' : 'text-zinc-400'}`}>
+                                  {evalA.score}/{total}
+                                </div>
+                              </div>
+                              <div className="text-zinc-700 text-xs font-mono select-none">vs</div>
+                              <div className="text-center min-w-[3rem]">
+                                <div className="text-[10px] font-mono text-zinc-500 mb-0.5">v{compareVerB}</div>
+                                <div className={`text-xl font-bold tabular-nums ${winnerSide === 'B' ? 'text-emerald-450' : 'text-zinc-400'}`}>
+                                  {evalB.score}/{total}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Progress bars */}
+                        {compareStatus === 'done' && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {[
+                              { label: `v${compareVerA}`, score: evalA.score, isWinner: winnerSide === 'A' },
+                              { label: `v${compareVerB}`, score: evalB.score, isWinner: winnerSide === 'B' }
+                            ].map((side, idx) => (
+                              <div
+                                key={idx}
+                                className={`rounded-lg border p-4 space-y-2 ${
+                                  side.isWinner ? 'border-emerald-800/60 bg-emerald-950/10' : 'border-zinc-900 bg-zinc-900/10'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="font-mono text-xs text-zinc-400">{side.label}</span>
+                                  <span className="text-xs text-zinc-500 font-mono">{side.score}/{total} passed</span>
+                                </div>
+                                <div className="w-full bg-zinc-900 rounded-full h-1.5 overflow-hidden">
+                                  <div
+                                    className={`h-full transition-all duration-500 ${side.score === total ? 'bg-emerald-500' : side.score > 0 ? 'bg-amber-500' : 'bg-red-500'}`}
+                                    style={{ width: `${(side.score / total) * 100}%` }}
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Results table */}
+                        {compareStatus === 'done' && (
+                          <div className="rounded-lg border border-zinc-900 overflow-hidden bg-zinc-950/40">
+                            <div className="grid grid-cols-[1fr_auto_auto] border-b border-zinc-900 bg-zinc-900/30">
+                              <div className="px-4 py-3 text-xs font-medium text-zinc-500 uppercase tracking-wider">Assertion / Scenario</div>
+                              <div className={`px-6 py-3 text-xs font-medium uppercase tracking-wider text-center font-mono ${winnerSide === 'A' ? 'text-emerald-450' : 'text-zinc-500'}`}>
+                                v{compareVerA}{winnerSide === 'A' && ' 🏆'}
+                              </div>
+                              <div className={`px-6 py-3 text-xs font-medium uppercase tracking-wider text-center font-mono ${winnerSide === 'B' ? 'text-emerald-450' : 'text-zinc-500'}`}>
+                                v{compareVerB}{winnerSide === 'B' && ' 🏆'}
+                              </div>
+                            </div>
+
+                            <div className="divide-y divide-zinc-900/50">
+                              {[
+                                { name: 'Must offer a full refund', checkA: evalA.hasRefund, checkB: evalB.hasRefund },
+                                { name: 'Sign off with Customer Support Team', checkA: evalA.hasTeam, checkB: evalB.hasTeam }
+                              ].map((row, idx) => {
+                                const diffRow = row.checkA !== row.checkB;
+                                return (
+                                  <div key={idx} className={`grid grid-cols-[1fr_auto_auto] items-center ${diffRow ? 'bg-amber-950/10' : ''}`}>
+                                    <div className="px-4 py-3 text-sm text-zinc-300 font-mono">{row.name}</div>
+                                    <div className="px-6 py-3 flex justify-center">
+                                      <span className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-semibold border ${
+                                        row.checkA
+                                          ? 'bg-emerald-950/60 text-emerald-400 border-emerald-900/50'
+                                          : 'bg-red-950/60 text-red-400 border-red-900/50'
+                                      }`}>
+                                        {row.checkA ? 'PASS' : 'FAIL'}
+                                      </span>
+                                    </div>
+                                    <div className="px-6 py-3 flex justify-center">
+                                      <span className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-semibold border ${
+                                        row.checkB
+                                          ? 'bg-emerald-950/60 text-emerald-400 border-emerald-900/50'
+                                          : 'bg-red-950/60 text-red-400 border-red-900/50'
+                                      }`}>
+                                        {row.checkB ? 'PASS' : 'FAIL'}
+                                      </span>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Idle empty state */}
+                        {compareStatus === 'idle' && (
+                          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-900 py-16 text-center bg-zinc-950/10">
+                            <div className="text-3xl mb-3 select-none">⚖</div>
+                            <h4 className="text-sm font-semibold text-zinc-350 mb-1">Ready to compare</h4>
+                            <p className="text-xs text-zinc-500 max-w-xs">
+                              Select two versions above and click{' '}
+                              <span className="font-mono text-zinc-400">Run Comparison</span> to see which prompt performs better.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
