@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Show } from '@clerk/nextjs';
 import {
@@ -10,7 +10,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { 
   GitBranch, 
   Play, 
@@ -29,15 +28,6 @@ import { Footer } from './_components/footer';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
-  const [isScrolled, setIsScrolled] = useState(false);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
     if (sectionId === 'features' || sectionId === 'docs') {
@@ -102,20 +92,15 @@ export default function Home() {
       
 
 
-      {/* Header - Floating Centered Glass Pill Navbar */}
+      {/* Header - Floating Centered Glass Rectangle Navbar (Scrolls with page) */}
       <header 
-        className={cn(
-          "sticky top-4 md:top-6 z-50 mx-auto flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-full shadow-2xl transition-all duration-300 ease-in-out",
-          isScrolled 
-            ? "max-w-3xl w-[calc(100%-1.5rem)] px-5 py-2 border-zinc-800/80 bg-zinc-950/96 shadow-emerald-950/5" 
-            : "max-w-5xl w-[calc(100%-2rem)] px-6 py-3"
-        )}
+        className="relative z-50 mx-auto flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3 mt-6"
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
+          <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
             <GitBranch className="h-4.5 w-4.5 text-zinc-300" />
           </div>
-          <div className={`flex flex-col transition-all duration-300 ${isScrolled ? 'hidden md:flex' : 'flex'}`}>
+          <div className="flex flex-col">
             <span className="font-bold text-sm tracking-tight leading-none">Git for Prompts</span>
             <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-semibold">Prompt vcs</span>
           </div>
@@ -149,7 +134,7 @@ export default function Home() {
           <Show when="signed-in">
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-full border border-zinc-850 bg-zinc-900/40 text-zinc-200 hover:bg-zinc-900 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-lg border border-zinc-850 bg-zinc-900/40 text-zinc-200 hover:bg-zinc-900 transition-colors shadow-sm"
             >
               Dashboard
             </Link>
@@ -163,10 +148,7 @@ export default function Home() {
             </Link>
             <Link
               href="/sign-up"
-              className={cn(
-                "inline-flex items-center justify-center font-semibold rounded-full bg-zinc-50 text-zinc-950 hover:bg-zinc-250 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)]",
-                isScrolled ? "px-4 py-1 text-[11px]" : "px-4.5 py-1.5 text-xs"
-              )}
+              className="inline-flex items-center justify-center font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)] px-4.5 py-1.5 text-xs"
             >
               Get Started
             </Link>
@@ -176,18 +158,18 @@ export default function Home() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button size="icon" variant="ghost" className="rounded-full hover:bg-zinc-900 h-8 w-8">
+                <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
                   <Menu className="size-4 text-zinc-300" />
                 </Button>
               </SheetTrigger>
               <SheetContent
-                className="bg-zinc-950/95 border-l border-zinc-900 w-full max-w-xs gap-0 backdrop-blur-lg text-zinc-100 rounded-l-2xl"
+                className="bg-zinc-950/95 border-l border-zinc-900 w-full max-w-xs gap-0 backdrop-blur-lg text-zinc-100 rounded-l-xl"
                 showClose={false}
               >
                 <div className="flex h-14 items-center justify-between border-b border-zinc-900 px-4">
                   <span className="font-bold text-sm">Menu</span>
                   <SheetClose asChild>
-                    <Button size="icon" variant="ghost" className="rounded-full hover:bg-zinc-900 h-8 w-8">
+                    <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
                       <X className="size-4 text-zinc-300" />
                       <span className="sr-only">Close</span>
                     </Button>
