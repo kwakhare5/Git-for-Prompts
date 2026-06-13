@@ -8,6 +8,7 @@ import { runSingleTestCase, runWithConcurrency, MAX_CONCURRENT_TESTS } from '@/l
 import { revalidatePath } from 'next/cache';
 import { eq, and } from 'drizzle-orm';
 import { ZodError } from 'zod';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function createTestCase(input: unknown) {
   const { userId } = await auth();
@@ -77,6 +78,9 @@ export async function deleteTestCase(input: unknown) {
 export async function runTestsForVersion(input: unknown) {
   const { userId } = await auth();
   if (!userId) throw new Error('Unauthorized');
+
+  const limit = await checkRateLimit(userId);
+  if (!limit.success) throw new Error('Rate limit exceeded. Please wait before running more tests.');
 
   try {
     const validated = runTestsSchema.parse(input);
@@ -177,6 +181,9 @@ export async function runComparisonForVersions(input: unknown): Promise<{
 }> {
   const { userId } = await auth();
   if (!userId) throw new Error('Unauthorized');
+
+  const limit = await checkRateLimit(userId);
+  if (!limit.success) throw new Error('Rate limit exceeded. Please wait before running comparisons.');
 
   try {
     const { versionIdA, versionIdB } = runComparisonSchema.parse(input);
