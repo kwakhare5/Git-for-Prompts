@@ -238,10 +238,14 @@
 }
 
 .animate-packet-req {
+  left: 4px;
+  opacity: 0;
   animation: packet-req 4.5s ease-in-out infinite;
 }
 
 .animate-packet-res {
+  left: calc(100% - 36px);
+  opacity: 0;
   animation: packet-res 4.5s ease-in-out infinite;
 }
 

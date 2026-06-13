@@ -33,13 +33,13 @@ export function ApiFlowGraphic() {
           </svg>
 
           {/* Request packet — pure CSS left→right */}
-          <div className="animate-packet-req absolute top-1/2 -translate-y-1/2 flex items-center gap-1" style={{ left: '4px', opacity: 0 }}>
+          <div className="animate-packet-req absolute top-1/2 -translate-y-1/2 flex items-center gap-1">
             <div className="w-2.5 h-2.5 rounded-full bg-sky-400" style={{ boxShadow: '0 0 8px rgba(56,189,248,0.9)' }} />
             <span className="text-[8px] font-mono text-sky-400 font-bold whitespace-nowrap">GET</span>
           </div>
 
           {/* Response packet — pure CSS right→left */}
-          <div className="animate-packet-res absolute top-1/2 -translate-y-1/2 flex items-center gap-1" style={{ left: 'calc(100% - 36px)', opacity: 0 }}>
+          <div className="animate-packet-res absolute top-1/2 -translate-y-1/2 flex items-center gap-1">
             <span className="text-[8px] font-mono text-emerald-400 font-bold whitespace-nowrap">200</span>
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.9)' }} />
           </div>
