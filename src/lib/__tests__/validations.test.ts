@@ -1,12 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '../validations/prompt';
+import { createPromptSchema, deletePromptSchema } from '../validations/prompt';
 import { createApiKeySchema, deleteApiKeySchema } from '../validations/api-key';
 import { createVersionSchema, restoreVersionSchema } from '../validations/version';
 import {
   createTestCaseSchema,
   runTestsSchema,
   runComparisonSchema,
-  deleteTestCaseSchema,
 } from '../validations/test';
 
 // RFC 4122 compliant UUID v4 strings (Version digit is 4, variant digit is 8/9/a/b)
