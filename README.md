@@ -33,7 +33,7 @@
 
 ## 📌 About the Project
 
-**Git for Prompts** is a **Version Control System** built with **Next.js 15, Drizzle ORM, and Monaco Editor**.
+**Git for Prompts** is a **Version Control System** built with **Next.js 16, Drizzle ORM, and Monaco Editor**.
 
 Git for Prompts is a purpose-built version control system designed to eliminate the chaos of managing AI prompts in Google Docs or hardcoded strings. It provides developers with a production-grade environment to version, diff, and test prompts before they hit production. Every change is tracked, every version is immutable, and every deployment is backed by an automated Groq/OpenRouter test runner.
 
@@ -78,7 +78,7 @@ Git for Prompts is a purpose-built version control system designed to eliminate 
 | Layer | Technology | Purpose |
 |---|---|---|
 | **Language** | TypeScript | Type-safe development |
-| **Framework** | Next.js 15 (App Router) | Full-stack foundation & Server Actions |
+| **Framework** | Next.js 16 (App Router) | Full-stack foundation & Server Actions |
 | **Styling** | Tailwind CSS v4 | Modern, rapid UI development |
 | **AI / Engine** | Groq + OpenRouter | Ultra-fast dual-provider test execution |
 | **Deployment** | Vercel | Production-grade hosting and CI/CD |
@@ -113,9 +113,10 @@ Git-for-Prompts/
 │   ├── app/                     # Next.js App Router & Routes
 │   ├── components/              # UI components & Monaco wrappers
 │   ├── db/                      # Drizzle schema & migrations
-│   └── lib/
-│       ├── actions/             # Next.js Server Actions
-│       └── ai.ts                # Dual-provider AI client
+│   ├── lib/
+│   │   ├── actions/             # Next.js Server Actions
+│   │   └── ai.ts                # Dual-provider AI client
+│   └── proxy.ts                 # Next.js 16 Clerk middleware route guards
 │
 ├── public/                      # Static images & logos
 └── README.md
