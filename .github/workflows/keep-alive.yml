@@ -1,0 +1,59 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every Tuesday and Friday (twice a week) to prevent inactivity pausing
+    - cron: '0 0 * * 2,5'
+  workflow_dispatch: # Allows you to trigger it manually from GitHub Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ping Supabase Database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          node -e "
+            const net = require('net');
+            const url = require('url');
+            
+            if (!process.env.DATABASE_URL) {
+              console.error('DATABASE_URL is not set in GitHub Secrets');
+              process.exit(1);
+            }
+            
+            const parsed = url.parse(process.env.DATABASE_URL);
+            const port = parsed.port || 5432;
+            const host = parsed.hostname;
+            
+            console.log('Connecting to database host:', host, 'on port:', port);
+            
+            const client = new net.Socket();
+            client.setTimeout(5000);
+            
+            client.connect(port, host, () => {
+              console.log('Successfully connected and pinged Supabase database!');
+              client.destroy();
+              process.exit(0);
+            });
+            
+            client.on('error', (err) => {
+              console.error('Connection failed:', err.message);
+              process.exit(1);
+            });
+            
+            client.on('timeout', () => {
+              console.error('Connection timed out');
+              client.destroy();
+              process.exit(1);
+            });
+          "
