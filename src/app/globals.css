@@ -143,7 +143,7 @@
   }
 }
 
-/* #17: Respect user preference to reduce motion — WCAG 2.1 best practice */
+/* 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -154,6 +154,7 @@
     scroll-behavior: auto !important;
   }
 }
+*/
 
 @keyframes accordion-down {
   from {
