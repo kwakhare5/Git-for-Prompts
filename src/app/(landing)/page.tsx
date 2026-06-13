@@ -29,6 +29,11 @@ import { Footer } from './_components/footer';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
 
+  const changeTab = (tab: 'tour' | 'sandbox') => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
     if (sectionId === 'features' || sectionId === 'docs' || sectionId === 'home') {
       e.preventDefault();
@@ -126,7 +131,7 @@ export default function Home() {
             API Docs
           </Link>
           <button
-            onClick={() => setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
+            onClick={() => changeTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
             className="px-3.5 py-1.5 text-xs font-semibold text-zinc-450 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none"
           >
             {activeTab === 'tour' ? 'Sandbox Playground' : 'Product Tour'}
@@ -201,7 +206,7 @@ export default function Home() {
                     <SheetClose asChild>
                       <button
                         onClick={() => {
-                          setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour');
+                          changeTab(activeTab === 'tour' ? 'sandbox' : 'tour');
                         }}
                         className="w-full text-left py-2 px-3 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900 rounded-md transition-colors bg-transparent border-none cursor-pointer"
                       >
@@ -233,13 +238,13 @@ export default function Home() {
           <div className="w-full space-y-24 py-12">
             
             {/* Hero Section */}
-            <Hero onTrySandbox={() => setActiveTab('sandbox')} />
+            <Hero onTrySandbox={() => changeTab('sandbox')} />
 
             {/* Features (Tour SVG Canvas selector) */}
             <Features />
 
             {/* What we help teams fix quadrant grid */}
-            <FixesSection onOpenSandbox={() => setActiveTab('sandbox')} />
+            <FixesSection onOpenSandbox={() => changeTab('sandbox')} />
 
             {/* Code Integration snippets */}
             <SdkSection />
