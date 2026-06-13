@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 export function GitTreeGraphic() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [commitTyped, setCommitTyped] = useState('');
+  const [animationKey, setAnimationKey] = useState(0);
   const commitMsg = '"feat: adjust refund criteria for v3"';
 
   useEffect(() => {
@@ -21,6 +22,15 @@ export function GitTreeGraphic() {
     }, 2200);
 
     return () => clearTimeout(delayTimer);
+  }, [animationKey]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimationKey((prev) => prev + 1);
+      setCommitTyped('');
+      setHoveredNode(null);
+    }, 8000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -82,6 +92,11 @@ export function GitTreeGraphic() {
           animation: svg-glow-local 2s ease-in-out infinite;
         }
 
+        .tooltip-container {
+          pointer-events: none;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
         /* Coordinated premium hover effects & transitions */
         .node-v1, .node-v2, .node-v3 {
           cursor: pointer;
@@ -110,6 +125,7 @@ export function GitTreeGraphic() {
 
       <div className="flex-1 relative min-h-0 z-10">
         <svg
+          key={animationKey}
           viewBox="0 0 500 230"
           preserveAspectRatio="xMidYMid meet"
           className="absolute inset-0 w-full h-full"
@@ -187,24 +203,74 @@ export function GitTreeGraphic() {
           {/* main trunk stub */}
           <circle cx="455" cy="148" r="16" fill="#09090b" stroke="#27272a" strokeWidth="1.5" />
           <text x="455" y="148" textAnchor="middle" dominantBaseline="middle" fill="#52525b" fontSize="8" fontFamily="monospace" style={{ userSelect: 'none' }}>main</text>
-        </svg>
 
-        {/* Hover metadata card — HTML corner popup */}
-        {hoveredNode && (
-          <div className="absolute top-2 right-2 bg-zinc-950/90 border border-zinc-850 rounded-lg p-2.5 text-[9px] font-mono space-y-0.5 shadow-xl z-20 animate-in fade-in duration-150 backdrop-blur-xs">
-            <div className="text-zinc-500 uppercase font-semibold tracking-wider font-mono">Commit — {hoveredNode}</div>
-            <div className="text-zinc-300 font-mono">
-              {hoveredNode === 'v1' && 'Initial prompt draft'}
-              {hoveredNode === 'v2' && 'feat: add refund check'}
-              {hoveredNode === 'v3' && 'feat: adjust criteria (active)'}
+          {/* Localized Floating Tooltips inside SVG viewBox */}
+          {/* Tooltip v1 */}
+          <foreignObject
+            x="20"
+            y="68"
+            width="160"
+            height="70"
+            className="tooltip-container"
+            style={{
+              opacity: hoveredNode === 'v1' ? 1 : 0,
+              transform: hoveredNode === 'v1' 
+                ? 'translateY(0px) scale(1)' 
+                : 'translateY(6px) scale(0.95)',
+              transformOrigin: 'bottom center',
+            }}
+          >
+            <div className="bg-zinc-950/95 border border-zinc-800 rounded-lg p-2.5 shadow-xl shadow-black/40 backdrop-blur-xs pointer-events-none">
+              <div className="text-zinc-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v1</div>
+              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">Initial prompt draft</div>
+              <div className="text-zinc-500/80 font-mono text-[8px] mt-1">karan · 2h ago</div>
             </div>
-            <div className="text-zinc-650 font-mono">
-              {hoveredNode === 'v1' && 'karan · 2h ago'}
-              {hoveredNode === 'v2' && 'karan · 45m ago'}
-              {hoveredNode === 'v3' && 'karan · 10m ago'}
+          </foreignObject>
+
+          {/* Tooltip v2 */}
+          <foreignObject
+            x="160"
+            y="68"
+            width="160"
+            height="70"
+            className="tooltip-container"
+            style={{
+              opacity: hoveredNode === 'v2' ? 1 : 0,
+              transform: hoveredNode === 'v2' 
+                ? 'translateY(0px) scale(1)' 
+                : 'translateY(6px) scale(0.95)',
+              transformOrigin: 'bottom center',
+            }}
+          >
+            <div className="bg-zinc-950/95 border border-zinc-800 rounded-lg p-2.5 shadow-xl shadow-black/40 backdrop-blur-xs pointer-events-none">
+              <div className="text-zinc-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v2</div>
+              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">feat: add refund check</div>
+              <div className="text-zinc-500/80 font-mono text-[8px] mt-1">karan · 45m ago</div>
             </div>
-          </div>
-        )}
+          </foreignObject>
+
+          {/* Tooltip v3 */}
+          <foreignObject
+            x="325"
+            y="110"
+            width="160"
+            height="70"
+            className="tooltip-container"
+            style={{
+              opacity: hoveredNode === 'v3' ? 1 : 0,
+              transform: hoveredNode === 'v3' 
+                ? 'translateY(0px) scale(1)' 
+                : 'translateY(-6px) scale(0.95)',
+              transformOrigin: 'top center',
+            }}
+          >
+            <div className="bg-zinc-950/95 border border-emerald-500/20 rounded-lg p-2.5 shadow-xl shadow-emerald-500/5 backdrop-blur-xs pointer-events-none">
+              <div className="text-emerald-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v3</div>
+              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">feat: adjust criteria (active)</div>
+              <div className="text-emerald-500/60 font-mono text-[8px] mt-1">karan · 10m ago</div>
+            </div>
+          </foreignObject>
+        </svg>
       </div>
 
       {/* Typewriter commit log */}
