@@ -207,3 +207,47 @@ Phase 11 finalizes the **Git for Prompts** repository by upgrading the primary d
 ✓ Project Structure — Gold Master state achieved
 ✓ Deployment Artifacts — Purged
 ```
+
+---
+
+## Workspace Restoration & Database Fix
+
+**Completed:** 2026-06-13
+
+### What was resolved
+
+During local workspace launch, the Next.js dev server encountered database connection failure (`ECONNREFUSED` on port 5432) because the required environment variables in `.env.local` were empty. 
+
+1. **Credentials Recovery**: We retrieved the past session's Supabase connection URI (including credentials) and Groq/OpenRouter keys from the local `.system_generated` logs in `C:\Users\kwakh\.gemini`.
+2. **Clerk Keys**: Populated standard Clerk Publishable and Secret Keys in `.env.local` using details extracted from the Clerk Keyless cache (`.clerk/.tmp/keyless.json`).
+3. **Dependencies**: Installed `@supabase/supabase-js` and `@supabase/ssr` via `pnpm` as requested.
+4. **Database Migrations**: Executed `npx drizzle-kit migrate` successfully, creating and mapping the database schemas to the remote Supabase PostgreSQL pooler instance.
+5. **Validation**: The Next.js dev server successfully loaded the dashboard page (`/dashboard`) and API Keys page (`/dashboard/api-keys`) returning a `200 OK` status code with no database or authentication errors.
+
+---
+
+## Landing Page Interactive Enhancements
+
+**Completed:** 2026-06-13
+
+### What was built
+
+1. **Interactive SDK Code Tab Selector (Go SDK)**:
+   - Added **Go SDK** tab alongside Node.js, Python, and cURL tabs in [sdk-section.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/sdk-section.tsx).
+   - Wrote a mock Go client integration snippet demonstrating dynamic runtime prompt loading in Go.
+   - Handled buttons flex-wrapping for better mobile responsive behaviors.
+
+2. **Connected Git Tree SVG Explorer**:
+   - Made the SVG tree version nodes (`v1`, `v2`, `v3`) in [git-tree.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/graphics/git-tree.tsx) clickable.
+   - Hover and selection glows dynamically apply to show active state.
+   - Built a bottom toggle panel: clicking a version opens a detailed **Prompt Inspector** showcasing that version's text, commit message, and author info. A Close `[x]` button returns the panel to the typewriter commit logging simulation.
+
+3. **Predefined Test Runner Queries**:
+   - Added interactive button selectors to [pipeline.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/graphics/pipeline.tsx) to switch between a **Damaged Returns Check** (2 assertions) and a **Late Shipment Check** (3 assertions).
+   - Switching scenarios resets the active timelines and runs the step-by-step logs and nodes corresponding to the new query inputs.
+
+4. **Mock Terminal CLI Showcase**:
+   - Wrote a custom `<MockTerminal>` component inside [sdk-section.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/sdk-section.tsx) simulating CLI login (`gfp login`), download (`gfp pull`), and evaluation runs (`gfp test`).
+   - Redesigned the developer integration section layout into a 2-column grid layout on desktop, balancing the SDK tab selector on the left with the Mock Terminal console on the right.
+
+

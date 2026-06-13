@@ -4,11 +4,36 @@ import { useState, useEffect } from 'react';
 
 export function GitTreeGraphic() {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [selectedVersion, setSelectedVersion] = useState<'v1' | 'v2' | 'v3' | null>(null);
   const [commitTyped, setCommitTyped] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
   const commitMsg = '"feat: adjust refund criteria for v3"';
 
+  const PROMPT_VERSIONS = {
+    v1: {
+      title: 'v1: Initial Draft',
+      commit: 'Initial prompt draft',
+      author: 'karan · 2h ago',
+      content: 'You answer questions about customer returns.'
+    },
+    v2: {
+      title: 'v2: Add Refund',
+      commit: 'feat: add refund check',
+      author: 'karan · 45m ago',
+      content: 'You are a polite returns department agent. If the customer received a broken item, offer a refund. Sign off with Customer Support.'
+    },
+    v3: {
+      title: 'v3: Adjust Criteria (Active)',
+      commit: 'feat: adjust refund criteria for v3',
+      author: 'karan · 10m ago',
+      content: 'You are a polite returns department agent. If the customer received a broken item, offer a full refund. Sign off with Customer Support Team.'
+    }
+  };
+
   useEffect(() => {
+    // Only type if no version is selected (to avoid flashing / interference)
+    if (selectedVersion) return;
+
     // Start typing after v3 has popped in (2.4s delay)
     const delayTimer = setTimeout(() => {
       let i = 0;
@@ -22,16 +47,19 @@ export function GitTreeGraphic() {
     }, 2400);
 
     return () => clearTimeout(delayTimer);
-  }, [animationKey]);
+  }, [animationKey, selectedVersion]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setAnimationKey((prev) => prev + 1);
-      setCommitTyped('');
-      setHoveredNode(null);
+      // Loop if user hasn't explicitly selected to inspect a version
+      if (!selectedVersion) {
+        setAnimationKey((prev) => prev + 1);
+        setCommitTyped('');
+        setHoveredNode(null);
+      }
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedVersion]);
 
   return (
     <div className="flex-1 flex flex-col p-5 justify-between h-full animate-in fade-in duration-400 relative">
@@ -119,7 +147,7 @@ export function GitTreeGraphic() {
       `}</style>
 
       <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-2 z-10">
-        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Version History — Git Tree</span>
+        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Version History — Git Tree (Click to inspect)</span>
         <span className="text-[10px] font-mono text-emerald-500/80 font-semibold">● Live branch: main</span>
       </div>
 
@@ -162,35 +190,51 @@ export function GitTreeGraphic() {
           {/* v1 circle */}
           <g
             className="node-v1"
+            onClick={() => setSelectedVersion('v1')}
             onMouseEnter={() => setHoveredNode('v1')}
             onMouseLeave={() => setHoveredNode(null)}
           >
-            <circle cx="100" cy="148" r="20" fill="#09090b" stroke="#27272a" strokeWidth="1.5" />
-            <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
-            <text x="100" y="180" textAnchor="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
+            <circle cx="100" cy="148" r="20"
+              fill={selectedVersion === 'v1' ? '#18181b' : '#09090b'}
+              stroke={selectedVersion === 'v1' ? '#10b981' : '#27272a'}
+              strokeWidth={selectedVersion === 'v1' ? 2.5 : 1.5}
+              className={selectedVersion === 'v1' ? 'svg-node-active-local' : ''}
+            />
+            <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v1' ? '#34d399' : '#a1a1aa'} fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
+            <text x="100" y="180" textAnchor="middle" fill={selectedVersion === 'v1' ? '#10b981' : '#52525b'} fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
           </g>
 
           {/* v2 circle */}
           <g
             className="node-v2 animate-v2-node"
+            onClick={() => setSelectedVersion('v2')}
             onMouseEnter={() => setHoveredNode('v2')}
             onMouseLeave={() => setHoveredNode(null)}
           >
-            <circle cx="240" cy="148" r="20" fill="#09090b" stroke="#3f3f46" strokeWidth="1.5" />
-            <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill="#a1a1aa" fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
+            <circle cx="240" cy="148" r="20"
+              fill={selectedVersion === 'v2' ? '#18181b' : '#09090b'}
+              stroke={selectedVersion === 'v2' ? '#10b981' : '#3f3f46'}
+              strokeWidth={selectedVersion === 'v2' ? 2.5 : 1.5}
+              className={selectedVersion === 'v2' ? 'svg-node-active-local' : ''}
+            />
+            <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v2' ? '#34d399' : '#a1a1aa'} fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
           </g>
           
           <g className="animate-v2-text">
-            <text x="240" y="180" textAnchor="middle" fill="#52525b" fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>+ refund fix</text>
+            <text x="240" y="180" textAnchor="middle" fill={selectedVersion === 'v2' ? '#10b981' : '#52525b'} fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>+ refund fix</text>
           </g>
 
           {/* v3 active — glowing */}
           <g
             className="node-v3 animate-v3-node"
+            onClick={() => setSelectedVersion('v3')}
             onMouseEnter={() => setHoveredNode('v3')}
             onMouseLeave={() => setHoveredNode(null)}
           >
-            <circle cx="405" cy="75" r="24" fill="#022c22" stroke="#10b981" strokeWidth="2"
+            <circle cx="405" cy="75" r="24"
+              fill={selectedVersion === 'v3' ? '#042f1a' : '#022c22'}
+              stroke="#10b981"
+              strokeWidth={selectedVersion === 'v3' ? 3.5 : 2}
               className="svg-node-active-local"
             />
             <text x="405" y="75" textAnchor="middle" dominantBaseline="middle" fill="#34d399" fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v3</text>
@@ -273,18 +317,42 @@ export function GitTreeGraphic() {
         </svg>
       </div>
 
-      {/* Typewriter commit log */}
-      <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1 shrink-0 z-10">
-        <div className="flex justify-between text-[9px] text-zinc-600 uppercase font-semibold">
-          <span>Latest Commit</span>
-          <span className="text-emerald-600">branch: main</span>
+      {/* Dynamic bottom panel toggle */}
+      {selectedVersion ? (
+        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1.5 shrink-0 z-10 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="flex justify-between items-center text-[9px] text-zinc-500 uppercase font-bold border-b border-zinc-900 pb-1.5">
+            <span className="text-emerald-400 font-semibold font-mono">Prompt Inspector — {PROMPT_VERSIONS[selectedVersion].title}</span>
+            <button
+              onClick={() => setSelectedVersion(null)}
+              className="text-zinc-500 hover:text-zinc-300 font-mono font-bold cursor-pointer transition-colors px-1.5 py-0.5 rounded hover:bg-zinc-900"
+            >
+              [Close X]
+            </button>
+          </div>
+          <div className="space-y-1">
+            <div className="flex justify-between text-[9px] text-zinc-500">
+              <span className="font-mono">Commit: &quot;{PROMPT_VERSIONS[selectedVersion].commit}&quot;</span>
+              <span className="font-mono">{PROMPT_VERSIONS[selectedVersion].author}</span>
+            </div>
+            <pre className="text-zinc-350 bg-zinc-950/90 border border-zinc-900 rounded p-2 text-[9px] max-h-[50px] overflow-y-auto whitespace-pre-wrap font-mono leading-relaxed">
+              {PROMPT_VERSIONS[selectedVersion].content}
+            </pre>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 text-zinc-200">
-          <span className="text-emerald-400 font-semibold font-mono">commit 4d9863f</span>
-          <span className="text-zinc-500 font-mono">—</span>
-          <span className="text-zinc-300 font-mono">{commitTyped}<span className="inline-block w-[5px] h-[11px] bg-zinc-400 ml-0.5 align-middle animate-pulse" /></span>
+      ) : (
+        /* Typewriter commit log */
+        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1 shrink-0 z-10">
+          <div className="flex justify-between text-[9px] text-zinc-650 uppercase font-semibold">
+            <span>Latest Commit</span>
+            <span className="text-emerald-600">branch: main</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-zinc-200">
+            <span className="text-emerald-400 font-semibold font-mono">commit 4d9863f</span>
+            <span className="text-zinc-500 font-mono">—</span>
+            <span className="text-zinc-300 font-mono">{commitTyped}<span className="inline-block w-[5px] h-[11px] bg-zinc-400 ml-0.5 align-middle animate-pulse" /></span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
