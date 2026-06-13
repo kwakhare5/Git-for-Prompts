@@ -92,9 +92,9 @@ export default function Home() {
       
 
 
-      {/* Header - Floating Centered Glass Rectangle Navbar (Scrolls with page) */}
+      {/* Header - Floating Centered Glass Rectangle Navbar (Stays visible as you scroll) */}
       <header 
-        className="relative z-50 mx-auto flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3 mt-6"
+        className="sticky top-6 z-50 mx-auto flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3 mt-6"
       >
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
