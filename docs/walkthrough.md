@@ -272,4 +272,23 @@ During local workspace launch, the Next.js dev server encountered database conne
    - Executed full Vitest suite (41/41 tests passing) and Playwright E2E suite (3/3 tests passing).
    - Achieved 100% clean static checks (`npm run lint` -> `0 Errors, 0 Warnings`).
 
+---
+
+## Workspace Hardening: Connection Sleep & Key Expiration Fixes
+
+**Completed:** 2026-06-13 (Production tuning)
+
+### 1. Database Connection Sleep Prevention (Supabase Heartbeat)
+- **The Issue**: Supabase's free tier automatically pauses database instances after 7 days of inactivity, and Vercel serverless functions go cold.
+- **The Solution**:
+  - Implemented a secure Next.js Route Handler at [route.ts](file:///d:/Git%20for%20Prompts/src/app/api/cron/keep-alive/route.ts) that executes a fast, indexed database query `db.select().from(prompts).limit(1)`.
+  - Added a [vercel.json](file:///d:/Git%20for%20Prompts/vercel.json) config scheduling a daily trigger of this route (`0 10 * * *`) via Vercel Crons.
+  - Secured the endpoint by validating the standard Vercel `CRON_SECRET` authorization bearer token.
+
+### 2. Clerk Key Loss & Environment Recovery Fix
+- **The Issue**: Using Clerk's "Keyless" dev cache leads to automatic key expiration and loss when local dev states are reset. Also, `.env.local` is git-ignored, risking credentials loss during environment rebuilds.
+- **The Solution**:
+  - **Switch to Persistent Keys**: Developers should register a persistent free account on the [Clerk Dashboard](https://clerk.com) and paste static `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` variables directly into `.env.local`. This stops auth sessions from expiring or getting lost.
+  - **Local Vault Integration**: Keep `.env.local` contents stored in a developer keychain (such as Doppler or Bitwarden) so environment credentials can be recovered instantly in a single command.
+
 
