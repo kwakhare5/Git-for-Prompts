@@ -1,0 +1,183 @@
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import dotenv from 'dotenv';
+import { NextRequest } from 'next/server';
+import { createHash } from 'crypto';
+import { eq } from 'drizzle-orm';
+
+// 1. Synchronously load environment variables first
+dotenv.config({ path: '.env.local' });
+
+// We define variables for the dynamically imported modules
+let db: any;
+let GET: any;
+let schema: any;
+
+describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
+  const plainTextKey = 'gfp_live_test_integration_token_xyz987';
+  const lookupHash = createHash('sha256').update(plainTextKey).digest('hex');
+  const mockOwnerId = 'user_test_api_holder';
+  const otherOwnerId = 'user_test_other_holder';
+
+  let testApiKeyId: string;
+  let testPromptId: string;
+  let testVersionId: string;
+  let otherPromptId: string;
+
+  beforeAll(async () => {
+    // 2. Import modules dynamically now that env is populated
+    const dbModule = await import('@/db');
+    const routeModule = await import('./route');
+    const schemaModule = await import('@/db/schema');
+
+    db = dbModule.db;
+    GET = routeModule.GET;
+    schema = schemaModule;
+
+    // 3. Insert a temporary test API key
+    const [insertedKey] = await db
+      .insert(schema.apiKeys)
+      .values({
+        ownerId: mockOwnerId,
+        name: 'Integration Test Key',
+        keyHash: 'dummy_hash',
+        keyLookupHash: lookupHash,
+        keyPrefix: 'gfp_live_',
+      })
+      .returning();
+    testApiKeyId = insertedKey.id;
+
+    // 4. Insert a prompt owned by our test API key holder
+    const [insertedPrompt] = await db
+      .insert(schema.prompts)
+      .values({
+        name: 'Integration Prompt',
+        description: 'Testing API endpoints',
+        ownerId: mockOwnerId,
+      })
+      .returning();
+    testPromptId = insertedPrompt.id;
+
+    // 5. Insert a version for that prompt
+    const [insertedVersion] = await db
+      .insert(schema.versions)
+      .values({
+        promptId: testPromptId,
+        versionNumber: 1,
+        content: 'System: You are an integration grading assistant.',
+        commitMessage: 'First API draft',
+        createdBy: mockOwnerId,
+      })
+      .returning();
+    testVersionId = insertedVersion.id;
+
+    // Link prompt to latest version
+    await db
+      .update(schema.prompts)
+      .set({ currentVersionId: testVersionId })
+      .where(eq(schema.prompts.id, testPromptId));
+
+    // 6. Insert another prompt owned by someone else
+    const [otherPrompt] = await db
+      .insert(schema.prompts)
+      .values({
+        name: 'Other Organization Prompt',
+        description: 'Private data',
+        ownerId: otherOwnerId,
+      })
+      .returning();
+    otherPromptId = otherPrompt.id;
+  });
+
+  afterAll(async () => {
+    // Clean up temporary rows from database using dynamic db connection
+    if (db && schema) {
+      if (testVersionId) {
+        await db.delete(schema.versions).where(eq(schema.versions.id, testVersionId));
+      }
+      if (testPromptId) {
+        await db.delete(schema.prompts).where(eq(schema.prompts.id, testPromptId));
+      }
+      if (otherPromptId) {
+        await db.delete(schema.prompts).where(eq(schema.prompts.id, otherPromptId));
+      }
+      if (testApiKeyId) {
+        await db.delete(schema.apiKeys).where(eq(schema.apiKeys.id, testApiKeyId));
+      }
+    }
+  });
+
+  it('returns 200 with prompt data on valid key and valid prompt ID', async () => {
+    const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${plainTextKey}`,
+      },
+    });
+
+    const response = await GET(req, { params: Promise.resolve({ id: testPromptId }) });
+    expect(response.status).toBe(200);
+
+    const body = await response.json();
+    expect(body.promptId).toBe(testPromptId);
+    expect(body.promptName).toBe('Integration Prompt');
+    expect(body.versionNumber).toBe(1);
+    expect(body.content).toBe('System: You are an integration grading assistant.');
+  });
+
+  it('returns 401 when Authorization header is missing', async () => {
+    const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
+      method: 'GET',
+    });
+
+    const response = await GET(req, { params: Promise.resolve({ id: testPromptId }) });
+    expect(response.status).toBe(401);
+
+    const body = await response.json();
+    expect(body.error).toContain('Missing or invalid Authorization header');
+  });
+
+  it('returns 401 when API key format is incorrect', async () => {
+    const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer invalid_prefix_key_123',
+      },
+    });
+
+    const response = await GET(req, { params: Promise.resolve({ id: testPromptId }) });
+    expect(response.status).toBe(401);
+
+    const body = await response.json();
+    expect(body.error).toBe('Invalid API key format');
+  });
+
+  it('returns 401 when API key is valid format but wrong value', async () => {
+    const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer gfp_live_incorrect_token_key',
+      },
+    });
+
+    const response = await GET(req, { params: Promise.resolve({ id: testPromptId }) });
+    expect(response.status).toBe(401);
+
+    const body = await response.json();
+    expect(body.error).toBe('Invalid API key');
+  });
+
+  it('returns 404 when querying a prompt belonging to a different owner', async () => {
+    const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${otherPromptId}/latest`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${plainTextKey}`,
+      },
+    });
+
+    const response = await GET(req, { params: Promise.resolve({ id: otherPromptId }) });
+    expect(response.status).toBe(404);
+
+    const body = await response.json();
+    expect(body.error).toBe('Prompt not found');
+  });
+});
