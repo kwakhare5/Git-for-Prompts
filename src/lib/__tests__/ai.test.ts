@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // We test extractJson directly — it's the highest-risk parsing function
 // in the codebase. A format change in Groq/OpenRouter responses would
