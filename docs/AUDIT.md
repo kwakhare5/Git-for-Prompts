@@ -54,6 +54,7 @@ All ESLint static analysis warnings have been completely cleaned, and the entire
 
 ### Low Severity (`0 Issues`)
 * **Pruning unused test mocks**: Completed. All unused imports, mock items, and React hooks dependencies warnings have been resolved and verified.
+* **Unused Dependencies Cleanup**: Completed. Removed unused `@google/generative-ai` and deprecated `@types/bcryptjs` from package dependencies.
 
 ---
 
