@@ -8,24 +8,46 @@ interface HeroProps {
   onTrySandbox: () => void;
 }
 
+const PROMPTS = [
+  'You answer questions about customer returns.',
+  'You are a polite returns agent. Offer a full refund if broken.',
+  'You are a polite returns agent. Offer a full refund if broken. Sign off: "Customer Support Team".'
+];
+
 export function Hero({ onTrySandbox }: HeroProps) {
   const [heroStep, setHeroStep] = useState<number>(0);
-  const [heroPrompt, setHeroPrompt] = useState<string>('You are a helpful returns bot.');
+  const [displayedPrompt, setDisplayedPrompt] = useState<string>('');
 
+  // Step advancement interval (5 seconds)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setHeroStep((prev) => {
-        const next = (prev + 1) % 3;
-        if (next === 0) {
-          setHeroPrompt('You are a helpful returns bot.');
-        } else if (next === 1) {
-          setHeroPrompt('You are a helpful returns bot. If items are broken, offer a full refund.');
-        }
-        return next;
-      });
-    }, 4500);
-    return () => clearInterval(interval);
+    const timer = setInterval(() => {
+      setHeroStep((prev) => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
+
+  // Character-by-character typewriter loop on step change
+  useEffect(() => {
+    const fullText = PROMPTS[heroStep];
+    
+    const clearTimer = setTimeout(() => {
+      setDisplayedPrompt('');
+    }, 0);
+
+    let i = 0;
+    const typer = setInterval(() => {
+      i++;
+      setDisplayedPrompt(fullText.slice(0, i));
+      if (i >= fullText.length) {
+        clearInterval(typer);
+      }
+    }, 25); // Fast, smooth typing speed
+
+    return () => {
+      clearTimeout(clearTimer);
+      clearInterval(typer);
+    };
+  }, [heroStep]);
 
   return (
     <section className="text-center space-y-6 px-6 max-w-6xl mx-auto">
@@ -78,7 +100,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
               <div className="space-y-2 flex-1 overflow-y-auto">
                 
                 <div className={`p-2.5 rounded-lg border transition-all duration-300 ${
-                  heroStep === 2 ? 'bg-zinc-950 border-zinc-800 shadow-sm opacity-100' : 'bg-transparent border-transparent opacity-50'
+                  heroStep === 2 ? 'bg-zinc-950 border-zinc-800 shadow-sm opacity-100' : 'bg-transparent border-transparent opacity-40'
                 }`}>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[9px] font-semibold text-emerald-400">v3 (active)</span>
@@ -88,7 +110,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
                 </div>
 
                 <div className={`p-2.5 rounded-lg border transition-all duration-300 ${
-                  heroStep === 1 ? 'bg-zinc-950 border-zinc-800 shadow-sm opacity-100' : 'bg-transparent border-transparent opacity-50'
+                  heroStep === 1 ? 'bg-zinc-950 border-zinc-800 shadow-sm opacity-100' : 'bg-transparent border-transparent opacity-40'
                 }`}>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[9px] font-semibold text-zinc-400">v2</span>
@@ -97,7 +119,9 @@ export function Hero({ onTrySandbox }: HeroProps) {
                   <p className="text-[10px] text-zinc-300 mt-1 truncate">fix: clarify response tone</p>
                 </div>
 
-                <div className="p-2.5 rounded-lg border border-transparent opacity-30">
+                <div className={`p-2.5 rounded-lg border transition-all duration-300 ${
+                  heroStep === 0 ? 'bg-zinc-950 border-zinc-800 shadow-sm opacity-100' : 'bg-transparent border-transparent opacity-40'
+                }`}>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[9px] font-semibold text-zinc-400">v1</span>
                     <span className="text-[8px] font-mono text-zinc-500">1h ago</span>
@@ -124,7 +148,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
                     </div>
                     <div className="leading-relaxed font-mono text-zinc-300 flex-1 whitespace-pre-wrap">
                       <span className="text-zinc-500">System: </span>
-                      {heroPrompt}
+                      {displayedPrompt}
                       <span className="w-1.5 h-3.5 bg-zinc-400 ml-0.5 inline-block animate-pulse align-middle" />
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Show } from '@clerk/nextjs';
 import {
@@ -10,7 +10,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { 
   GitBranch, 
   Play, 
@@ -29,15 +28,26 @@ import { Footer } from './_components/footer';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');
-  const [isScrolled, setIsScrolled] = useState(false);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
+    if (sectionId === 'features' || sectionId === 'docs') {
+      e.preventDefault();
+      if (activeTab !== 'tour') {
+        setActiveTab('tour');
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
 
   // Sandbox states
   const [versions, setVersions] = useState<Array<{
@@ -80,111 +90,17 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800 relative overflow-x-hidden">
       
-      {/* Local Premium Styles */}
-      <style>{`
-        /* ── Graphic 1 (git tree) ───────────────────────── */
-        @keyframes draw-trunk {
-          from { stroke-dashoffset: 140; }
-          to   { stroke-dashoffset: 0; }
-        }
-        @keyframes draw-branch-g1 {
-          from { stroke-dashoffset: 230; }
-          to   { stroke-dashoffset: 0; }
-        }
-        @keyframes svg-glow {
-          0%, 100% { filter: drop-shadow(0 0 3px rgba(16,185,129,0.5)); }
-          50%       { filter: drop-shadow(0 0 10px rgba(16,185,129,0.9)); }
-        }
-        .animate-draw-trunk {
-          stroke-dasharray: 140;
-          stroke-dashoffset: 140;
-          animation: draw-trunk 1.2s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        .animate-draw-branch-g1 {
-          stroke-dasharray: 230;
-          stroke-dashoffset: 230;
-          animation: draw-branch-g1 1.4s 0.9s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        .svg-node-active {
-          animation: svg-glow 2s ease-in-out infinite;
-        }
-        /* ── Graphic 2 (diff wipe CSS sweep) ────────────── */
-        @keyframes wipe-scan {
-          0%   { width: 30%; }
-          100% { width: 70%; }
-        }
-        .animate-wipe-scan {
-          animation: wipe-scan 3.5s ease-in-out infinite alternate;
-        }
-        /* ── Graphic 4 (packet bounce) ───────────────────── */
-        @keyframes packet-req {
-          0%   { left: 0%;               opacity: 1; }
-          42%  { left: calc(100% - 36px); opacity: 1; }
-          50%  { left: calc(100% - 36px); opacity: 0; }
-          100% { left: calc(100% - 36px); opacity: 0; }
-        }
-        @keyframes packet-res {
-          0%   { left: calc(100% - 36px); opacity: 0; }
-          50%  { left: calc(100% - 36px); opacity: 0; }
-          58%  { left: calc(100% - 36px); opacity: 1; }
-          100% { left: 4px;               opacity: 1; }
-        }
-        .animate-packet-req {
-          animation: packet-req 4.5s ease-in-out infinite;
-        }
-        .animate-packet-res {
-          animation: packet-res 4.5s ease-in-out infinite;
-        }
-        /* ── Shared ──────────────────────────────────────── */
-        @keyframes cdn-flow {
-          0%   { stroke-dashoffset: 24; }
-          100% { stroke-dashoffset: 0; }
-        }
-        @keyframes badge-pop {
-          0%   { transform: scale(0.6); opacity: 0; }
-          60%  { transform: scale(1.1); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-        @keyframes packet-glow {
-          0%, 100% { box-shadow: 0 0 6px rgba(56,189,248,0.5); }
-          50%       { box-shadow: 0 0 16px rgba(56,189,248,1); }
-        }
-        .animate-cdn-flow {
-          stroke-dasharray: 6 6;
-          animation: cdn-flow 0.8s linear infinite;
-        }
-        .animate-badge-pop {
-          animation: badge-pop 0.5s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        .animate-packet-glow {
-          animation: packet-glow 1.2s ease-in-out infinite;
-        }
-        .glow-green {
-          box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-        }
-        .glow-green-strong {
-          box-shadow: 0 0 28px rgba(16, 185, 129, 0.45);
-        }
-        .dots-bg {
-          background-image: radial-gradient(rgba(63, 63, 70, 0.15) 1px, transparent 0);
-          background-size: 16px 16px;
-        }
-      `}</style>
 
-      {/* Header - Floating Premium Glass Navbar */}
+
+      {/* Header - Floating Centered Glass Rectangle Navbar (Stays visible as you scroll) */}
       <header 
-        className={cn(
-          "sticky z-50 mx-auto flex items-center justify-between border border-zinc-900/60 bg-zinc-950/70 backdrop-blur-md rounded-lg shadow-2xl transition-all duration-300",
-          isScrolled 
-            ? "top-2 max-w-3xl w-[calc(100%-1rem)] px-4 py-1.5 mt-1 border-zinc-800 bg-zinc-950/90" 
-            : "top-4 max-w-5xl w-[calc(100%-2rem)] px-5 py-2.5 mt-4"
-        )}
+        className="sticky top-6 z-50 mx-auto flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3 mt-6"
       >
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
             <GitBranch className="h-4.5 w-4.5 text-zinc-300" />
           </div>
-          <div className={`flex flex-col transition-all duration-300 ${isScrolled ? 'hidden md:flex' : 'flex'}`}>
+          <div className="flex flex-col">
             <span className="font-bold text-sm tracking-tight leading-none">Git for Prompts</span>
             <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-semibold">Prompt vcs</span>
           </div>
@@ -192,17 +108,25 @@ export default function Home() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-1">
-          <Link href="#features" className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer">
+          <Link 
+            href="#features" 
+            onClick={(e) => handleNavClick(e, 'features')}
+            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+          >
             Features
           </Link>
-          <Link href="#docs" className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer">
-            Docs
+          <Link 
+            href="#docs" 
+            onClick={(e) => handleNavClick(e, 'docs')}
+            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+          >
+            API Docs
           </Link>
           <button
             onClick={() => setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
-            className="px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none"
+            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-450 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none"
           >
-            {activeTab === 'tour' ? 'Sandbox' : 'Tour'}
+            {activeTab === 'tour' ? 'Sandbox Playground' : 'Product Tour'}
           </button>
         </div>
 
@@ -218,16 +142,13 @@ export default function Home() {
           <Show when="signed-out">
             <Link
               href="/sign-in"
-              className="text-xs font-semibold text-zinc-400 hover:text-zinc-200 px-3 py-1.5 transition-colors hidden sm:block"
+              className="text-xs font-semibold text-zinc-400 hover:text-zinc-200 px-4 py-1.5 transition-colors hidden sm:block"
             >
               Sign In
             </Link>
             <Link
               href="/sign-up"
-              className={cn(
-                "inline-flex items-center justify-center font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)]",
-                isScrolled ? "px-3.5 py-1 text-[11px]" : "px-4 py-1.5 text-xs"
-              )}
+              className="inline-flex items-center justify-center font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)] px-4.5 py-1.5 text-xs"
             >
               Get Started
             </Link>
@@ -242,7 +163,7 @@ export default function Home() {
                 </Button>
               </SheetTrigger>
               <SheetContent
-                className="bg-zinc-950/95 border-l border-zinc-900 w-full max-w-xs gap-0 backdrop-blur-lg text-zinc-100"
+                className="bg-zinc-950/95 border-l border-zinc-900 w-full max-w-xs gap-0 backdrop-blur-lg text-zinc-100 rounded-l-xl"
                 showClose={false}
               >
                 <div className="flex h-14 items-center justify-between border-b border-zinc-900 px-4">
@@ -257,32 +178,44 @@ export default function Home() {
                 <div className="container grid gap-y-4 px-4 pt-5 pb-12">
                   <div className="flex flex-col gap-3">
                     <SheetClose asChild>
-                      <Link href="#features" className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md">
+                      <Link 
+                        href="#features" 
+                        onClick={(e) => handleNavClick(e, 'features')}
+                        className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md"
+                      >
                         Features
                       </Link>
                     </SheetClose>
                     <SheetClose asChild>
-                      <Link href="#docs" className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md">
-                        Documentation
+                      <Link 
+                        href="#docs" 
+                        onClick={(e) => handleNavClick(e, 'docs')}
+                        className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md"
+                      >
+                        API Docs
                       </Link>
                     </SheetClose>
-                    <button
-                      onClick={() => {
-                        setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour');
-                      }}
-                      className="w-full text-left py-2 px-3 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900 rounded-md transition-colors bg-transparent border-none cursor-pointer"
-                    >
-                      {activeTab === 'tour' ? 'Try Sandbox' : 'View Tour'}
-                    </button>
+                    <SheetClose asChild>
+                      <button
+                        onClick={() => {
+                          setActiveTab(activeTab === 'tour' ? 'sandbox' : 'tour');
+                        }}
+                        className="w-full text-left py-2 px-3 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900 rounded-md transition-colors bg-transparent border-none cursor-pointer"
+                      >
+                        {activeTab === 'tour' ? 'Try Sandbox Playground' : 'View Product Tour'}
+                      </button>
+                    </SheetClose>
                   </div>
                   
                   <div className="pt-4 border-t border-zinc-900 mt-4 flex flex-col gap-2">
-                    <Link
-                      href="/sign-in"
-                      className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors"
-                    >
-                      Sign In
-                    </Link>
+                    <SheetClose asChild>
+                      <Link
+                        href="/sign-in"
+                        className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
+                      >
+                        Sign In
+                      </Link>
+                    </SheetClose>
                   </div>
                 </div>
               </SheetContent>

@@ -691,4 +691,36 @@ Verify every success criterion from the spec is met.
 ```powershell
 git add .
 git commit -m "feat: rebuild all 4 tour panel motion graphics - pure SVG, CSS animations, flex bars"
+
+---
+
+## Visual Polish Upgrades (2026-06-13)
+
+### Task 7: Git Tree Visual & Hover Overhaul
+- Modify: `src/app/(landing)/_components/graphics/git-tree.tsx`
+- [ ] **Step 1: Delete duplicate fork dot inside the v2 node group**
+  Remove `<circle cx="240" cy="148" r="4" fill="#a1a1aa" style={{ pointerEvents: 'none' }} />` from the `v2` node.
+- [ ] **Step 2: Move mouse hover handlers to parent `<g>` groups**
+  Shift `onMouseEnter` and `onMouseLeave` from `<circle>` elements to `<g className="node-vX">` groups.
+- [ ] **Step 3: Implement local CSS hover styles & transitions**
+  Add styles inside the local `<style>` block:
+  - Set `transition: stroke 0.25s ease, fill 0.25s ease, filter 0.25s ease;` to circle nodes.
+  - Hover highlights for `.node-v1` and `.node-v2` circles (Border: `#e4e4e7`, Fill: `#18181b`).
+  - Hover highlight for `.node-v3` circle (Border: `#34d399`, Fill: `#042f1a`, intensified filter shadow glow).
+
+### Task 8: API Flow Loop Stagger & Node Glows
+- Modify: `src/app/(landing)/_components/graphics/api-flow.tsx`
+- [ ] **Step 1: Stagger response packet keyframes**
+  Update `@keyframes packet-res-local` to fade out to `opacity: 0` between `90%` and `100%` of the animation timeline, clearing loop boundary packet overlaps.
+
+### Task 9: Hero Dashboard Mockup Sync & Typewriter
+- Modify: `src/app/(landing)/_components/hero.tsx`
+- [ ] **Step 1: Update prompt templates & active highlights**
+  Add v1/v2/v3 highlights corresponding to `heroStep` and align prompt text definitions.
+- [ ] **Step 2: Add dynamic typewriter typing effect**
+  Create a typewriter loop that triggers typing on step changes.
+
+```
+
+
 ```
