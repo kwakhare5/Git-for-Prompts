@@ -22,7 +22,7 @@ All ESLint static analysis warnings have been completely cleaned, and the entire
   - `keyHash` (bcryptjs, cost 10) is used for high-security verification check.
   - `keyLookupHash` (SHA-256 index) is used for O(1) database queries, preventing timing attack leaks and table scans.
 - **Leak Prevention**: Server Actions serialize database errors into generic fallback messages (e.g., `'Failed to create prompt'`) before returning to clients, preventing internal database schema leaks.
-- **Clerk Middleware**: `src/middleware.ts` enforces authentication on all dashboard and prompt management routes, exposing only `/`, `/sign-in`, and `/sign-up`.
+- **Clerk Middleware**: `src/proxy.ts` enforces authentication on all dashboard and prompt management routes, exposing only `/`, `/sign-in`, and `/sign-up`.
 
 ### 2. Concurrency & Data Integrity (`100/100`)
 - **Transaction Safety**: The creation and restoration of prompt versions (`createVersion` and `restoreVersion` in `versions.ts`) wrap the read-increment-insert operations in database transactions. This prevents concurrent update race conditions that would otherwise result in duplicate version numbers.
