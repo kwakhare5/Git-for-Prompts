@@ -33,7 +33,7 @@
 
 ## 📌 About the Project
 
-**Git for Prompts** is a **Version Control System** built with **Next.js 15, Drizzle ORM, and Monaco Editor**.
+**Git for Prompts** is a **Version Control System** built with **Next.js 16, Drizzle ORM, and Monaco Editor**.
 
 Git for Prompts is a purpose-built version control system designed to eliminate the chaos of managing AI prompts in Google Docs or hardcoded strings. It provides developers with a production-grade environment to version, diff, and test prompts before they hit production. Every change is tracked, every version is immutable, and every deployment is backed by an automated Groq/OpenRouter test runner.
 
@@ -53,6 +53,10 @@ Git for Prompts is a purpose-built version control system designed to eliminate 
 | ✅ | **Dual-Provider Testing** | High-speed test runner using **Groq (Llama 3.3)** with **OpenRouter** fallback. |
 | ✅ | **Public API v1** | Programmatically fetch the latest prompt versions via secure API keys. |
 | ✅ | **Monospace Fidelity** | Strict monospace typography for all prompt text to ensure developer-first UX. |
+| ✅ | **Interactive Git Tree** | Clickable version nodes in an SVG tree with a Prompt Inspector preview panel. |
+| ✅ | **Test Pipeline Sim** | Visual test runner showing real-time logs for Damaged Returns vs Late Shipment checks. |
+| ✅ | **Mock Terminal CLI** | Side-by-side terminal simulation showcasing auth, pull, and test command behaviors. |
+| ✅ | **Go SDK Support** | Multilingual SDK tab selector containing Node.js, Python, cURL, and Go client snippets. |
 
 <br/>
 
@@ -78,7 +82,7 @@ Git for Prompts is a purpose-built version control system designed to eliminate 
 | Layer | Technology | Purpose |
 |---|---|---|
 | **Language** | TypeScript | Type-safe development |
-| **Framework** | Next.js 15 (App Router) | Full-stack foundation & Server Actions |
+| **Framework** | Next.js 16 (App Router) | Full-stack foundation & Server Actions |
 | **Styling** | Tailwind CSS v4 | Modern, rapid UI development |
 | **AI / Engine** | Groq + OpenRouter | Ultra-fast dual-provider test execution |
 | **Deployment** | Vercel | Production-grade hosting and CI/CD |
@@ -113,9 +117,10 @@ Git-for-Prompts/
 │   ├── app/                     # Next.js App Router & Routes
 │   ├── components/              # UI components & Monaco wrappers
 │   ├── db/                      # Drizzle schema & migrations
-│   └── lib/
-│       ├── actions/             # Next.js Server Actions
-│       └── ai.ts                # Dual-provider AI client
+│   ├── lib/
+│   │   ├── actions/             # Next.js Server Actions
+│   │   └── ai.ts                # Dual-provider AI client
+│   └── proxy.ts                 # Next.js 16 Clerk middleware route guards
 │
 ├── public/                      # Static images & logos
 └── README.md

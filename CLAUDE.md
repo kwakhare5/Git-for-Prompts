@@ -87,6 +87,10 @@ Give prompts the same treatment that code gets:
 - Automated test cases with pass/fail scoring
 - A/B comparison between any two versions
 - Clean dashboard showing all prompts and their health
+- Interactive Git Tree Explorer with a dynamic Prompt Inspector panel
+- Interactive Test Pipeline visual simulator (with Damaged Returns vs Late Shipment checks)
+- Side-by-side CLI Terminal simulation showing auth, pull, and test actions
+- Multilingual integration support featuring a native Go SDK client tab
 
 ---
 
