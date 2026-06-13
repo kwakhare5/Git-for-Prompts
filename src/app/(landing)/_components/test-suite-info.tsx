@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, Check, Play } from 'lucide-react';
+import { Sparkles, Check } from 'lucide-react';
 
 export function TestSuiteInfo() {
   return (

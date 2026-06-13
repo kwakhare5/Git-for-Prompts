@@ -30,7 +30,7 @@ export async function GET(
       ?? req.headers.get('x-real-ip')
       ?? '127.0.0.1';
 
-    const { success, remaining } = await checkRateLimit(`api:${ip}`);
+    const { success } = await checkRateLimit(`api:${ip}`);
     if (!success) {
       return NextResponse.json(
         { error: 'Rate limit exceeded. Max 60 requests per minute.' },
