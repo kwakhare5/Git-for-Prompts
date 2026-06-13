@@ -262,9 +262,10 @@ During local workspace launch, the Next.js dev server encountered database conne
    - Refactored `any` declarations in [route.test.ts](file:///d:/Git%20for%20Prompts/src/app/api/v1/prompts/[id]/latest/route.test.ts) to use type-only imports (`import type`) referencing `db`, `schema`, and `GET` handler types.
    - Guaranteed ESM environment isolation by dynamically loading database connections and schema mapping inside `beforeAll` blocks after `dotenv.config()` execution.
 
-2. **ESLint Cleanup**:
+2. **ESLint & Codebase Cleanup**:
    - Pruned unused imports (`updatePromptSchema`, `deleteTestCaseSchema`) in [validations.test.ts](file:///d:/Git%20for%20Prompts/src/lib/__tests__/validations.test.ts).
    - Resolved React `useEffect` exhaustive-deps check in [sdk-section.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/sdk-section.tsx) by moving the static `script` animation configuration array outside of the component body.
+   - Pruned unused dependencies (`@google/generative-ai` and `@types/bcryptjs`) from `package.json` and cleanly updated `pnpm-lock.yaml`.
 
 3. **Validation & Verification**:
    - Ran production build check (`npm run build`), which compiled in 4.6s with type validation in 6.4s.

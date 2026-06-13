@@ -112,6 +112,7 @@
 - [x] Resolved React `useEffect` hooks missing dependency warnings in [sdk-section.tsx](file:///d:/Git%20for%20Prompts/src/app/(landing)/_components/sdk-section.tsx).
 - [x] Verified full production build compiles successfully and static analysis is 100% clean (`0 Errors, 0 Warnings`).
 - [x] Evaluated 44 test cases (41 Vitest, 3 Playwright E2E) with 100% pass rate.
+- [x] Pruned unused dependencies (`@google/generative-ai` and `@types/bcryptjs`) from `package.json` and updated lockfile.
 - [x] Updated [AUDIT.md](file:///d:/Git%20for%20Prompts/docs/AUDIT.md) to log full verification and achieve a `100 / 100` score.
 
 
