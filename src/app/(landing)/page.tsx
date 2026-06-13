@@ -549,7 +549,7 @@ export default function Home() {
                           )}
 
                           {/* Actual output */}
-                          {testOutput && (
+                          {testOutput ? (
                             <div className="flex-1 border border-zinc-900 bg-zinc-950 rounded-lg overflow-hidden flex flex-col animate-in fade-in duration-300">
                               <div className="px-4 py-2 border-b border-zinc-900 bg-zinc-900/30 text-xs text-zinc-500 font-mono">
                                 actual_response.txt
@@ -558,7 +558,18 @@ export default function Home() {
                                 {testOutput}
                               </pre>
                             </div>
-                          )}
+                          ) : testResult === 'running' ? (
+                            <div className="flex-1 border border-zinc-900 bg-zinc-950 rounded-lg overflow-hidden flex flex-col animate-pulse min-h-[160px]">
+                              <div className="px-4 py-2 border-b border-zinc-900 bg-zinc-900/30 text-xs text-zinc-500 font-mono">
+                                actual_response.txt (generating...)
+                              </div>
+                              <div className="p-4 space-y-3 flex-1 flex flex-col justify-center">
+                                <div className="h-3 bg-zinc-800 rounded-md w-3/4 animate-pulse" />
+                                <div className="h-3 bg-zinc-800 rounded-md w-5/6 animate-pulse" />
+                                <div className="h-3 bg-zinc-800 rounded-md w-2/3 animate-pulse" />
+                              </div>
+                            </div>
+                          ) : null}
 
                         </div>
 
@@ -660,16 +671,51 @@ export default function Home() {
                           <p className="text-xs text-amber-400 font-mono">⚠ Select two different versions to compare.</p>
                         )}
 
-                        {/* Running state */}
+                        {/* Running state skeleton */}
                         {compareStatus === 'running' && (
-                          <div className="rounded-lg border border-zinc-900 bg-zinc-900/10 p-12 flex flex-col items-center gap-4 text-center">
-                            <svg className="animate-spin h-8 w-8 text-zinc-400" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                            </svg>
-                            <p className="text-sm text-zinc-400 font-mono font-medium">
-                              Running all test cases against both versions simultaneously...
-                            </p>
+                          <div className="space-y-6">
+                            {/* Winner banner skeleton */}
+                            <div className="rounded-lg border border-zinc-900 bg-zinc-900/10 p-4 flex items-center justify-between animate-pulse">
+                              <div className="space-y-2 w-1/3">
+                                <div className="h-5 bg-zinc-800 rounded w-1/2" />
+                                <div className="h-3 bg-zinc-900 rounded w-1/3" />
+                              </div>
+                              <div className="flex gap-4">
+                                <div className="h-8 bg-zinc-850 rounded w-10" />
+                                <div className="h-8 bg-zinc-850 rounded w-10" />
+                              </div>
+                            </div>
+
+                            {/* Progress bars skeleton */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {[1, 2].map((i) => (
+                                <div key={i} className="rounded-lg border border-zinc-900 p-4 space-y-3 bg-zinc-900/10 animate-pulse">
+                                  <div className="flex justify-between">
+                                    <div className="h-3 bg-zinc-800 rounded w-1/4" />
+                                    <div className="h-3 bg-zinc-855 rounded w-1/6" />
+                                  </div>
+                                  <div className="h-2 bg-zinc-900 rounded w-full" />
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* Results table skeleton */}
+                            <div className="rounded-lg border border-zinc-900 overflow-hidden bg-zinc-950/20 animate-pulse">
+                              <div className="grid grid-cols-[1fr_auto_auto] border-b border-zinc-900 bg-zinc-900/30 px-4 py-3">
+                                <div className="h-3 bg-zinc-800 rounded w-1/4" />
+                                <div className="h-3 bg-zinc-850 rounded w-12" />
+                                <div className="h-3 bg-zinc-850 rounded w-12" />
+                              </div>
+                              <div className="divide-y divide-zinc-900/50 p-4 space-y-4">
+                                {[1, 2].map((i) => (
+                                  <div key={i} className="grid grid-cols-[1fr_auto_auto] items-center pt-2">
+                                    <div className="h-4 bg-zinc-800 rounded w-1/2" />
+                                    <div className="h-6 bg-zinc-850 rounded w-14 mx-4" />
+                                    <div className="h-6 bg-zinc-850 rounded w-14 mx-4" />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         )}
 
