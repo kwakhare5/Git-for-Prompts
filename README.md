@@ -11,6 +11,10 @@
 
   <br/>
 
+  <video src="./public/hero-demo.mp4" autoplay loop muted playsinline width="100%"></video>
+
+  <br/>
+
   ![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Last Commit](https://img.shields.io/github/last-commit/kwakhare5/Git-for-Prompts?style=for-the-badge&color=orange)
