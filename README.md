@@ -11,10 +11,6 @@
 
   <br/>
 
-  <img src="./public/hero-demo.gif" width="100%" alt="Git for Prompts Demo Animation">
-
-  <br/>
-
   ![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Last Commit](https://img.shields.io/github/last-commit/kwakhare5/Git-for-Prompts?style=for-the-badge&color=orange)
@@ -24,6 +20,7 @@
   <br/>
 
   <a href="#-about-the-project">About</a> &nbsp;·&nbsp;
+  <a href="#-demo">Demo</a> &nbsp;·&nbsp;
   <a href="#-features">Features</a> &nbsp;·&nbsp;
   <a href="#-tech-stack">Tech Stack</a> &nbsp;·&nbsp;
   <a href="#-architecture">Architecture</a> &nbsp;·&nbsp;
@@ -32,6 +29,16 @@
   <a href="#-author">Author</a>
 
 </div>
+
+---
+
+## 🎬 Demo
+
+<div align="center">
+  <img src="./public/hero-demo.gif" alt="Git for Prompts Demo Animation" width="800"/>
+</div>
+
+<br/>
 
 ---
 
