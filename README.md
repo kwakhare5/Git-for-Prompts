@@ -11,7 +11,7 @@
 
   <br/>
 
-  <video src="./public/hero-demo.mp4" autoplay loop muted playsinline width="100%"></video>
+  https://github.com/kwakhare5/Git-for-Prompts/raw/main/public/hero-demo.mp4
 
   <br/>
 
