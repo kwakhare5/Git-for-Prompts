@@ -11,6 +11,10 @@
 
   <br/>
 
+  <img src="./public/hero-demo.gif" width="100%" alt="Git for Prompts Demo Animation">
+
+  <br/>
+
   ![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Last Commit](https://img.shields.io/github/last-commit/kwakhare5/Git-for-Prompts?style=for-the-badge&color=orange)
