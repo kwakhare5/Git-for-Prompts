@@ -11,7 +11,7 @@
 
   <br/>
 
-  https://github.com/kwakhare5/Git-for-Prompts/raw/main/public/hero-demo.mp4
+  <img src="./public/hero-demo.gif" width="100%" alt="Git for Prompts Demo Animation">
 
   <br/>
 
