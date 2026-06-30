@@ -1,7 +1,8 @@
 # CLAUDE.md — Local Project Context
 
 # Note: All AI behaviors, commands (@TDD, @GRILL), and context maintenance rules
-# are now globally enforced via ~/.gemini/GEMINI.md. Do not duplicate them here.
+
+# are now globally enforced via ~/.gemini/config/AGENTS.md. Do not duplicate them here.
 
 ---
 
@@ -35,6 +36,7 @@
 8. **Test with real data from day 1.** Don't use placeholder text. Write real test prompts, real test cases, real commit messages.
 
 ### Code Style Rules
+
 - **Components:** One component per file. Named export, not default export (except for pages).
 - **Pages:** Default export (Next.js requirement).
 - **Imports:** Absolute imports via `@/` alias.
@@ -46,6 +48,7 @@
 - **Golden rule: Never copy-paste a component. Extract it.** Check `src/components/` first.
 
 ### Error Handling Rules
+
 - Every Server Action must be wrapped in try/catch. Throw typed errors.
 - Every API route must return proper HTTP status codes.
 - Every form must show field-level validation errors using Zod.
@@ -53,18 +56,20 @@
 - Loading states: every button that triggers an async action must show a spinner.
 
 ### Shared Components (Single Source of Truth)
-| File | Exports | Use it for |
-|---|---|---|
-| `src/components/relative-time.tsx` | `<RelativeTime date={} className? />` | Any human-readable timestamp in the UI |
-| `src/components/prompt-editor.tsx` | `<PromptEditor promptId readOnly? height? />` | Monaco editor |
-| `src/components/version-history.tsx` | `<VersionHistory promptId versions activeVersionId? />` | Version list with restore |
-| `src/components/diff-viewer.tsx` | `<DiffViewer originalContent modifiedContent originalLabel modifiedLabel height? />` | Monaco side-by-side diff with stats bar |
-| `src/components/diff-version-selector.tsx`| `<DiffVersionSelector promptId versions fromId toId />` | Dropdowns that update diff URL params |
-| `src/components/prompt-card.tsx` | `<PromptCard prompt={} />` | Dashboard grid cards |
-| `src/components/sidebar.tsx` | `<Sidebar />` | Left nav |
-| `src/components/create-prompt-form.tsx`| `<CreatePromptForm />` | New prompt form |
+
+| File                                       | Exports                                                                              | Use it for                              |
+| ------------------------------------------ | ------------------------------------------------------------------------------------ | --------------------------------------- |
+| `src/components/relative-time.tsx`         | `<RelativeTime date={} className? />`                                                | Any human-readable timestamp in the UI  |
+| `src/components/prompt-editor.tsx`         | `<PromptEditor promptId readOnly? height? />`                                        | Monaco editor                           |
+| `src/components/version-history.tsx`       | `<VersionHistory promptId versions activeVersionId? />`                              | Version list with restore               |
+| `src/components/diff-viewer.tsx`           | `<DiffViewer originalContent modifiedContent originalLabel modifiedLabel height? />` | Monaco side-by-side diff with stats bar |
+| `src/components/diff-version-selector.tsx` | `<DiffVersionSelector promptId versions fromId toId />`                              | Dropdowns that update diff URL params   |
+| `src/components/prompt-card.tsx`           | `<PromptCard prompt={} />`                                                           | Dashboard grid cards                    |
+| `src/components/sidebar.tsx`               | `<Sidebar />`                                                                        | Left nav                                |
+| `src/components/create-prompt-form.tsx`    | `<CreatePromptForm />`                                                               | New prompt form                         |
 
 ### Feature Implementation Order
+
 1. Project setup
 2. Database schema + migrations
 3. Auth flow
@@ -80,10 +85,12 @@
 13. Polish
 
 ### Git Conventions
+
 - Branch names: `feat/...`, `fix/...`, `chore/...`
 - Commits: `feat: add version diff viewer`, `refactor: extract ai evaluation to separate function`
 
 ### Local Development Setup
+
 ```bash
 git clone <repo>
 cd git-for-prompts
@@ -93,7 +100,9 @@ npx drizzle-kit generate
 npx drizzle-kit migrate
 npm run dev # App runs at http://localhost:3000
 ```
+
 Key URLs:
+
 - Supabase dashboard: https://supabase.com/dashboard
 - Clerk dashboard: https://dashboard.clerk.com
 - OpenRouter: https://openrouter.ai
@@ -108,28 +117,11 @@ Key URLs:
 
 | Command     | Skill Path / Action                                                                                                                                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@PLAN`     | Standard agent planning mode. Create `implementation_plan.md` first.                                                                                                                                             |
-| `@TDD`      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/antigravity/skills/mp-tdd/SKILL.md) — Test-driven development with a red-green-refactor loop. Write a failing test first, make it pass, and then refactor.      |
-| `@GRILL`    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/antigravity/skills/mp-grill-me/SKILL.md) — Relentlessly interview user about design/decisions one question at a time before writing any code.              |
-| `@DIAGNOSE` | [mp-diagnose/SKILL.md](file:///C:/Users/kwakh/.gemini/antigravity/skills/mp-diagnose/SKILL.md) — Systematic bug hunt loop: Build reproducer feedback loop first -> Generate 3–5 hypotheses -> Instrument -> Fix. |
-| `@ZOOM`     | [mp-zoom-out/SKILL.md](file:///C:/Users/kwakh/.gemini/antigravity/skills/mp-zoom-out/SKILL.md) — Zoom out to map codebase architecture, components, and module dependencies before making edits.                 |
-| `@AUDIT`    | [ponytail-audit/SKILL.md](file:///C:/Users/kwakh/.gemini/antigravity/skills/ponytail-audit/SKILL.md) — Scan codebase for over-engineering, useless abstractions, dead flags, and candidate lines to delete.      |
-| `@SYNC`     | Reset + load all relevant skills for this project           |
-| `@BRAINSTORM`| Idea → spec. Always AFTER `@GRILL`                            |
-| `@BUILD`    | Execute plan with TDD enforced (RED→GREEN→REFACTOR)         |
-| `@REVIEW`   | Code review against spec before merging                     |
-| `@PROTOTYPE`| Throwaway design exploration (logic or UI)                  |
-| `@TAG [feature]`| Architecture scan → ARCHITECT_AUDIT.md                      |
-| `@QA`       | Interactive bug reporting → GitHub issues                   |
-| `@HANDOFF`  | Compress session for fresh start                            |
-
-**The Handshake (MANDATORY)**
-1. Output sentinel: `🔍 Skill: [loaded/none] | Persona: [@role] | Permission: [obtained/pending]`
-2. State one detail from this file + `C:\Users\kwakh\.gemini\SKILLS_INDEX.md`
-3. Read SKILLS_INDEX.md → load relevant skills → list them
-4. Propose plan (Goal / Approach / Steps / Risks)
-5. Wait for "Approved" — no tool calls before this
-
+| @PLAN     | Standard agent planning mode. Create implementation_plan.md first.                                                                                                                                             |
+| @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) � **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
+| @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) � **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
+| @DIAGNOSE | [mp-diagnose/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-diagnose/SKILL.md) � **Scientific Method Bug Hunt.** 1. Build reproducer. 2. Form 3-5 hypotheses. 3. Instrument logging. 4. Fix only when proven. |
+| @ZOOM     | [mp-zoom-out/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-zoom-out/SKILL.md) � **Architectural Mapping.** Stop coding. Map the codebase dependencies, data flow, and components before making sweeping changes. |
 ## 5. MISTAKES TO AVOID
 
 1. **Do not use `supabase-js` for database queries.** Drizzle ORM only. Supabase JS client is not installed.
@@ -140,3 +132,4 @@ Key URLs:
 6. **Do not skip `revalidatePath` after mutations.** Next.js caches aggressively — always revalidate.
 7. **Do not use `router.push` for mutations.** Use Server Actions, then revalidate.
 8. **Do not allow users to access other users' prompts.** Always check `ownerId === userId` before returning data.
+
