@@ -117,6 +117,7 @@ Key URLs:
 
 | Command     | Skill Path / Action                                                                                                                                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @SPEC     | Interview mode. AI asks ONE question at a time, builds \spec.md\ before any code. FORBIDDEN from coding until spec approved. |
 | @PLAN     | Standard agent planning mode. Create implementation_plan.md first.                                                                                                                                             |
 | @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) — **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
 | @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) — **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
