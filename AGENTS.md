@@ -1,3 +1,14 @@
+# AGENTS.md
+# Universal agent context file — works with all AI tools (Claude Code, Gemini CLI, Cursor, Zed).
+# This project's full context is in CLAUDE.md (Claude-specific).
+# All global AI rules live in: C:\Users\kwakh\.gemini\config\AGENTS.md
+
+# READ THESE FILES IN ORDER:
+# 1. CLAUDE.md  — project identity, tech stack, design system, mistakes
+# 2. CONTEXT.md — domain glossary, design token index, session log
+# 3. ARCHITECTURE.md — DB schemas, API contracts (if it exists)
+
+# Re-export the content of CLAUDE.md so cross-tool agents get full context:
 # CLAUDE.md â€” Local Project Context
 
 # Note: All AI behaviors, commands (@TDD, @GRILL), and context maintenance rules
@@ -117,7 +128,6 @@ Key URLs:
 
 | Command     | Skill Path / Action                                                                                                                                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @SPEC     | Interview mode. AI asks ONE question at a time, builds \spec.md\ before any code. FORBIDDEN from coding until spec approved. |
 | @PLAN     | Standard agent planning mode. Create implementation_plan.md first.                                                                                                                                             |
 | @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) — **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
 | @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) — **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
