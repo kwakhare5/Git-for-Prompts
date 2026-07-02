@@ -1,15 +1,14 @@
-# AGENTS.md
-# Universal agent context file � works with all AI tools (Claude Code, Gemini CLI, Cursor, Zed).
-# This project's full context is in CLAUDE.md (Claude-specific).
-# All global AI rules live in: C:\Users\kwakh\.gemini\config\AGENTS.md
-
-# READ THESE FILES IN ORDER:
-# 1. CLAUDE.md  � project identity, tech stack, design system, mistakes
-# 2. CONTEXT.md � domain glossary, design token index, session log
-# 3. ARCHITECTURE.md � DB schemas, API contracts (if it exists)
-
-# Re-export the content of CLAUDE.md so cross-tool agents get full context:
-# CLAUDE.md — Local Project Context
+﻿# AGENTS.md
+# Universal agent context file — works with all AI tools (Claude Code, Gemini CLI, Cursor).
+# Global AI rules: C:\Users\kwakh\.gemini\config\AGENTS.md (read automatically by Antigravity)
+# Brain: D:\workflow-main\brain\ (read via MCP obsidian-vault at session start)
+#
+# READ ORDER:
+# 1. Global AGENTS.md (auto-loaded)   → behavior rules, brain read/write, audit loop
+# 2. This file / CLAUDE.md            → project identity, tech stack, design system, mistakes
+# 3. CONTEXT.md                       → domain glossary, session log
+# 4. ARCHITECTURE.md                  → DB schemas, API contracts (if exists)
+# CLAUDE.md â€” Local Project Context
 
 # Note: All AI behaviors, commands (@TDD, @GRILL), and context maintenance rules
 
@@ -20,7 +19,7 @@
 ## 1. PROJECT IDENTITY
 
 **Name:** Git for Prompts
-**Goal:** A version control system for AI prompts — like GitHub, but built specifically for managing, versioning, testing, and collaborating on the prompts that power AI products.
+**Goal:** A version control system for AI prompts â€” like GitHub, but built specifically for managing, versioning, testing, and collaborating on the prompts that power AI products.
 
 **AI POINTER:** If you need database schemas, business logic, or third-party API details, you MUST autonomously read `ARCHITECTURE.md`. Do not guess.
 
@@ -42,8 +41,8 @@
 3. **Commit after every working phase.** `git add . && git commit -m "feat: phase 3 dashboard complete"`
 4. **Always check ownerId.** Every database read and write must verify the record belongs to the logged-in user. Never skip this.
 5. **If a model gets it wrong twice, switch models.** Don't spend 45 minutes fighting Sonnet on something hard. Switch to Opus, solve it in one shot, move on.
-6. **All Gemini calls live in server actions** — never in client components.
-7. **Font-mono for all prompt text.** Any text that IS a prompt or IS an AI output — always font-mono.
+6. **All Gemini calls live in server actions** â€” never in client components.
+7. **Font-mono for all prompt text.** Any text that IS a prompt or IS an AI output â€” always font-mono.
 8. **Test with real data from day 1.** Don't use placeholder text. Write real test prompts, real test cases, real commit messages.
 
 ### Code Style Rules
@@ -128,11 +127,12 @@ Key URLs:
 
 | Command     | Skill Path / Action                                                                                                                                                                                              |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| @SPEC     | Interview mode. AI asks ONE question at a time, builds \spec.md\ before any code. FORBIDDEN from coding until spec approved. |
 | @PLAN     | Standard agent planning mode. Create implementation_plan.md first.                                                                                                                                             |
-| @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) � **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
-| @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) � **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
-| @DIAGNOSE | [mp-diagnose/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-diagnose/SKILL.md) � **Scientific Method Bug Hunt.** 1. Build reproducer. 2. Form 3-5 hypotheses. 3. Instrument logging. 4. Fix only when proven. |
-| @ZOOM     | [mp-zoom-out/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-zoom-out/SKILL.md) � **Architectural Mapping.** Stop coding. Map the codebase dependencies, data flow, and components before making sweeping changes. |
+| @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) — **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
+| @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) — **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
+| @DIAGNOSE | [mp-diagnose/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-diagnose/SKILL.md) — **Scientific Method Bug Hunt.** 1. Build reproducer. 2. Form 3-5 hypotheses. 3. Instrument logging. 4. Fix only when proven. |
+| @ZOOM     | [mp-zoom-out/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-zoom-out/SKILL.md) — **Architectural Mapping.** Stop coding. Map the codebase dependencies, data flow, and components before making sweeping changes. |
 ## 5. MISTAKES TO AVOID
 
 1. **Do not use `supabase-js` for database queries.** Drizzle ORM only. Supabase JS client is not installed.
@@ -140,7 +140,8 @@ Key URLs:
 3. **Do not store API keys in plaintext.** Always bcrypt hash before storing.
 4. **Do not render prompt content with `font-sans`.** Always `font-mono` for any prompt text.
 5. **Do not make Gemini API calls from Client Components.** All Gemini calls go in Server Actions.
-6. **Do not skip `revalidatePath` after mutations.** Next.js caches aggressively — always revalidate.
+6. **Do not skip `revalidatePath` after mutations.** Next.js caches aggressively â€” always revalidate.
 7. **Do not use `router.push` for mutations.** Use Server Actions, then revalidate.
 8. **Do not allow users to access other users' prompts.** Always check `ownerId === userId` before returning data.
+
 
