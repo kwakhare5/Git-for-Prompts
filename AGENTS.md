@@ -1,141 +1,158 @@
-﻿# AGENTS.md
-# Global rules: C:\Users\kwakh\.gemini\config\AGENTS.md
-# Brain HOME: KARAN PERSONAL (CLAUDE.md, Journal) | WORK (Projects/, Concepts/)
-
-# CLAUDE.md â€” Local Project Context
-
-# Note: All AI behaviors, commands (@TDD, @GRILL), and context maintenance rules
-
-# are now globally enforced via ~/.gemini/config/AGENTS.md. Do not duplicate them here.
+# AGENTS.md — Global AI Rules (Karan Wakhare)
+# Applies to EVERY project, EVERY session. Read this first.
 
 ---
 
-## 1. PROJECT IDENTITY
+## SECOND BRAIN
 
-**Name:** Git for Prompts
-**Goal:** A version control system for AI prompts â€” like GitHub, but built specifically for managing, versioning, testing, and collaborating on the prompts that power AI products.
+Brain: `D:\workflow-main\Obsidian brain\` | MCP: `obsidian-vault`
 
-**AI POINTER:** If you need database schemas, business logic, or third-party API details, you MUST autonomously read `ARCHITECTURE.md`. Do not guess.
+**Brain files (source of truth — built from real code):**
+- `CLAUDE.md` — Karan's profile, goals, tools, HOW I BUILD
+- `Projects/[Name].md` — full project context per project
+- `Concepts/` — cross-project reference notes (load on-demand only)
 
-## 2. TECH STACK
+**SESSION START:**
+1. `obsidian_get_file_contents("CLAUDE.md")` → read profile
+2. `obsidian_get_file_contents("Projects/X.md")` → read project brain
+3. Print: `[🧠 BRAIN READ] CLAUDE.md + Projects/X.md → last: Y`
+4. MCP fail → `[🧠 BRAIN OFFLINE]`, continue
 
-- **Frontend/Backend:** Next.js 15 (App Router), TypeScript
-- **Database:** Supabase (PostgreSQL), Drizzle ORM
-- **Authentication:** Clerk
-- **Styling:** Tailwind CSS v4, shadcn/ui
-- **Diff Engine:** Monaco Editor (@monaco-editor/react)
-- **AI Engine:** Groq (Primary) + OpenRouter (Fallback)
-- **Validation:** Zod
-- **Deployment:** Vercel
+**BRAIN FILE SECTIONS:**
 
-## 3. LOCAL ARCHITECTURE RULES
+| Section | Rule | How to update |
+|---------|------|---------------|
+| `⚡ CURRENT STATE` | Overwrite every session | `obsidian_patch_content` |
+| `🏗️ ACTIVE FEATURES` | Living table | Change row status in-place |
+| `🏛️ ARCHITECTURE DECISIONS` | Append-only | `obsidian_append_content`, never delete |
+| `🐛 BUGS FIXED` | Append-only | `obsidian_append_content`, never delete |
+| `🔧 CODE PATTERNS` | Living list | Add new, remove outdated |
 
-1. **One phase at a time.** Verify before moving on. Never start Phase 4 if Phase 3 has an untested feature. A broken foundation means every phase after it is built on sand.
-2. **Never hardcode keys.** If you paste an API key directly into a file to test something quickly, remove it before your next git commit. Set up `.gitignore` to exclude `.env.local` on day one.
-3. **Commit after every working phase.** `git add . && git commit -m "feat: phase 3 dashboard complete"`
-4. **Always check ownerId.** Every database read and write must verify the record belongs to the logged-in user. Never skip this.
-5. **If a model gets it wrong twice, switch models.** Don't spend 45 minutes fighting Sonnet on something hard. Switch to Opus, solve it in one shot, move on.
-6. **All Gemini calls live in server actions** â€” never in client components.
-7. **Font-mono for all prompt text.** Any text that IS a prompt or IS an AI output â€” always font-mono.
-8. **Test with real data from day 1.** Don't use placeholder text. Write real test prompts, real test cases, real commit messages.
+**WHEN TO UPDATE — trigger table:**
 
-### Code Style Rules
+| What happened | Update |
+|---------------|--------|
+| New route / page added | ACTIVE FEATURES + file map |
+| New dep added | Stack in CURRENT STATE |
+| Feature shipped | ACTIVE FEATURES → 🟢 Live |
+| Feature dropped | ACTIVE FEATURES → ❌ Dropped + append reason to DECISIONS |
+| Bug fixed | BUGS FIXED |
+| Architecture decision | DECISIONS |
+| Schema changed | CURRENT STATE data model |
+| Phase complete | Overwrite CURRENT STATE |
 
-- **Components:** One component per file. Named export, not default export (except for pages).
-- **Pages:** Default export (Next.js requirement).
-- **Imports:** Absolute imports via `@/` alias.
-- **No `any`:** Use proper types. Use `unknown` if needed, then narrow with Zod.
-- **No inline styles:** Use Tailwind classes only. Exception: Monaco editor options object.
-- **No `console.log` in production.**
-- **Server vs Client:** Default to Server Components. Add `'use client'` only when needed.
-- **Data fetching:** Do it in Server Components or Server Actions. Never `fetch()` in Client Components to your own backend.
-- **Golden rule: Never copy-paste a component. Extract it.** Check `src/components/` first.
+**SAVE WHEN:** code written · decision made · bug fixed · feature dropped · schema changed · dep changed
+**DON'T SAVE:** explained something · answered a question · trivial fix with no decision
 
-### Error Handling Rules
+**Save format:** `| DATE | what | why |`
 
-- Every Server Action must be wrapped in try/catch. Throw typed errors.
-- Every API route must return proper HTTP status codes.
-- Every form must show field-level validation errors using Zod.
-- Never show raw error messages to users. Map to human-readable messages.
-- Loading states: every button that triggers an async action must show a spinner.
+**SESSION END (done/bye/thanks):**
+1. `obsidian_patch_content("Projects/X.md")` → overwrite CURRENT STATE
+2. Print: `[🧠 BRAIN UPDATED] → X decisions, next: Y`
 
-### Shared Components (Single Source of Truth)
+---
 
-| File                                       | Exports                                                                              | Use it for                              |
-| ------------------------------------------ | ------------------------------------------------------------------------------------ | --------------------------------------- |
-| `src/components/relative-time.tsx`         | `<RelativeTime date={} className? />`                                                | Any human-readable timestamp in the UI  |
-| `src/components/prompt-editor.tsx`         | `<PromptEditor promptId readOnly? height? />`                                        | Monaco editor                           |
-| `src/components/version-history.tsx`       | `<VersionHistory promptId versions activeVersionId? />`                              | Version list with restore               |
-| `src/components/diff-viewer.tsx`           | `<DiffViewer originalContent modifiedContent originalLabel modifiedLabel height? />` | Monaco side-by-side diff with stats bar |
-| `src/components/diff-version-selector.tsx` | `<DiffVersionSelector promptId versions fromId toId />`                              | Dropdowns that update diff URL params   |
-| `src/components/prompt-card.tsx`           | `<PromptCard prompt={} />`                                                           | Dashboard grid cards                    |
-| `src/components/sidebar.tsx`               | `<Sidebar />`                                                                        | Left nav                                |
-| `src/components/create-prompt-form.tsx`    | `<CreatePromptForm />`                                                               | New prompt form                         |
+## CORE BEHAVIOR
 
-### Feature Implementation Order
+- **Caveman:** Zero fluff. Short fragments. Drop pleasantries.
+- **Ponytail:** YAGNI. Min code. Existing deps first. No speculative features.
+- **Surgical:** Touch only what the request requires.
+- **Think first:** State assumptions. Ask if unclear. Never pick silently.
 
-1. Project setup
-2. Database schema + migrations
-3. Auth flow
-4. Dashboard
-5. Create prompt
-6. Prompt editor
-7. Version history
-8. Diff viewer
-9. Test cases
-10. Test runner
-11. Compare versions
-12. Public API
-13. Polish
+---
 
-### Git Conventions
+## COMMAND ROUTING (read every message through this lens)
 
-- Branch names: `feat/...`, `fix/...`, `chore/...`
-- Commits: `feat: add version diff viewer`, `refactor: extract ai evaluation to separate function`
+Before executing any request, check if it matches a structured command. If it does, suggest it and wait for confirmation — don't start executing.
 
-### Local Development Setup
+| If the user says... | Suggest |
+|--------------------|---------|
+| "build X", "add X", "I want X feature" | `@SPEC` → spec first, then `@IMPLEMENT` |
+| "broken", "error", "not working", "bug" | `@DIAGNOSE` |
+| "discuss", "think through", "plan before building" | `@GRILL` |
+| "understand the code", "what does X do", "map it" | `@ZOOM` |
+| "ship", "deploy", "go live", "launch" | `@SHIP` |
+| "context is long", "start fresh", "new session" | `@HANDOFF` |
+| "break it down", "tasks", "issues", "tickets" | `@TO-ISSUES` |
+| "test first", "TDD", "write test" | `@TDD` |
+| "try something", "prototype", "rough version" | `@PROTOTYPE` |
 
-```bash
-git clone <repo>
-cd git-for-prompts
-npm install
-cp .env.example .env.local # Fill in all values from Supabase, Clerk, Google AI Studio
-npx drizzle-kit generate
-npx drizzle-kit migrate
-npm run dev # App runs at http://localhost:3000
+If matched: say "This looks like a **@X** situation. Run it?" and wait.
+If user says no or ignores: proceed with the request normally.
+If unclear: proceed normally and mention the command exists.
+
+---
+
+## CODING LOOP (every task)
+
+0. **AUDIT** (mandatory before touching ANY file): `list_dir` on target directory → `grep_search` for existing patterns → print `[AUDIT: found X files, pattern Y exists]`. Done when you can name every file you will touch. No exceptions.
+1. State assumptions + verification plan in one sentence.
+2. Write the code. Vertical slice: schema → API → UI → test, one thin path through all layers.
+3. `npm run lint` / `tsc --noEmit` / `pytest` — zero errors. Done when command exits 0.
+4. Fail → fix yourself, loop. Never ask user.
+5. **VERIFY** — re-read every changed file. Explicitly check:
+   - Swallowed errors (catch blocks that silently ignore)
+   - Stub returns (hardcoded values instead of real logic)
+   - Relaxed tests (test that always passes)
+   - Comment-as-fix (commented out failing code)
+   - Fake renames (renamed file, imports not updated)
+   Print: `[VERIFY: PASS]` or `[VERIFY: FAIL — reason]`. Never skip.
+6. **TEACH LOOP** (significant features only): print `[TEACH LOOP]` block → save to brain.
+7. Stop at 100% pass.
+
+**Prefactor rule:** Before adding a feature, ask — is there a small refactor that makes this feature trivial? Do that first. ("Make the change easy, then make the easy change" — Kent Beck)
+
+---
+
+## SKILLS
+
+Path: `C:\Users\kwakh\.gemini\config\skills\`
+Load 2-3 matching skills per task. Begin every response: `[SKILLS ACTIVE: x, y]`
+Type `@HELP` to see all commands and what auto-loads when.
+
+---
+
+## MODEL ROUTING
+
+| Task | Model |
+|------|-------|
+| Quick fix, simple component | Gemini Flash |
+| Standard feature, debug, refactor | Claude Sonnet |
+| Architecture, hard bugs, multi-file | Claude Sonnet Thinking / Opus |
+
+---
+
+## COMMANDS
+
+| Command | When to use |
+|---------|------------|
+| `@HELP` | Don't know which command to use |
+| `@SPEC` | Before building anything new — interview → spec.md |
+| `@IMPLEMENT` | Have a spec.md, ready to build — TDD → commit |
+| `@TDD` | Red-Green-Refactor. One test at a time. |
+| `@GRILL` | Stress-test a plan before touching code |
+| `@DIAGNOSE` | Something broken — feedback loop → hypotheses → fix |
+| `@ZOOM` | Map codebase before sweeping changes |
+| `@AUDIT` | Scan for dead code, over-engineering |
+| `@PROTOTYPE` | Throwaway to answer a design question |
+| `@TO-ISSUES` | Break feature into tracer-bullet tasks |
+| `@TO-PRD` | Turn conversation into a PRD |
+| `@SHIP` | Deploy checklist → Vercel → README → tweet |
+| `@HANDOFF` | Compact long context → fresh session picks up |
+| `@BRAIN-AUDIT` | Check brain files for stale/wrong entries |
+| `@BRAIN-FIX "X"` | Find X in brain → fix or delete → confirm |
+
+---
+
+## BOOTSTRAP NEW PROJECT
+
+```powershell
+# Copy lean templates to project root
+$t="D:\workflow-main\templates"; $d="D:\YourProject"
+@("AGENTS.md","CLAUDE.md","ARCHITECTURE.md",".editorconfig",".prettierrc.json") | %{ Copy-Item "$t\$_" "$d\$_" }
+
+# Fill CLAUDE.md using: D:\workflow-main\resources\claude-ai-project-start-prompt.md
+# Keep CLAUDE.md under 200 lines. Schema/decisions go in ARCHITECTURE.md only.
 ```
 
-Key URLs:
-
-- Supabase dashboard: https://supabase.com/dashboard
-- Clerk dashboard: https://dashboard.clerk.com
-- OpenRouter: https://openrouter.ai
-- Groq: https://groq.com
-- Google AI Studio: https://aistudio.google.com/app/apikey
-- Vercel deploy: https://vercel.com/new
-- shadcn/ui components: https://ui.shadcn.com/docs/components
-- Drizzle ORM docs: https://orm.drizzle.team/docs/overview
-- Monaco Editor React docs: https://github.com/suren-atoyan/monaco-react
-
-## 4. AI COMMAND CHEAT SHEET
-
-| Command     | Skill Path / Action                                                                                                                                                                                              |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| @SPEC     | Interview mode. AI asks ONE question at a time, builds \spec.md\ before any code. FORBIDDEN from coding until spec approved. |
-| @PLAN     | Standard agent planning mode. Create implementation_plan.md first.                                                                                                                                             |
-| @TDD      | [mp-tdd/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-tdd/SKILL.md) — **Red-Green-Refactor.** Write failing tests first. Do not write implementation code until tests fail. |
-| @GRILL    | [mp-grill-me/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-grill-me/SKILL.md) — **Relentless Interrogation.** Ask ONE question at a time to clarify architecture. Push back on bad ideas. DO NOT write code until alignment is reached. |
-| @DIAGNOSE | [mp-diagnose/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-diagnose/SKILL.md) — **Scientific Method Bug Hunt.** 1. Build reproducer. 2. Form 3-5 hypotheses. 3. Instrument logging. 4. Fix only when proven. |
-| @ZOOM     | [mp-zoom-out/SKILL.md](file:///C:/Users/kwakh/.gemini/config/skills/mp-zoom-out/SKILL.md) — **Architectural Mapping.** Stop coding. Map the codebase dependencies, data flow, and components before making sweeping changes. |
-## 5. MISTAKES TO AVOID
-
-1. **Do not use `supabase-js` for database queries.** Drizzle ORM only. Supabase JS client is not installed.
-2. **Do not create new migrations manually.** Always use `npx drizzle-kit generate`.
-3. **Do not store API keys in plaintext.** Always bcrypt hash before storing.
-4. **Do not render prompt content with `font-sans`.** Always `font-mono` for any prompt text.
-5. **Do not make Gemini API calls from Client Components.** All Gemini calls go in Server Actions.
-6. **Do not skip `revalidatePath` after mutations.** Next.js caches aggressively â€” always revalidate.
-7. **Do not use `router.push` for mutations.** Use Server Actions, then revalidate.
-8. **Do not allow users to access other users' prompts.** Always check `ownerId === userId` before returning data.
-
-
+**New brain file:** Copy `D:\workflow-main\Obsidian brain\Projects\_TEMPLATE.md` → rename to project name.
