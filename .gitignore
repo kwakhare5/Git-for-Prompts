@@ -48,3 +48,7 @@ next-env.d.ts
 
 # brainstorm sessions
 .superpowers/
+
+# Build artifacts / local env
+tsconfig.tsbuildinfo
+.env.local
