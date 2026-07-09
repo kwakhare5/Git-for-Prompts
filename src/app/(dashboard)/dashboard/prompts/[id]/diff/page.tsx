@@ -6,7 +6,11 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { DiffViewer } from '@/components/diff-viewer';
 import { DiffVersionSelector } from '@/components/diff-version-selector';
+import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
+import type { InferSelectModel } from 'drizzle-orm';
+
+type Version = InferSelectModel<typeof versions>;
 
 export async function generateMetadata({
   params,
@@ -41,22 +45,74 @@ export default async function DiffPage({
 
   if (!prompt) notFound();
 
-  // All versions newest-first (for the selector dropdowns)
-  const allVersions = await db
+  // Recent versions for the selector dropdowns. Capped — a prompt can
+  // accumulate thousands of versions, and rendering that many <option>
+  // elements crashes the tab. This window covers the default comparison
+  // (latest vs. oldest) and every case where the linked-to version is
+  // recent; resolveVersion() below handles the rest without ever silently
+  // substituting the wrong version.
+  const recentVersions = await db
     .select()
     .from(versions)
     .where(eq(versions.promptId, id))
-    .orderBy(desc(versions.versionNumber));
+    .orderBy(desc(versions.versionNumber))
+    .limit(RECENT_VERSIONS_LIMIT);
 
   // Need at least 2 versions to show a meaningful diff
-  if (allVersions.length < 2) notFound();
+  if (recentVersions.length < 2) notFound();
 
-  // Resolve which versions to compare.
-  // Default: oldest version on the left, newest on the right.
-  const fromVersion =
-    allVersions.find((v) => v.id === from) ?? allVersions[allVersions.length - 1];
-  const toVersion =
-    allVersions.find((v) => v.id === to) ?? allVersions[0];
+  // Resolves the version for one side of the diff.
+  //  - If a specific id was requested (?from=/&to=) and it's inside the
+  //    recent window, use it directly — no extra query.
+  //  - If it was requested but falls outside the window (an older version
+  //    than our cap), fetch it explicitly by id, scoped to this prompt so
+  //    a foreign/invalid id can never leak another prompt's content.
+  //  - If nothing was requested, fall back to the true newest/oldest
+  //    version — fetched directly for "oldest" since the true v1 may not
+  //    be inside the capped window once a prompt has more than
+  //    RECENT_VERSIONS_LIMIT versions.
+  async function resolveVersion(
+    requestedId: string | undefined,
+    fallback: 'oldest' | 'newest'
+  ): Promise<Version> {
+    if (requestedId) {
+      const inWindow = recentVersions.find((v) => v.id === requestedId);
+      if (inWindow) return inWindow;
+
+      const [direct] = await db
+        .select()
+        .from(versions)
+        .where(and(eq(versions.id, requestedId), eq(versions.promptId, id)));
+      if (direct) return direct;
+      // Invalid/foreign id — fall through to the default below.
+    }
+
+    if (fallback === 'newest') {
+      // recentVersions is ordered desc, so index 0 is always the true latest.
+      return recentVersions[0];
+    }
+
+    // "oldest" — may not be in the capped window, so fetch it directly.
+    const [oldest] = await db
+      .select()
+      .from(versions)
+      .where(eq(versions.promptId, id))
+      .orderBy(versions.versionNumber)
+      .limit(1);
+    return oldest ?? recentVersions[recentVersions.length - 1];
+  }
+
+  const fromVersion = await resolveVersion(from, 'oldest');
+  const toVersion = await resolveVersion(to, 'newest');
+
+  // Guarantee both compared versions appear as options in the dropdowns,
+  // even if one of them fell outside the recent window — otherwise the
+  // <select value=...> would point at an id with no matching <option> and
+  // silently show a blank/mismatched selection.
+  const selectorVersions = [fromVersion, toVersion].reduce<Version[]>(
+    (acc, v) => (acc.some((x) => x.id === v.id) ? acc : [...acc, v]),
+    recentVersions
+  );
 
   // Human-readable labels for each diff panel
   const fromLabel = `v${fromVersion.versionNumber}${
@@ -83,7 +139,7 @@ export default async function DiffPage({
           <div className="min-w-0">
             <h1 className="text-xl font-bold text-zinc-50 truncate">{prompt.name}</h1>
             <p className="text-xs text-zinc-600 font-mono mt-0.5">
-              Comparing {allVersions.length} version{allVersions.length !== 1 ? 's' : ''}
+              Comparing v{fromVersion.versionNumber} → v{toVersion.versionNumber}
             </p>
           </div>
         </div>
@@ -91,7 +147,7 @@ export default async function DiffPage({
         {/* Version dropdowns — client component, updates URL params on change */}
         <DiffVersionSelector
           promptId={id}
-          versions={allVersions}
+          versions={selectorVersions}
           fromId={fromVersion.id}
           toId={toVersion.id}
         />

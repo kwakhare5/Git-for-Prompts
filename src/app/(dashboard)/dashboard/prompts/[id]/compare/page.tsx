@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CompareRunner } from '@/components/compare-runner';
 import { EmptyState } from '@/components/ui/empty-state';
+import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -38,7 +39,10 @@ export default async function ComparePage({
 
   if (!prompt) notFound();
 
-  // Fetch versions for the selectors (newest first)
+  // Recent versions for the selectors (newest first). Capped — CompareRunner
+  // always defaults to the two most recent versions (versions[0] /
+  // versions[1]), so this window never breaks the default comparison; it
+  // only limits how far back a user can manually pick from.
   const allVersions = await db
     .select({
       id: versions.id,
@@ -47,7 +51,17 @@ export default async function ComparePage({
     })
     .from(versions)
     .where(eq(versions.promptId, id))
-    .orderBy(desc(versions.versionNumber));
+    .orderBy(desc(versions.versionNumber))
+    .limit(RECENT_VERSIONS_LIMIT);
+
+  // Real total, so the badge doesn't lie about how many versions exist
+  // once a prompt's history exceeds the dropdown window. Cheap indexed
+  // COUNT — negligible cost added to this page load.
+  const [versionCountRow] = await db
+    .select({ count: count() })
+    .from(versions)
+    .where(eq(versions.promptId, id));
+  const totalVersionCount = versionCountRow?.count ?? allVersions.length;
 
   // Test case count
   const [tcCount] = await db
@@ -72,7 +86,9 @@ export default async function ComparePage({
           <h1 className="text-xl font-bold text-zinc-50">Compare</h1>
           {hasEnoughVersions && (
             <span className="shrink-0 font-mono text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
-              {allVersions.length} versions
+              {totalVersionCount > allVersions.length
+                ? `latest ${allVersions.length} of ${totalVersionCount} versions`
+                : `${totalVersionCount} versions`}
             </span>
           )}
         </div>
