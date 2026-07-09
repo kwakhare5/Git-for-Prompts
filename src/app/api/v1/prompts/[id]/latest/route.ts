@@ -66,43 +66,45 @@ export async function GET(
     //    ~100ms CPU-bound latency per request with no security benefit.
     //    The SHA-256 index lookup is both the lookup AND the verification.
     const lookupHash = createHash('sha256').update(token).digest('hex');
+    const { id: promptId } = await params;
 
-    const [candidateKey] = await db
-      .select()
-      .from(apiKeys)
-      .where(eq(apiKeys.keyLookupHash, lookupHash))
-      .limit(1);
+    // 4. Fire the key lookup and the two prompt reads in parallel.
+    //
+    //    These three queries are mutually independent: the prompt and
+    //    version reads only need `promptId` (already available from the
+    //    route params), and neither one depends on whether the API key
+    //    turns out to be valid. The original code awaited them one at a
+    //    time — key lookup, then prompt, then version — paying three
+    //    sequential round trips on the hot path of a public API endpoint.
+    //
+    //    Trade-off: an invalid-key request now also pays for a prompt +
+    //    version read it doesn't need, instead of failing fast after the
+    //    key lookup alone. That's the right trade here — this endpoint is
+    //    already rate-limited per IP (step 0), and it turns three sequential
+    //    round trips into one for every legitimate, valid-key request, which
+    //    is the overwhelming majority of traffic to a "read my own prompt"
+    //    endpoint.
+    const [[candidateKey], [prompt], [latest]] = await Promise.all([
+      db.select().from(apiKeys).where(eq(apiKeys.keyLookupHash, lookupHash)).limit(1),
+      db.select().from(prompts).where(eq(prompts.id, promptId)),
+      db.select().from(versions).where(eq(versions.promptId, promptId)).orderBy(desc(versions.versionNumber)).limit(1),
+    ]);
 
     if (!candidateKey) {
       return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
     }
 
-    // 4. Update lastUsedAt — fire-and-forget with .execute()
+    // 5. Update lastUsedAt — fire-and-forget with .execute()
     void db
       .update(apiKeys)
       .set({ lastUsedAt: new Date() })
       .where(eq(apiKeys.id, candidateKey.id))
       .execute();
 
-    // 5. Resolve the prompt — must exist and belong to this key's owner
-    const { id: promptId } = await params;
-
-    const [prompt] = await db
-      .select()
-      .from(prompts)
-      .where(eq(prompts.id, promptId));
-
+    // 6. Resolve the prompt — must exist and belong to this key's owner
     if (!prompt || prompt.ownerId !== candidateKey.ownerId) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
-
-    // 6. Get the latest version
-    const [latest] = await db
-      .select()
-      .from(versions)
-      .where(eq(versions.promptId, promptId))
-      .orderBy(desc(versions.versionNumber))
-      .limit(1);
 
     if (!latest) {
       return NextResponse.json(

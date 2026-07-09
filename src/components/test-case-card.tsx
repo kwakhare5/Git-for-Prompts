@@ -22,7 +22,7 @@ type TestCaseCardProps = {
   name: string;
   inputText: string;
   expectedCriteria: string;
-  status: 'idle' | 'running' | 'pass' | 'fail';
+  status: 'idle' | 'running' | 'pass' | 'fail' | 'ai-error';
   result?: TestResult;
 };
 
@@ -55,6 +55,8 @@ export function TestCaseCard({
           ? 'border-emerald-500/30'
           : status === 'fail'
           ? 'border-red-500/30'
+          : status === 'ai-error'
+          ? 'border-amber-500/40 border-dashed'
           : 'border-zinc-800',
         isDeleting && 'opacity-50 pointer-events-none'
       )}
@@ -76,6 +78,11 @@ export function TestCaseCard({
           {status === 'fail' && (
             <Badge className="bg-red-500/15 text-red-400 border-red-500/30 text-[10px] shrink-0">
               FAIL
+            </Badge>
+          )}
+          {status === 'ai-error' && (
+            <Badge className="bg-amber-500/15 text-amber-400 border-amber-500/30 text-[10px] shrink-0" title="AI Error / Not Persisted">
+              ⚠️ AI ERROR
             </Badge>
           )}
         </div>

@@ -1,8 +1,61 @@
+import { z } from 'zod';
+
 /**
- * AI Engine Wrapper - Dual Provider (Groq + OpenRouter)
- * Groq is the primary provider for ultra-fast inference.
- * OpenRouter serves as a reliable free fallback.
+ * Robustly extracts the first complete JSON object from a string.
+ *
+ * Replaces the old `indexOf('{')` / `lastIndexOf('}')` approach, which
+ * silently grabs the WRONG closing brace whenever:
+ *   - the model appends any explanation after the JSON that happens to
+ *     contain a '}' (e.g. a trailing aside, a smiley ":}", a second example)
+ *   - the JSON contains a string value with an unbalanced-looking brace
+ *   - the model emits more than one JSON-like fragment in the same reply
+ *
+ * This version walks the string once, tracks brace depth, and is
+ * string/escape-aware so braces inside quoted values never affect depth.
+ * It returns the first syntactically-balanced object starting at the
+ * first '{', which is what `JSON.parse` can then safely consume.
  */
+export function extractJson(text: string): unknown {
+  const start = text.indexOf('{');
+  if (start === -1) {
+    throw new SyntaxError('No JSON object found in response');
+  }
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let i = start; i < text.length; i++) {
+    const char = text[i];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (char === '"') {
+      inString = true;
+      continue;
+    }
+
+    if (char === '{') depth++;
+    if (char === '}') {
+      depth--;
+      if (depth === 0) {
+        const candidate = text.slice(start, i + 1);
+        return JSON.parse(candidate);
+      }
+    }
+  }
+
+  throw new SyntaxError('No JSON object found in response');
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -20,6 +73,13 @@ interface AIResponse {
   }>;
 }
 
+// Strict shape for the evaluator's response. Parsed with .safeParse so a
+// malformed or hallucinated payload never reaches calling code as `any`.
+const evaluationResultSchema = z.object({
+  passed: z.boolean(),
+  reason: z.string(),
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
@@ -29,22 +89,8 @@ const GROQ_MODEL = 'llama-3.3-70b-versatile';
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_MODEL = 'openrouter/free';
 
-const AI_TIMEOUT_MS = 30_000; 
+const AI_TIMEOUT_MS = 30_000;
 const MAX_CONCURRENT_TESTS = 10; // Groq is fast enough for high concurrency
-
-/**
- * Robustly extracts a JSON object from a string.
- * Exported for unit testing — this is the highest-risk parsing function
- * in the codebase (breaks all test results if AI response format changes).
- */
-export function extractJson(text: string): unknown {
-  const start = text.indexOf('{');
-  const end = text.lastIndexOf('}');
-  if (start === -1 || end === -1 || end < start) {
-    throw new SyntaxError('No JSON object found in response');
-  }
-  return JSON.parse(text.slice(start, end + 1));
-}
 
 /**
  * Simple concurrency limiter.
@@ -69,14 +115,22 @@ export async function runWithConcurrency<T>(
 }
 
 /**
- * Core fetch wrapper with Fallback logic.
+ * Core fetch wrapper with fallback logic.
  * Try Groq first -> Fallback to OpenRouter.
+ *
+ * `jsonMode` requests OpenAI-compatible `response_format: { type: "json_object" }`.
+ * This is ONLY passed for calls that must return JSON (the evaluator) — never
+ * for `runPromptAgainstInput`, which executes the user's own prompt and must
+ * not have its output shape forced. json_object mode is broadly supported by
+ * both Groq and OpenRouter but not guaranteed on every routed model, so it is
+ * a best-effort first layer of defense, not the only one — extractJson +
+ * Zod validation below still run on every response regardless.
  */
-async function callAI(messages: Message[]): Promise<string> {
+async function callAI(messages: Message[], jsonMode = false): Promise<string> {
   // 1. Try Groq (Primary)
   if (process.env.GROQ_API_KEY) {
     try {
-      return await fetchWithTimeout(GROQ_URL, process.env.GROQ_API_KEY, GROQ_MODEL, messages);
+      return await fetchWithTimeout(GROQ_URL, process.env.GROQ_API_KEY, GROQ_MODEL, messages, jsonMode);
     } catch (err) {
       console.warn('[AI] Groq failed, falling back to OpenRouter:', err instanceof Error ? err.message : String(err));
     }
@@ -84,7 +138,7 @@ async function callAI(messages: Message[]): Promise<string> {
 
   // 2. Try OpenRouter (Fallback)
   if (process.env.OPENROUTER_API_KEY) {
-    return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, OPENROUTER_MODEL, messages);
+    return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, OPENROUTER_MODEL, messages, jsonMode);
   }
 
   throw new Error('No AI provider API keys configured (GROQ_API_KEY or OPENROUTER_API_KEY)');
@@ -93,7 +147,13 @@ async function callAI(messages: Message[]): Promise<string> {
 /**
  * Shared fetch logic for OpenAI-compatible endpoints.
  */
-async function fetchWithTimeout(url: string, key: string, model: string, messages: Message[]): Promise<string> {
+async function fetchWithTimeout(
+  url: string,
+  key: string,
+  model: string,
+  messages: Message[],
+  jsonMode: boolean
+): Promise<string> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), AI_TIMEOUT_MS);
 
@@ -111,6 +171,7 @@ async function fetchWithTimeout(url: string, key: string, model: string, message
         model,
         messages,
         temperature: 0.1, // Keep it deterministic for tests
+        ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
       }),
       signal: controller.signal,
     });
@@ -136,6 +197,8 @@ async function fetchWithTimeout(url: string, key: string, model: string, message
 
 /**
  * Runs a prompt against a user input.
+ * Free-form execution — never JSON-constrained, since this runs the
+ * user's own prompt content, not our internal evaluator.
  */
 export async function runPromptAgainstInput(
   promptContent: string,
@@ -146,11 +209,16 @@ export async function runPromptAgainstInput(
     { role: 'user', content: userInput },
   ];
 
-  return await callAI(messages);
+  return await callAI(messages, false);
 }
 
 /**
  * Evaluates whether the output satisfies the expected criteria.
+ *
+ * Three layers of defense against hallucinated/malformed JSON, in order:
+ *   1. Request json_object mode from the provider (best-effort, model-dependent)
+ *   2. Depth-balanced, string-aware extraction (handles markdown fences, prose)
+ *   3. Zod schema validation (fail closed on wrong shape/types, never `as`-cast)
  */
 export async function evaluateOutput(
   actualOutput: string,
@@ -175,12 +243,15 @@ Respond ONLY with valid JSON in this exact format, no markdown, no explanation:
   `.trim();
 
   const messages: Message[] = [{ role: 'user', content: evaluationPrompt }];
-  const response = await callAI(messages);
+  const response = await callAI(messages, true);
 
   try {
-    const parsed = extractJson(response) as { passed: boolean; reason: string };
-    if (typeof parsed.passed !== 'boolean') throw new TypeError('Invalid shape');
-    return parsed;
+    const candidate = extractJson(response);
+    const parsed = evaluationResultSchema.safeParse(candidate);
+    if (!parsed.success) {
+      return { passed: false, reason: 'Evaluator returned an invalid response format' };
+    }
+    return parsed.data;
   } catch {
     return { passed: false, reason: 'Evaluator returned an invalid response format' };
   }
@@ -188,28 +259,33 @@ Respond ONLY with valid JSON in this exact format, no markdown, no explanation:
 
 /**
  * Runs a single test case end-to-end.
+ *
+ * Deliberately does NOT catch errors here. Both `runPromptAgainstInput` and
+ * `evaluateOutput` throwing (provider down, timeout, no API keys configured)
+ * means we have no real `actualOutput` to report — inventing one and
+ * returning `{ passed: false, actualOutput: '' }` would make a genuine
+ * infrastructure failure indistinguishable from "the prompt legitimately
+ * failed the test", and callers that persist this to a permanent results
+ * table (tests.ts) would silently write fabricated history. Callers must
+ * catch and decide how to represent a real failure — see tests.ts.
+ *
+ * `evaluateOutput` itself never throws for parsing/shape problems (it has
+ * real `actualOutput` to attach a reason to, so it degrades to
+ * `passed: false` internally) — only upstream network/provider failures
+ * propagate out of this function.
  */
 export async function runSingleTestCase(
   promptContent: string,
   testCase: { inputText: string; expectedCriteria: string }
 ): Promise<{ passed: boolean; actualOutput: string; reason: string }> {
-  try {
-    const actualOutput = await runPromptAgainstInput(promptContent, testCase.inputText);
-    const evaluation = await evaluateOutput(actualOutput, testCase.expectedCriteria);
+  const actualOutput = await runPromptAgainstInput(promptContent, testCase.inputText);
+  const evaluation = await evaluateOutput(actualOutput, testCase.expectedCriteria);
 
-    return {
-      passed: evaluation.passed,
-      actualOutput,
-      reason: evaluation.reason,
-    };
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    return {
-      passed: false,
-      actualOutput: '',
-      reason: `AI Error: ${message}`,
-    };
-  }
+  return {
+    passed: evaluation.passed,
+    actualOutput,
+    reason: evaluation.reason,
+  };
 }
 
 export { MAX_CONCURRENT_TESTS };
