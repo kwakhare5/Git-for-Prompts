@@ -36,7 +36,7 @@ type TestRunnerProps = {
   initialTestCases: TestCase[];
 };
 
-type TestStatus = 'idle' | 'running' | 'pass' | 'fail';
+type TestStatus = 'idle' | 'running' | 'pass' | 'fail' | 'ai-error';
 
 type TestResult = {
   passed: boolean;
@@ -122,7 +122,8 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
 
       for (const r of testResults) {
         const testCaseId = r.testCaseId;
-        newStatuses[testCaseId] = r.passed ? 'pass' : 'fail';
+        const isPersisted = (r as Record<string, unknown>).persisted !== false;
+        newStatuses[testCaseId] = r.passed ? 'pass' : !isPersisted ? 'ai-error' : 'fail';
         newResults[testCaseId] = {
           passed: r.passed,
           actualOutput: r.actualOutput,
@@ -147,7 +148,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
   // ─── Score calculation ──────────────────────────────────────────────────────
 
   const completedCount = Object.values(statuses).filter(
-    (s) => s === 'pass' || s === 'fail'
+    (s) => s === 'pass' || s === 'fail' || s === 'ai-error'
   ).length;
   const passedCount = Object.values(statuses).filter((s) => s === 'pass').length;
   const hasResults = completedCount > 0;

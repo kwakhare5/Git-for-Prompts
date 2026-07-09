@@ -30,7 +30,7 @@ type CompareRunnerProps = {
   testCaseCount: number;
 };
 
-type CellStatus = 'idle' | 'running' | 'pass' | 'fail';
+type CellStatus = 'idle' | 'running' | 'pass' | 'fail' | 'ai-error';
 
 type VersionResults = {
   [testCaseId: string]: {
@@ -83,11 +83,13 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
 
       for (const r of comparison.resultsA) {
         newResultsA[r.testCaseId] = { passed: r.passed, actualOutput: r.actualOutput, reason: r.reason };
-        newStatusA[r.testCaseId] = r.passed ? 'pass' : 'fail';
+        const isPersisted = (r as Record<string, unknown>).persisted !== false;
+        newStatusA[r.testCaseId] = r.passed ? 'pass' : !isPersisted ? 'ai-error' : 'fail';
       }
       for (const r of comparison.resultsB) {
         newResultsB[r.testCaseId] = { passed: r.passed, actualOutput: r.actualOutput, reason: r.reason };
-        newStatusB[r.testCaseId] = r.passed ? 'pass' : 'fail';
+        const isPersisted = (r as Record<string, unknown>).persisted !== false;
+        newStatusB[r.testCaseId] = r.passed ? 'pass' : !isPersisted ? 'ai-error' : 'fail';
       }
 
       setTestCases(comparison.testCases);
@@ -372,6 +374,13 @@ function ResultBadge({ status }: { status: CellStatus | undefined }) {
   }
   if (status === 'running') {
     return <Spinner size="sm" />;
+  }
+  if (status === 'ai-error') {
+    return (
+      <span className="inline-flex items-center rounded px-2 py-0.5 text-xs font-medium border bg-amber-950 text-amber-400 border-amber-800/60" title="AI Error / Not Persisted">
+        ⚠️ ERR
+      </span>
+    );
   }
   return (
     <span

@@ -5,8 +5,75 @@ import { db } from '@/db';
 import { versions, prompts } from '@/db/schema';
 import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/version';
 import { revalidatePath } from 'next/cache';
-import { eq, desc, and } from 'drizzle-orm';
+import { eq, desc, and, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';
+
+// Type of the transaction object drizzle hands to a `db.transaction(async (tx) => ...)`
+// callback. Derived from `db.transaction` itself (not hardcoded against Drizzle's
+// internal generics), so it stays correct across driver/version changes.
+type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// insertNextVersion — shared by createVersion and restoreVersion.
+//
+// Both callers need the exact same "read the highest version number for this
+// prompt, insert version N+1, point the prompt at it" sequence. It used to be
+// duplicated in full in both functions; extracted here so there's one place
+// to reason about correctness.
+//
+// RACE CONDITION FIX:
+// The original code wrapped the read-increment-insert in a `db.transaction`
+// and called that "race-condition protection." Under Postgres's default
+// READ COMMITTED isolation, a transaction boundary alone does NOT prevent two
+// concurrent transactions from both reading the same "current max version"
+// before either commits — the `versions_prompt_version_unique` index would
+// only turn that race into a hard 23505 unique-violation error at insert
+// time (surfaced to the user as "Failed to create version," losing their
+// edit) rather than actually preventing it.
+//
+// It also couldn't have worked for a prompt's very first version at all:
+// `SELECT ... FOR UPDATE` — the standard row-locking fix — has no row to
+// lock when zero versions exist yet, so two concurrent first-saves would
+// still race regardless.
+//
+// `pg_advisory_xact_lock` fixes both cases. It takes a lock keyed off a hash
+// of promptId (not a table row), so it works identically whether this is
+// version 1 or version 500, is held only for the transaction's lifetime, and
+// releases automatically on commit or rollback — no cleanup code needed.
+// ─────────────────────────────────────────────────────────────────────────────
+async function insertNextVersion(
+  tx: Tx,
+  params: { promptId: string; content: string; commitMessage?: string; createdBy: string }
+) {
+  await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${params.promptId}))`);
+
+  const [lastVersion] = await tx
+    .select({ versionNumber: versions.versionNumber })
+    .from(versions)
+    .where(eq(versions.promptId, params.promptId))
+    .orderBy(desc(versions.versionNumber))
+    .limit(1);
+
+  const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
+
+  const [created] = await tx
+    .insert(versions)
+    .values({
+      promptId: params.promptId,
+      versionNumber: nextVersionNumber,
+      content: params.content,
+      commitMessage: params.commitMessage,
+      createdBy: params.createdBy,
+    })
+    .returning();
+
+  await tx
+    .update(prompts)
+    .set({ currentVersionId: created.id, updatedAt: new Date() })
+    .where(eq(prompts.id, params.promptId));
+
+  return created;
+}
 
 export async function createVersion(input: unknown) {
   const { userId } = await auth();
@@ -23,37 +90,14 @@ export async function createVersion(input: unknown) {
 
     if (!prompt) throw new Error('Prompt not found or access denied');
 
-    // Wrap the read-increment-insert in a transaction to prevent race conditions.
-    // Two concurrent saves would otherwise both read the same "highest version number"
-    // and produce a duplicate versionNumber collision.
-    const newVersion = await db.transaction(async (tx) => {
-      const [lastVersion] = await tx
-        .select({ versionNumber: versions.versionNumber })
-        .from(versions)
-        .where(eq(versions.promptId, validated.promptId))
-        .orderBy(desc(versions.versionNumber))
-        .limit(1);
-
-      const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
-
-      const [created] = await tx
-        .insert(versions)
-        .values({
-          promptId: validated.promptId,
-          versionNumber: nextVersionNumber,
-          content: validated.content,
-          commitMessage: validated.commitMessage,
-          createdBy: userId,
-        })
-        .returning();
-
-      await tx
-        .update(prompts)
-        .set({ currentVersionId: created.id, updatedAt: new Date() })
-        .where(eq(prompts.id, validated.promptId));
-
-      return created;
-    });
+    const newVersion = await db.transaction((tx) =>
+      insertNextVersion(tx, {
+        promptId: validated.promptId,
+        content: validated.content,
+        commitMessage: validated.commitMessage,
+        createdBy: userId,
+      })
+    );
 
     revalidatePath('/dashboard');
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);
@@ -92,36 +136,14 @@ export async function restoreVersion(input: unknown) {
       throw new Error('Version does not belong to this prompt');
     }
 
-
-    // Wrap restore in a transaction — same race condition risk as createVersion
-    const restoredVersion = await db.transaction(async (tx) => {
-      const [lastVersion] = await tx
-        .select({ versionNumber: versions.versionNumber })
-        .from(versions)
-        .where(eq(versions.promptId, validated.promptId))
-        .orderBy(desc(versions.versionNumber))
-        .limit(1);
-
-      const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
-
-      const [created] = await tx
-        .insert(versions)
-        .values({
-          promptId: validated.promptId,
-          versionNumber: nextVersionNumber,
-          content: versionToRestore.content,
-          commitMessage: `Restored from v${versionToRestore.versionNumber}`,
-          createdBy: userId,
-        })
-        .returning();
-
-      await tx
-        .update(prompts)
-        .set({ currentVersionId: created.id, updatedAt: new Date() })
-        .where(eq(prompts.id, validated.promptId));
-
-      return created;
-    });
+    const restoredVersion = await db.transaction((tx) =>
+      insertNextVersion(tx, {
+        promptId: validated.promptId,
+        content: versionToRestore.content,
+        commitMessage: `Restored from v${versionToRestore.versionNumber}`,
+        createdBy: userId,
+      })
+    );
 
     revalidatePath('/dashboard');
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);
