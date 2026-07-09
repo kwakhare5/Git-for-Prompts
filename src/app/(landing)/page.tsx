@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Show } from '@clerk/nextjs';
+import { Show, UserButton } from '@clerk/nextjs';
 import {
   Sheet,
   SheetClose,
@@ -146,6 +146,9 @@ export default function Home() {
             >
               Dashboard
             </Link>
+            <div className="pl-2">
+              <UserButton />
+            </div>
           </Show>
           <Show when="signed-out">
             <Link
@@ -216,14 +219,26 @@ export default function Home() {
                   </div>
                   
                   <div className="pt-4 border-t border-zinc-900 mt-4 flex flex-col gap-2">
-                    <SheetClose asChild>
-                      <Link
-                        href="/sign-in"
-                        className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
-                      >
-                        Sign In
-                      </Link>
-                    </SheetClose>
+                    <Show when="signed-out">
+                      <SheetClose asChild>
+                        <Link
+                          href="/sign-in"
+                          className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
+                        >
+                          Sign In
+                        </Link>
+                      </SheetClose>
+                    </Show>
+                    <Show when="signed-in">
+                      <SheetClose asChild>
+                        <Link
+                          href="/dashboard"
+                          className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
+                        >
+                          Dashboard
+                        </Link>
+                      </SheetClose>
+                    </Show>
                   </div>
                 </div>
               </SheetContent>

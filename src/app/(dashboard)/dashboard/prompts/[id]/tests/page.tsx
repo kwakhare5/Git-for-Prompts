@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { TestRunner } from '@/components/test-runner';
 import { EmptyState } from '@/components/ui/empty-state';
+import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -38,7 +39,9 @@ export default async function TestsPage({
 
   if (!prompt) notFound();
 
-  // Fetch versions (needed for the run-against selector)
+  // Recent versions for the "run against" selector. Capped — the default
+  // selection is always the latest version, which is guaranteed to be
+  // inside this window, so no correctness is lost by capping here.
   const allVersions = await db
     .select({
       id: versions.id,
@@ -47,7 +50,8 @@ export default async function TestsPage({
     })
     .from(versions)
     .where(eq(versions.promptId, id))
-    .orderBy(desc(versions.versionNumber));
+    .orderBy(desc(versions.versionNumber))
+    .limit(RECENT_VERSIONS_LIMIT);
 
   // Fetch existing test cases
   const existingCases = await db

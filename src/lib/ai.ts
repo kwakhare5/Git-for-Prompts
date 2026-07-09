@@ -84,10 +84,31 @@ const evaluationResultSchema = z.object({
 // Configuration
 // ─────────────────────────────────────────────────────────────────────────────
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
-
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const OPENROUTER_MODEL = 'openrouter/free';
+
+/**
+ * Model configuration — overridable per environment, per purpose.
+ *
+ * Two purposes exist:
+ *  - "execution": running the user's own prompt against a test input.
+ *  - "evaluation": grading that output against the test's expected
+ *    criteria.
+ *
+ * These can legitimately want different models — e.g. a cheap/fast model
+ * to execute hundreds of prompts in a bulk test run, and a heavier
+ * reasoning model as the judge for evaluation accuracy. Each is
+ * independently overridable via env var; if the eval-specific var is
+ * unset, it falls back to the execution model so existing deployments
+ * keep their current (identical-model) behavior with zero config changes
+ * required.
+ */
+const GROQ_EXECUTION_MODEL = process.env.GROQ_EXECUTION_MODEL || 'llama-3.3-70b-versatile';
+const GROQ_EVALUATION_MODEL = process.env.GROQ_EVALUATION_MODEL || GROQ_EXECUTION_MODEL;
+
+const OPENROUTER_EXECUTION_MODEL = process.env.OPENROUTER_EXECUTION_MODEL || 'openrouter/free';
+const OPENROUTER_EVALUATION_MODEL = process.env.OPENROUTER_EVALUATION_MODEL || OPENROUTER_EXECUTION_MODEL;
+
+type AIPurpose = 'execution' | 'evaluation';
 
 const AI_TIMEOUT_MS = 30_000;
 const MAX_CONCURRENT_TESTS = 10; // Groq is fast enough for high concurrency
@@ -118,19 +139,32 @@ export async function runWithConcurrency<T>(
  * Core fetch wrapper with fallback logic.
  * Try Groq first -> Fallback to OpenRouter.
  *
- * `jsonMode` requests OpenAI-compatible `response_format: { type: "json_object" }`.
- * This is ONLY passed for calls that must return JSON (the evaluator) — never
- * for `runPromptAgainstInput`, which executes the user's own prompt and must
- * not have its output shape forced. json_object mode is broadly supported by
- * both Groq and OpenRouter but not guaranteed on every routed model, so it is
- * a best-effort first layer of defense, not the only one — extractJson +
- * Zod validation below still run on every response regardless.
+ * `purpose` selects which model pair (execution vs. evaluation) is used
+ * for whichever provider ends up handling the call — see the model
+ * constants above.
+ *
+ * `jsonMode` requests OpenAI-compatible `response_format: { type:
+ * "json_object" }`. This is ONLY passed for calls that must return JSON
+ * (the evaluator) — never for `runPromptAgainstInput`, which executes the
+ * user's own prompt and must not have its output shape forced. json_object
+ * mode is broadly supported by both Groq and OpenRouter but not
+ * guaranteed on every routed model, so it is a best-effort first layer of
+ * defense, not the only one — extractJson + Zod validation below still
+ * run on every response regardless.
  */
-async function callAI(messages: Message[], jsonMode = false): Promise<string> {
+async function callAI(
+  messages: Message[],
+  jsonMode = false,
+  purpose: AIPurpose = 'execution'
+): Promise<string> {
+  const groqModel = purpose === 'evaluation' ? GROQ_EVALUATION_MODEL : GROQ_EXECUTION_MODEL;
+  const openRouterModel =
+    purpose === 'evaluation' ? OPENROUTER_EVALUATION_MODEL : OPENROUTER_EXECUTION_MODEL;
+
   // 1. Try Groq (Primary)
   if (process.env.GROQ_API_KEY) {
     try {
-      return await fetchWithTimeout(GROQ_URL, process.env.GROQ_API_KEY, GROQ_MODEL, messages, jsonMode);
+      return await fetchWithTimeout(GROQ_URL, process.env.GROQ_API_KEY, groqModel, messages, jsonMode);
     } catch (err) {
       console.warn('[AI] Groq failed, falling back to OpenRouter:', err instanceof Error ? err.message : String(err));
     }
@@ -138,7 +172,7 @@ async function callAI(messages: Message[], jsonMode = false): Promise<string> {
 
   // 2. Try OpenRouter (Fallback)
   if (process.env.OPENROUTER_API_KEY) {
-    return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, OPENROUTER_MODEL, messages, jsonMode);
+    return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, openRouterModel, messages, jsonMode);
   }
 
   throw new Error('No AI provider API keys configured (GROQ_API_KEY or OPENROUTER_API_KEY)');
@@ -198,7 +232,8 @@ async function fetchWithTimeout(
 /**
  * Runs a prompt against a user input.
  * Free-form execution — never JSON-constrained, since this runs the
- * user's own prompt content, not our internal evaluator.
+ * user's own prompt content, not our internal evaluator. Always uses the
+ * "execution" model pair.
  */
 export async function runPromptAgainstInput(
   promptContent: string,
@@ -209,11 +244,14 @@ export async function runPromptAgainstInput(
     { role: 'user', content: userInput },
   ];
 
-  return await callAI(messages, false);
+  return await callAI(messages, false, 'execution');
 }
 
 /**
  * Evaluates whether the output satisfies the expected criteria.
+ * Always uses the "evaluation" model pair — independently configurable
+ * from the execution model via GROQ_EVALUATION_MODEL /
+ * OPENROUTER_EVALUATION_MODEL.
  *
  * Three layers of defense against hallucinated/malformed JSON, in order:
  *   1. Request json_object mode from the provider (best-effort, model-dependent)
@@ -243,7 +281,7 @@ Respond ONLY with valid JSON in this exact format, no markdown, no explanation:
   `.trim();
 
   const messages: Message[] = [{ role: 'user', content: evaluationPrompt }];
-  const response = await callAI(messages, true);
+  const response = await callAI(messages, true, 'evaluation');
 
   try {
     const candidate = extractJson(response);
@@ -260,14 +298,15 @@ Respond ONLY with valid JSON in this exact format, no markdown, no explanation:
 /**
  * Runs a single test case end-to-end.
  *
- * Deliberately does NOT catch errors here. Both `runPromptAgainstInput` and
- * `evaluateOutput` throwing (provider down, timeout, no API keys configured)
- * means we have no real `actualOutput` to report — inventing one and
- * returning `{ passed: false, actualOutput: '' }` would make a genuine
- * infrastructure failure indistinguishable from "the prompt legitimately
- * failed the test", and callers that persist this to a permanent results
- * table (tests.ts) would silently write fabricated history. Callers must
- * catch and decide how to represent a real failure — see tests.ts.
+ * Deliberately does NOT catch errors here. Both `runPromptAgainstInput`
+ * and `evaluateOutput` throwing (provider down, timeout, no API keys
+ * configured) means we have no real `actualOutput` to report — inventing
+ * one and returning `{ passed: false, actualOutput: '' }` would make a
+ * genuine infrastructure failure indistinguishable from "the prompt
+ * legitimately failed the test", and callers that persist this to a
+ * permanent results table (tests.ts) would silently write fabricated
+ * history. Callers must catch and decide how to represent a real failure
+ * — see tests.ts.
  *
  * `evaluateOutput` itself never throws for parsing/shape problems (it has
  * real `actualOutput` to attach a reason to, so it degrades to

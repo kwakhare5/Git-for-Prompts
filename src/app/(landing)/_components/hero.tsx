@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, RefreshCw } from 'lucide-react';
+import { Show } from '@clerk/nextjs';
 
 interface HeroProps {
   onTrySandbox: () => void;
@@ -64,12 +65,22 @@ export function Hero({ onTrySandbox }: HeroProps) {
         >
           Try Sandbox <ArrowRight className="h-4 w-4" />
         </button>
-        <Link
-          href="/sign-up"
-          className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:border-zinc-700 transition-all"
-        >
-          Sign Up Free
-        </Link>
+        <Show when="signed-out">
+          <Link
+            href="/sign-up"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:border-zinc-700 transition-all"
+          >
+            Sign Up Free
+          </Link>
+        </Show>
+        <Show when="signed-in">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:border-zinc-700 transition-all"
+          >
+            Dashboard
+          </Link>
+        </Show>
       </div>
 
       {/* High-Fidelity Hero Dashboard Mockup (macOS style, fully readable, no overlap) */}
