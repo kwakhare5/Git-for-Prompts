@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PromptDetailClient } from '@/components/prompt-detail-client';
 import { EmptyState } from '@/components/ui/empty-state';
+import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -38,12 +39,17 @@ export default async function PromptDetailPage({
 
   if (!prompt) notFound();
 
-  // All versions, newest-first
+  // Recent versions for the editor/history sidebar. Capped — a prompt's
+  // version history is unbounded, and rendering thousands of version
+  // cards (each with buttons, previews, restore actions) would hang the
+  // tab. v[0] (latest) is always correct regardless of window size,
+  // which is all this page needs by default.
   const allVersions = await db
     .select()
     .from(versions)
     .where(eq(versions.promptId, id))
-    .orderBy(desc(versions.versionNumber));
+    .orderBy(desc(versions.versionNumber))
+    .limit(RECENT_VERSIONS_LIMIT);
 
   // Test case count for the badge
   const [testCaseCount] = await db
@@ -87,7 +93,7 @@ export default async function PromptDetailPage({
         <div className="flex items-center gap-2 shrink-0">
           {hasVersions && allVersions.length >= 2 && (
             <Link
-              href={`/dashboard/prompts/${id}/diff?from=${allVersions[allVersions.length - 1].id}&to=${allVersions[0].id}`}
+              href={`/dashboard/prompts/${id}/diff`}
               className="inline-flex items-center gap-1.5 rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-300 hover:text-zinc-100 hover:border-zinc-700 transition-colors"
             >
               Diff
