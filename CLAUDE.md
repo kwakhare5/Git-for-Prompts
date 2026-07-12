@@ -1,6 +1,6 @@
 ﻿# Git for Prompts � CLAUDE.md
 # Global rules: C:\Users\kwakh\.gemini\config\AGENTS.md (read this first)
-# Brain file: D:\workflow-main\brain\Projects\Git-for-Prompts.md (full context)
+# Project wiki: D:\workflow-main\02_Obsidian_Brain\wiki\Projects\Git-for-Prompts.md
 
 ---
 **AI POINTER:** You are an amnesiac. DO NOT `grep` the codebase. At session start you MUST:
