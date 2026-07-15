@@ -9,17 +9,17 @@
 
 **Name:** Git for Prompts
 **Goal:** SaaS tool for versioning, organizing, and managing AI prompts with GitHub-style workflows
-**Status:** In Progress
-**Stack type:** Full-stack Next.js SaaS with API keys + AI calls
+**Status:** Live on Vercel (`https://gitforprompts.vercel.app`)
+**Stack type:** Full-stack Next.js SaaS with API keys, CLI, webhooks & AI calls
 
 ---
 
 ## 2. TECH STACK
 
-- **Frontend:** Next.js 15 App Router, React, TypeScript (strict), Tailwind CSS
+- **Frontend:** Next.js 15 App Router, React, TypeScript (strict), Tailwind CSS v4
 - **Auth:** Clerk only — never add Supabase Auth. User ID always from `auth().userId()`
-- **Database:** Drizzle ORM only — never supabase-js for DB queries
-- **AI:** Groq (primary), OpenRouter (fallback). Model name in config constant, never hardcoded
+- **Database:** Drizzle ORM only — PostgreSQL via Supabase. Never supabase-js for DB queries
+- **AI:** Groq (primary), OpenRouter (fallback). Dual-model setup for speed + accuracy
 - **Rate limiting:** Upstash Redis + `@upstash/ratelimit`
 - **Hosting:** Vercel
 
@@ -28,9 +28,9 @@
 ## 3. DEV COMMANDS
 
 ```bash
-npm run dev        # start dev server
-npm run build      # production build — must pass before any commit
-npm run lint       # ESLint + TypeScript — zero errors required
+pnpm dev           # start dev server
+pnpm build         # production build — must pass before any commit
+pnpm test          # run vitest test suite (81/81 passing)
 npx tsc --noEmit   # type check only
 ```
 
@@ -38,76 +38,75 @@ npx tsc --noEmit   # type check only
 
 ## 4. LOCAL RULES
 
-1. **Database — Drizzle only, ownership required:**
+1. **Database — Drizzle only, ownership & advisory locking:**
    - Drizzle ORM only. Never supabase-js for DB queries.
    - Every DB read/write MUST check `ownerId = auth().userId()`. No exceptions.
    - Versions are IMMUTABLE — every save creates a new row in `versions` table. Never update existing.
+   - All version writes MUST use `insertNextVersion` — `pg_advisory_xact_lock` is mandatory to prevent version races.
    - `revalidatePath()` after every DB mutation.
 
 2. **API Keys — security critical:**
-   - Stored as bcrypt hash (`keyHash`) + SHA-256 lookup hash (`keyLookupHash`)
-   - Display only `keyPrefix` (e.g. `"gfp_live_"`). Never show full key after creation.
+   - Stored as SHA-256 lookup hash (`keyLookupHash`) with `gfp_live_` prefix for O(1) fast indexed lookup.
+   - Auth logic isolated in `src/lib/api-auth.ts` (`authenticateApiKey`). Never show plaintext key after creation.
 
-3. **AI calls — server only:**
+3. **AI calls & Test Runner — server only:**
    - All AI calls in Server Actions or API routes. Never in Client Components.
+   - Evaluation & persistence handled by `src/lib/test-runner.ts` (`runEvaluations` + `persistResults`).
 
-4. **Code style:**
+4. **Webhooks — fire-and-forget:**
+   - Webhooks fired via `src/lib/webhooks.ts` (`fireWebhooks`) after DB commit. Always `void fireWebhooks(...)`, never `await`.
+
+5. **Code style:**
    - Named exports for components. Default export for pages only.
    - `font-mono` class on ALL prompt text and AI output.
    - `unknown + Zod` for external data. Never `any`.
    - Check `src/components/` before building new components.
    - No `console.log` in production code.
 
-5. **Before marking any task done:**
-   - `npm run lint && npx tsc --noEmit` → zero errors
-   - Test with real data (real prompts, real commits, real test cases)
+6. **Before marking any task done:**
+   - `pnpm test && npx tsc --noEmit` → zero errors
 
 ---
 
 ## 5. PROJECT PATTERNS
 
-### API shape
-```typescript
-type ApiResponse<T> = { data: T | null; error: string | null }
-```
-
-### File structure
-```
-/app                  — pages, layouts
-/app/api              — API route handlers (all AI calls here)
-/app/(dashboard)      — protected app pages
-/components/ui        — shared UI primitives
-/lib                  — utilities, DB helpers
-/lib/db               — all Drizzle queries
-/lib/auth.ts          — Clerk auth helpers
-```
+### Deep Modules
+- `src/lib/api-auth.ts`: `authenticateApiKey(req)` → 5-step Bearer auth in one call
+- `src/lib/test-runner.ts`: `runEvaluations` + `persistResults` → bulk upsert on `(version_id, test_case_id)`
+- `src/lib/actions/versions.ts`: `insertNextVersion` → advisory lock transaction for append-only versioning
 
 ### Key constraint — versions table
-Every prompt save = INSERT new row. Never UPDATE. Read the latest via ORDER BY createdAt DESC LIMIT 1.
+Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(versions.versionNumber)).limit(1)`.
 
 ---
 
 ## 6. MISTAKES TO AVOID
 
-<!-- AI appends here after every VERIFY failure -->
-<!-- Format: [YYYY-MM-DD] What went wrong → What to do instead -->
+- `webhooks.ts`: Do NOT use JS `&&` inside Drizzle `where()` clauses — use Drizzle `and(...)`.
+- `tests.test.ts`: FK cleanup in `afterAll` must delete `test_results` before `test_cases`, `versions`, and `prompts`.
+- `push route`: Do NOT query max version number without `pg_advisory_xact_lock` — concurrent pushes will collision.
 
 ---
 
 ## 7. SESSION RESUME
 
-_AI fills this at the END of every session. Read this at the START of the next session._
-
-**Last session date:** [YYYY-MM-DD]
+**Last session date:** 2026-07-24
 
 **What we built / changed:**
-- [bullet]
+- Refactored API Auth, TestRunner, and `forkPrompt` into 3 deep modules (`api-auth.ts`, `test-runner.ts`, `insertNextVersion`).
+- Curated top 4 landing page features & graphics ([features.tsx](file:///d:/Git%20for%20Prompts/src/app/%28landing%29/_components/features.tsx)).
+- Updated documentation across [README.md](file:///d:/Git%20for%20Prompts/README.md), [CONTEXT.md](file:///d:/Git%20for%20Prompts/CONTEXT.md), and [ARCHITECTURE.md](file:///d:/Git%20for%20Prompts/ARCHITECTURE.md).
+- Squashed commits cleanly into `ba79937` and pushed to `main`.
 
 **Immediate next task:**
-[Describe exactly]
+- None pending — codebase clean, 81/81 tests passing, `tsc --noEmit` zero errors.
 
 **Open blockers:**
-[Anything unresolved]
+- None.
 
 **Files most recently changed:**
-- [file path]
+- `src/app/(landing)/_components/features.tsx`
+- `README.md`
+- `CONTEXT.md`
+- `ARCHITECTURE.md`
+- `CLAUDE.md`

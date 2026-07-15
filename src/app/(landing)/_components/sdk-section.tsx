@@ -9,19 +9,17 @@ interface TerminalLine {
 }
 
 const script: { cmd: string; outputs: TerminalLine[] }[] = [
-  { cmd: 'gfp login', outputs: [
+  { cmd: 'gfp auth', outputs: [
     { text: 'Logging into Git for Prompts...', type: 'info' },
     { text: '✓ Authenticated as karan (user_3F2JhB...)', type: 'success' }
   ]},
-  { cmd: 'gfp pull customer-support --version 3', outputs: [
-    { text: 'Downloading customer-support version 3...', type: 'info' },
+  { cmd: 'gfp pull customer-support --version 4', outputs: [
+    { text: 'Downloading customer-support version 4...', type: 'info' },
     { text: '✓ Created prompt_template.txt (208 tokens)', type: 'success' }
   ]},
-  { cmd: 'gfp test customer-support', outputs: [
-    { text: 'Running local prompt evaluations...', type: 'info' },
-    { text: '● returns_refund_request ... PASS (100/100)', type: 'success' },
-    { text: '● returns_late_shipment  ... PASS (100/100)', type: 'success' },
-    { text: '✓ All 2 assertions passed.', type: 'success' }
+  { cmd: 'gfp push customer-support ./prompt_template.txt', outputs: [
+    { text: 'Pushing new version...', type: 'info' },
+    { text: '✓ Pushed as v5 · webhook fired to 2 endpoints', type: 'success' }
   ]}
 ];
 

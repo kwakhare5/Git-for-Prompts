@@ -20,23 +20,23 @@ export function Features() {
   const features = [
     {
       num: '01',
-      title: 'Branching Commits',
-      desc: 'Save prompt updates as Git-like commits. Track authors, timelines, and messages in an immutable tree.'
+      title: 'Immutable Versioning',
+      desc: 'Append-only prompt history with Git-like commits. Advisory transaction locks ensure zero concurrency conflicts across parallel updates.'
     },
     {
       num: '02',
-      title: 'Visual Diff Comparisons',
-      desc: 'Wipe across prompt versions with a draggable divider. Identify deletions and additions instantly.'
+      title: 'Visual Diff & A/B Compare',
+      desc: 'Compare prompt revisions side-by-side using the Monaco Editor engine. Benchmark any two versions against real test suites.'
     },
     {
       num: '03',
       title: 'Automated Test Runner',
-      desc: 'Simulate concurrent model checks. Assert output parameters against natural language guidelines.'
+      desc: 'Define input fixtures and criteria. Evaluate prompt outputs with AI scoring, bulk persistence, and regression tracking.'
     },
     {
       num: '04',
-      title: 'Runtime API Delivery',
-      desc: 'Fetch active versions dynamically via API key. Decouple prompt updates from app redeployments.'
+      title: 'Runtime API & CLI Delivery',
+      desc: 'Fetch active prompts at runtime with variable interpolation, commit versions via gfp CLI, and receive HMAC-signed webhooks.'
     }
   ];
 

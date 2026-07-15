@@ -43,7 +43,7 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 // version 1 or version 500, is held only for the transaction's lifetime, and
 // releases automatically on commit or rollback — no cleanup code needed.
 // ─────────────────────────────────────────────────────────────────────────────
-async function insertNextVersion(
+export async function insertNextVersion(
   tx: Tx,
   params: { promptId: string; content: string; commitMessage?: string; createdBy: string }
 ) {
