@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://gitforprompts.com';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://gitforprompts.vercel.app';
 const VALID_BASE_URL = BASE_URL.startsWith('http') ? BASE_URL : `https://${BASE_URL}`;
 
 

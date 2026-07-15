@@ -210,7 +210,8 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/dashboard"
 NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/dashboard"
 GROQ_API_KEY="gsk_..."
 OPENROUTER_API_KEY="sk-or-v1-..."
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="https://gitforprompts.vercel.app"
+NEXT_PUBLIC_BASE_URL="https://gitforprompts.vercel.app"
 ```
 
 ### Server Actions

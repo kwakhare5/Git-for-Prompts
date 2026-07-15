@@ -15,10 +15,13 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
+  const { userId } = await auth();
+  if (!userId) return { title: 'Prompt' };
+
   const [prompt] = await db
     .select({ name: prompts.name })
     .from(prompts)
-    .where(eq(prompts.id, id));
+    .where(and(eq(prompts.id, id), eq(prompts.ownerId, userId)));
   return { title: prompt?.name ?? 'Prompt' };
 }
 
@@ -44,18 +47,25 @@ export default async function PromptDetailPage({
   // cards (each with buttons, previews, restore actions) would hang the
   // tab. v[0] (latest) is always correct regardless of window size,
   // which is all this page needs by default.
-  const allVersions = await db
-    .select()
-    .from(versions)
-    .where(eq(versions.promptId, id))
-    .orderBy(desc(versions.versionNumber))
-    .limit(RECENT_VERSIONS_LIMIT);
+  // Fetch paginated versions + total count in parallel
+  const [allVersions, [versionCountRow], [testCaseCount]] = await Promise.all([
+    db
+      .select()
+      .from(versions)
+      .where(eq(versions.promptId, id))
+      .orderBy(desc(versions.versionNumber))
+      .limit(RECENT_VERSIONS_LIMIT),
+    db
+      .select({ count: count() })
+      .from(versions)
+      .where(eq(versions.promptId, id)),
+    db
+      .select({ count: count() })
+      .from(testCases)
+      .where(eq(testCases.promptId, id)),
+  ]);
 
-  // Test case count for the badge
-  const [testCaseCount] = await db
-    .select({ count: count() })
-    .from(testCases)
-    .where(eq(testCases.promptId, id));
+  const totalVersionCount = versionCountRow?.count ?? 0;
 
   // Initial active version — always the latest; client-side switching is handled by PromptDetailClient
   const activeVersion = allVersions[0];
@@ -135,7 +145,9 @@ export default async function PromptDetailPage({
         <PromptDetailClient
           promptId={id}
           versions={allVersions}
+          totalVersionCount={totalVersionCount}
           initialActiveVersionId={activeVersion?.id}
+          isPublic={prompt.isPublic}
         />
       ) : (
         <EmptyState

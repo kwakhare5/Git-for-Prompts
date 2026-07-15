@@ -9,7 +9,7 @@
 
 export const GFP_THEME_NAME = 'gfp-dark';
 
-export const GFP_THEME_DEFINITION = {
+const GFP_THEME_DEFINITION = {
   base: 'vs-dark' as const,
   inherit: true,
   rules: [],

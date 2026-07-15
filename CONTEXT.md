@@ -34,7 +34,7 @@
 
 ```
 prompts       → id, ownerId (Clerk userId), name, description,
-                model, tags[], isPublic, createdAt, updatedAt
+                currentVersionId→versions, isPublic, createdAt, updatedAt
                 INDEX: prompts_owner_id_idx
 
 versions      → id, promptId→prompts, versionNumber (1,2,3...),
@@ -110,15 +110,6 @@ src/
 
 ---
 
-## Business Rules (Never Break)
-
-1. Versions are IMMUTABLE — every Prompt save creates a new Version row. Never UPDATE existing versions.
-2. Every DB read/write must verify `ownerId = auth().userId()` — no cross-user data access ever
-3. API Keys are stored as bcrypt hash + SHA-256 lookup hash — never store plaintext, never show full key after creation
-4. All AI calls happen in Server Actions or API routes — never in Client Components
-5. Rate limiting via Upstash Redis applies to all API Key usage
-
----
 
 ## User Roles
 

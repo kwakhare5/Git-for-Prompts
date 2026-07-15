@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { PromptEditor } from '@/components/prompt-editor';
 import { VersionHistory } from '@/components/version-history';
+import { togglePromptVisibility } from '@/lib/actions/prompts';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
 
@@ -11,7 +12,9 @@ type Version = InferSelectModel<typeof versions>;
 interface PromptDetailClientProps {
   promptId: string;
   versions: Version[];
+  totalVersionCount: number;
   initialActiveVersionId?: string;
+  isPublic: boolean;
 }
 
 /**
@@ -22,9 +25,13 @@ interface PromptDetailClientProps {
 export function PromptDetailClient({
   promptId,
   versions,
+  totalVersionCount,
   initialActiveVersionId,
+  isPublic: initialIsPublic,
 }: PromptDetailClientProps) {
   const [selectedId, setSelectedId] = useState(initialActiveVersionId);
+  const [isPublic, setIsPublic] = useState(initialIsPublic);
+  const [toggling, startToggle] = useTransition();
 
   // Resolve active version — fall back to latest if selectedId not found
   const activeVersion = versions.find((v) => v.id === selectedId) ?? versions[0];
@@ -51,15 +58,48 @@ export function PromptDetailClient({
             Version History
           </h2>
           <span className="text-xs text-zinc-500 font-mono tabular-nums">
-            {versions.length} version{versions.length !== 1 ? 's' : ''}
+            {totalVersionCount} version{totalVersionCount !== 1 ? 's' : ''}
           </span>
         </div>
+        {/* Show truncation notice when history is capped */}
+        {totalVersionCount > versions.length && (
+          <p className="text-[10px] text-zinc-600 font-mono">
+            Showing {versions.length} of {totalVersionCount} — oldest versions not shown
+          </p>
+        )}
         <VersionHistory
           promptId={promptId}
           versions={versions}
           activeVersionId={activeVersion?.id}
           onVersionSelect={setSelectedId}
         />
+
+        {/* Visibility toggle */}
+        <div className="mt-2 pt-3 border-t border-zinc-800">
+          <button
+            onClick={() =>
+              startToggle(async () => {
+                const updated = await togglePromptVisibility(promptId);
+                setIsPublic(updated.isPublic);
+              })
+            }
+            disabled={toggling}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
+              isPublic
+                ? 'border-emerald-800 bg-emerald-950/40 text-emerald-400 hover:bg-emerald-950/60'
+                : 'border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
+            } disabled:opacity-40`}
+            aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
+          >
+            <span className="flex items-center gap-1.5">
+              <span aria-hidden="true">{isPublic ? '🌐' : '🔒'}</span>
+              {isPublic ? 'Public' : 'Private'}
+            </span>
+            <span className="text-[10px] opacity-60">
+              {toggling ? '…' : isPublic ? 'Click to make private' : 'Click to publish'}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );

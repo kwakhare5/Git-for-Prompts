@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useTransition, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { createVersion } from '@/lib/actions/versions';
 import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
+import { extractVariables } from '@/lib/variables';
 
 // Monaco must be dynamically imported — it relies on browser APIs not available during SSR
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
@@ -58,6 +59,7 @@ export function PromptEditor({
 
   const charCount = content.length;
   const tokenEstimate = Math.ceil(charCount / 4);
+  const detectedVariables = useMemo(() => extractVariables(content), [content]);
 
   function handleSave() {
     setError(null);
@@ -196,17 +198,33 @@ export function PromptEditor({
         </div>{/* closes region */}
       </div>{/* closes editor shell */}
 
-      {/* Footer — Stats & Errors */}
-      <div className="flex items-center justify-between px-1">
-        {/* V4: ~ at 10px monospace renders like a minus sign; ≈ is unambiguous */}
-        <div className="text-[10px] text-zinc-500 font-mono tabular-nums uppercase tracking-tight">
-          {charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens
+      {/* Footer — Stats, Variables & Errors */}
+      <div className="flex flex-col gap-1.5 px-1">
+        <div className="flex items-center justify-between">
+          <div className="text-[10px] text-zinc-500 font-mono tabular-nums uppercase tracking-tight">
+            {charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens
+          </div>
+
+          {error && (
+            <p role="alert" className="text-[10px] text-red-400 font-medium">
+              {error}
+            </p>
+          )}
         </div>
 
-        {error && (
-          <p role="alert" className="text-[10px] text-red-400 font-medium">
-            {error}
-          </p>
+        {/* Variable chips — shown whenever {{var}} placeholders are detected */}
+        {detectedVariables.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider shrink-0">Variables:</span>
+            {detectedVariables.map((v) => (
+              <span
+                key={v}
+                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-violet-950 border border-violet-800 text-[10px] font-mono text-violet-300"
+              >
+                <span className="opacity-50">&#123;&#123;</span>{v}<span className="opacity-50">&#125;&#125;</span>
+              </span>
+            ))}
+          </div>
         )}
       </div>
     </div>

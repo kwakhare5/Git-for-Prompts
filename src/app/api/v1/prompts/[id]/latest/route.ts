@@ -4,6 +4,7 @@ import { apiKeys, prompts, versions } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { createHash } from 'crypto';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { interpolateVariables } from '@/lib/variables';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/prompts/[id]/latest
@@ -113,12 +114,25 @@ export async function GET(
       );
     }
 
+    // 7. Collect ?variables[name]=value query params and interpolate
+    const variableValues: Record<string, string> = {};
+    for (const [key, val] of req.nextUrl.searchParams.entries()) {
+      const match = key.match(/^variables\[([a-zA-Z_][a-zA-Z0-9_]*)\]$/);
+      if (match) variableValues[match[1]] = val;
+    }
+
+    const content =
+      Object.keys(variableValues).length > 0
+        ? interpolateVariables(latest.content, variableValues)
+        : latest.content;
+
     return NextResponse.json({
       promptId: prompt.id,
       promptName: prompt.name,
       versionNumber: latest.versionNumber,
       commitMessage: latest.commitMessage ?? null,
-      content: latest.content,
+      content,
+      variables: latest.variables ?? [],
       createdAt: latest.createdAt,
     });
   } catch {

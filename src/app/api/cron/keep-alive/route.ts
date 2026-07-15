@@ -5,12 +5,11 @@ import { prompts } from '@/db/schema';
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
-  // 1. Verify cron authorization to prevent public spamming
+  // 1. Verify cron authorization to prevent public spamming.
+  //    Rejects ALL requests when CRON_SECRET is unset — never silently open.
+  const cronSecret = process.env.CRON_SECRET;
   const authHeader = req.headers.get('Authorization');
-  if (
-    process.env.CRON_SECRET &&
-    authHeader !== `Bearer ${process.env.CRON_SECRET}`
-  ) {
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

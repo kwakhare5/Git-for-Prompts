@@ -30,6 +30,24 @@ function inProcessRateLimit(key: string): { success: boolean; remaining: number 
   return { success: record.count <= IN_PROCESS_LIMIT, remaining };
 }
 
+// ─── Upstash singleton (lazy-initialized on first use) ───────────────────────
+// Modules are re-used across requests in the same Node.js process, so creating
+// Ratelimit once saves ~1-2ms of object allocation overhead per request.
+
+let _ratelimit: import('@upstash/ratelimit').Ratelimit | null = null;
+
+async function getUpstashRatelimit(): Promise<import('@upstash/ratelimit').Ratelimit> {
+  if (_ratelimit) return _ratelimit;
+  const { Ratelimit } = await import('@upstash/ratelimit');
+  const { Redis } = await import('@upstash/redis');
+  _ratelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(60, '1 m'),
+    prefix: 'gfp_rl',
+  });
+  return _ratelimit;
+}
+
 // ─── Public interface ─────────────────────────────────────────────────────────
 
 export interface RateLimitResult {
@@ -45,16 +63,7 @@ export async function checkRateLimit(key: string): Promise<RateLimitResult> {
   // Use Upstash when both env vars are present
   if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
     try {
-      // Dynamically import to avoid bundling when not configured
-      const { Ratelimit } = await import('@upstash/ratelimit');
-      const { Redis } = await import('@upstash/redis');
-
-      const ratelimit = new Ratelimit({
-        redis: Redis.fromEnv(),
-        limiter: Ratelimit.slidingWindow(60, '1 m'),
-        prefix: 'gfp_rl',
-      });
-
+      const ratelimit = await getUpstashRatelimit();
       const result = await ratelimit.limit(key);
       return { success: result.success, remaining: result.remaining };
     } catch (err) {
