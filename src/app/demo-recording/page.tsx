@@ -45,7 +45,7 @@ export default function DemoRecordingPage() {
   }, [heroStep]);
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-8 selection:bg-zinc-800 overflow-hidden">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8 selection:bg-zinc-800 overflow-hidden">
       
       {/* Hide Clerk Dev Badge & Next.js Indicator for pristine recording */}
       <style dangerouslySetInnerHTML={{ __html: `
