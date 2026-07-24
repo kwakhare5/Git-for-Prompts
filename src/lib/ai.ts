@@ -235,7 +235,7 @@ async function fetchWithTimeout(
  * user's own prompt content, not our internal evaluator. Always uses the
  * "execution" model pair.
  */
-export async function runPromptAgainstInput(
+async function runPromptAgainstInput(
   promptContent: string,
   userInput: string
 ): Promise<string> {
@@ -258,7 +258,7 @@ export async function runPromptAgainstInput(
  *   2. Depth-balanced, string-aware extraction (handles markdown fences, prose)
  *   3. Zod schema validation (fail closed on wrong shape/types, never `as`-cast)
  */
-export async function evaluateOutput(
+async function evaluateOutput(
   actualOutput: string,
   expectedCriteria: string
 ): Promise<{ passed: boolean; reason: string }> {
