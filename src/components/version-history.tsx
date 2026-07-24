@@ -150,7 +150,7 @@ export function VersionHistory({
                 ) : (
                   <button
                     onClick={() => handleRestore(v.id)}
-                    className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors opacity-30 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-zinc-500 rounded"
+                    className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors opacity-50 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-zinc-500 rounded"
                   >
                     Restore this version
                   </button>

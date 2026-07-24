@@ -166,7 +166,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
           <select
             value={selectedVersionId}
             onChange={(e) => setSelectedVersionId(e.target.value)}
-          className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-300 font-mono focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 transition-colors"
+          className="cursor-pointer rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-300 font-mono focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
           >
             {versions.map((v) => (
               <option key={v.id} value={v.id}>

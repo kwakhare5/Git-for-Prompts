@@ -37,7 +37,7 @@ export function DiffVersionSelector({
           value={fromId}
           onChange={(e) => navigate(e.target.value, toId)}
           aria-label="Base version (from)"
-          className="cursor-pointer rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 transition-colors"
+          className="cursor-pointer rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
         >
           {versions.map((v) => (
             <option key={v.id} value={v.id} disabled={v.id === toId}>
@@ -58,7 +58,7 @@ export function DiffVersionSelector({
           value={toId}
           onChange={(e) => navigate(fromId, e.target.value)}
           aria-label="Target version (to)"
-          className="cursor-pointer rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 transition-colors"
+          className="cursor-pointer rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
         >
           {versions.map((v) => (
             <option key={v.id} value={v.id} disabled={v.id === fromId}>

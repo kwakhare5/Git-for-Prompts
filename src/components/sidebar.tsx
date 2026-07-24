@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
 import { clerkAppearance } from '@/lib/clerk-appearance';
 import { cn } from '@/lib/utils';
-import { Home, LayoutDashboard, Compass, Key, Webhook } from 'lucide-react';
+import { Home, LayoutDashboard, Compass, Key, Webhook, X } from 'lucide-react';
 
 const navItems = [
   { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
@@ -70,7 +70,7 @@ export function Sidebar() {
             aria-label="Close navigation menu"
             className="ml-auto flex md:hidden items-center justify-center w-7 h-7 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
           >
-            <span aria-hidden="true" className="text-sm leading-none">✕</span>
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </div>
 
