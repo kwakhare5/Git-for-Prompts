@@ -102,7 +102,7 @@ export function PromptEditor({
                 value={commitMessage}
                 onChange={(e) => setCommitMessage(e.target.value)}
                 maxLength={500}
-                className="flex-1 bg-zinc-800 border border-zinc-700 rounded px-2.5 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+                className="flex-1 bg-zinc-900 border border-zinc-700 rounded-md px-2.5 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
               />
               <div className="flex items-center gap-2 shrink-0">
                 <button

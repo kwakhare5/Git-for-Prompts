@@ -44,7 +44,9 @@ export function CreatePromptForm() {
           {...register("name")}
           placeholder="e.g. Customer Support Agent…"
           autoComplete="off"
-          className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         {errors.name && (
           <p className="text-xs text-red-400">{errors.name.message}</p>
@@ -63,7 +65,7 @@ export function CreatePromptForm() {
           placeholder="What does this prompt do?…"
           autoComplete="off"
           rows={3}
-          className="w-full resize-none rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
+          className="w-full resize-none rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         {errors.description && (
           <p className="text-xs text-red-400">{errors.description.message}</p>

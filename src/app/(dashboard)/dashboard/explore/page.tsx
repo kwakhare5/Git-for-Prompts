@@ -66,7 +66,7 @@ export default async function DashboardExplorePage() {
 
       {/* Prompt Grid — identical 3-column grid structure to DashboardPage */}
       {publicPrompts.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {publicPrompts.map((prompt) => {
             const versionNum = prompt.currentVersionId ? versionMap.get(prompt.currentVersionId) : 1;
             return (

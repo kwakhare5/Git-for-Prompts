@@ -33,6 +33,7 @@ export function PromptDetailClient({
   const [selectedId, setSelectedId] = useState(initialActiveVersionId);
   const [isPublic, setIsPublic] = useState(initialIsPublic);
   const [toggling, startToggle] = useTransition();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Resolve active version — fall back to latest if selectedId not found
   const activeVersion = versions.find((v) => v.id === selectedId) ?? versions[0];
@@ -82,10 +83,12 @@ export function PromptDetailClient({
               startToggle(async () => {
                 const updated = await togglePromptVisibility(promptId);
                 setIsPublic(updated.isPublic);
+                setShowSuccess(true);
+                setTimeout(() => setShowSuccess(false), 2000);
               })
             }
             disabled={toggling}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border text-xs font-medium transition-all ${
               isPublic
                 ? 'border-emerald-800 bg-emerald-950/40 text-emerald-400 hover:bg-emerald-950/60'
                 : 'border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
@@ -101,7 +104,7 @@ export function PromptDetailClient({
               {isPublic ? 'Public' : 'Private'}
             </span>
             <span className="text-[10px] opacity-60">
-              {toggling ? '…' : isPublic ? 'Click to make private' : 'Click to publish'}
+              {toggling ? '…' : showSuccess ? 'Updated!' : isPublic ? 'Click to make private' : 'Click to publish'}
             </span>
           </button>
         </div>

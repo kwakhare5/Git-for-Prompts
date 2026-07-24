@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface DeleteConfirmButtonProps {
@@ -62,9 +63,9 @@ export function DeleteConfirmButton({
     <button
       onClick={() => setConfirming(true)}
       aria-label={ariaLabel}
-      className="flex items-center justify-center w-6 h-6 rounded-md text-zinc-600 hover:text-red-400 hover:bg-zinc-800 transition-all text-xs opacity-0 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-red-500"
+      className="flex items-center justify-center w-6 h-6 rounded-md text-zinc-600 hover:text-red-400 hover:bg-zinc-800 transition-all opacity-40 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-red-500"
     >
-      <span aria-hidden="true">✕</span>
+      <X className="h-3 w-3" aria-hidden="true" />
     </button>
   );
 }

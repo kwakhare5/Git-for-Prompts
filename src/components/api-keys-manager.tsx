@@ -101,7 +101,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── New Key Banner (shown once after generation) ── */}
       {newKey && (
-        <div className="rounded-lg border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3">
+        <div className="rounded-xl border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-emerald-400">
@@ -147,13 +147,13 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── Error ── */}
       {error && (
-        <div className="rounded-lg border border-red-700/50 bg-red-950/40 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-xl border border-red-700/50 bg-red-950/40 px-4 py-3 text-sm text-red-400">
           {error}
         </div>
       )}
 
       {/* ── Generate Form ── */}
-      <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-5">
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
         <h2 className="text-sm font-semibold text-zinc-300 mb-1">Generate new key</h2>
         <p className="text-xs text-zinc-500 mb-4">
           Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
@@ -168,13 +168,13 @@ export function ApiKeysManager({ initialKeys }: Props) {
             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
             placeholder="Key name…"
             maxLength={255}
-            className="flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 transition-shadow"
+            className="flex-1 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
           />
           <button
             id="generate-api-key-btn"
             onClick={handleGenerate}
             disabled={isPending || !name.trim()}
-            className="rounded-md bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
           >
             {isPending ? 'Generating…' : 'Generate'}
           </button>
@@ -193,12 +193,12 @@ export function ApiKeysManager({ initialKeys }: Props) {
         </h2>
 
         {keys.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-zinc-800 py-12 text-center">
+          <div className="rounded-xl border border-dashed border-zinc-800 py-12 text-center">
             <p className="text-sm text-zinc-500">No API keys yet.</p>
             <p className="text-xs text-zinc-600 mt-1">Generate your first key above.</p>
           </div>
         ) : (
-          <div className="divide-y divide-zinc-800 rounded-lg border border-zinc-800">
+          <div className="divide-y divide-zinc-800 rounded-xl border border-zinc-800">
             {keys.map((key) => (
               <div
                 key={key.id}
@@ -262,42 +262,6 @@ export function ApiKeysManager({ initialKeys }: Props) {
             ))}
           </div>
         )}
-      </div>
-
-      {/* ── API Reference ── */}
-      <div className="rounded-lg border border-zinc-800 bg-zinc-900/20 p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-zinc-300">API reference</h2>
-
-        <div>
-          <p className="text-xs text-zinc-500 mb-2">
-            Fetch the latest version of any prompt you own:
-          </p>
-          <code className="block rounded-md border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-300 whitespace-pre">
-            {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
-          </code>
-        </div>
-
-        <div>
-          <p className="text-xs text-zinc-500 mb-2">Response shape:</p>
-          <code className="block rounded-md border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-400 whitespace-pre">
-            {`{\n  "promptId": "uuid",\n  "promptName": "string",\n  "versionNumber": 3,\n  "commitMessage": "string | null",\n  "content": "string",\n  "createdAt": "ISO 8601"\n}`}
-          </code>
-        </div>
-
-        <div className="flex gap-4 text-xs">
-          <span className="flex items-center gap-1.5 text-zinc-500">
-            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-emerald-500">200</span>
-            Success
-          </span>
-          <span className="flex items-center gap-1.5 text-zinc-500">
-            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-amber-500">401</span>
-            Invalid / missing key
-          </span>
-          <span className="flex items-center gap-1.5 text-zinc-500">
-            <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-red-500">404</span>
-            Prompt not found
-          </span>
-        </div>
       </div>
     </div>
   );
