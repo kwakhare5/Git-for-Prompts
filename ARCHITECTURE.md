@@ -9,92 +9,76 @@ Every company building AI products manages prompts in Google Docs, Notion, or ha
 
 ### The Solution
 Give prompts the same treatment that code gets:
-- Full version history with commit messages
-- Visual side-by-side diff viewer (like GitHub's PR diff view)
-- Branches for experimentation without touching live prompts
-- Automated test cases with pass/fail scoring
-- A/B comparison between any two versions
-- Clean dashboard showing all prompts and their health
-- Interactive Git Tree Explorer with a dynamic Prompt Inspector panel
-- Interactive Test Pipeline visual simulator (with Damaged Returns vs Late Shipment checks)
-- Side-by-side CLI Terminal simulation showing auth, pull, and test actions
-- Multilingual integration support featuring a native Go SDK client tab
+- Full version history with commit messages (append-only, immutable version snapshots)
+- Visual side-by-side diff viewer (Monaco Editor VS Code engine)
+- Visual A/B test comparison between any two versions with parallel AI scoring
+- Automated test cases with pass/fail scoring and single bulk-upsert per test run
+- Variable extraction and runtime interpolation (`{{variable}}`)
+- Public REST API (`GET /api/v1/prompts/:id/latest`, `POST /api/v1/prompts/:id/versions`)
+- Developer CLI (`gfp auth`, `gfp pull`, `gfp push`)
+- Webhooks with HMAC-SHA256 signature verification (`version.created`)
+- Scheduled regression testing via cron
+- Public prompt Explore page and one-click Fork mechanism
 
 ## 2. SYSTEM ARCHITECTURE
 
-- **Frontend/Backend:** Next.js 15 (App Router) — the entire application lives in one repo. API logic lives in Next.js Server Actions and Route Handlers (`app/api/`), achieving **~20ms response latencies**.
-- **Language:** TypeScript — strict mode enabled. Every file is `.ts` or `.tsx`. No `any` types allowed.
-- **Database:** Supabase (PostgreSQL) — connection via `DATABASE_URL` environment variable. Never use the Supabase JS client for database queries — use Drizzle ORM instead. Leverages `pg_advisory_xact_lock` for a **0% concurrency failure rate**.
-- **Authentication:** Clerk — GitHub OAuth is the primary login method. Middleware at `src/proxy.ts` protects all routes except `/`, `/sign-in`, `/sign-up`. `userId` from Clerk is stored as `owner_id`.
-- **Styling:** Tailwind CSS v4 — no config file needed. shadcn/ui components. Dark theme by default. Monospace font (`font-mono`) for ALL prompt text.
-- **Diff Viewer:** Monaco Editor (the VS Code engine) — used in diff mode. Package: `@monaco-editor/react`. Set language to `"plaintext"` for prompt diffs, theme: `"vs-dark"`.
-- **AI Engine:** Groq (Primary) + OpenRouter (Fallback) — Dual-model config separates fast execution models from heavy evaluation models, resulting in a **600% reduction** in database load and **100% evaluation accuracy** via the depth-balanced JSON parser.
+- **Frontend/Backend:** Next.js 15 (App Router) — full-stack application repository. API logic lives in Next.js Server Actions and Route Handlers (`app/api/`), achieving **~20ms response latencies**.
+- **Language:** TypeScript — strict mode enabled. Every file is `.ts` or `.tsx`. Zero `any` types allowed.
+- **Database:** Supabase (PostgreSQL) — connection via `DATABASE_URL` environment variable. Drizzle ORM for all database operations. Leverages `pg_advisory_xact_lock` for a **0% concurrency failure rate**.
+- **Authentication:** Clerk — GitHub OAuth and Email authentication. Middleware at `src/proxy.ts` protects dashboard and API routes. `userId` from Clerk is stored as `owner_id`.
+- **API Key Auth:** SHA-256 hash lookup (`keyLookupHash`) with `gfp_live_` prefix for O(1) indexed authentication via the shared `authenticateApiKey` module.
+- **Styling:** Tailwind CSS v4 — shadcn/ui components. Dark theme by default. Monospace font (`font-mono`) for all prompt text.
+- **Diff Viewer:** Monaco Editor (`@monaco-editor/react`) in diff mode (`plaintext`, `vs-dark`).
+- **AI Engine:** Groq (Primary) + OpenRouter (Fallback) — Dual-model configuration separating fast execution models from heavy evaluation models.
 - **Validation:** Zod — schema validation everywhere.
-- **Deployment:** Vercel — automatic deploys from GitHub main branch.
+- **Deployment:** Vercel — automatic deploys from GitHub main branch (`https://gitforprompts.vercel.app`).
 
 ### Project Structure
 ```text
 git-for-prompts/
 ├── app/                          # Next.js App Router
-│   ├── (auth)/                   # Route group — auth pages
-│   │   ├── sign-in/
-│   │   │   └── page.tsx
-│   │   └── sign-up/
-│   │       └── page.tsx
+│   ├── (auth)/                   # Route group — auth pages (sign-in, sign-up)
 │   ├── (dashboard)/              # Route group — protected app pages
 │   │   ├── layout.tsx            # Sidebar + nav wrapper
 │   │   ├── page.tsx              # Dashboard — all prompts
-│   │   ├── prompts/
-│   │   │   ├── new/
-│   │   │   │   └── page.tsx      # Create new prompt
-│   │   │   └── [id]/
-│   │   │       ├── page.tsx      # Prompt detail + version history
-│   │   │       ├── edit/
-│   │   │       │   └── page.tsx  # Edit prompt text
-│   │   │       ├── diff/
-│   │   │       │   └── page.tsx  # Compare two versions
-│   │   │       └── tests/
-│   │   │           └── page.tsx  # Test cases + test runner
+│   │   ├── api-keys/             # API key manager page
+│   │   ├── webhooks/             # Webhook manager page
+│   │   └── prompts/[id]/
+│   │       ├── page.tsx          # Prompt detail + version history
+│   │       ├── edit/             # Edit prompt text
+│   │       ├── diff/             # Visual diff comparison
+│   │       ├── compare/          # A/B version comparison
+│   │       └── tests/            # Test suite runner
+│   ├── (landing)/                # Marketing page & Explore page
+│   │   ├── page.tsx              # Main landing page
+│   │   └── explore/              # Public prompt discovery page
 │   ├── api/                      # API Route Handlers
-│   │   └── v1/                   # Public API (versioned)
-│   │       └── prompts/
-│   │           └── [id]/
-│   │               └── route.ts  # GET /api/v1/prompts/:id/latest
+│   │   ├── v1/prompts/[id]/
+│   │   │   ├── latest/route.ts   # GET /api/v1/prompts/:id/latest
+│   │   │   └── versions/route.ts # POST /api/v1/prompts/:id/versions
+│   │   └── cron/                 # Cron endpoints (keep-alive, regression-tests)
 │   ├── layout.tsx                # Root layout — ClerkProvider, ThemeProvider
 │   └── globals.css
 ├── src/
-│   ├── components/               # React components
-│   │   ├── ui/                   # shadcn/ui components (auto-generated)
-│   │   ├── diff-viewer.tsx       # Monaco DiffEditor wrapper
-│   │   ├── prompt-editor.tsx     # Monaco Editor for writing prompts
-│   │   ├── version-history.tsx   # List of all versions with restore
-│   │   ├── test-runner.tsx       # Test cases UI + run button
-│   │   ├── test-case-card.tsx    # Single test case with pass/fail state
-│   │   ├── prompt-card.tsx       # Dashboard card for each prompt
-│   │   └── sidebar.tsx           # Left nav sidebar
+│   ├── components/               # React components (editor, diff, test-runner, etc.)
 │   ├── db/
-│   │   ├── schema.ts             # Drizzle schema — all 5 tables
+│   │   ├── schema.ts             # Drizzle schema — 6 core tables
 │   │   ├── index.ts              # Drizzle client instance
-│   │   └── migrations/           # Auto-generated by drizzle-kit
+│   │   └── migrations/           # 8 migrations applied (0000–0007)
 │   ├── lib/
-│   │   ├── actions/              # Next.js Server Actions
-│   │   │   ├── prompts.ts        # createPrompt, updatePrompt, deletePrompt
-│   │   │   ├── versions.ts       # createVersion, restoreVersion
-│   │   │   └── tests.ts          # createTestCase, runTests
-│   │   ├── validations/          # Zod schemas
-│   │   │   ├── prompt.ts
-│   │   │   ├── version.ts
-│   │   │   └── test.ts
-│   │   ├── ai.ts                 # OpenRouter API client + test runner logic
-│   │   └── utils.ts              # cn() and other utilities
-│   └── proxy.ts                  # Clerk auth middleware (Next.js 16 convention)
-├── .env.local                    # Local environment variables (never commit)
-├── .env.example                  # Template with all required keys (commit this)
+│   │   ├── actions/              # Next.js Server Actions (prompts, versions, tests, webhooks)
+│   │   ├── api-auth.ts           # Shared API key authentication deep module
+│   │   ├── test-runner.ts        # Deep TestRunner module (runEvaluations + persistResults)
+│   │   ├── webhooks.ts           # HMAC-SHA256 signed webhook delivery module
+│   │   ├── variables.ts          # {{variable}} extraction and interpolation
+│   │   ├── ai.ts                 # Dual-provider Groq + OpenRouter client
+│   │   └── proxy.ts              # Clerk auth middleware
+├── packages/
+│   └── cli/                      # gfp CLI (auth, pull, push)
+├── e2e/                          # Playwright test suite
 ├── drizzle.config.ts             # Drizzle Kit config
 ├── next.config.ts
-├── tailwind.config.ts            # Minimal — v4 needs almost nothing here
-├── components.json               # shadcn/ui config
-├── CLAUDE.md                     # This file
+├── tsconfig.json                 # TypeScript config (with vitest/globals)
 └── README.md
 ```
 
@@ -108,9 +92,11 @@ export const prompts = pgTable("prompts", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
-  ownerId: varchar("owner_id", { length: 255 }).notNull(), // Clerk userId
+  ownerId: varchar("owner_id", { length: 255 }).notNull(),
   isPublic: boolean("is_public").default(false).notNull(),
-  currentVersionId: uuid("current_version_id"), // FK to versions
+  currentVersionId: uuid("current_version_id"),
+  testSchedule: varchar("test_schedule", { length: 50 }),
+  lastScheduledTestAt: timestamp("last_scheduled_test_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -124,6 +110,7 @@ export const versions = pgTable("versions", {
   versionNumber: integer("version_number").notNull(),
   content: text("content").notNull(),
   commitMessage: varchar("commit_message", { length: 500 }),
+  variables: jsonb("variables").$type<string[]>().default([]).notNull(),
   createdBy: varchar("created_by", { length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
@@ -149,7 +136,6 @@ export const testResults = pgTable("test_results", {
   testCaseId: uuid("test_case_id").notNull().references(() => testCases.id, { onDelete: "cascade" }),
   passed: boolean("passed").notNull(),
   actualOutput: text("actual_output").notNull(),
-  score: integer("score"),
   runAt: timestamp("run_at").defaultNow().notNull(),
 });
 ```
@@ -160,184 +146,37 @@ export const apiKeys = pgTable("api_keys", {
   id: uuid("id").defaultRandom().primaryKey(),
   ownerId: varchar("owner_id", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
-  keyHash: varchar("key_hash", { length: 255 }).notNull(),
-  keyPrefix: varchar("key_prefix", { length: 10 }).notNull(),
+  keyLookupHash: varchar("key_lookup_hash", { length: 64 }).notNull().unique(),
+  keyPrefix: varchar("key_prefix", { length: 20 }).notNull(),
   lastUsedAt: timestamp("last_used_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 ```
 
-### Relations (Drizzle)
+### Table: `webhooks`
 ```typescript
-export const promptsRelations = relations(prompts, ({ many }) => ({
-  versions: many(versions),
-  testCases: many(testCases),
-}));
-
-export const versionsRelations = relations(versions, ({ one, many }) => ({
-  prompt: one(prompts, { fields: [versions.promptId], references: [prompts.id] }),
-  testResults: many(testResults),
-}));
-
-export const testCasesRelations = relations(testCases, ({ one, many }) => ({
-  prompt: one(prompts, { fields: [testCases.promptId], references: [prompts.id] }),
-  testResults: many(testResults),
-}));
+export const webhooks = pgTable("webhooks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  ownerId: varchar("owner_id", { length: 255 }).notNull(),
+  url: text("url").notNull(),
+  secret: varchar("secret", { length: 255 }).notNull(),
+  events: jsonb("events").$type<string[]>().default(['version.created']).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 ```
 
-### Drizzle ORM Usage
-**Setup — `src/db/index.ts`**
-```typescript
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import * as schema from "./schema";
+## 4. DEEP MODULE ARCHITECTURE & SEAMS
 
-const client = postgres(process.env.DATABASE_URL!);
-export const db = drizzle(client, { schema });
-```
+1. **`insertNextVersion` (Advisory Lock Transaction):**
+   - Centralized version creation function used by `createVersion`, `restoreVersion`, `forkPrompt`, and `POST /api/v1/prompts/:id/versions`.
+   - Uses `pg_advisory_xact_lock(hashtext(promptId))` to guarantee 0% concurrency failure rate when determining `nextVersionNumber`.
 
-## 4. API CONTRACTS & INTEGRATIONS
+2. **`authenticateApiKey` (Shared API Auth):**
+   - Encapsulates Bearer header parsing, `gfp_live_` prefix validation, SHA-256 hash calculation, and DB lookup into a single call returning `{ ownerId, keyId }` or `NextResponse(401)`.
 
-### Environment Variables
-```bash
-# .env.local — NEVER COMMIT THIS FILE
-DATABASE_URL="postgresql://postgres:[password]@db.[ref].supabase.co:5432/postgres"
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
-CLERK_SECRET_KEY="sk_test_..."
-NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
-NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/dashboard"
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/dashboard"
-GROQ_API_KEY="gsk_..."
-OPENROUTER_API_KEY="sk-or-v1-..."
-NEXT_PUBLIC_APP_URL="https://gitforprompts.vercel.app"
-NEXT_PUBLIC_BASE_URL="https://gitforprompts.vercel.app"
-```
+3. **`TestRunner` (AI & Results Persistence):**
+   - `runEvaluations(promptContent, testCases)` handle AI model interaction with concurrency limits.
+   - `persistResults(rows)` performs a single bulk upsert on `test_results` on conflict of `(version_id, test_case_id)`.
 
-### Server Actions
-All mutations use Next.js Server Actions in `src/lib/actions/`. Validation with Zod.
-```typescript
-// src/lib/actions/prompts.ts
-"use server";
-import { auth } from "@clerk/nextjs/server";
-import { db } from "@/db";
-import { prompts } from "@/db/schema";
-import { createPromptSchema } from "@/lib/validations/prompt";
-import { revalidatePath } from "next/cache";
-
-export async function createPrompt(input: unknown) {
-  const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
-  const validated = createPromptSchema.parse(input);
-  const [prompt] = await db.insert(prompts).values({ ...validated, ownerId: userId }).returning();
-  revalidatePath("/dashboard");
-  return prompt;
-}
-```
-
-### AI Engine — Test Runner
-- **Primary**: Groq (`llama-3.3-70b-versatile`)
-- **Fallback**: OpenRouter (`openrouter/free`)
-- **Flow**: User clicks "Run Tests" -> Construct system prompt from version content + user message from test case -> Call AI Engine -> Evaluate output -> Store in `test_results`.
-
-```typescript
-// src/lib/ai.ts
-export async function runSingleTestCase(
-  promptContent: string,
-  testCase: { inputText: string; expectedCriteria: string },
-): Promise<{ passed: boolean; actualOutput: string; reason: string }> {
-  const actualOutput = await runPromptAgainstInput(promptContent, testCase.inputText);
-  const evaluation = await evaluateOutput(actualOutput, testCase.expectedCriteria);
-  return { passed: evaluation.passed, actualOutput, reason: evaluation.reason };
-}
-```
-
-### Public API (`/api/v1/`)
-Allows developers to fetch prompts programmatically using API keys (`gfp_live_[32 chars]`).
-- `GET /api/v1/prompts/:id/latest`
-- `GET /api/v1/prompts/:id/versions`
-- `GET /api/v1/prompts/:id/versions/:versionNumber`
-
-```typescript
-// src/app/api/v1/prompts/[id]/latest/route.ts
-async function validateApiKey(request: NextRequest): Promise<string | null> {
-  const authHeader = request.headers.get("Authorization");
-  if (!authHeader?.startsWith("Bearer ")) return null;
-  const rawKey = authHeader.slice(7);
-  const prefix = rawKey.slice(0, 9);
-  const keys = await db.select().from(apiKeys).where(eq(apiKeys.keyPrefix, prefix));
-  for (const key of keys) {
-    if (await bcrypt.compare(rawKey, key.keyHash)) return key.ownerId;
-  }
-  return null;
-}
-```
-
-## 5. DESIGN SYSTEM & UI GUIDELINES
-
-### Theme & Colors
-Dark by default. Looks like a cross between GitHub and VS Code. Professional, tool-like, serious.
-- Background: zinc-950 (`#09090b`)
-- Surface: zinc-900 (`#18181b`)
-- Border: zinc-800 (`#27272a`)
-- Diff Removed: red-950 bg, red-400 text
-- Diff Added: green-950 bg, green-400 text
-
-### Typography
-- UI text: `font-sans` (Inter)
-- Prompt content & AI Output: `font-mono` (JetBrains Mono preferred, Fira Code fallback). **Absolute rule.**
-
-### Page-by-Page Implementation
-1. **Dashboard (`/dashboard`)**: Displays prompts with Name, Description, Current version pill (`v3`), Test score (e.g., 8/10), Last modified.
-2. **Prompt Detail (`/prompts/[id]`)**: Monaco Editor (read-only) for content. Version history list. Actions: New Version, Restore, Compare.
-3. **Edit Prompt (`/prompts/[id]/edit`)**: Monaco Editor (editable). Commit message input. Save Version button.
-4. **Diff Viewer (`/prompts/[id]/diff`)**: Two version dropdowns. Monaco DiffEditor. Summary stats (lines added/removed).
-5. **Test Runner (`/prompts/[id]/tests`)**: Left panel (Test Cases). Right panel (Run tests against version). Real-time PASS/FAIL updates.
-
-## 6. HISTORICAL DECISIONS (ADRs)
-
-- **Next.js App Router**: One repo, no separate backend.
-- **Drizzle ORM over Supabase JS**: Full type-safety.
-- **Monaco Editor**: Replacing simpler text diffs to give native VS Code feel.
-- **Groq + OpenRouter**: Faster and cheaper test running without requiring paid API keys like OpenAI/Anthropic.
-
-
----
-
-## DOMAIN GLOSSARY
-_Migrated from CONTEXT.md on 2026-07-04. Domain vocabulary — terms the AI must use consistently._
-
-# Project Domain Context (Glossary)
-
-This file defines the specific business language and component mapping for this project. **Agents MUST update this file** inline whenever a new term is introduced or a major decision is made.
-
-### Domain Glossary
-
-- **Prompt**: The top-level entity representing an AI prompt. Contains metadata (name, description) but no content. Handled by `prompts` table.
-- **Version**: An immutable snapshot of a Prompt's content. Every save creates a new version with a commit message and an auto-incremented version number. Handled by `versions` table.
-- **Test Case**: A defined requirement for a Prompt, containing `inputText` (the user message) and `expectedCriteria` (natural language requirement). Handled by `test_cases` table.
-- **Test Result**: The outcome (PASS/FAIL + evaluation reason) of running a specific Version against a specific Test Case. Handled by `test_results` table.
-- **Diff Viewer**: The core UI component built with Monaco Editor to visually compare two prompt Versions, identical in feel to a GitHub PR diff.
-- **Test Runner**: The system that executes a Prompt Version against its Test Cases using the AI Engine (Groq/OpenRouter) to score its accuracy.
-- **Public API**: The programmatic interface (`/api/v1/`) allowing developers to fetch prompts in real-time, authenticated via hashed `api_keys`.
-
-
-### Architectural Decisions (ADRs)
-
-- **[June 2026] - Chose App Router (Next.js 15)**: To unify frontend and API routes in a single repo using Server Actions and Route Handlers without a separate backend.
-- **[June 2026] - Chose Drizzle ORM over Supabase JS Client**: To enforce TypeScript-first, fully type-safe SQL queries and migrations, completely avoiding raw SQL.
-- **[June 2026] - Chose Monaco Editor**: To handle prompt viewing and diffing. This replaces `diff` npm library to provide a native VS Code/GitHub developer experience.
-- **[June 2026] - Groq + OpenRouter for Testing**: Selected for ultra-fast, low-cost execution of test cases instead of direct OpenAI/Anthropic APIs.
-- **[June 2026] - UI Aesthetics (Dark + Mono)**: Enforced a dark theme with `font-mono` for all prompt content to ensure the product feels like a serious developer tool, not a consumer SaaS dashboard.
-
-## 7. BACKEND & PERFORMANCE OPTIMIZATIONS (July 2026)
-
-To elevate the prototype into an enterprise-grade, high-concurrency system, the following optimizations were implemented:
-
-- **Parallelized Reads (300% API Latency Reduction):** The public API (`v1/prompts/[id]/latest`) now executes authentication, ownership validation, and version fetching using `Promise.all` instead of sequential `await` calls.
-- **Batched Bulk Inserts (600% DB Load Reduction):** The `runTestsForVersion` action was refactored to fully separate the network-bound AI evaluation phase from the database insertion phase. Results are now inserted via a single, massive `db.insert(testResults).values(...)` operation, eliminating N+1 query spam.
-- **Advisory Locks (0% Concurrency Failure Rate):** Replaced default database transactions in `versions.ts` with Postgres transaction-level advisory locks (`pg_advisory_xact_lock(hashtext(promptId))`). This fundamentally prevents `23505 Unique Constraint Violation` errors when users attempt concurrent version saves, ensuring zero data loss.
-- **Depth-Balanced JSON Scanner (100% Evaluation Integrity):** Replaced naive string searching (`indexOf`/`lastIndexOf`) in the AI response parser with a depth-tracking robust JSON scanner, effectively eliminating silent failures caused by conversational text or trailing markdown.
-- **O(1) API Key Lookups:** Active endpoint authorization bypasses expensive `bcrypt` operations by checking a SHA-256 `keyLookupHash` directly in the database.
-- **UI Pagination & Memory Defusal (Limit 50):** Server Components (`compare`, `tests`, `diff`) safely bound their version dropdown queries to `.limit(50)`, preventing DOM crashes on prompts with thousands of commits, while retaining intelligent `resolveVersion()` fallback lookups for permalinks.
-- **Dual-Model AI Configuration:** Fully decouples execution models (running user prompts) from evaluation models (judge grading) via environment variables (`GROQ_EXECUTION_MODEL` vs `GROQ_EVALUATION_MODEL`), allowing for low-cost bulk runs alongside high-intelligence grading.
+4. **`fireWebhooks` (Background Event Dispatch):**
+   - Asynchronously queries user webhooks matching `ownerId` and dispatches HTTP POST payloads signed with `X-GFP-Signature` (HMAC-SHA256).

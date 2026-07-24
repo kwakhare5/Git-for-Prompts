@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { apiKeys, prompts, versions } from '@/db/schema';
 import { eq, sql, desc } from 'drizzle-orm';
-import { createHash } from 'crypto';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { extractVariables } from '@/lib/variables';
 import { fireWebhooks } from '@/lib/webhooks';
+import { authenticateApiKey } from '@/lib/api-auth';
 import { z } from 'zod';
 
 /**
@@ -42,17 +42,11 @@ export async function POST(
       );
     }
 
-    // Auth
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Missing or invalid Authorization header' }, { status: 401 });
-    }
-    const token = authHeader.slice(7).trim();
-    if (!token.startsWith('gfp_live_')) {
-      return NextResponse.json({ error: 'Invalid API key format' }, { status: 401 });
-    }
+    // Auth — all auth logic lives in api-auth.ts
+    const authResult = await authenticateApiKey(req);
+    if (authResult instanceof NextResponse) return authResult;
+    const { ownerId, keyId } = authResult;
 
-    const lookupHash = createHash('sha256').update(token).digest('hex');
     const { id: promptId } = await params;
 
     // Validate body
@@ -63,19 +57,15 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
     }
 
-    // Look up key and prompt in parallel
-    const [[candidateKey], [prompt]] = await Promise.all([
-      db.select().from(apiKeys).where(eq(apiKeys.keyLookupHash, lookupHash)).limit(1),
+    // Look up prompt and touch lastUsedAt in parallel
+    const [[prompt]] = await Promise.all([
       db.select().from(prompts).where(eq(prompts.id, promptId)),
+      db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, keyId)).execute(),
     ]);
 
-    if (!candidateKey) return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
-    if (!prompt || prompt.ownerId !== candidateKey.ownerId) {
+    if (!prompt || prompt.ownerId !== ownerId) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
-
-    // Update lastUsedAt — fire-and-forget
-    void db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, candidateKey.id)).execute();
 
     const vars = extractVariables(body.content);
 
@@ -100,7 +90,7 @@ export async function POST(
           versionNumber: nextVersionNumber,
           content: body.content,
           commitMessage: body.commitMessage,
-          createdBy: candidateKey.ownerId,
+          createdBy: ownerId,
           variables: vars,
         })
         .returning();
@@ -114,7 +104,7 @@ export async function POST(
     });
 
     // Fire webhooks — fire-and-forget
-    void fireWebhooks(candidateKey.ownerId, {
+    void fireWebhooks(ownerId, {
       event: 'version.created',
       promptId,
       promptName: prompt.name,

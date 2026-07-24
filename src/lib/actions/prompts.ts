@@ -7,7 +7,7 @@ import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '@/li
 import { revalidatePath } from 'next/cache';
 import { eq, and, desc } from 'drizzle-orm';
 import { ZodError } from 'zod';
-import { extractVariables } from '@/lib/variables';
+import { insertNextVersion } from '@/lib/actions/versions';
 
 export async function createPrompt(input: unknown) {
   const { userId } = await auth();
@@ -131,22 +131,16 @@ export async function forkPrompt(sourcePromptId: string) {
     .returning();
 
   if (latestVersion) {
-    const [forkedVersion] = await db
-      .insert(versions)
-      .values({
+    // insertNextVersion: advisory lock, variable extraction, currentVersionId
+    // update — same path used by createVersion, restoreVersion, and push API.
+    await db.transaction((tx) =>
+      insertNextVersion(tx, {
         promptId: forked.id,
-        versionNumber: 1,
         content: latestVersion.content,
         commitMessage: `Forked from "${source.name}"`,
         createdBy: userId,
-        variables: extractVariables(latestVersion.content),
       })
-      .returning();
-
-    await db
-      .update(prompts)
-      .set({ currentVersionId: forkedVersion.id })
-      .where(eq(prompts.id, forked.id));
+    );
   }
 
   revalidatePath('/dashboard');
