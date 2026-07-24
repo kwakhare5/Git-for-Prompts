@@ -75,23 +75,21 @@ export default async function ComparePage({
   return (
     <div className="p-4 sm:p-8">
       <div className="flex items-center gap-3 min-w-0 mb-8">
-        <div className="flex items-center gap-3 min-w-0">
-          <Link
-            href={`/dashboard/prompts/${id}`}
-            className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors shrink-0"
-          >
-            ← {prompt.name}
-          </Link>
-          <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
-          <h1 className="text-xl font-bold text-zinc-50">Compare</h1>
-          {hasEnoughVersions && (
-            <span className="shrink-0 font-mono text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
-              {totalVersionCount > allVersions.length
-                ? `latest ${allVersions.length} of ${totalVersionCount} versions`
-                : `${totalVersionCount} versions`}
-            </span>
-          )}
-        </div>
+        <Link
+          href={`/dashboard/prompts/${id}`}
+          className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors shrink-0"
+        >
+          ← {prompt.name}
+        </Link>
+        <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
+        <h1 className="text-xl font-bold text-zinc-50">Compare</h1>
+        {hasEnoughVersions && (
+          <span className="shrink-0 font-mono text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
+            {totalVersionCount > allVersions.length
+              ? `latest ${allVersions.length} of ${totalVersionCount} versions`
+              : `${totalVersionCount} versions`}
+          </span>
+        )}
       </div>
 
       {/* Gate: need ≥ 2 versions */}

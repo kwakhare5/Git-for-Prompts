@@ -93,14 +93,14 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
       )}
 
       {/* Create form */}
-      <div className="flex flex-col gap-3 p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+      <div className="flex flex-col gap-3 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800">
         <p className="text-xs font-semibold text-zinc-300">Register new webhook</p>
         <input
           type="url"
           placeholder="https://your-server.com/webhook"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+          className="bg-zinc-950 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         <input
           type="text"
@@ -108,13 +108,13 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           maxLength={255}
-          className="bg-zinc-800 border border-zinc-700 rounded px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+          className="bg-zinc-950 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         {error && <p className="text-xs text-red-400">{error}</p>}
         <button
           onClick={handleCreate}
           disabled={isPending || !url.trim()}
-          className="self-start bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-xs font-semibold px-4 py-2 rounded transition-all disabled:opacity-30"
+          className="self-start bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-sm font-medium px-4 py-2 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {isPending ? 'Creating…' : 'Add Webhook'}
         </button>
