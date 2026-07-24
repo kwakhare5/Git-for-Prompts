@@ -4,7 +4,7 @@ import { eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ForkButton } from '@/app/(landing)/explore/fork-button';
+import { ForkButton } from '@/components/fork-button';
 import { ArrowLeft, Code } from 'lucide-react';
 
 interface Props {

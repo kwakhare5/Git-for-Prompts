@@ -3,7 +3,7 @@ import { prompts, versions } from '@/db/schema';
 import { eq, desc, inArray } from 'drizzle-orm';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ForkButton } from '@/app/(landing)/explore/fork-button';
+import { ForkButton } from '@/components/fork-button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RelativeTime } from '@/components/relative-time';
 

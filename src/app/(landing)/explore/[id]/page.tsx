@@ -4,8 +4,8 @@ import { eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ForkButton } from '../fork-button';
-import { Globe, ArrowLeft, GitFork, Code } from 'lucide-react';
+import { ForkButton } from '@/components/fork-button';
+import { ArrowLeft, Code } from 'lucide-react';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export const revalidate = 60;
 
-export default async function ExplorePromptPage({ params }: Props) {
+export default async function ExplorePromptDetailPage({ params }: Props) {
   const { id } = await params;
 
   const [[prompt], [latest]] = await Promise.all([
