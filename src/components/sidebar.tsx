@@ -10,8 +10,9 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { label: 'Home & Guide', href: '/', icon: '⌂', enabled: true },
   { label: 'Dashboard', href: '/dashboard', icon: '▦', enabled: true },
+  { label: 'Explore', href: '/explore', icon: '⚡', enabled: true },
   { label: 'API Keys', href: '/dashboard/api-keys', icon: '⌘', enabled: true },
-  { label: 'Settings', href: '/dashboard/settings', icon: '⚙', enabled: false },
+  { label: 'Webhooks', href: '/dashboard/webhooks', icon: '🪝', enabled: true },
 ];
 
 export function Sidebar() {
@@ -84,7 +85,7 @@ export function Sidebar() {
               item.href === '/'
                 ? pathname === '/'
                 : item.href === '/dashboard'
-                ? pathname.startsWith('/dashboard') && !pathname.startsWith('/dashboard/api-keys')
+                ? pathname === '/dashboard' || (pathname.startsWith('/dashboard/prompts') || pathname.startsWith('/dashboard/new'))
                 : pathname.startsWith(item.href);
 
             if (!item.enabled) {
