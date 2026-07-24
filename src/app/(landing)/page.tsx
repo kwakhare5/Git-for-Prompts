@@ -16,6 +16,7 @@ import {
   Menu, 
   X
 } from 'lucide-react';
+import { Logo } from '@/components/logo';
 
 // Subcomponents
 import { Hero } from './_components/hero';
@@ -105,9 +106,7 @@ export default function Home() {
         className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3"
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shadow-inner">
-            <GitBranch className="h-4.5 w-4.5 text-zinc-300" />
-          </div>
+          <Logo />
           <div className="flex flex-col">
             <span className="font-bold text-sm tracking-tight leading-none">Git for Prompts</span>
             <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-semibold">Prompt vcs</span>
