@@ -11,7 +11,7 @@ import { Home, LayoutDashboard, Compass, Key, Webhook } from 'lucide-react';
 const navItems = [
   { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
   { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, enabled: true },
-  { label: 'Explore', href: '/explore', icon: Compass, enabled: true },
+  { label: 'Explore', href: '/dashboard/explore', icon: Compass, enabled: true },
   { label: 'API Keys', href: '/dashboard/api-keys', icon: Key, enabled: true },
   { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook, enabled: true },
 ];
