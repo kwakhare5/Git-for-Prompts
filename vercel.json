@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/keep-alive",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/regression-tests",
+      "schedule": "0 2 * * *"
     }
   ]
 }

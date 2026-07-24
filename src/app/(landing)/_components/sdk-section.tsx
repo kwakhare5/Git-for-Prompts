@@ -125,7 +125,7 @@ const response = await openai.chat.completions.create({
     { role: 'user', content: userInput }
   ]
 });`,
-    curl: `curl -X GET "https://api.gitforprompts.com/v1/prompts/customer-support/latest" \\
+    curl: `curl -X GET "https://gitforprompts.vercel.app/api/v1/prompts/customer-support/latest" \\
   -H "Authorization: Bearer gfp_live_your_api_key_here"`,
     python: `from gfp_sdk import GFPClient
 import os

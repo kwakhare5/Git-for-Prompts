@@ -143,7 +143,6 @@
   }
 }
 
-/* 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -154,7 +153,6 @@
     scroll-behavior: auto !important;
   }
 }
-*/
 
 @keyframes accordion-down {
   from {

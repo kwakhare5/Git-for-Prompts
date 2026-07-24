@@ -30,6 +30,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmRevokeId, setConfirmRevokeId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   // ── Generate ────────────────────────────────────────────────────────────────
@@ -73,8 +74,14 @@ export function ApiKeysManager({ initialKeys }: Props) {
     setCopied(false);
   }
 
-  // ── Delete ──────────────────────────────────────────────────────────────────
-  function handleDelete(id: string) {
+  // ── Delete (two-step confirmation) ──────────────────────────────────────────
+  function handleRevoke(id: string) {
+    // First click: show confirmation; second click: execute
+    if (confirmRevokeId !== id) {
+      setConfirmRevokeId(id);
+      return;
+    }
+    setConfirmRevokeId(null);
     setDeletingId(id);
     startTransition(async () => {
       try {
@@ -218,15 +225,37 @@ export function ApiKeysManager({ initialKeys }: Props) {
                   </div>
                 </div>
 
-                {/* Delete */}
-                <button
-                  onClick={() => handleDelete(key.id)}
-                  disabled={deletingId === key.id || isPending}
-                  aria-label={`Delete key "${key.name}"`}
-                  className="shrink-0 rounded-md border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-red-700/50 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  {deletingId === key.id ? 'Deleting…' : 'Revoke'}
-                </button>
+                {/* Delete — two-step confirmation */}
+                <div className="shrink-0 flex items-center gap-2">
+                  {confirmRevokeId === key.id ? (
+                    <>
+                      <span className="text-xs text-zinc-400">Revoke key?</span>
+                      <button
+                        onClick={() => handleRevoke(key.id)}
+                        disabled={isPending}
+                        className="text-xs text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 font-medium"
+                      >
+                        {deletingId === key.id ? 'Revoking…' : 'Confirm'}
+                      </button>
+                      <button
+                        onClick={() => setConfirmRevokeId(null)}
+                        disabled={isPending}
+                        className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => handleRevoke(key.id)}
+                      disabled={deletingId === key.id || isPending}
+                      aria-label={`Revoke key "${key.name}"`}
+                      className="rounded-md border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-red-700/50 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Revoke
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>

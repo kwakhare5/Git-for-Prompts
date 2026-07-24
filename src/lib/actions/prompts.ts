@@ -2,11 +2,12 @@
 
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/db';
-import { prompts } from '@/db/schema';
+import { prompts, versions } from '@/db/schema';
 import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '@/lib/validations/prompt';
 import { revalidatePath } from 'next/cache';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, desc } from 'drizzle-orm';
 import { ZodError } from 'zod';
+import { extractVariables } from '@/lib/variables';
 
 export async function createPrompt(input: unknown) {
   const { userId } = await auth();
@@ -79,3 +80,76 @@ export async function deletePrompt(input: unknown) {
     throw new Error('Failed to delete prompt');
   }
 }
+
+export async function togglePromptVisibility(promptId: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unauthorized');
+
+  const [prompt] = await db
+    .select({ isPublic: prompts.isPublic })
+    .from(prompts)
+    .where(and(eq(prompts.id, promptId), eq(prompts.ownerId, userId)));
+
+  if (!prompt) throw new Error('Prompt not found or access denied');
+
+  const [updated] = await db
+    .update(prompts)
+    .set({ isPublic: !prompt.isPublic, updatedAt: new Date() })
+    .where(eq(prompts.id, promptId))
+    .returning();
+
+  revalidatePath(`/dashboard/prompts/${promptId}`);
+  revalidatePath('/explore');
+  return updated;
+}
+
+export async function forkPrompt(sourcePromptId: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error('Unauthorized');
+
+  // Fetch source prompt + latest version in one round trip
+  const [[source], [latestVersion]] = await Promise.all([
+    db.select().from(prompts).where(and(eq(prompts.id, sourcePromptId), eq(prompts.isPublic, true))),
+    db
+      .select()
+      .from(versions)
+      .where(eq(versions.promptId, sourcePromptId))
+      .orderBy(desc(versions.versionNumber))
+      .limit(1),
+  ]);
+
+  if (!source) throw new Error('Prompt not found or not public');
+
+  const [forked] = await db
+    .insert(prompts)
+    .values({
+      name: `${source.name} (fork)`,
+      description: source.description,
+      ownerId: userId,
+      isPublic: false,
+    })
+    .returning();
+
+  if (latestVersion) {
+    const [forkedVersion] = await db
+      .insert(versions)
+      .values({
+        promptId: forked.id,
+        versionNumber: 1,
+        content: latestVersion.content,
+        commitMessage: `Forked from "${source.name}"`,
+        createdBy: userId,
+        variables: extractVariables(latestVersion.content),
+      })
+      .returning();
+
+    await db
+      .update(prompts)
+      .set({ currentVersionId: forkedVersion.id })
+      .where(eq(prompts.id, forked.id));
+  }
+
+  revalidatePath('/dashboard');
+  return forked;
+}
+

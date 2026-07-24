@@ -1,0 +1,21 @@
+{
+  "name": "@git-for-prompts/cli",
+  "version": "0.1.0",
+  "description": "CLI for Git for Prompts — pull and push prompts from the terminal",
+  "bin": {
+    "gfp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -97,7 +97,7 @@ export function ApiFlowGraphic() {
 
           {/* Track label */}
           <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[8px] font-mono text-zinc-700 whitespace-nowrap">
-            api.gitforprompts.com
+            gitforprompts.vercel.app
           </div>
         </div>
 
