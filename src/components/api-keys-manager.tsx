@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { generateApiKey, deleteApiKey } from '@/lib/actions/api-keys';
+import { Check, X, Copy } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -104,7 +105,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-emerald-400">
-                ✓ Key generated — copy it now
+                Key generated — copy it now
               </p>
               <p className="mt-0.5 text-xs text-emerald-600">
                 This is the only time your full key will be shown. We don&apos;t store it.
@@ -112,10 +113,10 @@ export function ApiKeysManager({ initialKeys }: Props) {
             </div>
             <button
               onClick={dismissNewKey}
-              className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors shrink-0"
+              className="text-zinc-500 hover:text-zinc-300 transition-colors shrink-0"
               aria-label="Dismiss"
             >
-              ✕ Dismiss
+              <X className="h-4 w-4" />
             </button>
           </div>
 
@@ -127,9 +128,10 @@ export function ApiKeysManager({ initialKeys }: Props) {
             <button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="shrink-0 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 transition-colors"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 transition-colors"
             >
-              {copied ? '✓ Copied' : 'Copy'}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
 
@@ -152,7 +154,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── Generate Form ── */}
       <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-5">
-        <h2 className="text-sm font-semibold text-zinc-200 mb-1">Generate new key</h2>
+        <h2 className="text-sm font-semibold text-zinc-300 mb-1">Generate new key</h2>
         <p className="text-xs text-zinc-500 mb-4">
           Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
         </p>
@@ -181,7 +183,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── Key List ── */}
       <div>
-        <h2 className="text-sm font-semibold text-zinc-200 mb-3">
+        <h2 className="text-sm font-semibold text-zinc-300 mb-3">
           Active keys
           {keys.length > 0 && (
             <span className="ml-2 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-mono text-zinc-400">
@@ -264,7 +266,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── API Reference ── */}
       <div className="rounded-lg border border-zinc-800 bg-zinc-900/20 p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-zinc-200">API reference</h2>
+        <h2 className="text-sm font-semibold text-zinc-300">API reference</h2>
 
         <div>
           <p className="text-xs text-zinc-500 mb-2">

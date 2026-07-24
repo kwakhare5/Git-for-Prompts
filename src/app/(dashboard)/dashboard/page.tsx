@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { prompts, versions, testResults } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { PromptCard } from "@/components/prompt-card";
+import { PromptTable } from "@/components/prompt-table";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export const metadata = { title: "Dashboard" };
@@ -128,13 +128,9 @@ export default async function DashboardPage() {
         />
       )}
 
-      {/* Prompt grid */}
+      {/* Prompt table */}
       {userPrompts.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {userPrompts.map((prompt) => (
-            <PromptCard key={prompt.id} prompt={prompt} />
-          ))}
-        </div>
+        <PromptTable prompts={userPrompts} />
       )}
     </div>
   );
