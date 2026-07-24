@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ForkButton } from '../fork-button';
+import { Globe, ArrowLeft, GitFork, Code } from 'lucide-react';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -40,83 +41,91 @@ export default async function ExplorePromptPage({ params }: Props) {
       .limit(1),
   ]);
 
-  // Only show if public
   if (!prompt || !prompt.isPublic) notFound();
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
-      {/* Header */}
-      <div className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/explore" className="text-zinc-500 text-sm hover:text-zinc-300 transition-colors">
-            ← Explore
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {/* Header Navigation */}
+      <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
+          <Link href="/explore" className="text-xs font-mono text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1.5">
+            <ArrowLeft className="h-3.5 w-3.5" /> Back to Explore
           </Link>
-          <ForkButton promptId={prompt.id} promptName={prompt.name} />
+          <ForkButton promptId={prompt.id} promptName={prompt.name} variant="primary" />
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-6">
-        {/* Title + meta */}
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-semibold text-zinc-100">{prompt.name}</h1>
-          {prompt.description && (
-            <p className="text-sm text-zinc-500">{prompt.description}</p>
-          )}
-          {latest && (
-            <div className="flex items-center gap-3 mt-1">
-              <span className="text-[11px] font-mono text-zinc-600 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">
+      {/* Main Content */}
+      <main className="p-4 sm:p-8 max-w-4xl mx-auto flex flex-col gap-6">
+        {/* Title + Metadata */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-zinc-50">{prompt.name}</h1>
+            {latest && (
+              <span className="font-mono text-xs bg-zinc-800 text-zinc-300 border border-zinc-700/60 px-2 py-0.5 rounded">
                 v{latest.versionNumber}
               </span>
-              {latest.commitMessage && (
-                <span className="text-xs text-zinc-600 italic">{latest.commitMessage}</span>
-              )}
-            </div>
+            )}
+          </div>
+
+          {prompt.description ? (
+            <p className="text-sm text-zinc-400">{prompt.description}</p>
+          ) : (
+            <p className="text-sm text-zinc-600 italic">No description provided.</p>
+          )}
+
+          {latest?.commitMessage && (
+            <p className="text-xs text-zinc-500 font-mono mt-1">
+              Latest commit: <span className="text-zinc-400 font-sans">{latest.commitMessage}</span>
+            </p>
           )}
         </div>
 
-        {/* Variables */}
+        {/* Variables Section */}
         {latest && latest.variables.length > 0 && (
-          <div className="flex flex-col gap-2 p-4 rounded-xl bg-violet-950/30 border border-violet-900/50">
-            <p className="text-[11px] font-mono text-violet-400 uppercase tracking-wider">Variables</p>
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col gap-2 p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+            <div className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 uppercase tracking-wider">
+              <Code className="h-3.5 w-3.5 text-emerald-400" /> Extracted Variables
+            </div>
+            <div className="flex flex-wrap gap-2 mt-1">
               {latest.variables.map((v) => (
                 <span
                   key={v}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-violet-950 border border-violet-800 text-xs font-mono text-violet-300"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-zinc-950 border border-zinc-800 text-xs font-mono text-emerald-400"
                 >
-                  {'{{'}  {v}  {'}}'}
+                  {'{{'}{v}{'}}'}
                 </span>
               ))}
             </div>
-            <p className="text-[11px] text-zinc-600 mt-1">
-              Pass these as <code className="text-zinc-500">?variables[name]=value</code> when fetching via API.
+            <p className="text-[11px] text-zinc-500 mt-1">
+              Pass values dynamically as query parameters: <code className="text-zinc-400 font-mono">?variables[{latest.variables[0]}]=value</code>
             </p>
           </div>
         )}
 
-        {/* Prompt content */}
+        {/* Prompt Content Preview */}
         {latest ? (
           <div className="flex flex-col gap-2">
-            <p className="text-[11px] font-mono text-zinc-600 uppercase tracking-wider">Prompt Content</p>
-            <pre className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 text-sm text-zinc-300 font-mono leading-relaxed whitespace-pre-wrap overflow-x-auto">
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Prompt Content</span>
+            <pre className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 text-sm text-zinc-200 font-mono leading-relaxed whitespace-pre-wrap overflow-x-auto">
               {latest.content}
             </pre>
           </div>
         ) : (
-          <div className="text-center py-12 text-zinc-600 text-sm font-mono">
+          <div className="text-center py-12 text-zinc-500 text-sm font-mono border border-zinc-800 rounded-xl bg-zinc-900/50">
             This prompt has no versions yet.
           </div>
         )}
 
-        {/* Fork CTA */}
-        <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+        {/* Fork CTA Footer Card */}
+        <div className="flex items-center justify-between p-5 rounded-xl bg-zinc-900 border border-zinc-800 flex-wrap gap-4">
           <div>
-            <p className="text-sm font-medium text-zinc-300">Want to use this prompt?</p>
-            <p className="text-xs text-zinc-600">Fork it into your account and customise it.</p>
+            <p className="text-sm font-semibold text-zinc-50">Want to customize this prompt?</p>
+            <p className="text-xs text-zinc-400 mt-0.5">Fork it into your account to version, test, and fetch via API.</p>
           </div>
-          <ForkButton promptId={prompt.id} promptName={prompt.name} />
+          <ForkButton promptId={prompt.id} promptName={prompt.name} variant="primary" />
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

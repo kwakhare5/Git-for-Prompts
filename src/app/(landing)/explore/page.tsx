@@ -1,8 +1,10 @@
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { eq, desc, inArray } from 'drizzle-orm';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { ForkButton } from './fork-button';
+import { Globe, GitFork, ArrowRight, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Explore Prompts — Git for Prompts',
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
 export const revalidate = 60; // ISR — refresh every 60s
 
 export default async function ExplorePage() {
-  // Fetch all public prompts with their latest version info
+  // Fetch all public prompts
   const publicPrompts = await db
     .select({
       id: prompts.id,
@@ -25,82 +27,132 @@ export default async function ExplorePage() {
     .where(eq(prompts.isPublic, true))
     .orderBy(desc(prompts.updatedAt));
 
-  // Batch-fetch the latest version number for each prompt
+  // Batch fetch version numbers for current version pointers
   const versionMap = new Map<string, number>();
-  if (publicPrompts.length > 0) {
-    const ids = publicPrompts.map((p) => p.currentVersionId).filter(Boolean) as string[];
-    if (ids.length > 0) {
-      const vRows = await db
-        .select({ id: versions.id, versionNumber: versions.versionNumber })
-        .from(versions)
-        .where(eq(versions.promptId, publicPrompts[0]?.id ?? ''));
-      // Use currentVersionId to look up the version number — already O(1) via the pointer
-      for (const row of vRows) {
-        versionMap.set(row.id, row.versionNumber);
-      }
+  const currentVersionIds = publicPrompts
+    .map((p) => p.currentVersionId)
+    .filter((id): id is string => id != null);
+
+  if (currentVersionIds.length > 0) {
+    const vRows = await db
+      .select({ id: versions.id, versionNumber: versions.versionNumber })
+      .from(versions)
+      .where(inArray(versions.id, currentVersionIds));
+
+    for (const row of vRows) {
+      versionMap.set(row.id, row.versionNumber);
     }
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
-      {/* Header */}
-      <div className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div>
-            <Link href="/" className="text-zinc-500 text-sm hover:text-zinc-300 transition-colors">
-              ← Git for Prompts
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {/* Navigation Header */}
+      <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-sm sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-sm font-mono font-semibold text-zinc-400 hover:text-zinc-200 transition-colors">
+              git-for-prompts
             </Link>
-            <h1 className="text-2xl font-bold text-zinc-50 mt-0.5">Explore</h1>
+            <span className="text-zinc-700">/</span>
+            <span className="text-xs font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-800/60 px-2 py-0.5 rounded flex items-center gap-1">
+              <Globe className="h-3 w-3" /> Explore Community
+            </span>
           </div>
-          <p className="text-sm text-zinc-500">{publicPrompts.length} public prompts</p>
+          <Link
+            href="/dashboard"
+            className="text-xs font-medium text-zinc-400 hover:text-zinc-100 transition-colors flex items-center gap-1"
+          >
+            Dashboard <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
-      </div>
+      </header>
 
-      {/* Grid */}
-      <div className="max-w-5xl mx-auto px-4 py-8">
+      {/* Main Content Container */}
+      <main className="p-4 sm:p-8 max-w-5xl mx-auto">
+        {/* Page Header */}
+        <div className="mb-8 flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-2xl font-bold text-zinc-50">Explore Public Prompts</h1>
+            <p className="mt-1 text-sm text-zinc-500">
+              Browse public prompt templates built by the community. Fork any prompt into your account to customize and version it.
+            </p>
+          </div>
+          <span className="text-xs font-mono text-zinc-500 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-md">
+            {publicPrompts.length} prompt{publicPrompts.length !== 1 ? 's' : ''} available
+          </span>
+        </div>
+
+        {/* Empty State */}
         {publicPrompts.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-zinc-600 text-sm font-mono">No public prompts yet.</p>
-            <p className="text-zinc-700 text-xs mt-2">Be the first — make a prompt public from your dashboard.</p>
+          <div className="text-center py-20 border border-dashed border-zinc-800 rounded-xl bg-zinc-900/30">
+            <Sparkles className="h-8 w-8 text-zinc-600 mx-auto mb-3" />
+            <p className="text-zinc-400 text-sm font-medium">No public prompts published yet</p>
+            <p className="text-zinc-600 text-xs mt-1">Make a prompt public from your prompt detail page to share it with the community.</p>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-md bg-zinc-50 text-zinc-950 text-xs font-medium hover:bg-zinc-200 transition-colors"
+            >
+              Go to Dashboard
+            </Link>
           </div>
         ) : (
+          /* Grid of Prompts */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {publicPrompts.map((prompt) => (
-              <Link
-                key={prompt.id}
-                href={`/explore/${prompt.id}`}
-                className="group flex flex-col gap-2 p-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-800/60 transition-all duration-200"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <h2 className="text-sm font-medium text-zinc-100 group-hover:text-white transition-colors line-clamp-2 leading-snug">
-                    {prompt.name}
-                  </h2>
-                  <span className="shrink-0 text-[10px] font-mono text-zinc-600 bg-zinc-800 px-1.5 py-0.5 rounded">
-                    public
-                  </span>
-                </div>
+            {publicPrompts.map((prompt) => {
+              const versionNum = prompt.currentVersionId ? versionMap.get(prompt.currentVersionId) : null;
+              return (
+                <div
+                  key={prompt.id}
+                  className="group flex flex-col justify-between p-5 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all duration-200"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <Link
+                        href={`/explore/${prompt.id}`}
+                        className="text-sm font-semibold text-zinc-50 group-hover:text-emerald-400 transition-colors line-clamp-1 leading-snug"
+                      >
+                        {prompt.name}
+                      </Link>
+                      {versionNum != null && (
+                        <span className="shrink-0 font-mono text-[10px] bg-zinc-800 text-zinc-300 border border-zinc-700/60 px-1.5 py-0.5 rounded">
+                          v{versionNum}
+                        </span>
+                      )}
+                    </div>
 
-                {prompt.description && (
-                  <p className="text-xs text-zinc-500 line-clamp-2 leading-relaxed">{prompt.description}</p>
-                )}
+                    {prompt.description ? (
+                      <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                        {prompt.description}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-zinc-600 italic">No description provided.</p>
+                    )}
+                  </div>
 
-                <div className="mt-auto pt-2 flex items-center justify-between">
-                  <span className="text-[10px] text-zinc-600 font-mono">
-                    {new Date(prompt.updatedAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </span>
-                  <span className="text-[10px] text-violet-400 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                    View →
-                  </span>
+                  <div className="mt-6 pt-3 border-t border-zinc-800/80 flex items-center justify-between gap-2">
+                    <span className="text-[11px] text-zinc-500 font-mono">
+                      {new Date(prompt.updatedAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/explore/${prompt.id}`}
+                        className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors px-2 py-1"
+                      >
+                        View
+                      </Link>
+                      <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />
+                    </div>
+                  </div>
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
