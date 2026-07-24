@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { PromptEditor } from '@/components/prompt-editor';
 import { VersionHistory } from '@/components/version-history';
 import { togglePromptVisibility } from '@/lib/actions/prompts';
+import { Globe, Lock } from 'lucide-react';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
 
@@ -92,7 +93,11 @@ export function PromptDetailClient({
             aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
           >
             <span className="flex items-center gap-1.5">
-              <span aria-hidden="true">{isPublic ? '🌐' : '🔒'}</span>
+              {isPublic ? (
+                <Globe className="h-3.5 w-3.5 text-emerald-400" />
+              ) : (
+                <Lock className="h-3.5 w-3.5 text-zinc-500" />
+              )}
               {isPublic ? 'Public' : 'Private'}
             </span>
             <span className="text-[10px] opacity-60">

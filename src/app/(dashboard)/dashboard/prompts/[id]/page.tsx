@@ -73,7 +73,7 @@ export default async function PromptDetailPage({
   const hasVersions = allVersions.length > 0;
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       {/* Page header */}
       <div className="flex items-start justify-between mb-8 gap-4">
         <div className="flex items-center gap-3 min-w-0">

@@ -48,7 +48,7 @@ export default async function EditPromptPage({
   const initialContent = latestVersion?.content ?? '';
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-8 max-w-4xl mx-auto">
       {/* Breadcrumb header */}
       <div className="flex items-center gap-3 mb-6">
         <Link
