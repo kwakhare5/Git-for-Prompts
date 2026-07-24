@@ -68,7 +68,7 @@ export function Features() {
       {/* Right Column - Custom Graphic Canvas */}
       <div className="lg:col-span-7 h-[420px] rounded-xl border border-zinc-900 bg-zinc-900/15 backdrop-blur-sm overflow-hidden flex flex-col relative select-none">
         <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/60 via-transparent to-zinc-950/60 pointer-events-none" />
-        
+
         <div className="relative z-10 flex-1 flex flex-col h-full">
           {activeFeature === 0 && <GitTreeGraphic />}
           {activeFeature === 1 && <DiffWipeGraphic />}

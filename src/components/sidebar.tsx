@@ -6,13 +6,14 @@ import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
 import { clerkAppearance } from '@/lib/clerk-appearance';
 import { cn } from '@/lib/utils';
+import { Home, LayoutDashboard, Compass, Key, Webhook } from 'lucide-react';
 
 const navItems = [
-  { label: 'Home & Guide', href: '/', icon: '⌂', enabled: true },
-  { label: 'Dashboard', href: '/dashboard', icon: '▦', enabled: true },
-  { label: 'Explore', href: '/explore', icon: '⚡', enabled: true },
-  { label: 'API Keys', href: '/dashboard/api-keys', icon: '⌘', enabled: true },
-  { label: 'Webhooks', href: '/dashboard/webhooks', icon: '🪝', enabled: true },
+  { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
+  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, enabled: true },
+  { label: 'Explore', href: '/explore', icon: Compass, enabled: true },
+  { label: 'API Keys', href: '/dashboard/api-keys', icon: Key, enabled: true },
+  { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook, enabled: true },
 ];
 
 export function Sidebar() {
@@ -45,15 +46,10 @@ export function Sidebar() {
         />
       )}
 
-      {/* Sidebar shell
-          Mobile:  fixed drawer, slides in from left, z-50
-          Desktop: participates in flex flow as a static column */}
+      {/* Sidebar shell */}
       <aside
         className={cn(
           'flex h-screen w-56 flex-col border-r border-zinc-800 bg-zinc-950',
-          // Mobile: fixed drawer, slides in from left
-          // #16: transition-transform instead of transition-all (only transform changes during slide)
-          // #25: shadow-2xl on mobile to show elevation over page content; none on desktop
           'fixed inset-y-0 left-0 z-50 transition-transform duration-200 ease-in-out shadow-2xl',
           'md:relative md:z-auto md:translate-x-0 md:shadow-none',
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
@@ -81,6 +77,7 @@ export function Sidebar() {
         {/* Nav */}
         <nav className="flex-1 space-y-0.5 p-2 pt-3" aria-label="Main navigation">
           {navItems.map((item) => {
+            const Icon = item.icon;
             const isActive =
               item.href === '/'
                 ? pathname === '/'
@@ -97,9 +94,8 @@ export function Sidebar() {
                   title="Coming soon"
                   className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-zinc-700 cursor-not-allowed select-none"
                 >
-                  <span aria-hidden="true" className="text-xs opacity-50">{item.icon}</span>
+                  <Icon className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
                   {item.label}
-                  {/* V5 fix: was text-zinc-800 (near-invisible) → text-zinc-600 */}
                   <span className="ml-auto text-[10px] font-mono text-zinc-600">soon</span>
                 </span>
               );
@@ -117,7 +113,7 @@ export function Sidebar() {
                     : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200',
                 )}
               >
-                <span aria-hidden="true" className="text-xs opacity-70">{item.icon}</span>
+                <Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-zinc-200' : 'text-zinc-500')} aria-hidden="true" />
                 {item.label}
               </Link>
             );
