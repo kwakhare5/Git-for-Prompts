@@ -22,7 +22,7 @@ export default async function ApiKeysPage() {
   }));
 
   return (
-    <div className="p-4 sm:p-8 max-w-2xl mx-auto">
+    <div className="p-4 sm:p-8 max-w-3xl mx-auto">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-50">API Keys</h1>

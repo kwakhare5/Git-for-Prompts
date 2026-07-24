@@ -11,7 +11,7 @@ export default async function WebhooksPage() {
   const existingWebhooks = await listWebhooks();
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-8 max-w-3xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-50">Webhooks</h1>
         <p className="text-sm text-zinc-500 mt-1">
