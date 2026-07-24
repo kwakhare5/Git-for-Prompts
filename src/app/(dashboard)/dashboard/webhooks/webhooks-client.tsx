@@ -94,7 +94,7 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
       {/* Create form */}
       <div className="flex flex-col gap-3 p-4 rounded-xl bg-zinc-900 border border-zinc-800">
-        <p className="text-xs font-medium text-zinc-400">Register new webhook</p>
+        <p className="text-xs font-semibold text-zinc-300">Register new webhook</p>
         <input
           type="url"
           placeholder="https://your-server.com/webhook"
@@ -122,13 +122,16 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
       {/* Existing webhooks list */}
       {hooks.length === 0 ? (
-        <p className="text-sm text-zinc-600 font-mono text-center py-6">No webhooks yet.</p>
+        <div className="rounded-xl border border-dashed border-zinc-800 py-12 text-center">
+          <p className="text-sm text-zinc-500">No webhooks registered yet.</p>
+          <p className="text-xs text-zinc-600 mt-1">Add your first webhook URL above.</p>
+        </div>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="rounded-xl border border-zinc-800 divide-y divide-zinc-800">
           {hooks.map((hook) => (
             <div
               key={hook.id}
-              className="flex items-center justify-between gap-4 p-3 rounded-lg bg-zinc-900 border border-zinc-800"
+              className="flex items-center justify-between gap-4 px-4 py-3.5 first:rounded-t-xl last:rounded-b-xl hover:bg-zinc-800/30 transition-colors"
             >
               <div className="flex flex-col gap-0.5 min-w-0">
                 {hook.label && (

@@ -76,19 +76,16 @@ export default async function DashboardExplorePage() {
               >
                 <div>
                   {/* Name + version badge */}
-                  <div className="flex items-center justify-between gap-2 mb-2 min-w-0">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Link
-                        href={`/dashboard/explore/${prompt.id}`}
-                        className="min-w-0 font-medium text-zinc-50 hover:text-zinc-300 transition-colors line-clamp-1"
-                      >
-                        {prompt.name}
-                      </Link>
-                      <span className="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-800/50 border border-zinc-700/50 px-2 py-0.5 rounded">
-                        v{versionNum}
-                      </span>
-                    </div>
-                    <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />
+                  <div className="flex items-center gap-2 mb-2 min-w-0">
+                    <Link
+                      href={`/dashboard/explore/${prompt.id}`}
+                      className="min-w-0 font-medium text-zinc-50 hover:text-zinc-300 transition-colors line-clamp-1"
+                    >
+                      {prompt.name}
+                    </Link>
+                    <span className="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-800/50 border border-zinc-700/50 px-2 py-0.5 rounded">
+                      v{versionNum}
+                    </span>
                   </div>
 
                   {/* Description */}
@@ -97,16 +94,19 @@ export default async function DashboardExplorePage() {
                   </p>
                 </div>
 
-                {/* Bottom row: view link + relative time */}
-                <div className="flex items-center justify-between text-xs pt-3 border-t border-zinc-800/60">
+                {/* Bottom row: view link + time + fork */}
+                <div className="flex items-center justify-between text-xs pt-3 border-t border-zinc-800/60 gap-3">
                   <Link
                     href={`/dashboard/explore/${prompt.id}`}
-                    className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-mono"
+                    className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-mono shrink-0"
                   >
                     View details →
                   </Link>
-                  <div className="text-zinc-500">
-                    <RelativeTime date={prompt.updatedAt} />
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="text-zinc-500">
+                      <RelativeTime date={prompt.updatedAt} />
+                    </span>
+                    <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />
                   </div>
                 </div>
               </div>
