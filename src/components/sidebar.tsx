@@ -7,6 +7,7 @@ import { UserButton } from '@clerk/nextjs';
 import { clerkAppearance } from '@/lib/clerk-appearance';
 import { cn } from '@/lib/utils';
 import { Home, LayoutDashboard, Compass, Key, Webhook, X } from 'lucide-react';
+import { Logo } from '@/components/logo';
 
 const navItems = [
   { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
@@ -60,8 +61,9 @@ export function Sidebar() {
           <Link
             href="/dashboard"
             onClick={close}
-            className="font-mono text-sm font-semibold text-zinc-50 tracking-tight hover:text-zinc-300 transition-colors"
+            className="font-mono text-sm font-semibold text-zinc-50 tracking-tight hover:text-zinc-300 transition-colors flex items-center gap-2"
           >
+            <Logo className="h-6 w-6 [&>svg]:h-3.5 [&>svg]:w-3.5" />
             git-for-prompts
           </Link>
           {/* Close button — mobile only */}

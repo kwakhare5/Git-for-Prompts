@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check, RefreshCw } from 'lucide-react';
 import { Show } from '@clerk/nextjs';
+import { siteConfig } from '@/config/site';
 
 interface HeroProps {
   onTrySandbox: () => void;
@@ -52,11 +53,11 @@ export function Hero({ onTrySandbox }: HeroProps) {
 
   return (
     <section className="text-center space-y-6 px-6 max-w-6xl mx-auto">
-      <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-b from-zinc-50 via-zinc-200 to-zinc-500 bg-clip-text text-transparent max-w-4xl mx-auto leading-[1.15]">
-        Treat your prompts <br className="hidden md:inline" />like production code.
+      <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-b from-zinc-50 via-zinc-200 to-zinc-500 bg-clip-text text-transparent max-w-4xl mx-auto leading-[1.15] text-balance">
+        {siteConfig.headline}
       </h1>
       <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
-        Version, test, A/B compare, and deploy AI prompt templates using a clean, developer-first Git workflow. No more prompt chaos in Notion or hardcoded source files.
+        {siteConfig.description}
       </p>
       <div className="flex items-center justify-center gap-4 pt-4">
         <button
