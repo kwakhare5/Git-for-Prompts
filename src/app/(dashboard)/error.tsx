@@ -21,7 +21,9 @@ export default function DashboardError({
         Something went wrong
       </h2>
       <p className="text-sm text-zinc-500 max-w-md mb-6 font-mono">
-        {error.message || 'An unexpected error occurred while loading this page.'}
+        {error.digest
+          ? `An unexpected error occurred (ref: ${error.digest})`
+          : 'An unexpected error occurred while loading this page.'}
       </p>
       <button
         onClick={reset}

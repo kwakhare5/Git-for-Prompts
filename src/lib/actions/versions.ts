@@ -7,6 +7,8 @@ import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/ver
 import { revalidatePath } from 'next/cache';
 import { eq, desc, and, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';
+import { extractVariables } from '@/lib/variables';
+import { fireWebhooks } from '@/lib/webhooks';
 
 // Type of the transaction object drizzle hands to a `db.transaction(async (tx) => ...)`
 // callback. Derived from `db.transaction` itself (not hardcoded against Drizzle's
@@ -64,6 +66,7 @@ async function insertNextVersion(
       content: params.content,
       commitMessage: params.commitMessage,
       createdBy: params.createdBy,
+      variables: extractVariables(params.content),
     })
     .returning();
 
@@ -98,6 +101,18 @@ export async function createVersion(input: unknown) {
         createdBy: userId,
       })
     );
+
+    // Fire webhooks after commit — fire-and-forget, never blocks the save
+    void fireWebhooks(userId, {
+      event: 'version.created',
+      promptId: validated.promptId,
+      promptName: prompt.name,
+      versionId: newVersion.id,
+      versionNumber: newVersion.versionNumber,
+      commitMessage: newVersion.commitMessage ?? null,
+      variables: newVersion.variables,
+      createdAt: newVersion.createdAt,
+    });
 
     revalidatePath('/dashboard');
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);

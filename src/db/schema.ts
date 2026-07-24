@@ -15,8 +15,14 @@ export const prompts = pgTable(
     currentVersionId: uuid('current_version_id'), // FK to versions (set after first version)
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    // Scheduled regression tests
+    testSchedule: varchar('test_schedule', { length: 10 }).$type<'daily' | 'weekly'>(), // null = no schedule
+    lastScheduledTestAt: timestamp('last_scheduled_test_at'),
   },
-  (t) => [index('prompts_owner_id_idx').on(t.ownerId)]
+  (t) => [
+    index('prompts_owner_id_idx').on(t.ownerId),
+    index('prompts_is_public_idx').on(t.isPublic), // for the /explore public gallery query
+  ]
 );
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -34,6 +40,7 @@ export const versions = pgTable(
     commitMessage: varchar('commit_message', { length: 500 }), // "Made tone friendlier"
     createdBy: varchar('created_by', { length: 255 }).notNull(), // Clerk userId
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    variables: text('variables').array().default([]).notNull(), // {{var}} placeholders extracted from content
   },
   (t) => [
     index('versions_prompt_id_idx').on(t.promptId),
@@ -78,8 +85,11 @@ export const testResults = pgTable(
     runAt: timestamp('run_at').defaultNow().notNull(),
   },
   (t) => [
-    index('test_results_version_id_idx').on(t.versionId),
-    index('test_results_test_case_id_idx').on(t.testCaseId),
+    // Composite unique index on (versionId, testCaseId):
+    // - covers the dedup query in getPromptsWithStats directly
+    // - the UNIQUE constraint enables upsert (ON CONFLICT DO UPDATE)
+    //   so re-running tests updates the latest result instead of appending duplicates.
+    uniqueIndex('test_results_version_test_case_unique').on(t.versionId, t.testCaseId),
   ]
 );
 
@@ -126,3 +136,29 @@ export const testResultsRelations = relations(testResults, ({ one }) => ({
   version: one(versions, { fields: [testResults.versionId], references: [versions.id] }),
   testCase: one(testCases, { fields: [testResults.testCaseId], references: [testCases.id] }),
 }));
+
+// ─────────────────────────────────────────────────────────────────────────────
+// webhooks — user-registered URLs that get POSTed on every new version save.
+// promptId NULL = fires for ALL version saves by this user (global hook).
+// ─────────────────────────────────────────────────────────────────────────────
+export const webhooks = pgTable(
+  'webhooks',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    ownerId: varchar('owner_id', { length: 255 }).notNull(),
+    promptId: uuid('prompt_id').references(() => prompts.id, { onDelete: 'cascade' }), // nullable = global
+    url: varchar('url', { length: 2048 }).notNull(),
+    secretHash: varchar('secret_hash', { length: 64 }).notNull(), // SHA-256(secret) for HMAC-SHA256 signing
+    label: varchar('label', { length: 255 }),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [
+    index('webhooks_owner_id_idx').on(t.ownerId),
+    index('webhooks_prompt_id_idx').on(t.promptId),
+  ]
+);
+
+export const webhooksRelations = relations(webhooks, ({ one }) => ({
+  prompt: one(prompts, { fields: [webhooks.promptId], references: [prompts.id] }),
+}));
+

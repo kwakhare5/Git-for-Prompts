@@ -6,7 +6,7 @@ import { versions, testCases, testResults, prompts } from '@/db/schema';
 import { createTestCaseSchema, runTestsSchema, runComparisonSchema, deleteTestCaseSchema } from '@/lib/validations/test';
 import { runSingleTestCase, runWithConcurrency, MAX_CONCURRENT_TESTS } from '@/lib/ai';
 import { revalidatePath } from 'next/cache';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';
 import { checkRateLimit } from '@/lib/rate-limit';
 
@@ -167,7 +167,20 @@ export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcom
 
     if (rowsToInsert.length > 0) {
       try {
-        saved = await db.insert(testResults).values(rowsToInsert).returning();
+        // Upsert: re-running tests on the same version+testCase updates the existing
+        // row instead of appending a duplicate.
+        saved = await db
+          .insert(testResults)
+          .values(rowsToInsert)
+          .onConflictDoUpdate({
+            target: [testResults.versionId, testResults.testCaseId],
+            set: {
+              passed: sql`excluded.passed`,
+              actualOutput: sql`excluded.actual_output`,
+              runAt: sql`now()`,
+            },
+          })
+          .returning();
       } catch (err) {
         // A DB failure here used to be swallowed per-test-case with a fake
         // row. Now it's caught once, logged once, and every evaluation from
@@ -320,7 +333,19 @@ export async function runComparisonForVersions(input: unknown): Promise<{
 
     if (rowsToInsert.length > 0) {
       try {
-        saved = await db.insert(testResults).values(rowsToInsert).returning();
+        // Upsert: comparison re-runs update the existing row, not append.
+        saved = await db
+          .insert(testResults)
+          .values(rowsToInsert)
+          .onConflictDoUpdate({
+            target: [testResults.versionId, testResults.testCaseId],
+            set: {
+              passed: sql`excluded.passed`,
+              actualOutput: sql`excluded.actual_output`,
+              runAt: sql`now()`,
+            },
+          })
+          .returning();
       } catch (err) {
         persistError = err instanceof Error ? err.message : String(err);
         console.error('[comparison] Bulk insert of test results failed:', persistError);

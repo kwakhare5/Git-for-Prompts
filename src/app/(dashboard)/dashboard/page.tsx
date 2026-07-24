@@ -29,23 +29,19 @@ async function getPromptsWithStats(userId: string) {
 
   const versionCountMap = new Map(versionCounts.map((r) => [r.promptId, r.count]));
 
-  // Get all versions for these prompts — needed to find the latest versionId per prompt
-  const allVersionsList = await db
-    .select({ id: versions.id, promptId: versions.promptId, versionNumber: versions.versionNumber })
-    .from(versions)
-    .where(inArray(versions.promptId, promptIds));
+  // Use currentVersionId directly from the prompts table — already maintained
+  // by insertNextVersion on every save. Eliminates the old query that fetched
+  // ALL versions for ALL prompts just to find the latest one per prompt.
+  const latestVersionIds = userPrompts
+    .map((p) => p.currentVersionId)
+    .filter((id): id is string => id != null);
 
-  // Find the highest-numbered (current) version ID per prompt
-  const latestVersionIdMap = new Map<string, { id: string; versionNumber: number }>();
-  for (const v of allVersionsList) {
-    const existing = latestVersionIdMap.get(v.promptId);
-    if (!existing || v.versionNumber > existing.versionNumber) {
-      latestVersionIdMap.set(v.promptId, { id: v.id, versionNumber: v.versionNumber });
-    }
-  }
-
-  const latestVersionIds = [...latestVersionIdMap.values()].map((v) => v.id);
-  const versionToPromptMap = new Map(allVersionsList.map((v) => [v.id, v.promptId]));
+  // Reverse map: currentVersionId → promptId (for correlating test results back)
+  const versionToPromptMap = new Map(
+    userPrompts
+      .filter((p): p is typeof p & { currentVersionId: string } => p.currentVersionId != null)
+      .map((p) => [p.currentVersionId, p.id])
+  );
 
   // Get test results ONLY for the latest version of each prompt
   const latestTestResults =
