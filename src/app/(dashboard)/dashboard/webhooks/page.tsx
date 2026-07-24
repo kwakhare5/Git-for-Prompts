@@ -13,7 +13,7 @@ export default async function WebhooksPage() {
   return (
     <div className="p-8 max-w-3xl">
       <div className="mb-8">
-        <h1 className="text-xl font-bold text-zinc-50">Webhooks</h1>
+        <h1 className="text-2xl font-bold text-zinc-50">Webhooks</h1>
         <p className="text-sm text-zinc-500 mt-1">
           Git for Prompts will POST to your URL whenever a new version is saved.
           Scope to a specific prompt or leave blank to fire on all saves.

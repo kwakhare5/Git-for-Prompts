@@ -50,7 +50,7 @@ export default async function ExplorePage() {
             <Link href="/" className="text-zinc-500 text-sm hover:text-zinc-300 transition-colors">
               ← Git for Prompts
             </Link>
-            <h1 className="text-xl font-semibold text-zinc-100 mt-0.5">Explore</h1>
+            <h1 className="text-2xl font-bold text-zinc-50 mt-0.5">Explore</h1>
           </div>
           <p className="text-sm text-zinc-500">{publicPrompts.length} public prompts</p>
         </div>

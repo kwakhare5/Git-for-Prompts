@@ -25,10 +25,10 @@ export default async function ApiKeysPage() {
     <div className="p-4 sm:p-8 max-w-2xl mx-auto">
       {/* Page header */}
       <div className="mb-8">
-        <h1 className="text-xl font-semibold text-zinc-100">API Keys</h1>
-        <p className="mt-1.5 text-sm text-zinc-500">
+        <h1 className="text-2xl font-bold text-zinc-50">API Keys</h1>
+        <p className="mt-1 text-sm text-zinc-500">
           Use API keys to fetch your latest prompt versions from any application or CI pipeline.
-          Keys are hashed with bcrypt — only you ever see the full key.
+          Keys are hashed with SHA-256 — only you ever see the full key upon creation.
         </p>
       </div>
 
