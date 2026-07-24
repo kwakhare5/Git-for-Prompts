@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Rounded Logo Box Background -->
+  <rect x="0.5" y="0.5" width="31" height="31" rx="8" fill="#18181b" stroke="#27272a" stroke-width="1" />
+  
+  <!-- Git Branch Icon matching their lucide-react definition exactly -->
+  <g transform="translate(7, 7) scale(0.75)" fill="none" stroke="#d4d4d8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 6a9 9 0 0 0-9 9V3" />
+    <circle cx="18" cy="6" r="3" />
+    <circle cx="6" cy="18" r="3" />
+  </g>
+</svg>

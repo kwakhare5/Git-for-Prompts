@@ -16,9 +16,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://gitforprompts.vercel.app';
-const VALID_BASE_URL = BASE_URL.startsWith('http') ? BASE_URL : `https://${BASE_URL}`;
-
 
 export const viewport: Viewport = {
   themeColor: '#09090b',
@@ -26,7 +23,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(VALID_BASE_URL),
+  metadataBase: new URL("https://gitforprompts.vercel.app"),
   title: {
     default: 'Git for Prompts',
     template: '%s · Git for Prompts',
@@ -39,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: BASE_URL,
+    url: "https://gitforprompts.vercel.app",
     siteName: 'Git for Prompts',
     title: 'Git for Prompts — Version control for AI prompts',
     description:
@@ -57,9 +54,9 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
   },
 };
 
