@@ -42,7 +42,7 @@ export default async function DashboardExploreDetailPage({ params }: Props) {
   if (!prompt || !prompt.isPublic) notFound();
 
   return (
-    <div className="p-4 sm:p-8 max-w-4xl">
+    <div className="p-4 sm:p-8">
       {/* Header breadcrumb */}
       <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
         <Link
