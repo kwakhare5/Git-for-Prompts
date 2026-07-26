@@ -1,7 +1,8 @@
 {
   "name": "@git-for-prompts/cli",
-  "version": "0.1.0",
-  "description": "CLI for Git for Prompts — pull and push prompts from the terminal",
+  "version": "0.2.0",
+  "description": "Git for Prompts CLI — local-first prompt package manager with SQLite storage",
+  "type": "module",
   "bin": {
     "gfp": "./dist/index.js"
   },
@@ -10,12 +11,18 @@
     "build": "tsc",
     "dev": "tsx src/index.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@gfp/core": "workspace:*",
+    "sql.js": "^1.12.0",
+    "commander": "^13.0.0"
+  },
   "devDependencies": {
+    "@types/sql.js": "^1.4.0",
     "typescript": "^5.0.0",
     "tsx": "^4.0.0"
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "license": "MIT"
 }

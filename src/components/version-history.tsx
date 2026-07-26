@@ -7,6 +7,7 @@ import { RelativeTime } from '@/components/relative-time';
 import { cn } from '@/lib/utils';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
+import type { PromptBundle } from '@gfp/core';
 
 type Version = InferSelectModel<typeof versions>;
 
@@ -112,7 +113,7 @@ export function VersionHistory({
                     <span className="italic text-zinc-600">No commit message</span>
                   )}
                 </p>
-                <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                   <RelativeTime date={v.createdAt} />
                   {isLatest && (
                     <span className="text-xs text-emerald-500 font-mono">HEAD</span>
@@ -120,6 +121,16 @@ export function VersionHistory({
                   {isActive && !isLatest && (
                     <span className="text-xs text-sky-500 font-mono">previewing</span>
                   )}
+                  {/* Model badge — shown when version has a V2 bundle */}
+                  {v.bundle && (() => {
+                    const bundle = v.bundle as unknown as PromptBundle;
+                    const label = `${bundle.modelConfig?.provider ?? ''}/${bundle.modelConfig?.model ?? ''}`;
+                    return label !== '/' ? (
+                      <span className="text-[10px] font-mono text-zinc-600 bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded">
+                        {label}
+                      </span>
+                    ) : null;
+                  })()}
                 </div>
               </div>
             </button>

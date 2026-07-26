@@ -1,80 +1,93 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { GitTreeGraphic } from './graphics/git-tree';
-import { DiffWipeGraphic } from './graphics/diff-wipe';
-import { PipelineGraphic } from './graphics/pipeline';
-import { ApiFlowGraphic } from './graphics/api-flow';
+const FEATURES = [
+  {
+    icon: '📦',
+    title: 'Local-first storage',
+    description:
+      'Everything lives in a local SQLite database inside your project. No API keys, no cloud account needed to start. Your prompts are yours.',
+    tags: ['SQLite', 'Wasm', 'Offline'],
+  },
+  {
+    icon: '📜',
+    title: 'Full version history',
+    description:
+      'Every save is an immutable, append-only version row. Rollback to any point in history. Race conditions blocked at the DB level via advisory locks.',
+    tags: ['Immutable', 'Rollback', 'Concurrent-safe'],
+  },
+  {
+    icon: '🔍',
+    title: 'Side-by-side diff',
+    description:
+      'Monaco Editor-powered diff view (same engine as VS Code). See exactly what changed between any two versions — line-level, character-level.',
+    tags: ['Monaco', 'Diff', 'V2 Bundle'],
+  },
+  {
+    icon: '⚡',
+    title: 'Eval runner',
+    description:
+      'Define input + criteria once. Run your prompt against any LLM provider. Score pass rates. Compare v1 vs v2 side-by-side automatically.',
+    tags: ['Evals', 'A/B testing', 'Multi-provider'],
+  },
+  {
+    icon: '☁️',
+    title: 'Cloud sync on demand',
+    description:
+      'Push to cloud when you\'re ready. Pull on another machine. Caches cloud IDs locally so repeated syncs are instant.',
+    tags: ['gfp push', 'gfp pull', 'REST API'],
+  },
+  {
+    icon: '🔗',
+    title: 'Webhooks + API',
+    description:
+      'HMAC-signed `version.created` events. REST API with `gfp_live_*` bearer auth. Integrate into any CI pipeline.',
+    tags: ['Webhooks', 'HMAC', 'REST'],
+  },
+];
 
 export function Features() {
-  const [activeFeature, setActiveFeature] = useState<number>(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % 4);
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [activeFeature]);
-
-  const features = [
-    {
-      num: '01',
-      title: 'Immutable Versioning',
-      desc: 'Append-only prompt history with Git-like commits. Advisory transaction locks ensure zero concurrency conflicts across parallel updates.'
-    },
-    {
-      num: '02',
-      title: 'Visual Diff & A/B Compare',
-      desc: 'Compare prompt revisions side-by-side using the Monaco Editor engine. Benchmark any two versions against real test suites.'
-    },
-    {
-      num: '03',
-      title: 'Automated Test Runner',
-      desc: 'Define input fixtures and criteria. Evaluate prompt outputs with AI scoring, bulk persistence, and regression tracking.'
-    },
-    {
-      num: '04',
-      title: 'Runtime API & CLI Delivery',
-      desc: 'Fetch active prompts at runtime with variable interpolation, commit versions via gfp CLI, and receive HMAC-signed webhooks.'
-    }
-  ];
-
   return (
-    <section id="features" className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-      {/* Left Column - Feature Cards */}
-      <div className="lg:col-span-5 space-y-4 flex flex-col justify-between">
-        {features.map((feature, idx) => (
-          <button
-            key={idx}
-            onClick={() => setActiveFeature(idx)}
-            className={`w-full flex items-start gap-4 p-5 rounded-xl border text-left transition-all cursor-pointer ${
-              activeFeature === idx
-                ? 'bg-zinc-900/60 border-zinc-800 text-zinc-100 shadow-lg shadow-zinc-950/40 relative before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[3px] before:bg-zinc-50 before:rounded-r'
-                : 'bg-zinc-900/10 border-zinc-950 hover:bg-zinc-900/20 hover:border-zinc-900 text-zinc-500 hover:text-zinc-300'
-            }`}
-          >
-            <span className={`font-mono text-xs font-bold leading-5 ${activeFeature === idx ? 'text-zinc-50' : 'text-zinc-600'}`}>
-              {feature.num}
-            </span>
-            <div className="space-y-1">
-              <h4 className="font-semibold text-sm">{feature.title}</h4>
-              <p className="text-xs text-zinc-500 leading-relaxed font-light">{feature.desc}</p>
-            </div>
-          </button>
-        ))}
+    <section id="features" className="px-6 py-24 max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="text-center mb-16">
+        <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-3">Features</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+          Everything prompts deserve.
+        </h2>
+        <p className="mt-4 text-zinc-400 max-w-xl mx-auto text-base leading-relaxed">
+          Built for engineers who treat prompt engineering as a first-class discipline — not an afterthought.
+        </p>
       </div>
 
-      {/* Right Column - Custom Graphic Canvas */}
-      <div className="lg:col-span-7 h-[420px] rounded-xl border border-zinc-900 bg-zinc-900/15 backdrop-blur-sm overflow-hidden flex flex-col relative select-none">
-        <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/60 via-transparent to-zinc-950/60 pointer-events-none" />
+      {/* 3-column grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {FEATURES.map((feature) => (
+          <div
+            key={feature.title}
+            className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-6 flex flex-col gap-4 hover:border-white/[0.12] hover:bg-white/[0.04] transition-colors"
+          >
+            {/* Icon */}
+            <span className="text-2xl leading-none">{feature.icon}</span>
 
-        <div className="relative z-10 flex-1 flex flex-col h-full">
-          {activeFeature === 0 && <GitTreeGraphic />}
-          {activeFeature === 1 && <DiffWipeGraphic />}
-          {activeFeature === 2 && <PipelineGraphic />}
-          {activeFeature === 3 && <ApiFlowGraphic />}
-        </div>
+            {/* Title + Description */}
+            <div className="flex flex-col gap-2 flex-1">
+              <h3 className="text-base font-semibold text-white">{feature.title}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{feature.description}</p>
+            </div>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {feature.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-[10px] font-mono text-zinc-500 border border-white/[0.06] rounded-full px-2 py-0.5"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
