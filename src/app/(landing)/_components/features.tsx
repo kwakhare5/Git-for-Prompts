@@ -1,93 +1,102 @@
 'use client';
 
+import { HardDrive, History, GitCompare, Zap, Cloud, Webhook } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+
 const FEATURES = [
   {
-    icon: '📦',
+    icon: HardDrive,
     title: 'Local-first storage',
     description:
-      'Everything lives in a local SQLite database inside your project. No API keys, no cloud account needed to start. Your prompts are yours.',
-    tags: ['SQLite', 'Wasm', 'Offline'],
+      'Everything lives in a local SQLite database inside your project directory. 100% offline — zero cloud lock-in.',
+    tags: ['SQLite Wasm', 'Offline', 'Zero Latency'],
   },
   {
-    icon: '📜',
+    icon: History,
     title: 'Full version history',
     description:
-      'Every save is an immutable, append-only version row. Rollback to any point in history. Race conditions blocked at the DB level via advisory locks.',
-    tags: ['Immutable', 'Rollback', 'Concurrent-safe'],
+      'Every save creates an immutable append-only version row. Rollback to any past point instantly with atomic DB advisory locks.',
+    tags: ['Immutable', 'Rollback', 'Advisory Lock'],
   },
   {
-    icon: '🔍',
+    icon: GitCompare,
     title: 'Side-by-side diff',
     description:
-      'Monaco Editor-powered diff view (same engine as VS Code). See exactly what changed between any two versions — line-level, character-level.',
-    tags: ['Monaco', 'Diff', 'V2 Bundle'],
+      'VS Code Monaco engine powers visual line-level diffs. Compare system prompts, user templates, and model parameters side-by-side.',
+    tags: ['Monaco Engine', 'Visual Diff', 'Bundle Schema'],
   },
   {
-    icon: '⚡',
+    icon: Zap,
     title: 'Eval runner',
     description:
-      'Define input + criteria once. Run your prompt against any LLM provider. Score pass rates. Compare v1 vs v2 side-by-side automatically.',
-    tags: ['Evals', 'A/B testing', 'Multi-provider'],
+      'Define input variables & scoring assertions once. Run prompt bundles against Groq, OpenAI, or Anthropic in parallel.',
+    tags: ['Evals', 'A/B Testing', 'Multi-Model'],
   },
   {
-    icon: '☁️',
+    icon: Cloud,
     title: 'Cloud sync on demand',
     description:
-      'Push to cloud when you\'re ready. Pull on another machine. Caches cloud IDs locally so repeated syncs are instant.',
-    tags: ['gfp push', 'gfp pull', 'REST API'],
+      'Push local bundles to cloud when ready with gfp push. Pull on another machine with gfp pull. Caches IDs locally.',
+    tags: ['gfp push', 'gfp pull', 'REST Sync'],
   },
   {
-    icon: '🔗',
+    icon: Webhook,
     title: 'Webhooks + API',
     description:
-      'HMAC-signed `version.created` events. REST API with `gfp_live_*` bearer auth. Integrate into any CI pipeline.',
-    tags: ['Webhooks', 'HMAC', 'REST'],
+      'HMAC-SHA256 signed version.created events fired to your endpoint. REST API with gfp_live_* bearer authentication.',
+    tags: ['HMAC Signature', 'REST API', 'CI/CD'],
   },
 ];
 
 export function Features() {
   return (
-    <section id="features" className="px-6 py-24 max-w-6xl mx-auto">
+    <section id="features" className="px-6 py-12 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-16">
-        <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-3">Features</p>
-        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+      <div className="text-center mb-10">
+        <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-2">Features</p>
+        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
           Everything prompts deserve.
         </h2>
-        <p className="mt-4 text-zinc-400 max-w-xl mx-auto text-base leading-relaxed">
-          Built for engineers who treat prompt engineering as a first-class discipline — not an afterthought.
+        <p className="mt-2 text-zinc-400 max-w-lg mx-auto text-sm leading-relaxed font-light">
+          Built for software engineers who treat prompt engineering as a first-class code discipline.
         </p>
       </div>
 
       {/* 3-column grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {FEATURES.map((feature) => (
-          <div
-            key={feature.title}
-            className="group rounded-xl border border-white/[0.07] bg-white/[0.02] p-6 flex flex-col gap-4 hover:border-white/[0.12] hover:bg-white/[0.04] transition-colors"
-          >
-            {/* Icon */}
-            <span className="text-2xl leading-none">{feature.icon}</span>
+        {FEATURES.map((feature) => {
+          const Icon = feature.icon;
+          return (
+            <div
+              key={feature.title}
+              className="group rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-3.5 hover:border-white/[0.14] hover:bg-[#1a1a1a] transition-all"
+            >
+              {/* Vector Icon Badge */}
+              <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300 group-hover:border-white/20 transition-colors">
+                <Icon className="w-4 h-4 text-[#f5f0eb]" />
+              </div>
 
-            {/* Title + Description */}
-            <div className="flex flex-col gap-2 flex-1">
-              <h3 className="text-base font-semibold text-white">{feature.title}</h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">{feature.description}</p>
-            </div>
+              {/* Title + Description */}
+              <div className="flex flex-col gap-1.5 flex-1">
+                <h3 className="text-sm font-semibold text-white">{feature.title}</h3>
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">{feature.description}</p>
+              </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {feature.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10px] font-mono text-zinc-500 border border-white/[0.06] rounded-full px-2 py-0.5"
-                >
-                  {tag}
-                </span>
-              ))}
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {feature.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="text-[10px] font-mono text-zinc-500 border-white/[0.06] bg-transparent px-2 py-0"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
