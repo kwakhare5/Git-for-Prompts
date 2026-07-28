@@ -3,20 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Show, UserButton } from '@clerk/nextjs';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { 
-  GitBranch, 
-  Play, 
-  Menu, 
-  X
-} from 'lucide-react';
-import { Logo } from '@/components/logo';
+import { Play } from 'lucide-react';
 
 // Subcomponents
 import { Navbar } from './_components/navbar';
