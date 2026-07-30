@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock, Sparkles, ArrowRight } from 'lucide-react';
+import { Clock, Sparkles, ArrowRight, FileText, MessageSquare, Code2 } from 'lucide-react';
 
 interface FixesSectionProps {
   onOpenSandbox: () => void;
@@ -139,22 +139,28 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
 
           <div className="mt-5 space-y-2 font-mono text-[10px] z-10">
             {[
-              { name: '📄 Google Doc: Refund Template v2', status: 'Drifted' },
-              { name: '💬 Slack: Alice draft snippet', status: 'Forgotten' },
-              { name: '💻 src/lib/openai.ts (hardcoded string)', status: 'Untracked' },
-              { name: '📄 Notion: production-system-prompts', status: 'Out-of-Sync' }
-            ].map((item, idx) => (
-              <div 
-                key={idx}
-                className="flex items-center justify-between p-2 rounded border border-zinc-850 bg-zinc-950/60 transition-all duration-750 font-mono"
-                style={{ opacity: card2DecayIdx === idx ? 0.2 : 0.95 }}
-              >
-                <span className="text-zinc-300 font-mono truncate mr-2">{item.name}</span>
-                <span className="text-[8px] font-mono text-red-400/80 bg-red-950/20 border border-red-900/40 px-1.5 py-0.5 rounded font-mono uppercase font-semibold">
-                  {item.status}
-                </span>
-              </div>
-            ))}
+              { icon: FileText, name: 'Google Doc: Refund Template v2', status: 'Drifted' },
+              { icon: MessageSquare, name: 'Slack: Alice draft snippet', status: 'Forgotten' },
+              { icon: Code2, name: 'src/lib/openai.ts (hardcoded string)', status: 'Untracked' },
+              { icon: FileText, name: 'Notion: production-system-prompts', status: 'Out-of-Sync' }
+            ].map((item, idx) => {
+              const ItemIcon = item.icon;
+              return (
+                <div 
+                  key={idx}
+                  className="flex items-center justify-between p-2.5 rounded-lg border border-white/[0.06] bg-[#0e0e0e] transition-all duration-700 font-mono"
+                  style={{ opacity: card2DecayIdx === idx ? 0.3 : 0.95 }}
+                >
+                  <div className="flex items-center gap-2 truncate mr-2">
+                    <ItemIcon className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                    <span className="text-zinc-300 font-mono truncate">{item.name}</span>
+                  </div>
+                  <span className="text-[9px] font-mono text-red-400 bg-red-950/40 border border-red-900/50 px-2 py-0.5 rounded font-mono uppercase font-semibold shrink-0">
+                    {item.status}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
