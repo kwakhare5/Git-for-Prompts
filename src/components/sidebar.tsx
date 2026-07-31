@@ -49,14 +49,14 @@ export function Sidebar() {
       {/* Sidebar shell */}
       <aside
         className={cn(
-          'flex h-screen w-56 flex-col border-r border-zinc-800 bg-zinc-950',
+          'flex h-screen w-56 flex-col border-r border-white/[0.08] bg-[#121212]',
           'fixed inset-y-0 left-0 z-50 transition-transform duration-200 ease-in-out shadow-2xl',
           'md:relative md:z-auto md:translate-x-0 md:shadow-none',
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         )}
       >
         {/* Brand row */}
-        <div className="flex h-14 items-center border-b border-zinc-800 px-4">
+        <div className="flex h-14 items-center border-b border-white/[0.08] px-4">
           <Link
             href="/dashboard"
             onClick={close}

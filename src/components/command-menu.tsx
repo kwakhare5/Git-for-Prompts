@@ -162,7 +162,7 @@ export function CommandMenu() {
               <span>↑↓ Navigate</span>
               <span>↵ Select</span>
             </div>
-            <span>Git for Prompts v2</span>
+            <span>Git for Prompts</span>
           </div>
         </Command>
       </div>

@@ -65,12 +65,12 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-stretch">
         
         {/* Card 1: Regression Test Pipeline */}
-        <div className="md:col-span-3 rounded-xl border border-zinc-800 bg-zinc-900 p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-zinc-700 hover:bg-zinc-900/80 dots-bg shadow-sm">
-          <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/20 via-transparent to-zinc-950/20 pointer-events-none" />
+        <div className="md:col-span-3 rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-sm">
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
           
           <div className="space-y-1 z-10">
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-semibold block">01 / Testing & Integrity</span>
-            <h3 className="text-sm font-semibold text-zinc-50 font-sans">Untested Prompt Regressions</h3>
+            <h3 className="text-sm font-semibold text-white font-sans">Untested Prompt Regressions</h3>
             <p className="text-xs text-zinc-400 font-light leading-relaxed font-sans">
               You edit a prompt instructions to solve an edge-case, and it silently breaks three others in production.
             </p>
@@ -126,12 +126,12 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 2: Fragmented Prompt Silos */}
-        <div className="md:col-span-3 rounded-xl border border-zinc-800 bg-zinc-900 p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-zinc-700 hover:bg-zinc-900/80 shadow-sm">
-          <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/20 via-transparent to-zinc-950/20 pointer-events-none" />
+        <div className="md:col-span-3 rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-sm">
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
           
           <div className="space-y-1 z-10">
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-semibold block">02 / Versioning & Storage</span>
-            <h3 className="text-sm font-semibold text-zinc-50 font-sans">Document Decay & Fragmentation</h3>
+            <h3 className="text-sm font-semibold text-white font-sans">Document Decay & Fragmentation</h3>
             <p className="text-xs text-zinc-400 font-light leading-relaxed font-sans">
               Prompts live scattered in Google Docs, Slack notes, and hardcoded in app code. Nobody knows which is active.
             </p>
@@ -165,17 +165,17 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 3: Chasing Prompt Authors */}
-        <div className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900 p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-zinc-700 hover:bg-zinc-900/80 shadow-sm">
+        <div className="md:col-span-3 rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-sm">
           <div className="space-y-1 z-10">
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-semibold block">03 / Attribution audit</span>
-            <h3 className="text-sm font-semibold text-zinc-50 font-sans">Chasing Prompt Changes</h3>
+            <h3 className="text-sm font-semibold text-white font-sans">Chasing Prompt Changes</h3>
             <p className="text-xs text-zinc-400 font-light leading-relaxed font-sans">
               Who modified the system parameters on production? Finding out takes hours of Slack threads.
             </p>
           </div>
 
-          <div className="mt-5 border border-zinc-850 bg-zinc-950/90 rounded-lg p-3 space-y-2.5 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-zinc-900 pb-1 text-zinc-500 font-semibold font-mono">
+          <div className="mt-5 border border-white/[0.04] bg-[#0e0e0e] rounded-xl p-3 space-y-2.5 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-1 text-zinc-500 font-semibold font-mono">
               <span>Slack Search Query</span>
               <span className="flex items-center gap-1 font-mono text-zinc-600">
                 <Clock className="h-2.5 w-2.5 font-mono" /> {card3Timer} elapsed
@@ -224,16 +224,16 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 4: Buried Failures */}
-        <div className="md:col-span-2 rounded-xl border border-zinc-800 bg-zinc-900 p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-zinc-700 hover:bg-zinc-900/80 shadow-sm">
+        <div className="md:col-span-3 rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-sm">
           <div className="space-y-1 z-10">
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-semibold block">04 / Incident alerts</span>
-            <h3 className="text-sm font-semibold text-zinc-50 font-sans">Silenced Error Regressions</h3>
+            <h3 className="text-sm font-semibold text-white font-sans">Silenced Error Regressions</h3>
             <p className="text-xs text-zinc-400 font-light leading-relaxed font-sans">
               LLM format breakages and parser crashes happen, but slip past because they are buried in cloud logs.
             </p>
           </div>
 
-          <div className="mt-5 border border-zinc-850 bg-zinc-950/90 rounded-lg p-3 space-y-2 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
+          <div className="mt-5 border border-white/[0.04] bg-[#0e0e0e] rounded-xl p-3 space-y-2 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
             <div className="flex justify-between border-b border-zinc-900 pb-1 text-zinc-500 font-semibold font-mono">
               <span>Server stdout stream</span>
               <span className="text-zinc-600 font-mono">stdout.log</span>

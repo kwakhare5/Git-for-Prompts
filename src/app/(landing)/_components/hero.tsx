@@ -40,9 +40,9 @@ function InteractiveTerminal() {
 
   return (
     <div className="w-full max-w-2xl mx-auto font-mono text-xs">
-      <div className="rounded-xl border border-white/[0.08] bg-[#161616] shadow-2xl overflow-hidden text-left">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-2xl overflow-hidden text-left isolation-auto">
         {/* Title Bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-[#1a1a1a]">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-[#1a1a1a] rounded-t-2xl">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
@@ -106,19 +106,6 @@ export function Hero({ onTrySandbox }: HeroProps) {
     >
       {/* Background linear grid overlay */}
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
-
-      {/* Top badges */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex items-center gap-3 z-10"
-      >
-        <Badge variant="outline" className="gap-2 border-white/10 bg-white/[0.03] text-zinc-300 px-3 py-1 font-mono text-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Open source · SQLite Wasm + Cloud Sync
-        </Badge>
-      </motion.div>
 
       {/* Headline */}
       <motion.h1
