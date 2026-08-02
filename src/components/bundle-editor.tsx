@@ -167,7 +167,7 @@ export function BundleEditor({
               id="bundle-editor-save-btn"
               onClick={handleSave}
               disabled={isPending}
-              className="bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-xs font-semibold px-3 py-1 rounded transition-all disabled:opacity-30 flex items-center gap-1.5"
+              className="bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-xs font-semibold px-3 py-1 rounded transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] disabled:opacity-30 flex items-center gap-1.5"
             >
               {isPending && (
                 <span className="w-3 h-3 border-2 border-zinc-600 border-t-transparent rounded-full animate-spin" />

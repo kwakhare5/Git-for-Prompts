@@ -58,7 +58,7 @@ export function Sidebar() {
         {/* Brand row */}
         <div className="flex h-14 items-center border-b border-white/[0.08] px-4">
           <Link
-            href="/dashboard"
+            href="/"
             onClick={close}
             className="font-mono text-sm font-semibold text-zinc-50 tracking-tight hover:text-zinc-300 transition-colors flex items-center gap-2"
           >

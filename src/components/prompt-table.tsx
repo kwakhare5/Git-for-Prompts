@@ -35,7 +35,7 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
 
   const passRateColor =
     prompt.testsTotal === 0
-      ? 'text-zinc-600'
+      ? 'text-zinc-400 font-mono'
       : prompt.testsPassed === 0
       ? 'text-red-400'
       : prompt.testsPassed === prompt.testsTotal
@@ -45,7 +45,7 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
   return (
     <tr
       className={cn(
-        'group border-b border-zinc-800/60 transition-colors hover:bg-zinc-800/30',
+        'group border-b border-white/[0.06] transition-colors hover:bg-white/[0.02]',
         isPending && 'opacity-40 pointer-events-none'
       )}
     >
@@ -111,23 +111,23 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
 
 export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
   return (
-    <div className="rounded-xl border border-zinc-800 overflow-hidden">
+    <div className="rounded-xl border border-white/[0.08] bg-[#161616] overflow-hidden shadow-xl">
       <table className="w-full text-left">
         <thead>
-          <tr className="border-b border-zinc-800 bg-zinc-900/50">
-            <th className="py-2.5 pl-4 pr-3 sm:pl-6 text-xs font-medium text-zinc-500 uppercase tracking-wider">
+          <tr className="border-b border-white/[0.08] bg-[#121212]">
+            <th className="py-3 pl-4 pr-3 sm:pl-6 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">
               Prompt
             </th>
-            <th className="py-2.5 px-3 text-xs font-medium text-zinc-500 uppercase tracking-wider hidden sm:table-cell">
+            <th className="py-3 px-3 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden sm:table-cell">
               Tests
             </th>
-            <th className="py-2.5 px-3 text-xs font-medium text-zinc-500 uppercase tracking-wider hidden md:table-cell">
+            <th className="py-3 px-3 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden md:table-cell">
               Updated
             </th>
-            <th className="py-2.5 pr-4 pl-3 sm:pr-6" />
+            <th className="py-3 pr-4 pl-3 sm:pr-6" />
           </tr>
         </thead>
-        <tbody className="divide-y divide-zinc-800/60 bg-zinc-950">
+        <tbody className="divide-y divide-white/[0.06] bg-[#0a0a0a]">
           {prompts.map((prompt) => (
             <PromptTableRow key={prompt.id} prompt={prompt} />
           ))}

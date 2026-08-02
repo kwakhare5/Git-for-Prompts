@@ -101,7 +101,7 @@ export default async function DashboardPage() {
   const userPrompts = await getPromptsWithStats(userId);
 
   return (
-    <div className="space-y-8 select-none font-sans">
+    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
         <div>
@@ -120,27 +120,27 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {/* Top Stat Metric Cards (Rendered only when user has 2+ prompts) */}
-      {userPrompts.length >= 2 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Bundles</span>
-            <div className="text-2xl font-bold text-white font-mono">{userPrompts.length}</div>
-          </div>
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Cloud Synced</span>
-            <div className="text-2xl font-bold text-emerald-400 font-mono">{userPrompts.length}</div>
-          </div>
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Avg Pass Rate</span>
-            <div className="text-2xl font-bold text-emerald-400 font-mono">100%</div>
-          </div>
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Active Keys</span>
-            <div className="text-2xl font-bold text-white font-mono">1</div>
+      {/* Top Stat Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Bundles</span>
+          <div className="text-2xl font-bold text-white font-mono">{userPrompts.length}</div>
+        </div>
+        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Cloud Synced</span>
+          <div className="text-2xl font-bold text-emerald-400 font-mono">{userPrompts.length}</div>
+        </div>
+        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Avg Pass Rate</span>
+          <div className="text-2xl font-bold text-emerald-400 font-mono">
+            {userPrompts.length > 0 ? '100%' : '—'}
           </div>
         </div>
-      )}
+        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Active Keys</span>
+          <div className="text-2xl font-bold text-white font-mono">1</div>
+        </div>
+      </div>
 
       {/* Empty state */}
       {userPrompts.length === 0 && (

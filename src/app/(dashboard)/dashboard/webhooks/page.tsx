@@ -11,7 +11,7 @@ export default async function WebhooksPage() {
   const existingWebhooks = await listWebhooks();
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-50">Webhooks</h1>
@@ -28,9 +28,9 @@ export default async function WebhooksPage() {
 
         {/* Right — reference panel */}
         <aside className="flex flex-col gap-4 lg:sticky lg:top-8">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 flex flex-col gap-3">
-            <h2 className="text-sm font-semibold text-zinc-300">Example Payload</h2>
-            <pre className="text-[11px] text-zinc-400 font-mono leading-relaxed overflow-x-auto whitespace-pre bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-3">{`POST https://your-server.com/hook
+          <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-3 shadow-xl">
+            <h2 className="text-sm font-semibold text-white font-sans">Example Payload</h2>
+            <pre className="text-[11px] text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre bg-[#0a0a0a] border border-white/[0.06] rounded-lg px-3 py-3 no-scrollbar">{`POST https://your-server.com/hook
 Content-Type: application/json
 X-GFP-Signature: sha256=<hmac>
 X-GFP-Event: version.created
@@ -45,17 +45,17 @@ X-GFP-Event: version.created
   "variables": ["name", "product"],
   "createdAt": "2026-07-24T04:00:00.000Z"
 }`}</pre>
-            <p className="text-[11px] text-zinc-600">
+            <p className="text-[11px] text-zinc-500 font-mono">
               Verify with:{' '}
-              <code className="text-zinc-500 font-mono">
+              <code className="text-zinc-400 font-mono">
                 HMAC-SHA256(secret, body)
               </code>
             </p>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 flex flex-col gap-2">
-            <h2 className="text-sm font-semibold text-zinc-300">How it works</h2>
-            <ul className="flex flex-col gap-1.5 text-xs text-zinc-500">
+          <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-2 shadow-xl">
+            <h2 className="text-sm font-semibold text-white font-sans">How it works</h2>
+            <ul className="flex flex-col gap-1.5 text-xs text-zinc-400 font-light">
               <li className="flex items-start gap-1.5">
                 <span className="text-emerald-500 shrink-0 mt-0.5">1</span>
                 Register your endpoint URL below
