@@ -110,7 +110,7 @@ export function Sidebar() {
                 href={item.href}
                 onClick={close}
                 className={cn(
-                  'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]',
                   isActive
                     ? 'bg-zinc-800 text-zinc-50'
                     : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200',
