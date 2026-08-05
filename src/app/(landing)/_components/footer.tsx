@@ -80,19 +80,19 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/[0.04] py-5 px-6 max-w-6xl mx-auto flex items-center justify-between">
-        <p className="text-[11px] font-mono text-zinc-700">
+        <p className="text-[11px] font-mono text-zinc-500">
           © {new Date().getFullYear()} Git for Prompts · Built by{' '}
           <a
             href="https://github.com/kwakhare5"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-500 hover:text-white transition-colors"
+            className="text-zinc-400 hover:text-white transition-colors"
           >
             Karan Wakhare
           </a>
         </p>
-        <p className="text-[11px] font-mono text-zinc-700">
-          v1.1.0
+        <p className="text-[11px] font-mono text-zinc-500">
+          v2.0.0
         </p>
       </div>
     </footer>

@@ -1,13 +1,15 @@
 'use client';
 
-type Check = '✓' | '✗' | '~';
+import { Check, X, Minus } from 'lucide-react';
+
+type CheckStatus = '✓' | '✗' | '~';
 
 interface Row {
   feature: string;
-  gfp: Check;
-  langfuse: Check;
-  braintrust: Check;
-  promptlayer: Check;
+  gfp: CheckStatus;
+  langfuse: CheckStatus;
+  braintrust: CheckStatus;
+  promptlayer: CheckStatus;
   note?: string;
 }
 
@@ -26,11 +28,27 @@ const ROWS: Row[] = [
 
 const HEADERS = ['', 'gfp', 'Langfuse', 'Braintrust', 'PromptLayer'];
 
-const CHECK_STYLE: Record<Check, string> = {
-  '✓': 'text-emerald-400',
-  '✗': 'text-zinc-700',
-  '~': 'text-amber-500',
-};
+function StatusIcon({ status }: { status: CheckStatus }) {
+  if (status === '✓') {
+    return (
+      <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-950/60 border border-emerald-800/60 text-emerald-400">
+        <Check className="w-3 h-3 stroke-[3]" />
+      </div>
+    );
+  }
+  if (status === '✗') {
+    return (
+      <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.02] border border-white/[0.06] text-zinc-600">
+        <X className="w-3 h-3 stroke-[2]" />
+      </div>
+    );
+  }
+  return (
+    <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-amber-950/40 border border-amber-900/50 text-amber-400">
+      <Minus className="w-3 h-3 stroke-[3]" />
+    </div>
+  );
+}
 
 export function ComparisonTable() {
   return (
@@ -45,24 +63,24 @@ export function ComparisonTable() {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
+      <div className="overflow-x-auto rounded-xl border border-white/[0.08] bg-[#161616]">
         <table className="w-full text-sm font-mono border-collapse">
           <thead>
-            <tr className="border-b border-white/[0.08]">
+            <tr className="border-b border-white/[0.08] bg-[#121212]">
               {HEADERS.map((h, idx) => (
                 <th
                   key={h || 'feature'}
-                  className={`px-5 py-3 text-left text-xs tracking-wide font-semibold ${
+                  className={`px-5 py-3.5 text-left text-xs tracking-wide font-semibold ${
                     idx === 0
                       ? 'text-zinc-400 w-1/3'
                       : idx === 1
-                      ? 'text-[#f5f0eb] bg-white/[0.03]'
+                      ? 'text-[#f5f0eb] bg-white/[0.04]'
                       : 'text-zinc-500'
                   }`}
                 >
                   {h || 'Feature'}
                   {idx === 1 && (
-                    <span className="ml-2 text-[9px] text-zinc-600 font-normal normal-case tracking-normal">← this</span>
+                    <span className="ml-2 text-[9px] text-zinc-500 font-normal normal-case tracking-normal">← this</span>
                   )}
                 </th>
               ))}
@@ -80,19 +98,19 @@ export function ComparisonTable() {
                 <td className="px-5 py-3 text-zinc-300 text-xs">
                   {row.feature}
                   {row.note && (
-                    <span className="ml-2 text-zinc-600 text-[10px] font-normal">({row.note})</span>
+                    <span className="ml-2 text-zinc-500 text-[10px] font-normal">({row.note})</span>
                   )}
                 </td>
 
                 {/* gfp */}
-                <td className={`px-5 py-3 text-center font-bold bg-white/[0.02] ${CHECK_STYLE[row.gfp]}`}>
-                  {row.gfp}
+                <td className="px-5 py-3 text-center bg-white/[0.02]">
+                  <StatusIcon status={row.gfp} />
                 </td>
 
                 {/* Competitors */}
                 {(['langfuse', 'braintrust', 'promptlayer'] as const).map((key) => (
-                  <td key={key} className={`px-5 py-3 text-center ${CHECK_STYLE[row[key]]}`}>
-                    {row[key]}
+                  <td key={key} className="px-5 py-3 text-center">
+                    <StatusIcon status={row[key]} />
                   </td>
                 ))}
               </tr>
@@ -101,8 +119,8 @@ export function ComparisonTable() {
         </table>
       </div>
 
-      <p className="text-center text-[11px] text-zinc-600 font-mono mt-4">
-        ~ = partial / requires paid plan · Data accurate as of 2025
+      <p className="text-center text-[11px] text-zinc-500 font-mono mt-4">
+        ~ = partial / requires paid plan · Data accurate as of 2026
       </p>
     </section>
   );
