@@ -101,7 +101,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── New Key Banner (shown once after generation) ── */}
       {newKey && (
-        <div className="rounded-xl border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3">
+        <div className="rounded-xl border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-emerald-400">
