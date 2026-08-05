@@ -79,15 +79,21 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800"
         suppressHydrationWarning
       >
-        <ClerkProvider
-          appearance={clerkAppearance}
-          publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "pk_test_ZGV2ZWxvcG1lbnQtY2xlcmsuY29tJA"}
-        >
-          <TooltipProvider>{children}</TooltipProvider>
-          <CommandMenu />
-          <Toaster position="bottom-right" theme="dark" richColors />
-          <Analytics />
-        </ClerkProvider>
+        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+          <ClerkProvider appearance={clerkAppearance}>
+            <TooltipProvider>{children}</TooltipProvider>
+            <CommandMenu />
+            <Toaster position="bottom-right" theme="dark" richColors />
+            <Analytics />
+          </ClerkProvider>
+        ) : (
+          <>
+            <TooltipProvider>{children}</TooltipProvider>
+            <CommandMenu />
+            <Toaster position="bottom-right" theme="dark" richColors />
+            <Analytics />
+          </>
+        )}
       </body>
     </html>
   );
