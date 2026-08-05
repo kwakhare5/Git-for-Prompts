@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { versions, testCases, prompts } from '@/db/schema';
 import { createTestCaseSchema, runTestsSchema, runComparisonSchema, deleteTestCaseSchema } from '@/lib/validations/test';
@@ -13,7 +13,7 @@ import { runEvaluations, persistResults } from '@/lib/test-runner';
 type TestCaseRow = typeof testCases.$inferSelect;
 
 export async function createTestCase(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -43,7 +43,7 @@ export async function createTestCase(input: unknown) {
 }
 
 export async function deleteTestCase(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -93,7 +93,7 @@ export type TestCaseOutcome = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcome[]> {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   const limit = await checkRateLimit(userId);
@@ -181,7 +181,7 @@ export async function runComparisonForVersions(input: unknown): Promise<{
   resultsA: ComparisonResult[];
   resultsB: ComparisonResult[];
 }> {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   const limit = await checkRateLimit(userId);

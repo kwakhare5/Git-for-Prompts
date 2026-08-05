@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { webhooks } from '@/db/schema';
 import { revalidatePath } from 'next/cache';
@@ -19,7 +19,7 @@ const deleteWebhookSchema = z.object({
 });
 
 export async function createWebhook(input: unknown): Promise<{ id: string; secret: string }> {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   const validated = createWebhookSchema.parse(input);
@@ -45,7 +45,7 @@ export async function createWebhook(input: unknown): Promise<{ id: string; secre
 }
 
 export async function deleteWebhook(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   const { webhookId } = deleteWebhookSchema.parse(input);
@@ -62,7 +62,7 @@ export async function deleteWebhook(input: unknown) {
 }
 
 export async function listWebhooks() {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   return db
@@ -76,3 +76,4 @@ export async function listWebhooks() {
     .from(webhooks)
     .where(eq(webhooks.ownerId, userId));
 }
+
