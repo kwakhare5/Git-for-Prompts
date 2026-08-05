@@ -180,7 +180,7 @@ export function PromptEditor({
                 lineHeight: 22,
                 padding: { top: 12, bottom: 12 },
                 renderLineHighlight: 'none',
-                scrollbar: { vertical: 'auto', horizontal: 'auto' },
+                scrollbar: { vertical: 'auto', horizontal: 'auto', alwaysConsumeMouseWheel: false },
                 overviewRulerLanes: 0,
                 hideCursorInOverviewRuler: true,
                 glyphMargin: false,
@@ -235,28 +235,8 @@ export function PromptEditor({
     );
   }
 
-  // ── V1 mode — classic Monaco editor ──────────────────────────────────────
   return (
     <div className="flex flex-col gap-2">
-      {/* Mode toggle */}
-      <div className="flex items-center gap-2 px-1">
-        <span className="text-xs text-zinc-500">Editor mode:</span>
-        <button
-          id="editor-mode-v1"
-          onClick={() => setMode('v1')}
-          className="text-xs px-2 py-0.5 rounded transition-colors bg-zinc-700 text-zinc-200"
-        >
-          V1 · Text
-        </button>
-        <button
-          id="editor-mode-v2"
-          onClick={() => setMode('v2')}
-          className="text-xs px-2 py-0.5 rounded transition-colors text-zinc-600 hover:text-zinc-400"
-        >
-          V2 · Bundle
-        </button>
-        <span className="text-[10px] text-zinc-700">· V2 stores system prompt + model config + variables</span>
-      </div>
 
       {/* Editor shell */}
       <div className="rounded-lg overflow-hidden border border-zinc-800 flex flex-col bg-zinc-950 shadow-2xl">
@@ -321,7 +301,7 @@ export function PromptEditor({
               lineHeight: 22,
               padding: { top: 12, bottom: 12 },
               renderLineHighlight: 'line',
-              scrollbar: { vertical: 'auto', horizontal: 'auto' },
+              scrollbar: { vertical: 'auto', horizontal: 'auto', alwaysConsumeMouseWheel: false },
               overviewRulerLanes: 0,
               hideCursorInOverviewRuler: true,
               glyphMargin: false,

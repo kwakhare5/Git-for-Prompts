@@ -116,7 +116,7 @@ export function VersionHistory({
                 <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                   <RelativeTime date={v.createdAt} />
                   {isLatest && (
-                    <span className="text-xs text-emerald-500 font-mono">HEAD</span>
+                    <span className="text-xs text-emerald-400 font-mono font-semibold">HEAD</span>
                   )}
                   {isActive && !isLatest && (
                     <span className="text-xs text-sky-500 font-mono">previewing</span>

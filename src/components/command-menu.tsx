@@ -121,7 +121,7 @@ export function CommandMenu() {
                 className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.06] data-[selected=true]:bg-white/[0.08] data-[selected=true]:text-white cursor-pointer transition-colors font-mono group"
               >
                 <div className="flex items-center gap-2.5">
-                  <Terminal className="w-4 h-4 text-emerald-400" />
+                  <Terminal className="w-4 h-4 text-zinc-400" />
                   <span>npm install -g @gitforprompts/cli</span>
                 </div>
                 <span className="text-[10px] text-zinc-600 group-hover:text-zinc-400">copy</span>

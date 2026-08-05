@@ -5,16 +5,29 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
 import { clerkAppearance } from '@/lib/clerk-appearance';
+import { BrandLogo } from '@/components/brand-logo';
 import { cn } from '@/lib/utils';
-import { Home, LayoutDashboard, Compass, Key, Webhook, X, GitFork } from 'lucide-react';
+import {
+  Home,
+  LayoutDashboard,
+  Compass,
+  Key,
+  Webhook,
+  X,
+  Terminal,
+  ShieldCheck,
+  Plus,
+} from 'lucide-react';
 
 const navItems = [
-  { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
-  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, enabled: true },
-  { label: 'Explore', href: '/dashboard/explore', icon: Compass, enabled: true },
+  { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, enabled: true },
+  { label: 'Explore Prompts', href: '/dashboard/explore', icon: Compass, enabled: true },
   { label: 'API Keys', href: '/dashboard/api-keys', icon: Key, enabled: true },
   { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook, enabled: true },
+  { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
 ];
+
+const hasClerkKeys = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -23,13 +36,11 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Hamburger trigger — mobile only */}
       <button
         onClick={() => setMobileOpen(true)}
         aria-label="Open navigation menu"
-        className="fixed top-3.5 left-4 z-50 flex md:hidden items-center justify-center w-8 h-8 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors"
+        className="fixed top-3.5 left-4 z-50 flex md:hidden items-center justify-center w-8 h-8 rounded-xl bg-[#161616] border border-white/[0.08] text-zinc-400 hover:text-zinc-200 hover:border-white/20 transition-colors shadow-md"
       >
-        {/* Three-line hamburger icon */}
         <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
           <rect y="0" width="14" height="1.5" rx="0.75" fill="currentColor" />
           <rect y="5" width="14" height="1.5" rx="0.75" fill="currentColor" />
@@ -37,96 +48,127 @@ export function Sidebar() {
         </svg>
       </button>
 
-      {/* Backdrop overlay — mobile only, dismisses on click */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/70 md:hidden"
+          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden"
           onClick={close}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar shell */}
       <aside
         className={cn(
-          'flex h-screen w-56 flex-col border-r border-white/[0.08] bg-[#121212]',
-          'fixed inset-y-0 left-0 z-50 transition-transform duration-200 ease-in-out shadow-2xl',
-          'md:relative md:z-auto md:translate-x-0 md:shadow-none',
+          'flex h-screen w-60 flex-col border-r border-white/[0.08] bg-[#111111]',
+          'fixed inset-y-0 left-0 z-50 transition-transform duration-200 ease-emil shadow-2xl',
+          'md:relative md:z-auto md:translate-x-0 md:shadow-none select-none font-sans',
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0',
         )}
       >
-        {/* Brand row */}
-        <div className="flex h-14 items-center border-b border-white/[0.08] px-4">
-          <Link
-            href="/"
-            onClick={close}
-            className="font-mono text-sm font-semibold text-zinc-50 tracking-tight hover:text-zinc-300 transition-colors flex items-center gap-2"
-          >
-            <div className="flex items-center justify-center w-6 h-6 rounded bg-zinc-900 border border-white/10">
-              <GitFork className="w-3.5 h-3.5 text-[#f5f0eb]" />
-            </div>
-            git-for-prompts
-          </Link>
-          {/* Close button — mobile only */}
+        <div className="flex h-14 items-center justify-between border-b border-white/[0.08] px-4 bg-[#121212]">
+          <BrandLogo onClick={close} />
+
           <button
             onClick={close}
             aria-label="Close navigation menu"
-            className="ml-auto flex md:hidden items-center justify-center w-7 h-7 rounded-md text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
+            className="ml-auto flex md:hidden items-center justify-center w-7 h-7 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-[#161616] transition-colors"
           >
             <X className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 space-y-0.5 p-2 pt-3" aria-label="Main navigation">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive =
-              item.href === '/'
-                ? pathname === '/'
-                : item.href === '/dashboard'
-                ? pathname === '/dashboard' || (pathname.startsWith('/dashboard/prompts') || pathname.startsWith('/dashboard/new'))
-                : pathname.startsWith(item.href);
+        <div className="p-3">
+          <Link
+            href="/dashboard/new"
+            onClick={close}
+            className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl bg-[#f5f0eb] text-zinc-950 hover:bg-white text-xs font-semibold shadow-sm transition-all active:scale-[0.98] group font-sans"
+          >
+            <Plus className="w-4 h-4 text-zinc-950 transition-transform group-hover:rotate-90 duration-200" />
+            New Prompt Bundle
+          </Link>
+        </div>
 
-            if (!item.enabled) {
-              return (
-                <span
-                  key={item.href}
-                  role="link"
-                  aria-disabled="true"
-                  title="Coming soon"
-                  className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium text-zinc-700 cursor-not-allowed select-none"
-                >
-                  <Icon className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
-                  {item.label}
-                  <span className="ml-auto text-[10px] font-mono text-zinc-600">soon</span>
-                </span>
-              );
-            }
+        <div className="flex-1 overflow-y-auto px-3 py-2 space-y-6">
+          <div>
+            <span className="px-2 text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-2 font-medium">
+              Navigation
+            </span>
+            <nav className="space-y-1" aria-label="Main navigation">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive =
+                  item.href === '/'
+                    ? pathname === '/'
+                    : item.href === '/dashboard'
+                    ? pathname === '/dashboard' || (pathname.startsWith('/dashboard/prompts') && !pathname.includes('/explore'))
+                    : pathname.startsWith(item.href);
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={close}
-                className={cn(
-                  'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]',
-                  isActive
-                    ? 'bg-zinc-800 text-zinc-50'
-                    : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200',
-                )}
-              >
-                <Icon className={cn('h-4 w-4 shrink-0', isActive ? 'text-zinc-200' : 'text-zinc-500')} aria-hidden="true" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={close}
+                    className={cn(
+                      'flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-medium transition-all duration-150 ease-emil group',
+                      isActive
+                        ? 'bg-[#161616] text-[#f5f0eb] font-semibold border border-white/[0.08] shadow-sm'
+                        : 'text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200',
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        'h-4 w-4 shrink-0 transition-colors',
+                        isActive ? 'text-[#f5f0eb]' : 'text-zinc-500 group-hover:text-zinc-300',
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
 
-        {/* User footer */}
-        <div className="flex items-center gap-3 border-t border-zinc-800 p-4">
-          <UserButton appearance={clerkAppearance} />
-          <span className="text-xs text-zinc-500 truncate">My Account</span>
+          <div className="p-3 rounded-2xl bg-[#161616] border border-white/[0.08] space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-zinc-400 flex items-center gap-1.5 font-medium">
+                <Terminal className="w-3 h-3 text-zinc-400" /> CLI Ready
+              </span>
+              <span className="text-[9px] font-mono text-zinc-400 bg-white/10 px-1.5 py-0.5 rounded border border-white/10">
+                gfp CLI
+              </span>
+            </div>
+            <p className="text-[11px] text-zinc-500 leading-snug font-sans">
+              Run <code className="text-zinc-300 font-mono text-[10px]">gfp push</code> or <code className="text-zinc-300 font-mono text-[10px]">gfp run</code> directly from terminal.
+            </p>
+          </div>
+        </div>
+
+        <div className="border-t border-white/[0.08] p-3 bg-[#0e0e0e]">
+          <div className="flex items-center gap-3 p-1.5 rounded-xl bg-[#161616] border border-white/[0.08]">
+            {hasClerkKeys ? (
+              <>
+                <UserButton appearance={clerkAppearance} />
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs font-medium text-zinc-200 truncate font-sans">Account</span>
+                  <span className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-zinc-400" /> Signed in
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center gap-2.5 w-full">
+                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-white/10 border border-white/20 text-[#f5f0eb] font-mono text-xs font-bold shrink-0">
+                  DEV
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs font-semibold text-zinc-200 truncate font-mono">Local Dev User</span>
+                  <span className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
+                    Offline Mode
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </aside>
     </>

@@ -232,7 +232,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
                   ? 'text-emerald-400'
                   : passedCount > 0
                   ? 'text-amber-400'
-                  : 'text-red-400',
+                  : 'text-rose-400',
               ].join(' ')}
             >
               {passedCount === testCases.length

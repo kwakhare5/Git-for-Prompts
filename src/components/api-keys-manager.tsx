@@ -101,13 +101,13 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── New Key Banner (shown once after generation) ── */}
       {newKey && (
-        <div className="rounded-xl border border-emerald-700/50 bg-emerald-950/40 p-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]">
+        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] shadow-xl">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-emerald-400">
+              <p className="text-sm font-semibold text-[#f5f0eb]">
                 Key generated — copy it now
               </p>
-              <p className="mt-0.5 text-xs text-emerald-600">
+              <p className="mt-0.5 text-xs text-zinc-400">
                 This is the only time your full key will be shown. We don&apos;t store it.
               </p>
             </div>
@@ -122,15 +122,15 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
           {/* Key display */}
           <div className="flex items-center gap-2">
-            <code className="flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2.5 font-mono text-xs text-zinc-200 break-all select-all">
+            <code className="flex-1 rounded-md border border-white/[0.08] bg-[#111111] px-3 py-2.5 font-mono text-xs text-[#f5f0eb] break-all select-all">
               {newKey}
             </code>
             <button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 transition-colors"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#111111] px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white transition-colors"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-white" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? 'Copied' : 'Copy'}
             </button>
           </div>
