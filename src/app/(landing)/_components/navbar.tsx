@@ -76,30 +76,48 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
           </kbd>
         </button>
 
-        <Show when="signed-in">
-          <Link href="/dashboard" passHref>
-            <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer">
-              Dashboard
-            </Button>
-          </Link>
-          <div className="pl-1">
-            <UserButton />
-          </div>
-        </Show>
+        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+          <>
+            <Show when="signed-in">
+              <Link href="/dashboard" passHref>
+                <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer">
+                  Dashboard
+                </Button>
+              </Link>
+              <div className="pl-1">
+                <UserButton />
+              </div>
+            </Show>
 
-        <Show when="signed-out">
-          <Link
-            href="/sign-in"
-            className="text-xs font-mono text-zinc-400 hover:text-white px-2 py-1.5 transition-colors hidden sm:block cursor-pointer active:scale-[0.98]"
-          >
-            Sign In
-          </Link>
-          <Link href="/sign-up" passHref>
-            <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer">
-              Get Started
-            </Button>
-          </Link>
-        </Show>
+            <Show when="signed-out">
+              <Link
+                href="/sign-in"
+                className="text-xs font-mono text-zinc-400 hover:text-white px-2 py-1.5 transition-colors hidden sm:block cursor-pointer active:scale-[0.98]"
+              >
+                Sign In
+              </Link>
+              <Link href="/sign-up" passHref>
+                <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer">
+                  Get Started
+                </Button>
+              </Link>
+            </Show>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/dashboard"
+              className="text-xs font-mono text-zinc-400 hover:text-white px-2 py-1.5 transition-colors hidden sm:block cursor-pointer active:scale-[0.98]"
+            >
+              Sign In
+            </Link>
+            <Link href="/dashboard" passHref>
+              <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer">
+                Get Started
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );
