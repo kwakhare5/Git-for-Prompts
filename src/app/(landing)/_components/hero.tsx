@@ -134,25 +134,37 @@ export function Hero({ onTrySandbox }: HeroProps) {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="flex flex-wrap items-center justify-center gap-3 z-10"
       >
-        <Show when="signed-in">
-          <Link href="/dashboard" passHref>
-            <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
-              Open Dashboard <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </Show>
-        <Show when="signed-out">
-          <Link href="/sign-up" passHref>
-            <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
-              Get Started Free <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-          <Link href="/sign-in">
-            <Button variant="outline" size="lg" className="border-white/10 text-zinc-300 hover:text-white cursor-pointer font-mono">
-              Sign In
-            </Button>
-          </Link>
-        </Show>
+        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+          <>
+            <Show when="signed-in">
+              <Link href="/dashboard" passHref>
+                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
+                  Open Dashboard <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </Show>
+            <Show when="signed-out">
+              <Link href="/sign-up" passHref>
+                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
+                  Get Started Free <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Link href="/sign-in">
+                <Button variant="outline" size="lg" className="border-white/10 text-zinc-300 hover:text-white cursor-pointer font-mono">
+                  Sign In
+                </Button>
+              </Link>
+            </Show>
+          </>
+        ) : (
+          <>
+            <Link href="/dashboard" passHref>
+              <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
+                Open Dashboard <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          </>
+        )}
         <Button
           variant="outline"
           size="lg"
