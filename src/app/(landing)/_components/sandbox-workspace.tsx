@@ -30,9 +30,9 @@ export function SandboxWorkspace() {
 
   return (
     <div className="flex-1 flex flex-col p-6 max-w-7xl mx-auto w-full animate-in fade-in duration-200">
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 border border-white/10 rounded-2xl overflow-hidden bg-[#161616] min-h-[500px]">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 border border-white/[0.08] rounded-2xl overflow-hidden bg-[#161616] min-h-[500px]">
         {/* Sidebar */}
-        <div className="border-r border-white/10 bg-[#121212] p-5 space-y-6">
+        <div className="border-r border-white/[0.08] bg-[#121212] p-5 space-y-6">
           <div>
             <h3 className="font-semibold text-sm text-zinc-200 font-mono">customer-support-returns</h3>
             <p className="text-xs text-zinc-500 mt-1 font-mono">Simulated sandbox workspace</p>

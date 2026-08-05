@@ -14,10 +14,10 @@ interface NavbarProps {
 
 export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
   return (
-    <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-white/10 bg-[#161616]/90 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-4 py-2">
+    <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-white/[0.08] bg-[#161616]/90 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-4 py-2">
       {/* Brand / Logo */}
       <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900 border border-white/10 group-hover:border-white/20 transition-colors shadow-inner">
+        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900 border border-white/[0.08] group-hover:border-white/20 transition-colors shadow-inner">
           <GitFork className="w-4 h-4 text-[#f5f0eb]" />
         </div>
         <div className="flex flex-col">
