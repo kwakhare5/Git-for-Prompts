@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { apiKeys } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
@@ -14,7 +14,7 @@ import { createApiKeySchema, deleteApiKeySchema } from '@/lib/validations/api-ke
 // The full key is never retrievable again after this call returns.
 // ─────────────────────────────────────────────────────────────────────────────
 export async function generateApiKey(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -55,7 +55,7 @@ export async function generateApiKey(input: unknown) {
 // listApiKeys — returns safe display data only (no hashes).
 // ─────────────────────────────────────────────────────────────────────────────
 export async function listApiKeys() {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -79,7 +79,7 @@ export async function listApiKeys() {
 // deleteApiKey — hard delete. Always verifies ownerId before deleting.
 // ─────────────────────────────────────────────────────────────────────────────
 export async function deleteApiKey(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {

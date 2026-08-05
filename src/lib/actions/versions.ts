@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { versions, prompts } from '@/db/schema';
 import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/version';
@@ -96,7 +96,7 @@ export async function insertNextVersion(
 }
 
 export async function createVersion(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -144,7 +144,7 @@ export async function createVersion(input: unknown) {
 }
 
 export async function restoreVersion(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
