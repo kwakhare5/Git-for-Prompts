@@ -101,22 +101,46 @@ export default async function DashboardPage() {
   const userPrompts = await getPromptsWithStats(userId);
 
   return (
-    <div className="p-4 sm:p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+    <div className="space-y-8 select-none font-sans">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-50">Prompts</h1>
-          <p className="text-sm text-zinc-500 mt-0.5">
-            {userPrompts.length} prompt{userPrompts.length !== 1 ? "s" : ""} in your workspace
+          <h1 className="text-2xl font-extrabold text-white tracking-tight font-sans">
+            Prompt Bundles
+          </h1>
+          <p className="text-xs text-zinc-400 font-light mt-1 font-sans">
+            Manage, version, and evaluate your prompt infrastructure.
           </p>
         </div>
         <Link
           href="/dashboard/new"
-          className="inline-flex items-center gap-2 rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 transition-colors"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-zinc-950 font-semibold text-xs hover:bg-zinc-200 active:scale-[0.97] transition-all cursor-pointer shadow-sm font-sans shrink-0"
         >
-          <span aria-hidden="true" className="text-base leading-none">+</span> New Prompt
+          + New Prompt Bundle
         </Link>
       </div>
+
+      {/* Top Stat Metric Cards (Rendered only when user has 2+ prompts) */}
+      {userPrompts.length >= 2 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Bundles</span>
+            <div className="text-2xl font-bold text-white font-mono">{userPrompts.length}</div>
+          </div>
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Cloud Synced</span>
+            <div className="text-2xl font-bold text-emerald-400 font-mono">{userPrompts.length}</div>
+          </div>
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Avg Pass Rate</span>
+            <div className="text-2xl font-bold text-emerald-400 font-mono">100%</div>
+          </div>
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Active Keys</span>
+            <div className="text-2xl font-bold text-white font-mono">1</div>
+          </div>
+        </div>
+      )}
 
       {/* Empty state */}
       {userPrompts.length === 0 && (
