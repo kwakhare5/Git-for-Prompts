@@ -120,7 +120,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
         >
           <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-400 border border-emerald-500/20 font-mono">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            v2.0 RELEASE
+            v1.0 RELEASE
           </span>
           <span className="text-zinc-300 group-hover:text-white transition-colors">
             Open Source · SQLite Wasm + Cloud Sync

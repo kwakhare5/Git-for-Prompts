@@ -92,7 +92,7 @@ export function Footer() {
           </a>
         </p>
         <p className="text-[11px] font-mono text-zinc-500">
-          v2.0.0
+          v1.0.0
         </p>
       </div>
     </footer>
