@@ -91,8 +91,8 @@ export function Footer() {
             Karan Wakhare
           </a>
         </p>
-        <p className="text-[11px] font-mono text-zinc-500">
-          v1.0.0
+        <p className="text-xs text-zinc-500">
+          Crafted for prompt engineers & LLM teams.
         </p>
       </div>
     </footer>

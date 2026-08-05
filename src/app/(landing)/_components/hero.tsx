@@ -107,28 +107,6 @@ export function Hero({ onTrySandbox }: HeroProps) {
       {/* Background linear grid overlay */}
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
-      {/* Top badges */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex items-center gap-3 z-10"
-      >
-        <Link
-          href="#features"
-          className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] p-1 pr-3.5 text-xs font-mono text-zinc-300 hover:border-white/20 hover:bg-white/[0.06] active:scale-[0.97] transition-all cursor-pointer group shadow-inner"
-        >
-          <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-400 border border-emerald-500/20 font-mono">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            v1.0 RELEASE
-          </span>
-          <span className="text-zinc-300 group-hover:text-white transition-colors">
-            Open Source · SQLite Wasm + Cloud Sync
-          </span>
-          <span className="text-zinc-500 group-hover:text-zinc-300 transition-colors ml-0.5">→</span>
-        </Link>
-      </motion.div>
-
       {/* Headline */}
       <motion.h1
         initial={{ opacity: 0, y: 15 }}
