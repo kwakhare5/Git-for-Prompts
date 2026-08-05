@@ -90,14 +90,14 @@ export function PromptDetailClient({
             disabled={toggling}
             className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border text-xs font-medium transition-all ${
               isPublic
-                ? 'border-emerald-800 bg-emerald-950/40 text-emerald-400 hover:bg-emerald-950/60'
-                : 'border-zinc-700 bg-zinc-900 text-zinc-400 hover:border-zinc-600'
+                ? 'border-white/20 bg-white/10 text-[#f5f0eb] hover:bg-white/15'
+                : 'border-white/[0.08] bg-[#111111] text-zinc-400 hover:border-white/20'
             } disabled:opacity-40`}
             aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
           >
             <span className="flex items-center gap-1.5">
               {isPublic ? (
-                <Globe className="h-3.5 w-3.5 text-emerald-400" />
+                <Globe className="h-3.5 w-3.5 text-[#f5f0eb]" />
               ) : (
                 <Lock className="h-3.5 w-3.5 text-zinc-500" />
               )}

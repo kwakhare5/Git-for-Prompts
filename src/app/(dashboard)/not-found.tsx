@@ -1,22 +1,35 @@
 import Link from 'next/link';
+import { BrandLogo } from '@/components/brand-logo';
+import { StatusBadge } from '@/components/status-badge';
+import { Compass, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
-      <div className="font-mono text-6xl text-zinc-700 mb-4">404</div>
-      <h2 className="text-xl font-semibold text-zinc-100 mb-2">
-        Page not found
-      </h2>
-      <p className="text-sm text-zinc-500 max-w-md mb-6">
-        The page you&apos;re looking for doesn&apos;t exist or you don&apos;t have
-        access to it.
-      </p>
-      <Link
-        href="/dashboard"
-        className="rounded-md bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-700 transition-colors border border-zinc-700"
-      >
-        ← Back to Dashboard
-      </Link>
+    <div className="flex-1 flex items-center justify-center min-h-[70vh] p-6 bg-[#111111] font-sans select-none">
+      <div className="w-full max-w-md p-8 rounded-2xl border border-white/[0.08] bg-[#161616] shadow-2xl flex flex-col items-center text-center space-y-6">
+        <BrandLogo />
+
+        <StatusBadge variant="sky" icon={Compass}>
+          404 Not Found
+        </StatusBadge>
+
+        <div className="space-y-2">
+          <h2 className="text-xl font-extrabold text-[#f5f0eb] tracking-tight">
+            Prompt or Route Not Found
+          </h2>
+          <p className="text-xs text-zinc-400 leading-relaxed max-w-xs mx-auto">
+            The requested prompt bundle or subpage does not exist or has been moved.
+          </p>
+        </div>
+
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-[#f5f0eb] text-zinc-950 font-semibold text-xs hover:bg-white active:scale-[0.98] transition-all cursor-pointer shadow-sm"
+        >
+          <Home className="w-4 h-4 text-zinc-950" />
+          Return to Dashboard
+        </Link>
+      </div>
     </div>
   );
 }

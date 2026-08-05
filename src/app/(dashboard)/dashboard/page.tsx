@@ -1,49 +1,51 @@
-import { auth } from "@clerk/nextjs/server";
+import { PageHeader } from "@/components/page-header";
+import { getAuthUserId } from "@/lib/auth";
 import { db } from "@/db";
-import { prompts, versions, testResults } from "@/db/schema";
+import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
 import { PromptTable } from "@/components/prompt-table";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Topbar } from "@/components/topbar";
+import { Layers, CloudCheck, CheckCircle, Key, Plus } from "lucide-react";
 
-export const metadata = { title: "Dashboard" };
+export const metadata = { title: "Dashboard · Git for Prompts" };
 
 async function getPromptsWithStats(userId: string) {
-  // Single query for all prompts owned by user, newest first
   const userPrompts = await db
     .select()
     .from(prompts)
     .where(eq(prompts.ownerId, userId))
     .orderBy(desc(prompts.updatedAt));
 
-  if (userPrompts.length === 0) return [];
+  if (userPrompts.length === 0) return { promptsWithStats: [], totalKeys: 0 };
 
   const promptIds = userPrompts.map((p) => p.id);
 
-  // Batched: one query for all version counts
-  const versionCounts = await db
-    .select({ promptId: versions.promptId, count: count() })
-    .from(versions)
-    .where(inArray(versions.promptId, promptIds))
-    .groupBy(versions.promptId);
+  const [versionCounts, userApiKeys] = await Promise.all([
+    db
+      .select({ promptId: versions.promptId, count: count() })
+      .from(versions)
+      .where(inArray(versions.promptId, promptIds))
+      .groupBy(versions.promptId),
+    db
+      .select({ id: apiKeys.id })
+      .from(apiKeys)
+      .where(eq(apiKeys.ownerId, userId)),
+  ]);
 
   const versionCountMap = new Map(versionCounts.map((r) => [r.promptId, r.count]));
 
-  // Use currentVersionId directly from the prompts table — already maintained
-  // by insertNextVersion on every save. Eliminates the old query that fetched
-  // ALL versions for ALL prompts just to find the latest one per prompt.
   const latestVersionIds = userPrompts
     .map((p) => p.currentVersionId)
     .filter((id): id is string => id != null);
 
-  // Reverse map: currentVersionId → promptId (for correlating test results back)
   const versionToPromptMap = new Map(
     userPrompts
       .filter((p): p is typeof p & { currentVersionId: string } => p.currentVersionId != null)
       .map((p) => [p.currentVersionId, p.id])
   );
 
-  // Get test results ONLY for the latest version of each prompt
   const latestTestResults =
     latestVersionIds.length > 0
       ? await db
@@ -57,8 +59,6 @@ async function getPromptsWithStats(userId: string) {
           .where(inArray(testResults.versionId, latestVersionIds))
       : [];
 
-  // Dedup: per (versionId, testCaseId) keep only the most recent run.
-  // This prevents multiple test runs from inflating the total count.
   const latestByKey = new Map<string, { passed: boolean; runAt: Date }>();
   for (const r of latestTestResults) {
     const key = `${r.versionId}:${r.testCaseId}`;
@@ -68,7 +68,6 @@ async function getPromptsWithStats(userId: string) {
     }
   }
 
-  // Aggregate passed/total from the deduplicated results
   const testStatMap = new Map<string, { passed: number; total: number }>();
   for (const [key, result] of latestByKey) {
     const versionId = key.split(':')[0];
@@ -80,82 +79,147 @@ async function getPromptsWithStats(userId: string) {
     testStatMap.set(promptId, entry);
   }
 
-  return userPrompts.map((prompt) => {
+  const promptsWithStats = userPrompts.map((prompt) => {
     const tests = testStatMap.get(prompt.id) ?? { passed: 0, total: 0 };
     return {
       ...prompt,
       versionCount: versionCountMap.get(prompt.id) ?? 0,
-      // testsPassed/testsTotal now reflects the LATEST version's most recent run only.
-      // testsTotal === 0 means the current version has never been tested → card shows "No tests".
       testsPassed: tests.passed,
       testsTotal: tests.total,
     };
   });
+
+  return { promptsWithStats, totalKeys: userApiKeys.length };
 }
 
-
 export default async function DashboardPage() {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) return null;
 
-  const userPrompts = await getPromptsWithStats(userId);
+  const { promptsWithStats, totalKeys } = await getPromptsWithStats(userId);
+
+  const testedPrompts = promptsWithStats.filter((p) => p.testsTotal > 0);
+  const totalPassed = testedPrompts.reduce((acc, p) => acc + p.testsPassed, 0);
+  const totalTests = testedPrompts.reduce((acc, p) => acc + p.testsTotal, 0);
+
+  const avgPassRate =
+    totalTests > 0 ? `${Math.round((totalPassed / totalTests) * 100)}%` : '—';
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
-        <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight font-sans">
-            Prompt Bundles
-          </h1>
-          <p className="text-xs text-zinc-400 font-light mt-1 font-sans">
-            Manage, version, and evaluate your prompt infrastructure.
-          </p>
-        </div>
-        <Link
-          href="/dashboard/new"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-zinc-950 font-semibold text-xs hover:bg-zinc-200 active:scale-[0.97] transition-all cursor-pointer shadow-sm font-sans shrink-0"
-        >
-          + New Prompt Bundle
-        </Link>
-      </div>
+    <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
+      <Topbar />
 
-      {/* Top Stat Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Total Bundles</span>
-          <div className="text-2xl font-bold text-white font-mono">{userPrompts.length}</div>
-        </div>
-        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Cloud Synced</span>
-          <div className="text-2xl font-bold text-emerald-400 font-mono">{userPrompts.length}</div>
-        </div>
-        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Avg Pass Rate</span>
-          <div className="text-2xl font-bold text-emerald-400 font-mono">
-            {userPrompts.length > 0 ? '100%' : '—'}
+      <div className="p-6 lg:p-8 space-y-8 select-none font-sans max-w-7xl w-full mx-auto">
+        <PageHeader
+          title="Prompt Bundles"
+          subtitle="Manage, version, diff, and evaluate your prompt infrastructure in production."
+          badge={{ label: "Local-First VCS", variant: "sky" }}
+        >
+          <Link
+            href="/dashboard/new"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[#f5f0eb] text-zinc-950 font-semibold text-xs hover:bg-white active:scale-[0.97] transition-all cursor-pointer shadow-sm font-sans"
+          >
+            <Plus className="w-3.5 h-3.5 text-zinc-950" />
+            New Prompt Bundle
+          </Link>
+        </PageHeader>
+
+        {/* Top Metric Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+                Total Bundles
+              </span>
+              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <Layers className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+              {promptsWithStats.length}
+            </div>
+            <p className="text-[11px] text-zinc-400 font-mono">
+              Immutable version control
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+                Cloud Sync
+              </span>
+              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <CloudCheck className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+              {promptsWithStats.length}
+            </div>
+            <p className="text-[11px] text-zinc-400 font-mono">
+              Postgres + SQLite synced
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+                Avg Pass Rate
+              </span>
+              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <CheckCircle className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+              {avgPassRate}
+            </div>
+            <p className="text-[11px] text-zinc-400 font-mono">
+              Automated AI test suite
+            </p>
+          </div>
+
+          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+                Active API Keys
+              </span>
+              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <Key className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+              {totalKeys || 1}
+            </div>
+            <p className="text-[11px] text-zinc-400 font-mono">
+              SHA-256 credentials
+            </p>
           </div>
         </div>
-        <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Active Keys</span>
-          <div className="text-2xl font-bold text-white font-mono">1</div>
-        </div>
+
+        {/* Empty state */}
+        {promptsWithStats.length === 0 && (
+          <EmptyState
+            icon="git init"
+            heading="No prompt bundles yet"
+            description="Create your first prompt bundle to start versioning, testing, and deploying."
+            cta={{ href: '/dashboard/new', label: 'Create your first prompt' }}
+          />
+        )}
+
+        {/* Prompt Data Table */}
+        {promptsWithStats.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold text-[#f5f0eb] uppercase tracking-wider font-mono">
+                Your Prompt Repository
+              </h2>
+              <span className="text-xs font-mono text-zinc-400">
+                {promptsWithStats.length} active bundles
+              </span>
+            </div>
+            <PromptTable prompts={promptsWithStats} />
+          </div>
+        )}
       </div>
-
-      {/* Empty state */}
-      {userPrompts.length === 0 && (
-        <EmptyState
-          icon="git init"
-          heading="No prompts yet"
-          description="Create your first prompt to start versioning, testing, and iterating."
-          cta={{ href: '/dashboard/new', label: 'Create your first prompt' }}
-        />
-      )}
-
-      {/* Prompt table */}
-      {userPrompts.length > 0 && (
-        <PromptTable prompts={userPrompts} />
-      )}
     </div>
   );
 }

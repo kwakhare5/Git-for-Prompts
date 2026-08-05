@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/page-header";
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { eq, desc, inArray } from 'drizzle-orm';
@@ -6,14 +7,15 @@ import type { Metadata } from 'next';
 import { ForkButton } from '@/components/fork-button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RelativeTime } from '@/components/relative-time';
+import { Topbar } from '@/components/topbar';
+import { Compass, ArrowUpRight, Terminal } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Explore — Git for Prompts',
+  title: 'Explore Prompts · Git for Prompts',
   description: 'Discover and fork community prompts inside your workspace.',
 };
 
 export default async function DashboardExplorePage() {
-  // Fetch all public prompts
   const publicPrompts = await db
     .select({
       id: prompts.id,
@@ -26,7 +28,6 @@ export default async function DashboardExplorePage() {
     .where(eq(prompts.isPublic, true))
     .orderBy(desc(prompts.updatedAt));
 
-  // Batch fetch version numbers
   const versionMap = new Map<string, number>();
   const currentVersionIds = publicPrompts
     .map((p) => p.currentVersionId)
@@ -44,76 +45,81 @@ export default async function DashboardExplorePage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
-      {/* Header — identical layout to DashboardPage */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-zinc-50">Explore Prompts</h1>
-          <p className="text-sm text-zinc-500 mt-0.5">
-            {publicPrompts.length} public prompt{publicPrompts.length !== 1 ? 's' : ''} in the community
-          </p>
-        </div>
-      </div>
+    <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
+      <Topbar />
 
-      {/* Empty State */}
-      {publicPrompts.length === 0 && (
-        <EmptyState
-          icon="git init"
-          heading="No public prompts yet"
-          description="Make a prompt public from your prompt detail page to share it with the community."
+      <div className="p-6 lg:p-8 space-y-8 select-none font-sans max-w-7xl w-full mx-auto">
+        <PageHeader
+          title="Explore Public Prompts"
+          subtitle="Discover, inspect, and fork open-source prompts directly into your workspace."
+          badge={{ label: "Community Library", variant: "violet", icon: Compass }}
         />
-      )}
 
-      {/* Prompt Grid — identical 3-column grid structure to DashboardPage */}
-      {publicPrompts.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {publicPrompts.map((prompt) => {
-            const versionNum = prompt.currentVersionId ? versionMap.get(prompt.currentVersionId) : 1;
-            return (
-              <div
-                key={prompt.id}
-                className="group relative flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/80"
-              >
-                <div>
-                  {/* Name + version badge */}
-                  <div className="flex items-center gap-2 mb-2 min-w-0">
-                    <Link
-                      href={`/dashboard/explore/${prompt.id}`}
-                      className="min-w-0 font-medium text-zinc-50 hover:text-zinc-300 transition-colors line-clamp-1"
-                    >
-                      {prompt.name}
-                    </Link>
-                    <span className="shrink-0 font-mono text-[10px] text-zinc-500 bg-zinc-800/50 border border-zinc-700/50 px-2 py-0.5 rounded">
-                      v{versionNum}
+        {publicPrompts.length === 0 && (
+          <EmptyState
+            icon="git init"
+            heading="No public prompts yet"
+            description="Make a prompt public from your prompt detail page to share it with the community."
+          />
+        )}
+
+        {publicPrompts.length > 0 && (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {publicPrompts.map((prompt) => {
+              const versionNum = prompt.currentVersionId ? versionMap.get(prompt.currentVersionId) : 1;
+              return (
+                <div
+                  key={prompt.id}
+                  className="rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden shadow-2xl flex flex-col justify-between"
+                >
+                  <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212]">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] shrink-0" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e] shrink-0" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#28c840] shrink-0" />
+                      <span className="ml-1 text-[11px] font-mono text-zinc-400 truncate">
+                        v{versionNum}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 shrink-0">
+                      public
                     </span>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
-                    {prompt.description ?? 'No description'}
-                  </p>
-                </div>
+                  <div className="p-4 bg-[#0a0a0a] flex-1 flex flex-col justify-between gap-3">
+                    <div>
+                      <Link
+                        href={`/dashboard/explore/${prompt.id}`}
+                        className="font-semibold text-[#f5f0eb] hover:text-amber-400 transition-colors line-clamp-1 text-sm font-sans block mb-1"
+                      >
+                        {prompt.name}
+                      </Link>
+                      <p className="text-xs text-zinc-400 line-clamp-2 font-sans leading-relaxed">
+                        {prompt.description ?? 'No description provided.'}
+                      </p>
+                    </div>
 
-                {/* Bottom row: view link + time + fork */}
-                <div className="flex items-center justify-between text-xs pt-3 border-t border-zinc-800/60 gap-3">
-                  <Link
-                    href={`/dashboard/explore/${prompt.id}`}
-                    className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-mono shrink-0"
-                  >
-                    View details →
-                  </Link>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-zinc-500">
-                      <RelativeTime date={prompt.updatedAt} />
-                    </span>
-                    <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />
+                    <div className="flex items-center justify-between text-xs pt-3 border-t border-white/[0.06] gap-3 font-mono">
+                      <Link
+                        href={`/dashboard/explore/${prompt.id}`}
+                        className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-mono shrink-0 flex items-center gap-1"
+                      >
+                        Inspect <ArrowUpRight className="w-3 h-3 text-zinc-500" />
+                      </Link>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-zinc-500 text-[11px]">
+                          <RelativeTime date={prompt.updatedAt} />
+                        </span>
+                        <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
