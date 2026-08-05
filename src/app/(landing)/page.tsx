@@ -19,6 +19,7 @@ import {
 import { Logo } from '@/components/logo';
 
 // Subcomponents
+import { Navbar } from './_components/navbar';
 import { Hero } from './_components/hero';
 import { Features } from './_components/features';
 import { QuickStart } from './_components/quickstart';
@@ -104,150 +105,12 @@ export default function Home() {
       
 
 
-      {/* Header - Floating Centered Glass Rectangle Navbar */}
-      <header 
-        className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-white/10 bg-[#0a0a0a]/90 backdrop-blur-md rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-5 py-2.5"
-      >
-        <div className="flex items-center gap-3">
-          <Logo />
-          <div className="flex flex-col">
-            <span className="font-bold text-sm tracking-tight text-white leading-none">Git for Prompts</span>
-            <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-medium">Prompt VCS</span>
-          </div>
-        </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-1 font-mono">
-          <Link 
-            href="#home" 
-            onClick={(e) => handleNavClick(e, 'home')}
-            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
-          >
-            Home
-          </Link>
-          <Link 
-            href="#docs" 
-            onClick={(e) => handleNavClick(e, 'docs')}
-            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
-          >
-            API Docs
-          </Link>
-          <button
-            onClick={() => changeTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
-            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
-          >
-            {activeTab === 'tour' ? 'Sandbox Playground' : 'Product Tour'}
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Show when="signed-in">
-            <Link
-              href="/dashboard"
-              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors shadow-sm cursor-pointer"
-            >
-              Dashboard
-            </Link>
-            <div className="pl-1">
-              <UserButton />
-            </div>
-          </Show>
-          <Show when="signed-out">
-            <Link
-              href="/sign-in"
-              className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 transition-colors hidden sm:block cursor-pointer font-mono"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="inline-flex items-center justify-center font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors px-4 py-1.5 text-xs shadow-sm cursor-pointer"
-            >
-              Get Started
-            </Link>
-          </Show>
-
-          {/* Mobile Sheet Menu Trigger */}
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
-                  <Menu className="size-4 text-zinc-300" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent
-                className="bg-zinc-950/95 border-l border-zinc-900 w-full max-w-xs gap-0 backdrop-blur-lg text-zinc-100 rounded-l-xl"
-                showClose={false}
-              >
-                <div className="flex h-14 items-center justify-between border-b border-zinc-900 px-4">
-                  <span className="font-bold text-sm">Menu</span>
-                  <SheetClose asChild>
-                    <Button size="icon" variant="ghost" className="rounded-lg hover:bg-zinc-900 h-8 w-8">
-                      <X className="size-4 text-zinc-300" />
-                      <span className="sr-only">Close</span>
-                    </Button>
-                  </SheetClose>
-                </div>
-                <div className="container grid gap-y-4 px-4 pt-5 pb-12">
-                  <div className="flex flex-col gap-3">
-                    <SheetClose asChild>
-                      <Link 
-                        href="#home" 
-                        onClick={(e) => handleNavClick(e, 'home')}
-                        className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md"
-                      >
-                        Home
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link 
-                        href="#docs" 
-                        onClick={(e) => handleNavClick(e, 'docs')}
-                        className="text-sm font-medium text-zinc-300 hover:text-zinc-100 transition-colors block py-2 px-3 hover:bg-zinc-900 rounded-md"
-                      >
-                        API Docs
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <button
-                        onClick={() => {
-                          changeTab(activeTab === 'tour' ? 'sandbox' : 'tour');
-                        }}
-                        className="w-full text-left py-2 px-3 text-sm text-zinc-300 hover:text-zinc-100 hover:bg-zinc-900 rounded-md transition-colors bg-transparent border-none cursor-pointer"
-                      >
-                        {activeTab === 'tour' ? 'Try Sandbox Playground' : 'View Product Tour'}
-                      </button>
-                    </SheetClose>
-                  </div>
-                  
-                  <div className="pt-4 border-t border-zinc-900 mt-4 flex flex-col gap-2">
-                    <Show when="signed-out">
-                      <SheetClose asChild>
-                        <Link
-                          href="/sign-in"
-                          className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
-                        >
-                          Sign In
-                        </Link>
-                      </SheetClose>
-                    </Show>
-                    <Show when="signed-in">
-                      <SheetClose asChild>
-                        <Link
-                          href="/dashboard"
-                          className="w-full text-left py-2 px-3 text-sm text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 rounded-md transition-colors block"
-                        >
-                          Dashboard
-                        </Link>
-                      </SheetClose>
-                    </Show>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      {/* Navbar Component */}
+      <Navbar
+        activeTab={activeTab}
+        onChangeTab={changeTab}
+        onNavClick={handleNavClick}
+      />
 
       {/* Content */}
       <main className="flex-1 flex flex-col pt-24">
