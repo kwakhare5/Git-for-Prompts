@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '@/lib/validations/prompt';
@@ -10,7 +10,7 @@ import { ZodError } from 'zod';
 import { insertNextVersion } from '@/lib/actions/versions';
 
 export async function createPrompt(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -32,7 +32,7 @@ export async function createPrompt(input: unknown) {
 }
 
 export async function updatePrompt(promptId: string, input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -58,7 +58,7 @@ export async function updatePrompt(promptId: string, input: unknown) {
 }
 
 export async function deletePrompt(input: unknown) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   try {
@@ -82,7 +82,7 @@ export async function deletePrompt(input: unknown) {
 }
 
 export async function togglePromptVisibility(promptId: string) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   const [prompt] = await db
@@ -104,7 +104,7 @@ export async function togglePromptVisibility(promptId: string) {
 }
 
 export async function forkPrompt(sourcePromptId: string) {
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
   // Fetch source prompt + latest version in one round trip
