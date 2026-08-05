@@ -77,10 +77,11 @@ export async function GET(
       if (match) variableValues[match[1]] = val;
     }
 
-    const content =
-      Object.keys(variableValues).length > 0
-        ? interpolateVariables(latest.content, variableValues)
-        : latest.content;
+    const hasVars = Object.keys(variableValues).length > 0;
+
+    const content = hasVars
+      ? interpolateVariables(latest.content, variableValues)
+      : latest.content;
 
     return NextResponse.json({
       promptId: prompt.id,
@@ -89,6 +90,7 @@ export async function GET(
       commitMessage: latest.commitMessage ?? null,
       content,
       variables: latest.variables ?? [],
+      bundle: latest.bundle ?? null,  // V2: full bundle payload (null for V1 versions)
       createdAt: latest.createdAt,
     });
   } catch {

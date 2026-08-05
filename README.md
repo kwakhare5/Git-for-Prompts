@@ -1,61 +1,45 @@
 <!-- ╔══════════════════════════════════════════════════════════════════╗
      ║          GIT FOR PROMPTS — README                              ║
-     ║          The Version Control System for AI Prompts             ║
+     ║          The Local-First Prompt Package Manager                ║
      ╚══════════════════════════════════════════════════════════════════╝ -->
 
 <div align="center">
 
   # Git for Prompts
 
-  ### *Treat your prompts like code. Version, test, and deploy with confidence.*
+  ### *The local-first prompt package manager. Version, diff, and evaluate your AI prompts.*
 
   <br/>
 
-  ![Version](https://img.shields.io/badge/version-1.1.0-blue?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Last Commit](https://img.shields.io/github/last-commit/kwakhare5/Git-for-Prompts?style=for-the-badge&color=orange)
-  ![Stars](https://img.shields.io/github/stars/kwakhare5/Git-for-Prompts?style=for-the-badge&color=yellow)
   ![Language](https://img.shields.io/badge/Language-TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
 
   <br/>
 
   <a href="#-about-the-project">About</a> &nbsp;·&nbsp;
-  <a href="#-demo">Demo</a> &nbsp;·&nbsp;
   <a href="#-features">Features</a> &nbsp;·&nbsp;
-  <a href="#-api">API</a> &nbsp;·&nbsp;
-  <a href="#-cli">CLI</a> &nbsp;·&nbsp;
-  <a href="#-tech-stack">Tech Stack</a> &nbsp;·&nbsp;
-  <a href="#-quickstart">Quickstart</a> &nbsp;·&nbsp;
-  <a href="#-contributing">Contributing</a>
+  <a href="#-gfp-cli">CLI</a> &nbsp;·&nbsp;
+  <a href="#-v2-prompt-bundles">V2 Bundles</a> &nbsp;·&nbsp;
+  <a href="#-architecture">Architecture</a> &nbsp;·&nbsp;
+  <a href="#-docker-self-hosting">Self-Hosting</a> &nbsp;·&nbsp;
+  <a href="#-quickstart">Quickstart</a>
 
 </div>
-
----
-
-## 🎬 Demo
-
-<div align="center">
-  <img src="./public/hero-demo.gif" alt="Git for Prompts Demo" width="800"/>
-</div>
-
-<br/>
-
-**Live:** [gitforprompts.vercel.app](https://gitforprompts.vercel.app)
 
 ---
 
 ## 📌 About the Project
 
-**Git for Prompts** is a production-grade **Version Control System for AI prompts** built with **Next.js 15, Drizzle ORM, and Monaco Editor**.
+**Git for Prompts (`gfp`)** is a **local-first prompt package manager & version control system** built for developers working with LLMs.
 
-Every company building AI products manages prompts in Google Docs, Notion, or hardcoded strings. There is no version history, no rollback, no testing, no review process. When a prompt changes and the AI breaks, nobody knows what changed or how to fix it.
+Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded strings deep in codebase repositories. When a prompt changes and an AI feature degrades, nobody knows who changed what, why, or how to roll back.
 
-Git for Prompts gives prompts the same treatment that code gets — full version history, automated testing, a public API, a push CLI, and HMAC-signed webhooks.
-
-> **Why this project?**
-> When prompts change, AI products break. Git for Prompts gives you the tools to ensure that never happens by treating prompt engineering as a first-class software engineering discipline.
-
-<br/>
+`gfp` fixes this by providing:
+1. **Local-first SQLite repository** — manage and version prompt bundles completely offline in your terminal (`.gfp/`).
+2. **Cloud Synchronization** — push local prompt bundles to the central cloud platform when you're ready to share or run hosted evaluations (`gfp push` / `gfp pull`).
+3. **Structured V2 Prompt Bundles** — version system prompts, user templates, model configs (provider, model, temperature, max tokens), tools, and response formats together as a single unit.
 
 ---
 
@@ -63,233 +47,162 @@ Git for Prompts gives prompts the same treatment that code gets — full version
 
 | Status | Feature | Description |
 |:---:|---|---|
-| ✅ | **Immutable Versioning** | 0% failure rate on concurrent saves via `pg_advisory_xact_lock`. Every save is a new append-only row — never overwritten. |
-| ✅ | **GitHub-Style Diff** | Side-by-side visual comparison with Monaco Editor (VS Code engine). |
-| ✅ | **A/B Comparison** | Run automated tests against any two versions in parallel and score pass rates side-by-side. |
-| ✅ | **Automated Test Runner** | Define input + expected criteria once. Run against any version. Bulk-upsert results in one DB round-trip. |
-| ✅ | **Variable Interpolation** | `{{variable}}` syntax in prompt templates. Inject values at runtime via `?variables[name]=value` query params. |
-| ✅ | **Webhook Delivery** | HMAC-SHA256-signed `version.created` events fired to your endpoint — fire-and-forget, never blocks a save. |
-| ✅ | **gfp CLI** | `gfp auth` · `gfp pull <id> --version N` · `gfp push <id> <file>` — commit versions from your terminal or CI. |
-| ✅ | **Push API** | `POST /api/v1/prompts/:id/versions` — create new versions programmatically with advisory lock protection. |
-| ✅ | **Public REST API** | `GET /api/v1/prompts/:id/latest` — Bearer auth, O(1) SHA-256 key lookup, ~20ms latency. |
-| ✅ | **Explore Page** | Browse and fork public prompts. One-click fork creates a private copy with version history intact. |
-| ✅ | **Scheduled Regression** | Cron job re-runs test suites automatically on a per-prompt schedule. |
-| ✅ | **API Keys Manager** | Generate, name, and revoke `gfp_live_*` keys from the dashboard. |
-
-<br/>
+| ✅ | **Local-First SQLite** | `gfp init` creates a Wasm-powered `.gfp/` SQLite database right inside your project directory. 100% offline. |
+| ✅ | **V2 Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
+| ✅ | **Monaco Diff Engine** | Side-by-side visual comparison with line-level diffs and model config comparison header. |
+| ✅ | **Cloud Sync (`push` / `pull`)** | `gfp push <name>` and `gfp pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
+| ✅ | **Automated Eval Runner** | Run evaluations against local or cloud prompt versions using custom test cases and AI scoring criteria. |
+| ✅ | **Variable Interpolation** | Auto-detect `{{variable}}` placeholders in system & user prompts; inject at runtime via query params or CLI flags. |
+| ✅ | **HMAC-Signed Webhooks** | Fire-and-forget `version.created` events with HMAC-SHA256 signature verification. |
+| ✅ | **Docker Self-Hosting** | Spin up the full platform + PostgreSQL database offline with a single `docker compose up -d`. |
 
 ---
 
-## 🔌 API
+## 🖥️ `gfp` CLI
 
-### GET /api/v1/prompts/:id/latest
-
-Fetch the latest version of a prompt at runtime.
+The `gfp` CLI is powered by an in-process Wasm SQLite engine (`sql.js`), enabling fast local operations without native build dependencies.
 
 ```bash
-curl https://gitforprompts.vercel.app/api/v1/prompts/YOUR_PROMPT_ID/latest \
-  -H "Authorization: Bearer gfp_live_your_key_here"
+# Global installation
+npm install -g @gitforprompts/cli
 
-# With variable interpolation:
-curl "https://gitforprompts.vercel.app/api/v1/prompts/YOUR_PROMPT_ID/latest?variables[tone]=formal&variables[language]=English" \
-  -H "Authorization: Bearer gfp_live_your_key_here"
+# Initialize a local prompt repository (.gfp/ directory)
+gfp init
+
+# Authenticate with your cloud account
+gfp auth --key gfp_live_your_key_here
+
+# Create or commit a new prompt version locally
+gfp add "customer-support" -m "Adjusted temperature to 0.7 for tone"
+
+# View local commit history
+gfp history customer-support
+
+# Compare local versions
+gfp diff customer-support 1 2
+
+# Execute prompt locally with test variables
+gfp run customer-support --var tone=polite --var issue="broken item"
+
+# Sync with Cloud
+gfp push customer-support         # Push local bundle -> Cloud
+gfp pull customer-support         # Pull latest cloud version -> Local
 ```
 
-**Response:**
+---
+
+## 📦 V2 Prompt Bundles
+
+`gfp` uses a structured JSON representation for prompt bundles defined in `@gfp/core`:
+
 ```json
 {
-  "promptId": "uuid",
-  "promptName": "customer-support",
-  "versionNumber": 5,
-  "content": "You are a formal customer support agent...",
-  "variables": ["tone", "language"],
-  "createdAt": "2026-07-24T..."
+  "systemPrompt": "You are a customer support agent for Acme Corp.",
+  "userTemplate": "Issue reported by {{user_name}}: {{issue_description}}",
+  "modelConfig": {
+    "provider": "groq",
+    "model": "llama-3.3-70b-versatile",
+    "temperature": 0.7,
+    "maxTokens": 1024
+  },
+  "tools": [],
+  "responseFormat": { "type": "text" }
 }
 ```
 
-### POST /api/v1/prompts/:id/versions
-
-Create a new version via API (used by `gfp push`).
-
-```bash
-curl -X POST https://gitforprompts.vercel.app/api/v1/prompts/YOUR_PROMPT_ID/versions \
-  -H "Authorization: Bearer gfp_live_your_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{"content": "Updated prompt...", "commitMessage": "Improved tone"}'
-```
-
 ---
 
-## 🖥️ CLI
+## 🏗️ Architecture & Monorepo Structure
 
-```bash
-npm install -g @gitforprompts/cli
-
-gfp auth                                        # Authenticate with your API key
-gfp pull customer-support --version 4           # Download a specific version
-gfp push customer-support ./prompt_template.txt # Push a new version from file
-```
-
----
-
-## 🛠️ Tech Stack
-
-<div align="center">
-
-### Core
-![Next.js](https://skillicons.dev/icons?i=nextjs)
-![TypeScript](https://skillicons.dev/icons?i=ts)
-![Tailwind CSS](https://skillicons.dev/icons?i=tailwind)
-
-### Infrastructure
-![Supabase](https://skillicons.dev/icons?i=supabase)
-![Vercel](https://skillicons.dev/icons?i=vercel)
-
-</div>
-
-<br/>
-
-| Layer | Technology | Purpose |
-|---|---|---|
-| **Language** | TypeScript (strict) | 100% type-safe, zero `any` |
-| **Framework** | Next.js 15 (App Router) | Full-stack, ~20ms API latency |
-| **Database** | PostgreSQL + Drizzle ORM | `pg_advisory_xact_lock` → 0% concurrency failure |
-| **Auth** | Clerk | GitHub OAuth, session management |
-| **Styling** | Tailwind CSS v4 | Dark theme, monospace fidelity |
-| **AI Engine** | Groq (primary) + OpenRouter (fallback) | Dual-model, 100% eval accuracy |
-| **Rate Limiting** | Upstash Redis | Serverless-compatible, per-key + per-IP |
-| **Deployment** | Vercel | Auto-deploy from GitHub main |
-
-<br/>
-
----
-
-## 🏗️ Architecture
+`Git for Prompts` is organized as a pnpm workspace with clean separation of concerns:
 
 ```mermaid
-flowchart LR
-    CLI[gfp CLI] -->|push API| API
-    App[Next.js UI] --> SA[Server Actions]
-    SA --> DB[(Supabase Postgres)]
-    SA --> AI[Groq / OpenRouter]
-    SA -->|fire-and-forget| WH[Webhook delivery]
-    API[REST API v1] --> DB
-    API -->|advisory lock| DB
-    CRON[Regression cron] --> SA
+flowchart TD
+    Core["@gfp/core (Shared Library)"]
+    CLI["gfp CLI (SQLite Wasm)"]
+    Web["Next.js 15 Web Platform"]
+    DB[(PostgreSQL)]
+
+    CLI -->|Imports schemas & diff engine| Core
+    Web -->|Imports schemas & diff engine| Core
+    CLI -->|push / pull REST API| Web
+    Web --> DB
 ```
-
-<br/>
-
----
-
-## 📁 Project Structure
 
 ```
 Git-for-Prompts/
-├── src/
-│   ├── app/
-│   │   ├── (auth)/                    # Clerk sign-in/sign-up
-│   │   ├── (dashboard)/dashboard/     # Protected app UI
-│   │   │   ├── prompts/[id]/          # Prompt detail, diff, tests, compare
-│   │   │   ├── webhooks/              # Webhook management page
-│   │   │   └── api-keys/              # API key management
-│   │   ├── (landing)/                 # Marketing page + explore
-│   │   └── api/v1/prompts/[id]/
-│   │       ├── latest/route.ts        # GET — fetch prompt at runtime
-│   │       └── versions/route.ts      # POST — push new version
-│   ├── components/                    # React UI components
-│   ├── db/
-│   │   ├── schema.ts                  # Drizzle schema (7 migrations applied)
-│   │   └── migrations/                # 0000–0007
-│   └── lib/
-│       ├── actions/                   # Server Actions
-│       │   ├── prompts.ts             # CRUD + fork
-│       │   ├── versions.ts            # create, restore, insertNextVersion
-│       │   ├── tests.ts               # test runner (delegates to TestRunner)
-│       │   └── webhooks.ts            # webhook CRUD
-│       ├── api-auth.ts                # Shared API key authentication module
-│       ├── test-runner.ts             # Deep TestRunner module (AI + persist)
-│       ├── webhooks.ts                # HMAC-SHA256 webhook delivery
-│       ├── variables.ts               # {{variable}} extraction + interpolation
-│       └── ai.ts                      # Groq + OpenRouter dual-model client
 ├── packages/
-│   └── cli/                           # gfp CLI (auth, pull, push)
-└── e2e/                               # Playwright E2E tests
+│   ├── core/                        # @gfp/core: Schemas, bundle types, diff engine, eval runner
+│   └── cli/                         # @gitforprompts/cli: SQLite Wasm CLI (init, add, push, pull, run)
+├── src/
+│   ├── app/                         # Next.js 15 App Router
+│   │   ├── (dashboard)/dashboard/   # Prompt detail, Monaco bundle editor, diff, evals
+│   │   ├── (landing)/               # Marketing page (Geist font, animated terminal)
+│   │   └── api/v1/                  # Cloud REST API endpoints (GET latest, POST versions, GET name lookup)
+│   ├── components/                  # Bundle editor, Monaco diff viewer, version history with badges
+│   └── lib/                         # Server Actions, auth, webhooks, DB client
+├── Dockerfile                       # Multi-stage standalone build
+└── docker-compose.yml               # Local Docker orchestrator (Postgres 16 + Next.js App)
 ```
-
-<br/>
 
 ---
 
-## 🚀 Quickstart
+## 🐳 Docker Self-Hosting
 
-### Prerequisites
-
-- **Node.js 20+**
-- **pnpm**
-- **Supabase project** (for DATABASE_URL)
-- **Clerk account** (for auth keys)
-- **Upstash Redis** (for rate limiting)
-- **Groq API key** (AI evaluation)
-
-### Step 1 — Clone
+Run **Git for Prompts** completely self-hosted inside your infrastructure:
 
 ```bash
+# 1. Clone repository
 git clone https://github.com/kwakhare5/Git-for-Prompts.git
 cd Git-for-Prompts
+
+# 2. Set environment variables
+export NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="your_key"
+export CLERK_SECRET_KEY="your_secret"
+
+# 3. Spin up application & database
+docker compose up -d
 ```
 
-### Step 2 — Install
+Access your instance at `http://localhost:3000`.
+
+---
+
+## 🚀 Local Development Quickstart
+
+### Prerequisites
+- Node.js 20+
+- pnpm 9+
+
+### Setup
 
 ```bash
+# 1. Clone & install dependencies
+git clone https://github.com/kwakhare5/Git-for-Prompts.git
+cd Git-for-Prompts
 pnpm install
-```
 
-### Step 3 — Environment
-
-```bash
+# 2. Configure environment
 cp .env.example .env.local
-# Fill in DATABASE_URL, CLERK_*, UPSTASH_*, GROQ_API_KEY
-```
 
-### Step 4 — Migrate
-
-```bash
+# 3. Run database migrations
 pnpm drizzle-kit migrate
-```
 
-### Step 5 — Dev
-
-```bash
+# 4. Start development server
 pnpm dev
 ```
 
-Open [localhost:3000](http://localhost:3000).
-
-<br/>
-
 ---
 
-## 🤝 Contributing
+## 🧪 Testing
 
-1. **Fork** the repository
-2. **Create** your feature branch (`git checkout -b feature/your-feature`)
-3. **Commit** using [Conventional Commits](https://www.conventionalcommits.org/) (`git commit -m "feat: add your feature"`)
-4. **Push** (`git push origin feature/your-feature`)
-5. **Open a Pull Request**
+```bash
+# Run unit & API integration test suite
+pnpm test
 
-<br/>
-
----
-
-## 🛡️ Security
-
-- All AI interactions proxied through Server Actions — API keys never in the client bundle
-- API keys stored as SHA-256 hash (lookup) + never shown in plaintext after creation
-- Webhooks signed with HMAC-SHA256 — verify `X-GFP-Signature` header on your endpoint
-- Rate limiting on all API routes: 60 req/min per IP
-
-<br/>
+# Type-check entire workspace
+npx tsc --noEmit
+```
 
 ---
 
@@ -299,46 +212,10 @@ MIT — see `LICENSE`.
 
 <br/>
 
----
-
-## 👨‍💻 Author
-
-<div align="center">
-
-### Karan Wakhare
-*Full Stack Engineer*
-
-<br/>
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-karanwakhare-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/karanwakhare)
-[![Twitter](https://img.shields.io/badge/Twitter-kwakhare5-1DA1F2?style=for-the-badge&logo=x&logoColor=white)](https://x.com/kwakhare5)
-[![Gmail](https://img.shields.io/badge/Gmail-kwakhare5%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kwakhare5@gmail.com)
-[![GitHub](https://img.shields.io/badge/GitHub-kwakhare5-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kwakhare5)
-
-<br/>
-
-![GitHub Streak](https://streak-stats.demolab.com/?user=kwakhare5&theme=tokyonight&hide_border=true)
-
-<br/>
-
-![Profile Views](https://komarev.com/ghpvc/?username=kwakhare5&label=Profile+Views&color=0e75b6&style=for-the-badge)
-
-</div>
-
-<br/>
-
----
-
 <div align="center">
 
   Made with ❤️ by [Karan Wakhare](https://github.com/kwakhare5)
 
-  <br/>
-
   *"Treat your prompts as carefully as you treat your code."*
-
-  <br/>
-
-  ![Wave](https://raw.githubusercontent.com/mayhemantt/mayhemantt/Update/svg/Bottom.svg)
 
 </div>

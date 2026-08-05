@@ -7,7 +7,7 @@ import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/ver
 import { revalidatePath } from 'next/cache';
 import { eq, desc, and, sql } from 'drizzle-orm';
 import { ZodError } from 'zod';
-import { extractVariables } from '@/lib/variables';
+import { extractVariables, extractBundleVariables, extractContentFromBundle, type PromptBundle } from '@gfp/core';
 import { fireWebhooks } from '@/lib/webhooks';
 
 // Type of the transaction object drizzle hands to a `db.transaction(async (tx) => ...)`
@@ -45,7 +45,13 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 // ─────────────────────────────────────────────────────────────────────────────
 export async function insertNextVersion(
   tx: Tx,
-  params: { promptId: string; content: string; commitMessage?: string; createdBy: string }
+  params: {
+    promptId: string;
+    content: string;
+    commitMessage?: string;
+    createdBy: string;
+    bundle?: PromptBundle; // V2: optional full bundle payload
+  }
 ) {
   await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${params.promptId}))`);
 
@@ -58,15 +64,26 @@ export async function insertNextVersion(
 
   const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
 
+  // V2: if a bundle is provided, derive content + variables from it.
+  // V1: use raw content string and extract variables from it.
+  const resolvedContent = params.bundle
+    ? extractContentFromBundle(params.bundle)
+    : params.content;
+
+  const resolvedVariables = params.bundle
+    ? extractBundleVariables(params.bundle)
+    : extractVariables(params.content);
+
   const [created] = await tx
     .insert(versions)
     .values({
       promptId: params.promptId,
       versionNumber: nextVersionNumber,
-      content: params.content,
+      content: resolvedContent,
+      bundle: params.bundle ?? null,
       commitMessage: params.commitMessage,
       createdBy: params.createdBy,
-      variables: extractVariables(params.content),
+      variables: resolvedVariables,
     })
     .returning();
 
@@ -96,7 +113,8 @@ export async function createVersion(input: unknown) {
     const newVersion = await db.transaction((tx) =>
       insertNextVersion(tx, {
         promptId: validated.promptId,
-        content: validated.content,
+        content: validated.content ?? '', // derived from bundle if not provided
+        bundle: validated.bundle,
         commitMessage: validated.commitMessage,
         createdBy: userId,
       })

@@ -21,6 +21,9 @@ import { Logo } from '@/components/logo';
 // Subcomponents
 import { Hero } from './_components/hero';
 import { Features } from './_components/features';
+import { QuickStart } from './_components/quickstart';
+import { InteractiveDiffPlayground } from './_components/interactive-diff-playground';
+import { ComparisonTable } from './_components/comparison-table';
 import { FixesSection } from './_components/fixes-section';
 import { SdkSection } from './_components/sdk-section';
 import { TestSuiteInfo } from './_components/test-suite-info';
@@ -249,13 +252,22 @@ export default function Home() {
       {/* Content */}
       <main className="flex-1 flex flex-col pt-24">
         {activeTab === 'tour' ? (
-          <div className="w-full space-y-24 py-12">
+          <div className="w-full space-y-0 py-12" style={{ background: '#111111' }}>
             
             {/* Hero Section */}
             <Hero onTrySandbox={() => changeTab('sandbox')} />
 
-            {/* Features (Tour SVG Canvas selector) */}
+            {/* Feature cards */}
             <Features />
+
+            {/* CLI Quick Start */}
+            <QuickStart />
+
+            {/* Interactive Diff Playground */}
+            <InteractiveDiffPlayground />
+
+            {/* Competitor comparison */}
+            <ComparisonTable />
 
             {/* What we help teams fix quadrant grid */}
             <FixesSection onOpenSandbox={() => changeTab('sandbox')} />

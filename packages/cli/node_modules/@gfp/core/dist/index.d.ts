@@ -1,0 +1,15 @@
+/**
+ * @gfp/core — public API barrel export.
+ *
+ * This is the single entry point for all consumers:
+ *   - Next.js cloud app (import { PromptBundle, validateBundle } from '@gfp/core')
+ *   - CLI (import { extractVariables, diffBundles } from '@gfp/core')
+ *
+ * Re-exports everything from the internal modules.
+ */
+export { modelConfigSchema, toolDefinitionSchema, responseFormatSchema, promptBundleSchema, type ModelConfig, type ToolDefinition, type ResponseFormat, type PromptBundle, validateBundle, safeParseBundleResult, createBundleFromLegacy, createEmptyBundle, extractContentFromBundle, } from './bundle.js';
+export { extractVariables, extractBundleVariables, interpolateVariables, interpolateBundle, } from './variables.js';
+export { type Prompt, type Version, type TestCase, type TestResult, type StorageAdapter, } from './storage.js';
+export { type ChatMessage, type AIProvider, type TestCaseInput, type EvalAttempt, extractJson, runWithConcurrency, runSingleTestCase, runEvaluations, runEvaluationsLegacy, } from './eval.js';
+export { type FieldDiffType, type FieldDiff, type BundleDiff, diffBundles, diffVersions, } from './diff.js';
+//# sourceMappingURL=index.d.ts.map
