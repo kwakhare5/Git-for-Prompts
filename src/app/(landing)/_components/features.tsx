@@ -49,7 +49,7 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 select-none font-sans">
+    <section id="features" className="max-w-6xl mx-auto px-6 pt-20 pb-12 select-none font-sans">
       {/* Header */}
       <div className="text-center mb-10">
         <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-2">Features</p>

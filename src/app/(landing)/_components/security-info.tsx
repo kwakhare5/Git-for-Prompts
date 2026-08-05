@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 
 export function SecurityInfo() {
   return (
-    <section className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 space-y-12 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-12 select-none font-sans">
       <div className="text-center space-y-3 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] text-zinc-300 font-mono text-[10px] uppercase tracking-wider font-semibold">
           <Shield className="h-3 w-3 text-zinc-400" /> Platform Security & Architecture

@@ -4,7 +4,7 @@ import { Sparkles, Check } from 'lucide-react';
 
 export function TestSuiteInfo() {
   return (
-    <section className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 space-y-12 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-12 select-none font-sans">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-5">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-950 bg-emerald-950/20 text-emerald-400 font-mono text-[10px] uppercase tracking-wider font-semibold">

@@ -168,7 +168,7 @@ func main() {
   };
 
   return (
-    <section id="docs" className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 space-y-8 select-none font-sans">
+    <section id="docs" className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-8 select-none font-sans">
       <div className="max-w-2xl space-y-3">
         <h3 className="text-2xl font-bold text-zinc-100 font-sans">Developer SDK & Integration</h3>
         <p className="text-sm text-zinc-400 leading-relaxed font-light font-sans">
