@@ -104,37 +104,37 @@ export default function Home() {
       
 
 
-      {/* Header - Floating Centered Glass Rectangle Navbar (Stays visible as you scroll) */}
+      {/* Header - Floating Centered Glass Rectangle Navbar */}
       <header 
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-zinc-900/40 bg-zinc-950/90 backdrop-blur-xs rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-6 py-3"
+        className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-white/10 bg-[#0a0a0a]/90 backdrop-blur-md rounded-xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-5 py-2.5"
       >
         <div className="flex items-center gap-3">
           <Logo />
           <div className="flex flex-col">
-            <span className="font-bold text-sm tracking-tight leading-none">Git for Prompts</span>
-            <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-semibold">Prompt vcs</span>
+            <span className="font-bold text-sm tracking-tight text-white leading-none">Git for Prompts</span>
+            <span className="text-[9px] font-mono text-zinc-500 mt-0.5 uppercase tracking-widest font-medium">Prompt VCS</span>
           </div>
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 font-mono">
           <Link 
             href="#home" 
             onClick={(e) => handleNavClick(e, 'home')}
-            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             Home
           </Link>
           <Link 
             href="#docs" 
             onClick={(e) => handleNavClick(e, 'docs')}
-            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-400 hover:text-zinc-200 transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
             API Docs
           </Link>
           <button
             onClick={() => changeTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
-            className="px-3.5 py-1.5 text-xs font-semibold text-zinc-450 hover:text-zinc-200 transition-colors cursor-pointer bg-transparent border-none"
+            className="px-3.5 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer bg-transparent border-none"
           >
             {activeTab === 'tour' ? 'Sandbox Playground' : 'Product Tour'}
           </button>
@@ -144,24 +144,24 @@ export default function Home() {
           <Show when="signed-in">
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-lg border border-zinc-850 bg-zinc-900/40 text-zinc-200 hover:bg-zinc-900 transition-colors shadow-sm"
+              className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors shadow-sm cursor-pointer"
             >
               Dashboard
             </Link>
-            <div className="pl-2">
+            <div className="pl-1">
               <UserButton />
             </div>
           </Show>
           <Show when="signed-out">
             <Link
               href="/sign-in"
-              className="text-xs font-semibold text-zinc-400 hover:text-zinc-200 px-4 py-1.5 transition-colors hidden sm:block"
+              className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 transition-colors hidden sm:block cursor-pointer font-mono"
             >
               Sign In
             </Link>
             <Link
               href="/sign-up"
-              className="inline-flex items-center justify-center font-semibold rounded-lg bg-zinc-50 text-zinc-950 hover:bg-zinc-200 transition-all shadow-[0_0_15px_rgba(255,255,255,0.08)] px-4.5 py-1.5 text-xs"
+              className="inline-flex items-center justify-center font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors px-4 py-1.5 text-xs shadow-sm cursor-pointer"
             >
               Get Started
             </Link>
