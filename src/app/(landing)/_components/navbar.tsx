@@ -65,7 +65,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
             const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true });
             document.dispatchEvent(event);
           }}
-          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-zinc-400 hover:text-white hover:border-white/20 transition-all cursor-pointer font-mono"
+          className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/[0.04] text-xs text-zinc-400 hover:text-white hover:border-white/20 active:scale-[0.97] transition-all cursor-pointer font-mono"
           title="Open Command Palette"
         >
           <Search className="w-3.5 h-3.5 text-zinc-400" />
@@ -87,13 +87,13 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
         <Show when="signed-out">
           <Link
             href="/sign-in"
-            className="text-xs font-mono text-zinc-400 hover:text-white px-2.5 py-1.5 transition-colors hidden sm:block cursor-pointer"
+            className="text-xs font-mono text-zinc-400 hover:text-white px-2.5 py-1.5 transition-colors hidden sm:block cursor-pointer active:scale-[0.98]"
           >
             Sign In
           </Link>
           <Link
             href="/sign-up"
-            className="inline-flex items-center justify-center text-xs font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-all px-3.5 py-1.5 shadow-sm cursor-pointer"
+            className="inline-flex items-center justify-center text-xs font-semibold rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] transition-all px-3.5 py-1.5 shadow-sm cursor-pointer"
           >
             Get Started
           </Link>

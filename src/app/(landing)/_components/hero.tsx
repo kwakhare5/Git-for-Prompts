@@ -162,7 +162,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
         <Show when="signed-in">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors shadow-sm cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] transition-all shadow-sm cursor-pointer"
           >
             Open Dashboard <ArrowRight className="w-4 h-4" />
           </Link>
@@ -170,20 +170,20 @@ export function Hero({ onTrySandbox }: HeroProps) {
         <Show when="signed-out">
           <Link
             href="/sign-up"
-            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold bg-[#f5f0eb] text-zinc-950 hover:bg-white transition-colors shadow-sm cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] transition-all shadow-sm cursor-pointer"
           >
             Get Started Free <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             href="/sign-in"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white hover:border-white/20 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white hover:border-white/20 active:scale-[0.97] transition-all cursor-pointer"
           >
             Sign In
           </Link>
         </Show>
         <button
           onClick={onTrySandbox}
-          className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white hover:border-white/20 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:text-white hover:border-white/20 active:scale-[0.97] transition-all cursor-pointer"
         >
           Try Sandbox Playground →
         </button>
