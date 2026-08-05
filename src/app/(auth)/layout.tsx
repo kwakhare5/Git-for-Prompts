@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BrandLogo } from '@/components/brand-logo';
 
 export default function AuthLayout({
   children,
@@ -6,30 +6,14 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-zinc-950 px-4">
-      {/* Subtle dot-grid texture */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
-      />
+    <div className="relative flex min-h-screen items-center justify-center bg-[#111111] text-[#f5f0eb] px-4 font-sans select-none">
+      <div className="pointer-events-none absolute w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-3xl" />
 
-      <div className="relative z-10 flex w-full flex-col items-center gap-8">
-        {/* Shared branding header */}
-        <div className="text-center space-y-1">
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-zinc-50 hover:text-zinc-300 transition-colors"
-          >
-            Git for Prompts
-          </Link>
+      <div className="relative z-10 flex w-full flex-col items-center gap-6 max-w-md">
+        <BrandLogo href="/" />
+        <div className="w-full">
+          {children}
         </div>
-
-        {/* Page-specific content (Clerk card + footer link) */}
-        {children}
       </div>
     </div>
   );

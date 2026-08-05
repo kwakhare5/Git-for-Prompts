@@ -54,7 +54,7 @@ export function TestCaseCard({
           : status === 'pass'
           ? 'border-emerald-500/30'
           : status === 'fail'
-          ? 'border-red-500/30'
+          ? 'border-rose-500/30'
           : status === 'ai-error'
           ? 'border-amber-500/40 border-dashed'
           : 'border-zinc-800',
@@ -76,7 +76,7 @@ export function TestCaseCard({
             </Badge>
           )}
           {status === 'fail' && (
-            <Badge className="bg-red-500/15 text-red-400 border-red-500/30 text-[10px] shrink-0">
+            <Badge className="bg-rose-500/15 text-rose-400 border-rose-500/30 text-[10px] shrink-0">
               FAIL
             </Badge>
           )}
