@@ -1,5 +1,6 @@
-import { pgTable, uuid, varchar, text, boolean, integer, timestamp, index, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, boolean, integer, timestamp, jsonb, index, uniqueIndex } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
+import type { PromptBundle } from '@gfp/core';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // prompts — top-level entity, metadata only. Content lives in versions.
@@ -36,11 +37,12 @@ export const versions = pgTable(
       .notNull()
       .references(() => prompts.id, { onDelete: 'cascade' }),
     versionNumber: integer('version_number').notNull(), // 1, 2, 3… per prompt
-    content: text('content').notNull(),                 // The actual prompt text
+    content: text('content').notNull(),                 // The actual prompt text (always set; V2: mirrors bundle.userTemplate)
+    bundle: jsonb('bundle').$type<PromptBundle>(),       // V2 full bundle payload (null for V1 versions)
     commitMessage: varchar('commit_message', { length: 500 }), // "Made tone friendlier"
     createdBy: varchar('created_by', { length: 255 }).notNull(), // Clerk userId
     createdAt: timestamp('created_at').defaultNow().notNull(),
-    variables: text('variables').array().default([]).notNull(), // {{var}} placeholders extracted from content
+    variables: text('variables').array().default([]).notNull(), // {{var}} placeholders extracted from content/bundle
   },
   (t) => [
     index('versions_prompt_id_idx').on(t.promptId),

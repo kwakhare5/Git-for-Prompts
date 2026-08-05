@@ -3,9 +3,9 @@ import { db } from '@/db';
 import { apiKeys, prompts, versions } from '@/db/schema';
 import { eq, sql, desc } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
-import { extractVariables } from '@/lib/variables';
 import { fireWebhooks } from '@/lib/webhooks';
 import { authenticateApiKey } from '@/lib/api-auth';
+import { validateBundle, extractContentFromBundle, extractBundleVariables, extractVariables, promptBundleSchema } from '@gfp/core';
 import { z } from 'zod';
 
 /**
@@ -14,15 +14,21 @@ import { z } from 'zod';
  * Create a new version via API key auth.
  * Used by the gfp CLI: gfp push <promptId> <file>
  *
- * Body: { content: string, commitMessage?: string }
+ * Body (V1 legacy): { content: string, commitMessage?: string }
+ * Body (V2 bundle): { bundle: PromptBundle, commitMessage?: string }
+ *   — `content` is derived from bundle.userTemplate automatically
  * Auth: Bearer <api-key>
  */
 export const dynamic = 'force-dynamic';
 
 const bodySchema = z.object({
-  content: z.string().min(1, 'Content is required').max(100_000),
+  content: z.string().max(100_000).optional(),
+  bundle: promptBundleSchema.optional(),
   commitMessage: z.string().max(500).optional(),
-});
+}).refine(
+  (data) => data.content || data.bundle,
+  { message: 'Either content or bundle is required' }
+);
 
 export async function POST(
   req: NextRequest,
@@ -57,6 +63,17 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
     }
 
+    // Validate bundle if provided
+    let parsedBundle = body.bundle ? validateBundle(body.bundle) : undefined;
+
+    // Derive content + variables from whichever source is present
+    const resolvedContent = parsedBundle
+      ? extractContentFromBundle(parsedBundle)
+      : (body.content ?? '');
+    const vars = parsedBundle
+      ? extractBundleVariables(parsedBundle)
+      : extractVariables(resolvedContent);
+
     // Look up prompt and touch lastUsedAt in parallel
     const [[prompt]] = await Promise.all([
       db.select().from(prompts).where(eq(prompts.id, promptId)),
@@ -66,8 +83,6 @@ export async function POST(
     if (!prompt || prompt.ownerId !== ownerId) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
-
-    const vars = extractVariables(body.content);
 
     // Use the same advisory-lock pattern as the server action — prevents
     // concurrent pushes from racing on the versionNumber sequence.
@@ -88,7 +103,8 @@ export async function POST(
         .values({
           promptId,
           versionNumber: nextVersionNumber,
-          content: body.content,
+          content: resolvedContent,
+          bundle: parsedBundle ?? null,
           commitMessage: body.commitMessage,
           createdBy: ownerId,
           variables: vars,
@@ -119,6 +135,7 @@ export async function POST(
       versionId: newVersion.id,
       versionNumber: newVersion.versionNumber,
       variables: vars,
+      bundle: newVersion.bundle ?? null,
       createdAt: newVersion.createdAt,
     }, { status: 201 });
   } catch {

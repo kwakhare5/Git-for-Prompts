@@ -60,6 +60,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { Toaster } from "sonner";
+import { CommandMenu } from "@/components/command-menu";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -78,6 +81,8 @@ export default function RootLayout({
       >
         <ClerkProvider appearance={clerkAppearance}>
           <TooltipProvider>{children}</TooltipProvider>
+          <CommandMenu />
+          <Toaster position="bottom-right" theme="dark" richColors />
           <Analytics />
         </ClerkProvider>
       </body>

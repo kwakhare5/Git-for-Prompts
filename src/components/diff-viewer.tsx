@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
+import type { PromptBundle } from '@gfp/core';
 
 // Monaco DiffEditor must be dynamically imported — relies on browser APIs not available during SSR.
 // Extracting the named export via .then() is required because next/dynamic expects a default export.
@@ -42,6 +43,9 @@ export interface DiffViewerProps {
   modifiedContent: string;  // right panel — "to" version
   originalLabel: string;    // e.g. "v1 · Initial draft"
   modifiedLabel: string;    // e.g. "v3 · Made tone friendlier"
+  /** V2: when both versions have bundles, show structural comparison header */
+  originalBundle?: PromptBundle | null;
+  modifiedBundle?: PromptBundle | null;
   height?: string;
 }
 
@@ -50,9 +54,21 @@ export function DiffViewer({
   modifiedContent,
   originalLabel,
   modifiedLabel,
+  originalBundle = null,
+  modifiedBundle = null,
   height = '600px',
 }: DiffViewerProps) {
   const [stats, setStats] = useState<DiffStats | null>(null);
+
+  // Show bundle comparison when both versions have bundles
+  const showBundleHeader = originalBundle && modifiedBundle;
+  const modelChanged =
+    showBundleHeader &&
+    (originalBundle.modelConfig.provider !== modifiedBundle.modelConfig.provider ||
+      originalBundle.modelConfig.model !== modifiedBundle.modelConfig.model);
+  const tempChanged =
+    showBundleHeader &&
+    originalBundle.modelConfig.temperature !== modifiedBundle.modelConfig.temperature;
 
   // Called once Monaco DiffEditor is mounted.
   // Registers an onDidUpdateDiff listener that uses Monaco's own diff engine
@@ -89,8 +105,35 @@ export function DiffViewer({
 
   return (
     <div className="flex flex-col">
+      {/* Bundle structural diff header — only when both versions are V2 */}
+      {showBundleHeader && (
+        <div className="flex items-start gap-4 rounded-t-lg border border-b-0 border-zinc-800 bg-zinc-900/70 px-4 py-2.5">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 shrink-0 mt-0.5">Bundle</span>
+          <div className="flex flex-wrap gap-3 text-xs font-mono">
+            {modelChanged ? (
+              <span>
+                <span className="text-red-400/80">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+                <span className="text-zinc-600 mx-1.5">→</span>
+                <span className="text-emerald-400/80">{modifiedBundle.modelConfig.provider}/{modifiedBundle.modelConfig.model}</span>
+              </span>
+            ) : (
+              <span className="text-zinc-600">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+            )}
+            {tempChanged && (
+              <span className="text-zinc-500">
+                temp <span className="text-red-400/80">{originalBundle.modelConfig.temperature}</span>
+                <span className="text-zinc-600 mx-1">→</span>
+                <span className="text-emerald-400/80">{modifiedBundle.modelConfig.temperature}</span>
+              </span>
+            )}
+            {!modelChanged && !tempChanged && (
+              <span className="text-zinc-700">Model config unchanged</span>
+            )}
+          </div>
+        </div>
+      )}
       {/* Stats bar — only shown once Monaco has computed the diff */}
-      <div className="flex items-center gap-4 rounded-t-lg border border-b-0 border-zinc-800 bg-zinc-900/50 px-4 py-2 min-h-[36px]">
+      <div className={`flex items-center gap-4 border border-b-0 border-zinc-800 bg-zinc-900/50 px-4 py-2 min-h-[36px] ${showBundleHeader ? '' : 'rounded-t-lg'}`}>
         {stats === null ? (
           <span className="text-xs font-mono text-zinc-700 animate-pulse">Computing diff…</span>
         ) : noChanges ? (

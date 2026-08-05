@@ -99,12 +99,13 @@ describe('Validation Schemas', () => {
       expect(parsed.success).toBe(true);
     });
 
-    it('rejects empty content in createVersionSchema', () => {
+    it('rejects empty content with no bundle in createVersionSchema', () => {
       const invalid = { promptId: VALID_UUID_1, content: '' };
       const parsed = createVersionSchema.safeParse(invalid);
       expect(parsed.success).toBe(false);
       if (!parsed.success) {
-        expect(parsed.error.issues[0].message).toBe('Prompt content cannot be empty');
+        // The refine validator fires because neither content nor bundle is provided
+        expect(parsed.error.issues[0].message).toBe('Either content or bundle is required');
       }
     });
 

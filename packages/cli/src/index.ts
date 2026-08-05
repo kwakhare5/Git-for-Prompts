@@ -2,247 +2,127 @@
 /**
  * gfp — Git for Prompts CLI
  *
+ * The local-first prompt package manager.
+ * Version, diff, and evaluate your prompt bundles entirely offline.
+ *
  * Commands:
- *   gfp auth                    Save your API key
- *   gfp list                    List all your prompts
- *   gfp pull <promptId>         Download latest prompt to <name>.prompt
- *   gfp push <promptId> <file>  Push a file as a new version
- *
- * Config: ~/.gfp/config.json  (API key + base URL)
- *
- * Zero runtime dependencies — uses only Node.js built-ins.
+ *   gfp init                           Initialize .gfp project
+ *   gfp add <name> [options]           Add/update a prompt bundle
+ *   gfp history <name>                 Show version history
+ *   gfp diff <name> <v1> <v2>          Compare two versions
+ *   gfp run <name> [options]           Run eval tests locally
+ *   gfp auth <api-key>                 Save API key for cloud sync
+ *   gfp push <name>                    Sync local → cloud (Phase 4)
+ *   gfp pull <name>                    Sync cloud → local (Phase 4)
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
-import { homedir } from 'os';
-import { join } from 'path';
-import * as https from 'https';
-import * as http from 'http';
-import * as readline from 'readline';
+import { Command } from 'commander';
+import { cmdInit } from './commands/init.js';
+import { cmdAdd } from './commands/add.js';
+import { cmdHistory } from './commands/history.js';
+import { cmdDiff } from './commands/diff.js';
+import { cmdRun } from './commands/run.js';
+import { cmdAuth } from './commands/auth.js';
+import { cmdPush } from './commands/push.js';
+import { cmdPull } from './commands/pull.js';
 
-// ─── Config ──────────────────────────────────────────────────────────────────
+const program = new Command();
 
-const CONFIG_DIR = join(homedir(), '.gfp');
-const CONFIG_PATH = join(CONFIG_DIR, 'config.json');
+program
+  .name('gfp')
+  .description('Git for Prompts — the local-first prompt package manager')
+  .version('0.2.0');
 
-interface Config {
-  apiKey: string;
-  baseUrl: string;
-}
+// ─── init ────────────────────────────────────────────────────────────────────
 
-function loadConfig(): Config | null {
-  if (!existsSync(CONFIG_PATH)) return null;
-  try {
-    return JSON.parse(readFileSync(CONFIG_PATH, 'utf8')) as Config;
-  } catch {
-    return null;
-  }
-}
-
-function saveConfig(config: Config): void {
-  if (!existsSync(CONFIG_DIR)) mkdirSync(CONFIG_DIR, { recursive: true });
-  writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), { mode: 0o600 });
-}
-
-function requireConfig(): Config {
-  const config = loadConfig();
-  if (!config) {
-    die('Not authenticated. Run: gfp auth');
-  }
-  return config!;
-}
-
-// ─── HTTP helper ─────────────────────────────────────────────────────────────
-
-function request(
-  url: string,
-  options: { method?: string; headers?: Record<string, string>; body?: string }
-): Promise<{ status: number; body: string }> {
-  return new Promise((resolve, reject) => {
-    const parsed = new URL(url);
-    const transport = parsed.protocol === 'https:' ? https : http;
-
-    const req = transport.request(
-      {
-        hostname: parsed.hostname,
-        port: parsed.port || (parsed.protocol === 'https:' ? 443 : 80),
-        path: parsed.pathname + parsed.search,
-        method: options.method ?? 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'gfp-cli/0.1.0',
-          ...(options.headers ?? {}),
-        },
-      },
-      (res) => {
-        let body = '';
-        res.on('data', (chunk: Buffer) => (body += chunk.toString()));
-        res.on('end', () => resolve({ status: res.statusCode ?? 0, body }));
-      }
-    );
-
-    req.on('error', reject);
-    if (options.body) req.write(options.body);
-    req.end();
+program
+  .command('init')
+  .description('Initialize a .gfp project with local SQLite storage')
+  .action(async () => {
+    await cmdInit();
   });
-}
 
-async function apiGet(path: string, config: Config): Promise<unknown> {
-  const res = await request(`${config.baseUrl}/api/v1${path}`, {
-    headers: { Authorization: `Bearer ${config.apiKey}` },
+// ─── add ─────────────────────────────────────────────────────────────────────
+
+program
+  .command('add')
+  .argument('<name>', 'Prompt name')
+  .description('Add or update a prompt bundle')
+  .option('-f, --file <path>', 'Read prompt content from a text file')
+  .option('-c, --content <text>', 'Inline prompt content')
+  .option('-b, --bundle <path>', 'Read full bundle from a JSON file')
+  .option('-m, --message <msg>', 'Commit message for this version')
+  .action(async (name: string, options) => {
+    await cmdAdd(name, options);
   });
-  if (res.status === 401) die('API key invalid or expired. Run: gfp auth');
-  if (res.status >= 400) die(`API error ${res.status}: ${res.body}`);
-  return JSON.parse(res.body);
-}
 
-async function apiPost(path: string, body: unknown, config: Config): Promise<unknown> {
-  const res = await request(`${config.baseUrl}/api/v1${path}`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${config.apiKey}` },
-    body: JSON.stringify(body),
+// ─── history ─────────────────────────────────────────────────────────────────
+
+program
+  .command('history')
+  .argument('<name>', 'Prompt name')
+  .description('Show version history for a prompt')
+  .action(async (name: string) => {
+    await cmdHistory(name);
   });
-  if (res.status === 401) die('API key invalid or expired. Run: gfp auth');
-  if (res.status >= 400) die(`API error ${res.status}: ${res.body}`);
-  return JSON.parse(res.body);
-}
 
-// ─── Prompts ─────────────────────────────────────────────────────────────────
+// ─── diff ────────────────────────────────────────────────────────────────────
 
-function prompt(question: string): Promise<string> {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      rl.close();
-      resolve(answer.trim());
-    });
+program
+  .command('diff')
+  .argument('<name>', 'Prompt name')
+  .argument('<v1>', 'First version number')
+  .argument('<v2>', 'Second version number')
+  .description('Compare two versions of a prompt')
+  .action(async (name: string, v1: string, v2: string) => {
+    await cmdDiff(name, v1, v2);
   });
-}
 
-// ─── Utils ───────────────────────────────────────────────────────────────────
+// ─── run ─────────────────────────────────────────────────────────────────────
 
-function die(msg: string): never {
-  console.error(`\x1b[31mError:\x1b[0m ${msg}`);
-  process.exit(1);
-}
+program
+  .command('run')
+  .argument('<name>', 'Prompt name')
+  .description('Run eval test cases against the latest version')
+  .option('-p, --provider <name>', 'AI provider (openai, groq, openrouter, ollama)')
+  .option('-m, --model <name>', 'AI model override')
+  .option('-k, --api-key <key>', 'API key for the provider')
+  .action(async (name: string, options) => {
+    await cmdRun(name, options);
+  });
 
-function ok(msg: string): void {
-  console.log(`\x1b[32m✓\x1b[0m ${msg}`);
-}
+// ─── auth ────────────────────────────────────────────────────────────────────
 
-function info(msg: string): void {
-  console.log(`\x1b[90m${msg}\x1b[0m`);
-}
+program
+  .command('auth')
+  .argument('<api-key>', 'Your gfp_live_* API key')
+  .description('Save API key for cloud sync (gfp push/pull)')
+  .option('-u, --url <base>', 'Custom base URL for the cloud API')
+  .action((apiKey: string, options) => {
+    cmdAuth(apiKey, options);
+  });
 
-// ─── Commands ────────────────────────────────────────────────────────────────
+// ─── push / pull stubs ──────────────────────────────────────────────────────
 
-async function cmdAuth(): Promise<void> {
-  const existing = loadConfig();
-  const baseUrl = await prompt(
-    `Base URL [${existing?.baseUrl ?? 'https://gitforprompts.vercel.app'}]: `
-  );
-  const apiKey = await prompt('API key (gfp_live_...): ');
+program
+  .command('push')
+  .argument('<name>', 'Prompt name')
+  .description('Sync latest local bundle to cloud')
+  .option('--cloud-id <id>', 'Target a specific cloud prompt ID (bypasses name lookup)')
+  .option('-m, --message <msg>', 'Override commit message for this push')
+  .action(async (name: string, options) => {
+    await cmdPush(name, options);
+  });
 
-  if (!apiKey.startsWith('gfp_live_')) die('API key must start with gfp_live_');
+program
+  .command('pull')
+  .argument('<name>', 'Prompt name')
+  .description('Sync latest cloud version to local')
+  .option('--cloud-id <id>', 'Target a specific cloud prompt ID (bypasses name lookup)')
+  .action(async (name: string, options) => {
+    await cmdPull(name, options);
+  });
 
-  const url = (baseUrl.trim() || existing?.baseUrl || 'https://gitforprompts.vercel.app').replace(/\/$/, '');
-  saveConfig({ apiKey, baseUrl: url });
-  ok(`Authenticated. Config saved to ${CONFIG_PATH}`);
-}
+// ─── parse ───────────────────────────────────────────────────────────────────
 
-async function cmdList(): Promise<void> {
-  const config = requireConfig();
-  info('Fetching prompts…');
-
-  // Note: this endpoint needs to be added — for now list is based on what API exposes
-  // Placeholder — full list endpoint is a future API addition
-  console.log('');
-  console.log('\x1b[33mNote:\x1b[0m The list API endpoint is not yet implemented in the server.');
-  console.log('To pull a prompt, you need its promptId from the dashboard URL:');
-  console.log('  https://gitforprompts.com/dashboard/prompts/<promptId>');
-  console.log('');
-  console.log('Then run: gfp pull <promptId>');
-  void config;
-}
-
-async function cmdPull(promptId: string): Promise<void> {
-  if (!promptId) die('Usage: gfp pull <promptId>');
-  const config = requireConfig();
-  info(`Pulling prompt ${promptId}…`);
-
-  const data = await apiGet(`/prompts/${promptId}/latest`, config) as {
-    promptName: string;
-    versionNumber: number;
-    content: string;
-    variables: string[];
-    commitMessage: string | null;
-  };
-
-  // Sanitize filename
-  const filename = `${data.promptName.replace(/[^a-z0-9_-]/gi, '_').toLowerCase()}.prompt`;
-  writeFileSync(filename, data.content, 'utf8');
-
-  ok(`Pulled: ${filename}`);
-  info(`  Version: v${data.versionNumber}`);
-  if (data.commitMessage) info(`  Message: ${data.commitMessage}`);
-  if (data.variables.length > 0) info(`  Variables: ${data.variables.map((v) => `{{${v}}}`).join(', ')}`);
-}
-
-async function cmdPush(promptId: string, filePath: string): Promise<void> {
-  if (!promptId || !filePath) die('Usage: gfp push <promptId> <file>');
-  if (!existsSync(filePath)) die(`File not found: ${filePath}`);
-
-  const config = requireConfig();
-  const content = readFileSync(filePath, 'utf8');
-  const commitMessage = await prompt('Commit message (optional): ');
-
-  info(`Pushing ${filePath} to prompt ${promptId}…`);
-
-  const data = await apiPost(`/prompts/${promptId}/versions`, {
-    content,
-    commitMessage: commitMessage || undefined,
-  }, config) as { versionNumber: number };
-
-  ok(`Pushed as v${data.versionNumber}`);
-}
-
-// ─── Entry point ─────────────────────────────────────────────────────────────
-
-async function main(): Promise<void> {
-  const [, , cmd, ...args] = process.argv;
-
-  switch (cmd) {
-    case 'auth':
-      await cmdAuth();
-      break;
-    case 'list':
-      await cmdList();
-      break;
-    case 'pull':
-      await cmdPull(args[0]);
-      break;
-    case 'push':
-      await cmdPush(args[0], args[1]);
-      break;
-    default:
-      console.log(`
-\x1b[1mgfp\x1b[0m — Git for Prompts CLI
-
-\x1b[33mCommands:\x1b[0m
-  gfp auth                    Authenticate with your API key
-  gfp list                    List your prompts
-  gfp pull <promptId>         Download latest version to <name>.prompt
-  gfp push <promptId> <file>  Push file as a new version
-
-\x1b[33mExamples:\x1b[0m
-  gfp auth
-  gfp pull abc-123-def
-  gfp push abc-123-def customer-support.prompt
-`);
-  }
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+program.parse();
