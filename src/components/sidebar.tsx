@@ -19,12 +19,15 @@ import {
   Plus,
 } from 'lucide-react';
 
-const navItems = [
+const mainNavItems = [
+  { label: 'Home', href: '/', icon: Home, enabled: true },
   { label: 'Overview', href: '/dashboard', icon: LayoutDashboard, enabled: true },
   { label: 'Explore Prompts', href: '/dashboard/explore', icon: Compass, enabled: true },
+];
+
+const developerNavItems = [
   { label: 'API Keys', href: '/dashboard/api-keys', icon: Key, enabled: true },
   { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook, enabled: true },
-  { label: 'Home & Guide', href: '/', icon: Home, enabled: true },
 ];
 
 const hasClerkKeys = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
@@ -90,10 +93,10 @@ export function Sidebar() {
         <div className="flex-1 overflow-y-auto px-3 py-2 space-y-6">
           <div>
             <span className="px-2 text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-2 font-medium">
-              Navigation
+              Main
             </span>
             <nav className="space-y-1" aria-label="Main navigation">
-              {navItems.map((item) => {
+              {mainNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive =
                   item.href === '/'
@@ -108,10 +111,10 @@ export function Sidebar() {
                     href={item.href}
                     onClick={close}
                     className={cn(
-                      'flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-medium transition-all duration-150 ease-emil group',
+                      'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150',
                       isActive
-                        ? 'bg-[#161616] text-[#f5f0eb] font-semibold border border-white/[0.08] shadow-sm'
-                        : 'text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200',
+                        ? 'bg-[#161616] text-[#f5f0eb] border border-white/[0.08] shadow-sm font-semibold'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03]',
                     )}
                   >
                     <Icon
@@ -119,7 +122,40 @@ export function Sidebar() {
                         'h-4 w-4 shrink-0 transition-colors',
                         isActive ? 'text-[#f5f0eb]' : 'text-zinc-500 group-hover:text-zinc-300',
                       )}
-                      aria-hidden="true"
+                    />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div>
+            <span className="px-2 text-[10px] font-mono uppercase tracking-widest text-zinc-500 block mb-2 font-medium">
+              Developer
+            </span>
+            <nav className="space-y-1" aria-label="Developer navigation">
+              {developerNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname.startsWith(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={close}
+                    className={cn(
+                      'flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150',
+                      isActive
+                        ? 'bg-[#161616] text-[#f5f0eb] border border-white/[0.08] shadow-sm font-semibold'
+                        : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.03]',
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        'h-4 w-4 shrink-0 transition-colors',
+                        isActive ? 'text-[#f5f0eb]' : 'text-zinc-500 group-hover:text-zinc-300',
+                      )}
                     />
                     <span>{item.label}</span>
                   </Link>
