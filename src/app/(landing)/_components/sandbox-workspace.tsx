@@ -30,7 +30,7 @@ export function SandboxWorkspace() {
 
   return (
     <div className="flex-1 flex flex-col p-6 max-w-7xl mx-auto w-full animate-in fade-in duration-200">
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 border border-white/[0.08] rounded-2xl overflow-hidden bg-[#161616] min-h-[500px]">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-4 border border-white/[0.08] rounded-2xl overflow-hidden bg-[#161616] min-h-[500px] touch-pan-y overscroll-y-auto">
         {/* Sidebar */}
         <div className="border-r border-white/[0.08] bg-[#121212] p-5 space-y-6">
           <div>
@@ -98,7 +98,7 @@ export function SandboxWorkspace() {
                   <textarea
                     value={editorContent}
                     onChange={(e) => setEditorContent(e.target.value)}
-                    className="flex-1 p-4 bg-transparent outline-none resize-none font-mono text-sm leading-relaxed text-zinc-100"
+                    className="flex-1 p-4 bg-transparent outline-none resize-none font-mono text-sm leading-relaxed text-zinc-100 overscroll-y-auto"
                     placeholder="Write your prompt system instruction..."
                   />
                 </div>
