@@ -45,7 +45,7 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
   return (
     <tr
       className={cn(
-        'group border-b border-white/[0.06] transition-colors hover:bg-white/[0.02]',
+        'group border-b border-white/[0.06] transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/[0.03]',
         isPending && 'opacity-40 pointer-events-none'
       )}
     >
