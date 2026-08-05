@@ -71,8 +71,8 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
         >
           <Search className="w-3.5 h-3.5 text-zinc-400" />
           <span className="text-[11px] text-zinc-300">Search</span>
-          <kbd className="text-[10px] font-mono bg-white/10 border border-white/10 rounded px-1 text-zinc-200">
-            ⌘K
+          <kbd className="text-[10px] font-mono tracking-wider bg-white/10 border border-white/10 rounded px-1.5 py-0.5 text-zinc-200">
+            ⌘ K
           </kbd>
         </button>
 
