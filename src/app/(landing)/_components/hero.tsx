@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Terminal as TerminalIcon, Search } from 'lucide-react';
+import { Terminal as TerminalIcon, Search } from 'lucide-react';
 import { Show } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -138,40 +138,33 @@ export function Hero({ onTrySandbox }: HeroProps) {
           <>
             <Show when="signed-in">
               <Link href="/dashboard" passHref>
-                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
-                  Open Dashboard <ArrowRight className="w-4 h-4" />
+                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer shadow-sm">
+                  Open Dashboard
                 </Button>
               </Link>
             </Show>
             <Show when="signed-out">
               <Link href="/sign-up" passHref>
-                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
-                  Get Started Free <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-              <Link href="/sign-in">
-                <Button variant="outline" size="lg" className="border-white/10 text-zinc-300 hover:text-white cursor-pointer font-mono">
-                  Sign In
+                <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer shadow-sm">
+                  Get Started
                 </Button>
               </Link>
             </Show>
           </>
         ) : (
-          <>
-            <Link href="/dashboard" passHref>
-              <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer gap-2">
-                Open Dashboard <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </>
+          <Link href="/sign-up" passHref>
+            <Button size="lg" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold cursor-pointer shadow-sm">
+              Get Started
+            </Button>
+          </Link>
         )}
         <Button
           variant="outline"
           size="lg"
           onClick={onTrySandbox}
-          className="border-white/10 text-zinc-300 hover:text-white cursor-pointer"
+          className="border-white/10 text-zinc-300 hover:text-white hover:border-white/20 cursor-pointer font-sans"
         >
-          Try Sandbox Playground →
+          Try Interactive Sandbox →
         </Button>
       </motion.div>
 

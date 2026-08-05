@@ -114,7 +114,7 @@ export function InteractiveDiffPlayground() {
         </div>
 
         {/* Monaco Diff Editor */}
-        <div className="h-[340px]">
+        <div className="h-[340px] pointer-events-none">
           <MonacoDiffEditor
             height="340px"
             language="plaintext"
@@ -138,7 +138,8 @@ export function InteractiveDiffPlayground() {
               scrollbar: {
                 vertical: 'hidden',
                 horizontal: 'hidden',
-                handleMouseWheel: true,
+                handleMouseWheel: false,
+                alwaysConsumeMouseWheel: false,
               },
               glyphMargin: false,
               folding: false,
