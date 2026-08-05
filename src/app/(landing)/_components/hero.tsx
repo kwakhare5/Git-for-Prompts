@@ -102,7 +102,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative flex flex-col items-center text-center pt-24 pb-10 px-6 max-w-6xl mx-auto gap-6"
+      className="relative flex flex-col items-center text-center pt-14 pb-10 px-6 max-w-6xl mx-auto gap-6"
     >
       {/* Background linear grid overlay */}
       <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
