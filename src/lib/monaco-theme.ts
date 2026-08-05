@@ -14,13 +14,22 @@ const GFP_THEME_DEFINITION = {
   inherit: true,
   rules: [],
   colors: {
-    'editor.background': '#09090b',           // zinc-950 — the writing canvas
-    'editorGutter.background': '#09090b',     // same as canvas — no "box" effect
-    'editorLineNumber.foreground': '#3f3f46', // zinc-700 — subtle, not distracting
-    'editorLineNumber.activeForeground': '#71717a', // zinc-500 — active line readable
-    'editor.lineHighlightBackground': '#18181b40', // very subtle active line tint
+    'editor.background': '#0e0e0e',           // dark canvas
+    'editorGutter.background': '#0e0e0e',     // same as canvas
+    'editorLineNumber.foreground': '#3f3f46', // zinc-700
+    'editorLineNumber.activeForeground': '#71717a', // zinc-500
+    'editor.lineHighlightBackground': '#18181b40',
     'editorIndentGuide.background1': '#27272a',
     'editorRuler.foreground': '#27272a',
+    // Clean Diff Colors
+    'diffEditor.insertedTextBackground': '#10b98130',
+    'diffEditor.removedTextBackground': '#ef444430',
+    'diffEditor.insertedLineBackground': '#10b98115',
+    'diffEditor.removedLineBackground': '#ef444415',
+    'diffEditor.diagonalFill': '#141414',
+    'editorOverviewRuler.border': '#00000000',
+    'scrollbarSlider.background': '#ffffff10',
+    'scrollbarSlider.hoverBackground': '#ffffff20',
   },
 };
 
