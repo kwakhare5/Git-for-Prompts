@@ -31,7 +31,7 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
   }
 
   const baseStyles =
-    'inline-flex items-center gap-2 rounded-md text-xs font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed';
+    'inline-flex items-center gap-2 rounded-md text-xs font-medium transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed';
   const variants = {
     primary: 'bg-zinc-50 px-3.5 py-1.5 text-zinc-950 hover:bg-zinc-200',
     secondary:
