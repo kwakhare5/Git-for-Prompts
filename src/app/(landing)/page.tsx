@@ -113,7 +113,7 @@ export default function Home() {
       />
 
       {/* Content */}
-      <main className="flex-1 flex flex-col pt-14">
+      <main className="flex-1 flex flex-col pt-24">
         {activeTab === 'tour' ? (
           <div className="w-full space-y-0 py-4 bg-[#111111]">
             
