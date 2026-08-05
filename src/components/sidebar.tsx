@@ -169,7 +169,7 @@ export function Sidebar() {
               <span className="text-[10px] font-mono text-zinc-400 flex items-center gap-1.5 font-medium">
                 <Terminal className="w-3 h-3 text-zinc-400" /> CLI Ready
               </span>
-              <span className="text-[9px] font-mono text-zinc-400 bg-white/10 px-1.5 py-0.5 rounded border border-white/10">
+              <span className="text-[9px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
                 gfp CLI
               </span>
             </div>

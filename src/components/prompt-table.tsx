@@ -142,26 +142,26 @@ export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
   });
 
   return (
-    <div className="space-y-3 font-sans select-none">
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 rounded-2xl border border-white/[0.08] bg-[#161616]">
+    <div className="space-y-4 font-sans select-none">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Filter prompts by name, description, or ID..."
-            className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-white/[0.08] bg-[#111111] text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono"
+            className="w-full pl-10 pr-3 py-2 rounded-xl border border-white/[0.08] bg-[#161616] text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
           />
         </div>
 
-        <div className="flex items-center gap-1 bg-[#111111] border border-white/[0.08] p-1 rounded-xl font-mono text-[11px] shrink-0">
+        <div className="flex items-center gap-1 bg-[#161616] border border-white/[0.08] p-1 rounded-xl font-mono text-[11px] shrink-0">
           <button
             onClick={() => setFilterVisibility('all')}
             className={cn(
-              'px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium',
+              'px-3 py-1.5 rounded-lg transition-all duration-150 cursor-pointer font-medium active:scale-[0.98]',
               filterVisibility === 'all'
-                ? 'bg-[#161616] text-[#f5f0eb] border border-white/[0.08] shadow-sm'
+                ? 'bg-[#111111] text-[#f5f0eb] border border-white/[0.08] shadow-sm font-semibold'
                 : 'text-zinc-400 hover:text-zinc-200'
             )}
           >
@@ -170,9 +170,9 @@ export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
           <button
             onClick={() => setFilterVisibility('public')}
             className={cn(
-              'px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium',
+              'px-3 py-1.5 rounded-lg transition-all duration-150 cursor-pointer font-medium active:scale-[0.98]',
               filterVisibility === 'public'
-                ? 'bg-[#161616] text-[#f5f0eb] border border-white/[0.08] shadow-sm'
+                ? 'bg-[#111111] text-[#f5f0eb] border border-white/[0.08] shadow-sm font-semibold'
                 : 'text-zinc-400 hover:text-zinc-200'
             )}
           >
@@ -181,9 +181,9 @@ export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
           <button
             onClick={() => setFilterVisibility('private')}
             className={cn(
-              'px-2.5 py-1 rounded-lg transition-all cursor-pointer font-medium',
+              'px-3 py-1.5 rounded-lg transition-all duration-150 cursor-pointer font-medium active:scale-[0.98]',
               filterVisibility === 'private'
-                ? 'bg-[#161616] text-zinc-200 border border-white/[0.08] shadow-sm'
+                ? 'bg-[#111111] text-zinc-200 border border-white/[0.08] shadow-sm font-semibold'
                 : 'text-zinc-400 hover:text-zinc-200'
             )}
           >
