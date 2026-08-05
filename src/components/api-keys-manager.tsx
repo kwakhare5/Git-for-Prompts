@@ -153,11 +153,13 @@ export function ApiKeysManager({ initialKeys }: Props) {
       )}
 
       {/* ── Generate Form ── */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
-        <h2 className="text-sm font-semibold text-zinc-300 mb-1">Generate new key</h2>
-        <p className="text-xs text-zinc-500 mb-4">
-          Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
-        </p>
+      <div className="rounded-2xl border border-white/[0.08] bg-[#161616] p-5 shadow-xl space-y-4">
+        <div>
+          <h2 className="text-sm font-semibold text-[#f5f0eb] font-sans">Generate new key</h2>
+          <p className="text-xs text-zinc-400 mt-0.5 font-sans">
+            Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
+          </p>
+        </div>
 
         <div className="flex gap-2">
           <input
@@ -168,37 +170,39 @@ export function ApiKeysManager({ initialKeys }: Props) {
             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
             placeholder="Key name…"
             maxLength={255}
-            className="flex-1 rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+            className="flex-1 rounded-xl border border-white/[0.08] bg-[#111111] px-3.5 py-2 text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
           />
           <button
             id="generate-api-key-btn"
             onClick={handleGenerate}
             disabled={isPending || !name.trim()}
-            className="rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="rounded-xl bg-[#f5f0eb] px-4 py-2 text-xs font-semibold text-zinc-950 hover:bg-white active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all font-sans"
           >
-            {isPending ? 'Generating…' : 'Generate'}
+            {isPending ? 'Generating…' : 'Generate Key'}
           </button>
         </div>
       </div>
 
       {/* ── Key List ── */}
-      <div>
-        <h2 className="text-sm font-semibold text-zinc-300 mb-3">
-          Active keys
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-[#f5f0eb] font-sans">
+            Active Keys
+          </h2>
           {keys.length > 0 && (
-            <span className="ml-2 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-mono text-zinc-400">
-              {keys.length}
+            <span className="rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-0.5 text-[10px] font-mono font-medium">
+              {keys.length} Active
             </span>
           )}
-        </h2>
+        </div>
 
         {keys.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-zinc-800 py-12 text-center">
-            <p className="text-sm text-zinc-500">No API keys yet.</p>
-            <p className="text-xs text-zinc-600 mt-1">Generate your first key above.</p>
+          <div className="rounded-2xl border border-dashed border-white/[0.08] bg-[#161616] py-12 text-center">
+            <p className="text-sm text-zinc-400 font-sans font-medium">No API keys yet.</p>
+            <p className="text-xs text-zinc-500 mt-1 font-sans">Generate your first key above to authenticate programmatic REST API requests.</p>
           </div>
         ) : (
-          <div className="divide-y divide-zinc-800 rounded-xl border border-zinc-800">
+          <div className="divide-y divide-white/[0.08] rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden shadow-xl">
             {keys.map((key) => (
               <div
                 key={key.id}
