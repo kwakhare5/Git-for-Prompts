@@ -34,16 +34,16 @@ export function TestSuiteInfo() {
         </div>
 
         {/* Visual Mock Runner */}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 space-y-4 shadow-xl relative overflow-hidden dots-bg">
-          <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950/40 via-transparent to-zinc-950/40 pointer-events-none" />
+        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 space-y-4 shadow-xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
           
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-3 font-mono text-[10px]">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3 font-mono text-[10px]">
             <span className="text-zinc-500 uppercase font-semibold">Assert suite: refund_eval_matrix</span>
             <span className="text-emerald-400 font-bold font-mono">100% PASSED</span>
           </div>
 
           <div className="space-y-3 font-mono text-xs">
-            <div className="p-3 border border-zinc-850 bg-zinc-950/60 rounded-lg flex items-center justify-between font-mono">
+            <div className="p-3 border border-white/[0.04] bg-[#0e0e0e] rounded-lg flex items-center justify-between font-mono">
               <div className="flex items-center gap-2 font-mono">
                 <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse font-mono" />
                 <span className="text-zinc-300 font-semibold font-mono">Assert refund window check</span>
@@ -51,7 +51,7 @@ export function TestSuiteInfo() {
               <span className="text-emerald-400 font-semibold font-mono">PASS (96/100)</span>
             </div>
 
-            <div className="p-3 border border-zinc-850 bg-zinc-950/60 rounded-lg flex items-center justify-between font-mono">
+            <div className="p-3 border border-white/[0.04] bg-[#0e0e0e] rounded-lg flex items-center justify-between font-mono">
               <div className="flex items-center gap-2 font-mono">
                 <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse font-mono" />
                 <span className="text-zinc-300 font-semibold font-mono">Assert formal salutations</span>
