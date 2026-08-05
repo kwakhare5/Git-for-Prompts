@@ -101,7 +101,7 @@ export default function Home() {
   const [testLogs, setTestLogs] = useState<string[]>([]);
 
   return (
-    <div id="home" className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800 relative overflow-x-hidden">
+    <div id="home" className="flex flex-col min-h-screen bg-[#111111] text-[#f5f0eb] font-sans selection:bg-zinc-800 relative overflow-x-hidden">
       
 
 
@@ -113,9 +113,9 @@ export default function Home() {
       />
 
       {/* Content */}
-      <main className="flex-1 flex flex-col pt-24">
+      <main className="flex-1 flex flex-col pt-14">
         {activeTab === 'tour' ? (
-          <div className="w-full space-y-0 py-12" style={{ background: '#111111' }}>
+          <div className="w-full space-y-0 py-4 bg-[#111111]">
             
             {/* Hero Section */}
             <Hero onTrySandbox={() => changeTab('sandbox')} />

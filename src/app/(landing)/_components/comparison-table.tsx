@@ -34,8 +34,8 @@ const CHECK_STYLE: Record<Check, string> = {
 
 export function ComparisonTable() {
   return (
-    <section className="px-6 py-24 max-w-6xl mx-auto">
-      <div className="text-center mb-16">
+    <section className="px-6 py-10 max-w-6xl mx-auto">
+      <div className="text-center mb-8">
         <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-3">Comparison</p>
         <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
           How gfp stacks up.

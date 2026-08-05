@@ -38,9 +38,9 @@ export function InteractiveDiffPlayground() {
   const [model, setModel] = useState('llama-3.3-70b-versatile');
 
   return (
-    <section className="px-6 py-24 max-w-6xl mx-auto">
+    <section className="px-6 py-10 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-mono text-zinc-400 mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           Live Playground
