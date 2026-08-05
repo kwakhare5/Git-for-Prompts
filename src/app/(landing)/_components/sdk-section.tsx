@@ -77,7 +77,7 @@ function MockTerminal() {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col justify-end p-4 font-mono text-[10px] sm:text-[11px] leading-relaxed text-zinc-300 border border-white/10 bg-[#0e0e0e] rounded-xl shadow-2xl overflow-y-auto min-h-0 select-none">
+    <div className="flex-1 flex flex-col justify-end p-4 font-mono text-[10px] sm:text-[11px] leading-relaxed text-zinc-300 bg-[#0a0a0a] rounded-b-xl overflow-y-auto min-h-0 select-none no-scrollbar">
       <div className="space-y-1.5 font-mono">
         {lines.map((line, idx) => (
           <div key={idx} className="font-mono">
@@ -168,7 +168,7 @@ func main() {
   };
 
   return (
-    <section id="docs" className="max-w-6xl mx-auto px-6 border-t border-zinc-900 pt-20 space-y-8 select-none">
+    <section id="docs" className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 space-y-8 select-none font-sans">
       <div className="max-w-2xl space-y-3">
         <h3 className="text-2xl font-bold text-zinc-100 font-sans">Developer SDK & Integration</h3>
         <p className="text-sm text-zinc-400 leading-relaxed font-light font-sans">
@@ -178,8 +178,8 @@ func main() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch select-none">
         {/* Left Column - Code Header tabs */}
-        <div className="lg:col-span-7 relative rounded-xl border border-zinc-900 bg-zinc-950/40 overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[380px]">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-zinc-900 bg-zinc-900/30 shrink-0">
+        <div className="lg:col-span-7 relative rounded-xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[380px]">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
                 { id: 'node', label: 'Node.js' },
@@ -195,7 +195,7 @@ func main() {
                   }}
                   className={`px-3 py-1 text-[11px] font-semibold font-mono rounded-md transition-all cursor-pointer ${
                     activeTab === tab.id
-                      ? 'bg-zinc-800 text-zinc-100 border border-zinc-700/60'
+                      ? 'bg-white/10 text-white border border-white/10'
                       : 'text-zinc-500 hover:text-zinc-300 bg-transparent border border-transparent'
                   }`}
                 >
@@ -223,14 +223,14 @@ func main() {
           </div>
 
           {/* Code snippet block */}
-          <pre className="p-5 overflow-y-auto text-zinc-300 font-mono text-xs leading-relaxed flex-1 min-h-0 bg-zinc-950/30">
+          <pre className="p-5 overflow-y-auto text-zinc-300 font-mono text-xs leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-xl no-scrollbar">
             <code className="font-mono">{snippets[activeTab]}</code>
           </pre>
         </div>
 
         {/* Right Column - Mock Terminal */}
-        <div className="lg:col-span-5 border border-zinc-900 bg-zinc-950/40 rounded-xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[380px]">
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-900 bg-zinc-900/30 shrink-0 select-none">
+        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[380px]">
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0 select-none">
             <div className="flex gap-1.5 select-none">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/75" />
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/75" />

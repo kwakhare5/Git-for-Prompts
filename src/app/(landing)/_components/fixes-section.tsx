@@ -51,7 +51,7 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
   }, []);
 
   return (
-    <section className="border-t border-zinc-900 pt-20 px-6 max-w-6xl mx-auto space-y-12 select-none">
+    <section className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 space-y-12 select-none font-sans">
       <div className="text-center space-y-3 max-w-2xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-100 font-sans">
           What we help teams fix.
@@ -76,8 +76,8 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
             </p>
           </div>
 
-          <div className="mt-5 border border-zinc-800 bg-zinc-950/90 rounded-lg p-3 space-y-2 relative font-mono text-[10px] z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-zinc-900 pb-1.5 font-mono">
+          <div className="mt-5 border border-white/[0.06] bg-[#0a0a0a] rounded-lg p-3 space-y-2 relative font-mono text-[10px] z-10 shadow-inner">
+            <div className="flex items-center justify-between border-b border-white/[0.06] pb-1.5 font-mono">
               <span className="text-[8px] font-mono text-zinc-500 uppercase font-semibold">Assertion Tests Pipeline</span>
               {card1State === 0 ? (
                 <span className="text-[9px] text-zinc-500 font-mono">Evaluating...</span>
@@ -114,9 +114,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
 
             {card1State === 1 && (
               <div className="absolute inset-0 bg-red-950/10 backdrop-blur-xs flex items-center justify-center p-3 animate-in fade-in duration-200">
-                <div className="bg-zinc-950 border border-red-900/60 p-2.5 rounded text-center space-y-1.5 shadow-xl w-[90%]">
+                <div className="bg-[#0a0a0a] border border-red-900/40 p-2.5 rounded-lg text-center space-y-1.5 shadow-xl w-[90%]">
                   <span className="text-[9px] text-red-400 font-bold block">⚠️ Regression detected</span>
-                  <button className="px-2.5 py-1 text-[8.5px] rounded bg-red-950/40 text-red-300 border border-red-900/50 hover:bg-red-900/40 transition-colors font-mono cursor-pointer w-full font-semibold">
+                  <button className="px-2.5 py-1 text-[8.5px] rounded-md bg-red-950/40 text-red-300 border border-red-900/50 hover:bg-red-900/40 transition-colors font-mono cursor-pointer w-full font-semibold">
                     Click to restore v2
                   </button>
                 </div>
@@ -148,7 +148,7 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
               return (
                 <div 
                   key={idx}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-white/[0.06] bg-[#0e0e0e] transition-all duration-700 font-mono"
+                  className="flex items-center justify-between p-2.5 rounded-lg border border-white/[0.06] bg-[#0a0a0a] transition-all duration-700 font-mono"
                   style={{ opacity: card2DecayIdx === idx ? 0.3 : 0.95 }}
                 >
                   <div className="flex items-center gap-2 truncate mr-2">
@@ -174,7 +174,7 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
             </p>
           </div>
 
-          <div className="mt-5 border border-white/[0.04] bg-[#0e0e0e] rounded-xl p-3 space-y-2.5 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
+          <div className="mt-5 border border-white/[0.06] bg-[#0a0a0a] rounded-lg p-3 space-y-2.5 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-1 text-zinc-500 font-semibold font-mono">
               <span>Slack Search Query</span>
               <span className="flex items-center gap-1 font-mono text-zinc-600">
@@ -233,8 +233,8 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
             </p>
           </div>
 
-          <div className="mt-5 border border-white/[0.04] bg-[#0e0e0e] rounded-xl p-3 space-y-2 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex justify-between border-b border-zinc-900 pb-1 text-zinc-500 font-semibold font-mono">
+          <div className="mt-5 border border-white/[0.06] bg-[#0a0a0a] rounded-lg p-3 space-y-2 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
+            <div className="flex justify-between border-b border-white/[0.06] pb-1 text-zinc-500 font-semibold font-mono">
               <span>Server stdout stream</span>
               <span className="text-zinc-600 font-mono">stdout.log</span>
             </div>

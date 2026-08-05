@@ -40,9 +40,9 @@ function InteractiveTerminal() {
 
   return (
     <div className="w-full max-w-2xl mx-auto font-mono text-xs">
-      <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-2xl overflow-hidden text-left isolation-auto">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-2xl overflow-hidden text-left isolation-auto flex flex-col">
         {/* Title Bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-[#1a1a1a] rounded-t-2xl">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
@@ -71,7 +71,7 @@ function InteractiveTerminal() {
         </div>
 
         {/* Content body */}
-        <div className="p-5 min-h-[150px] flex flex-col justify-between gap-4">
+        <div className="p-5 min-h-[150px] flex flex-col justify-between gap-4 bg-[#0a0a0a] rounded-b-2xl">
           <div className="flex flex-col gap-2">
             <div className="text-[#f5f0eb] flex items-center gap-2 text-sm font-mono">
               <span className="text-emerald-400 select-none">$</span>

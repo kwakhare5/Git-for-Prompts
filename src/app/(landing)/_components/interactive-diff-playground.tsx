@@ -38,17 +38,17 @@ export function InteractiveDiffPlayground() {
   const [model, setModel] = useState('llama-3.3-70b-versatile');
 
   return (
-    <section className="px-6 py-10 max-w-6xl mx-auto">
+    <section className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 select-none font-sans">
       {/* Header */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-mono text-zinc-400 mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           Live Playground
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight font-sans">
           Try the Diff Playground.
         </h2>
-        <p className="mt-3 text-zinc-400 max-w-lg mx-auto text-sm leading-relaxed font-light">
+        <p className="mt-3 text-zinc-400 max-w-lg mx-auto text-sm leading-relaxed font-light font-sans">
           Compare prompt templates side-by-side. Inspect line-level changes and model configuration diffs in real time.
         </p>
       </div>
@@ -59,10 +59,10 @@ export function InteractiveDiffPlayground() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-2xl overflow-hidden"
+        className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-2xl overflow-hidden"
       >
         {/* Model Controls Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-3 border-b border-white/[0.08] bg-[#111111]">
+        <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-3 border-b border-white/[0.06] bg-[#121212]">
           <div className="flex items-center gap-4 text-xs font-mono">
             <span className="text-zinc-500 uppercase tracking-wider text-[10px]">Model Config</span>
             <div className="flex items-center gap-2">

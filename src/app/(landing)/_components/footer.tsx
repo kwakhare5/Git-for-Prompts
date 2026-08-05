@@ -30,7 +30,7 @@ const LINKS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] mt-12">
+    <footer className="border-t border-white/[0.08] mt-24">
       <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1 flex flex-col gap-4">

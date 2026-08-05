@@ -44,7 +44,7 @@ export default async function DashboardExplorePage() {
   }
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
       {/* Header — identical layout to DashboardPage */}
       <div className="flex items-center justify-between mb-8">
         <div>

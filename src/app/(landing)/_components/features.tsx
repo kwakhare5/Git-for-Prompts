@@ -1,7 +1,6 @@
-'use client';
-
 import { HardDrive, History, GitCompare, Zap, Cloud, Webhook } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
 const FEATURES = [
   {
@@ -50,7 +49,7 @@ const FEATURES = [
 
 export function Features() {
   return (
-    <section id="features" className="px-6 py-12 max-w-6xl mx-auto">
+    <section id="features" className="max-w-6xl mx-auto px-6 border-t border-white/[0.08] pt-24 pb-12 select-none font-sans">
       {/* Header */}
       <div className="text-center mb-10">
         <p className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-500 mb-2">Features</p>
@@ -67,9 +66,9 @@ export function Features() {
         {FEATURES.map((feature) => {
           const Icon = feature.icon;
           return (
-            <div
+            <Card
               key={feature.title}
-              className="group rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-3.5 hover:border-white/[0.14] hover:bg-[#1a1a1a] transition-all"
+              className="group p-5 flex flex-col gap-3.5"
             >
               {/* Vector Icon Badge */}
               <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300 group-hover:border-white/20 transition-colors">
@@ -94,7 +93,7 @@ export function Features() {
                   </Badge>
                 ))}
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>

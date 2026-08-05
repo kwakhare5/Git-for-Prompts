@@ -21,7 +21,7 @@ export default async function ApiKeysPage() {
   }));
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-6 lg:p-8 space-y-8 select-none font-sans">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-zinc-50">API Keys</h1>
@@ -38,26 +38,26 @@ export default async function ApiKeysPage() {
 
         {/* Right — API reference panel */}
         <aside className="flex flex-col gap-4 lg:sticky lg:top-8">
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 flex flex-col gap-4">
-            <h2 className="text-sm font-semibold text-zinc-300">API reference</h2>
+          <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-4 shadow-xl">
+            <h2 className="text-sm font-semibold text-white font-sans">API reference</h2>
 
             <div>
-              <p className="text-xs text-zinc-500 mb-2">Fetch the latest version of any prompt you own:</p>
-              <code className="block rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-300 whitespace-pre">
+              <p className="text-xs text-zinc-400 font-light mb-2">Fetch the latest version of any prompt you own:</p>
+              <code className="block rounded-lg border border-white/[0.06] bg-[#0a0a0a] px-3 py-3 font-mono text-[11px] text-zinc-300 whitespace-pre">
                 {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
               </code>
             </div>
 
             <div>
-              <p className="text-xs text-zinc-500 mb-2">Response shape:</p>
-              <code className="block rounded-lg border border-zinc-800 bg-zinc-950 px-3 py-3 font-mono text-[11px] text-zinc-400 whitespace-pre">
+              <p className="text-xs text-zinc-400 font-light mb-2">Response shape:</p>
+              <code className="block rounded-lg border border-white/[0.06] bg-[#0a0a0a] px-3 py-3 font-mono text-[11px] text-zinc-400 whitespace-pre">
                 {`{\n  "promptId": "uuid",\n  "promptName": "string",\n  "versionNumber": 3,\n  "commitMessage": "string | null",\n  "content": "string",\n  "createdAt": "ISO 8601"\n}`}
               </code>
             </div>
 
-            <div className="flex flex-wrap gap-3 text-xs pt-1 border-t border-zinc-800">
-              <span className="flex items-center gap-1.5 text-zinc-500">
-                <span className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-emerald-500">200</span>
+            <div className="flex flex-wrap gap-3 text-xs pt-1 border-t border-white/[0.06]">
+              <span className="flex items-center gap-1.5 text-zinc-500 font-mono">
+                <span className="rounded bg-white/10 border border-white/10 px-1.5 py-0.5 font-mono text-emerald-400">200 OK</span>
                 Success
               </span>
               <span className="flex items-center gap-1.5 text-zinc-500">
