@@ -114,10 +114,19 @@ export function Hero({ onTrySandbox }: HeroProps) {
         transition={{ duration: 0.4 }}
         className="flex items-center gap-3 z-10"
       >
-        <Badge variant="outline" className="gap-2 border-white/10 bg-white/[0.03] text-zinc-300 px-3 py-1 font-mono text-xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          Open source · SQLite Wasm + Cloud Sync
-        </Badge>
+        <Link
+          href="#features"
+          className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] p-1 pr-3.5 text-xs font-mono text-zinc-300 hover:border-white/20 hover:bg-white/[0.06] active:scale-[0.97] transition-all cursor-pointer group shadow-inner"
+        >
+          <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-emerald-400 border border-emerald-500/20 font-mono">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            v2.0 RELEASE
+          </span>
+          <span className="text-zinc-300 group-hover:text-white transition-colors">
+            Open Source · SQLite Wasm + Cloud Sync
+          </span>
+          <span className="text-zinc-500 group-hover:text-zinc-300 transition-colors ml-0.5">→</span>
+        </Link>
       </motion.div>
 
       {/* Headline */}
