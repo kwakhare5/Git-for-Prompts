@@ -31,7 +31,7 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
   const passRate =
     prompt.testsTotal > 0
       ? `${prompt.testsPassed}/${prompt.testsTotal}`
-      : '—';
+      : 'Untested';
 
   const passRateColor =
     prompt.testsTotal === 0
