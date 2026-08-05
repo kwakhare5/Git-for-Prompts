@@ -74,7 +74,7 @@ export function SandboxWorkspace() {
                 <button
                   key={tab}
                   onClick={() => setActiveSubTab(tab)}
-                  className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                  className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider border-b-2 transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] cursor-pointer ${
                     activeSubTab === tab
                       ? 'border-white text-white font-bold'
                       : 'border-transparent text-zinc-500 hover:text-zinc-300'

@@ -46,7 +46,7 @@ export function TestCaseCard({
   return (
     <div
       className={cn(
-        'relative rounded-lg border bg-zinc-900 p-4 transition-all',
+        'relative rounded-lg border bg-zinc-900 p-4 transition-all duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]',
         /* #03: blue-500 replaced with sky-500 — sky is the designated in-progress accent;
            it was the only place blue was used, creating an undeclared 5th palette colour */
         status === 'running'

@@ -1,13 +1,9 @@
 'use client';
 
 import { Hero } from './hero';
-import { Features } from './features';
-import { QuickStart } from './quickstart';
 import { InteractiveDiffPlayground } from './interactive-diff-playground';
-import { ComparisonTable } from './comparison-table';
 import { FixesSection } from './fixes-section';
-import { SdkSection } from './sdk-section';
-import { TestSuiteInfo } from './test-suite-info';
+import { DeveloperPlatform } from './developer-platform';
 import { SecurityInfo } from './security-info';
 import { Footer } from './footer';
 
@@ -18,15 +14,20 @@ interface TourTabProps {
 export function TourTab({ onOpenSandbox }: TourTabProps) {
   return (
     <div className="w-full space-y-0 py-4 bg-[#111111]">
+      {/* 1. Hero & Instant Monaco Diff Proof */}
       <Hero onTrySandbox={onOpenSandbox} />
-      <Features />
-      <QuickStart />
       <InteractiveDiffPlayground />
-      <ComparisonTable />
+
+      {/* 2. What We Help Teams Fix (4 Core Solutions) */}
       <FixesSection onOpenSandbox={onOpenSandbox} />
-      <SdkSection />
-      <TestSuiteInfo />
+
+      {/* 3. Unified Evals & Developer SDK Integration */}
+      <DeveloperPlatform />
+
+      {/* 4. Enterprise Trust & Security */}
       <SecurityInfo />
+
+      {/* Footer */}
       <Footer />
     </div>
   );
