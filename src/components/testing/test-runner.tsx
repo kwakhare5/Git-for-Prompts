@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { TestCaseCard } from '@/components/test-case-card';
+import { TestCaseCard } from './test-case-card';
 import { Spinner } from '@/components/ui/spinner';
 import { createTestCase, runTestsForVersion } from '@/lib/actions/tests';
 import { formatVersionLabel } from '@/lib/format-version-label';

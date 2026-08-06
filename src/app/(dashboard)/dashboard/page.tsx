@@ -1,13 +1,14 @@
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { getAuthUserId } from "@/lib/auth";
 import { db } from "@/db";
 import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { PromptTable } from "@/components/prompt-table";
+import { Topbar } from '@/components/layout/topbar';
+import { PromptTable } from '@/components/prompts/prompt-table';
+import { QuickCreateModal } from '@/components/prompts/quick-create-modal';
 import { EmptyState } from "@/components/ui/empty-state";
-import { Topbar } from "@/components/topbar";
-import { QuickCreateModal } from "@/components/quick-create-modal";
+import { Card } from "@/components/ui/card";
 import { Layers, CheckCircle, Key, GitBranch } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
@@ -120,10 +121,9 @@ export default async function DashboardPage() {
         >
           <QuickCreateModal />
         </PageHeader>
-
         {/* Top Metric Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
+          <Card className="p-4 space-y-1.5 group cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Bundles
@@ -138,9 +138,9 @@ export default async function DashboardPage() {
             <p className="text-xs text-zinc-400 font-mono">
               Immutable version control
             </p>
-          </div>
+          </Card>
 
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
+          <Card className="p-4 space-y-1.5 group cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Versions
@@ -155,9 +155,9 @@ export default async function DashboardPage() {
             <p className="text-xs text-zinc-400 font-mono">
               Immutable snapshots saved
             </p>
-          </div>
+          </Card>
 
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
+          <Card className="p-4 space-y-1.5 group cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Avg Pass Rate
@@ -172,9 +172,9 @@ export default async function DashboardPage() {
             <p className="text-xs text-zinc-400 font-mono">
               Automated AI test suite
             </p>
-          </div>
+          </Card>
 
-          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
+          <Card className="p-4 space-y-1.5 group cursor-default">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Active API Keys
@@ -191,7 +191,7 @@ export default async function DashboardPage() {
                 <Link href="/dashboard/api-keys" className="text-zinc-300 hover:text-white underline underline-offset-2 transition-colors">Create an API key</Link>
               ) : 'SHA-256 credentials'}
             </p>
-          </div>
+          </Card>
         </div>
 
         {/* Empty state */}

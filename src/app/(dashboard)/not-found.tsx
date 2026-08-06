@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { BrandLogo } from '@/components/brand-logo';
-import { StatusBadge } from '@/components/status-badge';
+import { BrandLogo } from '@/components/layout/brand-logo';
+import { StatusBadge } from '@/components/layout/status-badge';
 import { Compass, Home } from 'lucide-react';
 
 export default function NotFound() {

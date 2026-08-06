@@ -9,7 +9,6 @@
 
 export {
   extractVariables,
-  extractBundleVariables,
   interpolateVariables,
-  interpolateBundle,
 } from '@gfp/core';
+

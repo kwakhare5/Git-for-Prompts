@@ -1,13 +1,13 @@
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/layout/page-header";
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { eq, desc, inArray } from 'drizzle-orm';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ForkButton } from '@/components/fork-button';
+import { ForkButton } from '@/components/prompts/fork-button';
 import { EmptyState } from '@/components/ui/empty-state';
-import { RelativeTime } from '@/components/relative-time';
-import { Topbar } from '@/components/topbar';
+import { RelativeTime } from '@/components/layout/relative-time';
+import { Topbar } from '@/components/layout/topbar';
 import { Compass, ArrowUpRight, Terminal } from 'lucide-react';
 
 export const metadata: Metadata = {

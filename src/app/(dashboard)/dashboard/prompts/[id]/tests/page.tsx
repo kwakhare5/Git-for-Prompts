@@ -4,7 +4,7 @@ import { prompts, versions, testCases } from '@/db/schema';
 import { and, eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { TestRunner } from '@/components/test-runner';
+import { TestRunner } from '@/components/testing/test-runner';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';

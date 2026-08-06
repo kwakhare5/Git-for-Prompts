@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Plus, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { CommandTrigger } from '@/components/command-trigger';
+import { CommandTrigger } from './command-trigger';
 
 export function Topbar() {
   const pathname = usePathname();
