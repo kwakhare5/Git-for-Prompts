@@ -46,8 +46,8 @@ function InteractiveTerminal() {
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-            <span className="ml-2 text-[11px] text-zinc-400 select-none flex items-center gap-1.5">
-              <TerminalIcon className="w-3.5 h-3.5 text-zinc-500" />
+            <span className="ml-2 text-xs text-zinc-400 select-none flex items-center gap-1.5 font-mono">
+              <TerminalIcon className="w-3.5 h-3.5 text-zinc-400" />
               gfp CLI — terminal
             </span>
           </div>
@@ -57,10 +57,10 @@ function InteractiveTerminal() {
               <button
                 key={s.cmd}
                 onClick={() => setActiveStep(idx)}
-                className={`px-2 py-0.5 rounded text-[10px] transition-colors cursor-pointer ${
+                className={`px-2.5 py-0.5 rounded text-xs transition-colors cursor-pointer font-mono ${
                   activeStep === idx
-                    ? 'bg-white/10 text-white font-medium'
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
                 Step {idx + 1}
@@ -81,9 +81,9 @@ function InteractiveTerminal() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] text-[11px] text-zinc-500 font-mono">
+          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] text-xs text-zinc-400 font-mono">
             <span>{step.description}</span>
-            <span className="text-zinc-600">Click steps 1-4 to switch</span>
+            <span className="text-zinc-400">Click steps 1-4 to switch</span>
           </div>
         </div>
       </div>

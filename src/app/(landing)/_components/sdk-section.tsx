@@ -81,7 +81,7 @@ function MockTerminal() {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col justify-end p-4 font-mono text-[10px] sm:text-[11px] leading-relaxed text-zinc-300 bg-[#0a0a0a] rounded-b-xl overflow-y-auto min-h-0 select-none no-scrollbar">
+    <div className="flex-1 flex flex-col justify-end p-4 font-mono text-xs leading-relaxed text-zinc-300 bg-[#0a0a0a] rounded-b-xl overflow-y-auto min-h-0 select-none no-scrollbar">
       <div className="space-y-1.5 font-mono">
         {lines.map((line, idx) => (
           <div key={idx} className="font-mono">

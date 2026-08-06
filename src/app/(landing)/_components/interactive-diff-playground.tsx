@@ -71,7 +71,7 @@ export function InteractiveDiffPlayground() {
         {/* Model Controls Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 px-5 py-3 border-b border-white/[0.06] bg-[#121212]">
           <div className="flex items-center gap-4 text-xs font-mono">
-            <span className="text-zinc-500 uppercase tracking-wider text-[10px]">Model Config</span>
+            <span className="text-zinc-400 uppercase tracking-wider text-xs font-semibold">Model Config</span>
             <div className="flex items-center gap-2">
               <span className="text-zinc-400">provider:</span>
               <select
@@ -111,11 +111,11 @@ export function InteractiveDiffPlayground() {
         <div className="grid grid-cols-2 divide-x divide-white/[0.08] border-b border-white/[0.08] text-xs font-mono bg-[#0e0e0e]">
           <div className="px-4 py-2 text-zinc-400 flex items-center justify-between">
             <span>v1 · Initial Draft</span>
-            <span className="text-[10px] text-zinc-600">HEAD~1</span>
+            <span className="text-xs text-zinc-500 font-mono">HEAD~1</span>
           </div>
           <div className="px-4 py-2 text-zinc-300 flex items-center justify-between">
             <span>v2 · Improved tone & team sign-off</span>
-            <span className="text-[10px] text-emerald-400">HEAD</span>
+            <span className="text-xs text-emerald-400 font-mono font-semibold">HEAD</span>
           </div>
         </div>
 
