@@ -123,8 +123,8 @@ export function DiffWipeGraphic() {
       }} />
 
       <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3 z-10">
-        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Side-by-Side Prompt Diff</span>
-        <span className="text-[9px] text-zinc-505 bg-zinc-900/70 border border-zinc-800 px-2 py-0.5 rounded font-mono font-semibold">
+        <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">Side-by-Side Prompt Diff</span>
+        <span className="text-xs text-zinc-400 bg-zinc-900/70 border border-zinc-800 px-2 py-0.5 rounded font-mono font-semibold">
           ↔ Drag handle to compare
         </span>
       </div>
@@ -140,22 +140,22 @@ export function DiffWipeGraphic() {
           <div className="p-4 h-full absolute left-0 top-0" style={{ width: `${containerWidth}px` }}>
             <div className="flex items-center gap-1.5 mb-3 pb-1.5 border-b border-emerald-950/40">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-              <span className="text-[9px] font-mono uppercase tracking-wider text-emerald-400 font-bold">v2  Refined</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">v2  Refined</span>
             </div>
 
             {/* Mock IDE Lines */}
-            <div className="font-mono text-[11px] leading-[1.8] space-y-1">
+            <div className="font-mono text-xs leading-[1.8] space-y-1">
               <div className="flex font-mono">
-                <span className="text-zinc-705 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">01</span>
-                <span className="text-zinc-400 font-mono"><span className="text-violet-400 font-mono">System</span>: You answer customer queries.</span>
+                <span className="text-zinc-500 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">01</span>
+                <span className="text-zinc-300 font-mono"><span className="text-violet-400 font-mono">System</span>: You answer customer queries.</span>
               </div>
               <div className="flex bg-emerald-950/25 border-l border-emerald-500/70 font-mono">
                 <span className="text-emerald-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900/30 mr-2 font-mono bg-emerald-950/10">02</span>
                 <span className="text-emerald-300 font-mono pr-2 truncate"><span className="text-emerald-500 mr-1 font-mono">+</span>You are a polite returns agent. Offer a full refund if broken.</span>
               </div>
               <div className="flex font-mono">
-                <span className="text-zinc-750 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">03</span>
-                <span className="text-zinc-400 font-mono">User: {"{customer_query}"}</span>
+                <span className="text-zinc-500 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">03</span>
+                <span className="text-zinc-300 font-mono">User: {"{customer_query}"}</span>
               </div>
               <div className="flex bg-emerald-950/25 border-l border-emerald-500/70 font-mono">
                 <span className="text-emerald-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900/30 mr-2 font-mono bg-emerald-950/10">04</span>
@@ -174,22 +174,22 @@ export function DiffWipeGraphic() {
           <div className="p-4 h-full absolute left-0 top-0" style={{ width: `${containerWidth}px` }}>
             <div className="flex items-center gap-1.5 mb-3 pb-1.5 border-b border-red-950/40">
               <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block animate-pulse" />
-              <span className="text-[9px] font-mono uppercase tracking-wider text-red-400 font-bold">v1  Original</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-red-400 font-bold">v1  Original</span>
             </div>
 
             {/* Mock IDE Lines */}
-            <div className="font-mono text-[11px] leading-[1.8] space-y-1">
+            <div className="font-mono text-xs leading-[1.8] space-y-1">
               <div className="flex font-mono">
-                <span className="text-zinc-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">01</span>
-                <span className="text-zinc-500 font-mono"><span className="text-violet-400 font-mono">System</span>: You answer customer queries.</span>
+                <span className="text-zinc-500 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">01</span>
+                <span className="text-zinc-400 font-mono"><span className="text-violet-400 font-mono">System</span>: You answer customer queries.</span>
               </div>
               <div className="flex bg-red-950/25 border-l border-red-500/70 font-mono">
                 <span className="text-red-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900/30 mr-2 font-mono bg-red-950/10">02</span>
                 <span className="text-red-200 font-mono pr-2 truncate"><span className="text-red-500 mr-1 font-mono">-</span>You answer questions about customer returns.</span>
               </div>
               <div className="flex font-mono">
-                <span className="text-zinc-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">03</span>
-                <span className="text-zinc-500 font-mono">User: {"{customer_query}"}</span>
+                <span className="text-zinc-500 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900 mr-2 font-mono">03</span>
+                <span className="text-zinc-400 font-mono">User: {"{customer_query}"}</span>
               </div>
               <div className="flex bg-red-950/25 border-l border-red-500/70 font-mono">
                 <span className="text-red-700 w-6 shrink-0 text-right pr-2 select-none border-r border-zinc-900/30 mr-2 font-mono bg-red-950/10">04</span>
@@ -211,17 +211,17 @@ export function DiffWipeGraphic() {
             className="absolute w-6 h-9 rounded-lg bg-zinc-900 border border-zinc-750 shadow-2xl flex items-center justify-center cursor-ew-resize pointer-events-auto hover:border-zinc-500 transition-colors"
             onMouseDown={(e) => { e.preventDefault(); setIsWiping(true); }}
           >
-            <span className="text-[10px] text-zinc-400 leading-none select-none font-bold">⟷</span>
+            <span className="text-xs text-zinc-300 leading-none select-none font-bold">⟷</span>
           </div>
         </div>
       </div>
 
       {/* Diff stats footer */}
-      <div className="flex items-center gap-3 pt-2.5 font-mono text-[9px] text-zinc-650 z-10">
+      <div className="flex items-center gap-3 pt-2.5 font-mono text-xs text-zinc-400 z-10 font-semibold">
         <span className="text-red-400/90 font-medium font-mono">−2 lines removed</span>
-        <span className="text-zinc-800 font-mono">·</span>
+        <span className="text-zinc-700 font-mono">·</span>
         <span className="text-emerald-400/90 font-medium font-mono">+2 lines added</span>
-        <span className="text-zinc-800 font-mono">·</span>
+        <span className="text-zinc-700 font-mono">·</span>
         <span className="font-mono">v1 → v2 · 3 lines modified</span>
       </div>
     </div>

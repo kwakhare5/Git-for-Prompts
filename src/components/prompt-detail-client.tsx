@@ -65,7 +65,7 @@ export function PromptDetailClient({
         </div>
         {/* Show truncation notice when history is capped */}
         {totalVersionCount > versions.length && (
-          <p className="text-[10px] text-zinc-600 font-mono">
+          <p className="text-xs text-zinc-400 font-mono">
             Showing {versions.length} of {totalVersionCount} — oldest versions not shown
           </p>
         )}
@@ -103,7 +103,7 @@ export function PromptDetailClient({
               )}
               {isPublic ? 'Public' : 'Private'}
             </span>
-            <span className="text-[10px] opacity-60">
+            <span className="text-xs opacity-70 font-mono">
               {toggling ? '…' : showSuccess ? 'Updated!' : isPublic ? 'Click to make private' : 'Click to publish'}
             </span>
           </button>

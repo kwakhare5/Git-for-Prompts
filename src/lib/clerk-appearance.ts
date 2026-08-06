@@ -20,7 +20,7 @@ export const clerkAppearance = {
     identityPreviewText: "text-zinc-300 text-xs font-mono",
     identityPreviewEditButton: "text-zinc-400 hover:text-zinc-200 text-xs",
     dividerLine: "bg-white/[0.08]",
-    dividerText: "text-zinc-500 text-[11px] font-mono uppercase tracking-widest",
+    dividerText: "text-zinc-400 text-xs font-mono uppercase tracking-widest font-semibold",
     socialButtonsBlockButton:
       "border-white/[0.08] bg-[#111111] text-[#f5f0eb] hover:bg-white/[0.04] transition-all rounded-xl text-xs font-medium",
     socialButtonsBlockButtonText: "text-zinc-200 font-medium text-xs",

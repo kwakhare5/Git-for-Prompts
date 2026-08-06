@@ -57,7 +57,7 @@ export function CommandMenu() {
               placeholder="Search commands, documentation, or CLI actions..."
               className="w-full bg-transparent text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none font-mono tracking-tight"
             />
-            <kbd className="hidden sm:inline-block text-[10px] font-mono text-zinc-400 bg-white/10 border border-white/10 rounded px-1.5 py-0.5 ml-2 select-none">
+            <kbd className="hidden sm:inline-block text-xs font-mono text-zinc-400 bg-white/10 border border-white/10 rounded px-1.5 py-0.5 ml-2 select-none">
               ESC
             </kbd>
           </div>
@@ -68,7 +68,7 @@ export function CommandMenu() {
             </Command.Empty>
 
             {/* Navigation Group */}
-            <Command.Group heading={<span className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-zinc-500 block">Navigation</span>}>
+            <Command.Group heading={<span className="px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold block">Navigation</span>}>
               <Command.Item
                 onSelect={() => runCommand(() => router.push('/dashboard'))}
                 className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.06] data-[selected=true]:bg-white/[0.08] data-[selected=true]:text-white cursor-pointer transition-colors font-sans group"
@@ -112,7 +112,7 @@ export function CommandMenu() {
             </Command.Group>
 
             {/* CLI Snippets */}
-            <Command.Group heading={<span className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-zinc-500 block mt-2">CLI Snippets</span>}>
+            <Command.Group heading={<span className="px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold block mt-2">CLI Snippets</span>}>
               <Command.Item
                 onSelect={() => runCommand(() => {
                   navigator.clipboard.writeText('npm install -g @gitforprompts/cli');
@@ -124,7 +124,7 @@ export function CommandMenu() {
                   <Terminal className="w-4 h-4 text-zinc-400" />
                   <span>npm install -g @gitforprompts/cli</span>
                 </div>
-                <span className="text-[10px] text-zinc-600 group-hover:text-zinc-400">copy</span>
+                <span className="text-xs text-zinc-500 group-hover:text-zinc-300 font-mono">copy</span>
               </Command.Item>
               <Command.Item
                 onSelect={() => runCommand(() => {
@@ -137,12 +137,12 @@ export function CommandMenu() {
                   <Layers className="w-4 h-4 text-sky-400" />
                   <span>gfp init</span>
                 </div>
-                <span className="text-[10px] text-zinc-600 group-hover:text-zinc-400">copy</span>
+                <span className="text-xs text-zinc-500 group-hover:text-zinc-300 font-mono">copy</span>
               </Command.Item>
             </Command.Group>
 
             {/* External Links */}
-            <Command.Group heading={<span className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.15em] text-zinc-500 block mt-2">Links</span>}>
+            <Command.Group heading={<span className="px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold block mt-2">Links</span>}>
               <Command.Item
                 onSelect={() => runCommand(() => window.open('https://github.com/kwakhare5/Git-for-Prompts', '_blank'))}
                 className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-zinc-300 hover:text-white hover:bg-white/[0.06] data-[selected=true]:bg-white/[0.08] data-[selected=true]:text-white cursor-pointer transition-colors font-sans group"
@@ -151,13 +151,13 @@ export function CommandMenu() {
                   <GitFork className="w-4 h-4 text-zinc-400 group-hover:text-white" />
                   <span>GitHub Repository</span>
                 </div>
-                <span className="text-[10px] text-zinc-600 group-hover:text-zinc-400">↗</span>
+                <span className="text-xs text-zinc-500 group-hover:text-zinc-300 font-mono">↗</span>
               </Command.Item>
             </Command.Group>
           </Command.List>
 
           {/* Footer Bar */}
-          <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.06] bg-[#121212] text-[10px] text-zinc-500 font-mono">
+          <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.06] bg-[#121212] text-xs text-zinc-400 font-mono font-semibold">
             <div className="flex items-center gap-3">
               <span>↑↓ Navigate</span>
               <span>↵ Select</span>

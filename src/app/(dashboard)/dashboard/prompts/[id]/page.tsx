@@ -80,16 +80,16 @@ export default async function PromptDetailPage({
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div className="min-w-0">
-              <div className="flex items-center gap-2.5">
-                <h1 className="text-xl font-extrabold text-[#f5f0eb] truncate tracking-tight">{prompt.name}</h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] truncate tracking-tight font-sans">{prompt.name}</h1>
                 {hasVersions && (
-                  <span className="shrink-0 font-mono text-xs bg-white/10 text-[#f5f0eb] border border-white/10 px-2.5 py-0.5 rounded-full font-medium">
+                  <span className="shrink-0 font-mono text-xs bg-white/10 text-[#f5f0eb] border border-white/10 px-2.5 py-0.5 rounded-full font-semibold">
                     v{allVersions[0].versionNumber}
                   </span>
                 )}
               </div>
               {prompt.description && (
-                <p className="text-xs text-zinc-400 mt-1 truncate">{prompt.description}</p>
+                <p className="text-sm text-zinc-400 mt-1 truncate font-sans leading-relaxed">{prompt.description}</p>
               )}
             </div>
           </div>

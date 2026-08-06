@@ -47,16 +47,16 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             key={tab.href}
             href={tab.href}
             className={cn(
-              'flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all text-xs font-sans font-medium cursor-pointer whitespace-nowrap',
+              'flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all text-sm font-sans font-medium cursor-pointer whitespace-nowrap',
               isActive
                 ? 'bg-[#111111] text-[#f5f0eb] border border-white/[0.08] font-semibold shadow-sm'
                 : 'text-zinc-400 hover:text-[#f5f0eb] hover:bg-white/[0.04]'
             )}
           >
-            <Icon className={cn('w-3.5 h-3.5', isActive ? 'text-[#f5f0eb]' : 'text-zinc-500')} />
+            <Icon className={cn('w-4 h-4', isActive ? 'text-[#f5f0eb]' : 'text-zinc-500')} />
             <span>{tab.label}</span>
             {tab.count !== undefined && tab.count > 0 && (
-              <span className="ml-1 text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded-full bg-white/10 text-[#f5f0eb] border border-white/10">
+              <span className="ml-1 text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/10 text-[#f5f0eb] border border-white/10">
                 {tab.count}
               </span>
             )}

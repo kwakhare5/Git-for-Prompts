@@ -147,8 +147,8 @@ export function GitTreeGraphic() {
       `}</style>
 
       <div className="flex items-center justify-between border-b border-zinc-900 pb-3 mb-2 z-10">
-        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Version History — Git Tree (Click to inspect)</span>
-        <span className="text-[10px] font-mono text-emerald-500/80 font-semibold">● Live branch: main</span>
+        <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">Version History — Git Tree (Click to inspect)</span>
+        <span className="text-xs font-mono text-emerald-400 font-semibold">● Live branch: main</span>
       </div>
 
       <div className="flex-1 relative min-h-0 z-10">
@@ -200,8 +200,8 @@ export function GitTreeGraphic() {
               strokeWidth={selectedVersion === 'v1' ? 2.5 : 1.5}
               className={selectedVersion === 'v1' ? 'svg-node-active-local' : ''}
             />
-            <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v1' ? '#34d399' : '#a1a1aa'} fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
-            <text x="100" y="180" textAnchor="middle" fill={selectedVersion === 'v1' ? '#10b981' : '#52525b'} fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
+            <text x="100" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v1' ? '#34d399' : '#a1a1aa'} fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v1</text>
+            <text x="100" y="180" textAnchor="middle" fill={selectedVersion === 'v1' ? '#10b981' : '#71717a'} fontSize="10" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>Initial draft</text>
           </g>
 
           {/* v2 circle */}
@@ -217,11 +217,11 @@ export function GitTreeGraphic() {
               strokeWidth={selectedVersion === 'v2' ? 2.5 : 1.5}
               className={selectedVersion === 'v2' ? 'svg-node-active-local' : ''}
             />
-            <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v2' ? '#34d399' : '#a1a1aa'} fontSize="10" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
+            <text x="240" y="148" textAnchor="middle" dominantBaseline="middle" fill={selectedVersion === 'v2' ? '#34d399' : '#a1a1aa'} fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v2</text>
           </g>
           
           <g className="animate-v2-text">
-            <text x="240" y="180" textAnchor="middle" fill={selectedVersion === 'v2' ? '#10b981' : '#52525b'} fontSize="9" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>+ refund fix</text>
+            <text x="240" y="180" textAnchor="middle" fill={selectedVersion === 'v2' ? '#10b981' : '#71717a'} fontSize="10" fontFamily="monospace" style={{ pointerEvents: 'none', userSelect: 'none' }}>+ refund fix</text>
           </g>
 
           {/* v3 active — glowing */}
@@ -237,16 +237,16 @@ export function GitTreeGraphic() {
               strokeWidth={selectedVersion === 'v3' ? 3.5 : 2}
               className="svg-node-active-local"
             />
-            <text x="405" y="75" textAnchor="middle" dominantBaseline="middle" fill="#34d399" fontSize="11" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v3</text>
+            <text x="405" y="75" textAnchor="middle" dominantBaseline="middle" fill="#34d399" fontSize="12" fontFamily="monospace" fontWeight="bold" style={{ pointerEvents: 'none', userSelect: 'none' }}>v3</text>
           </g>
           
           <g className="animate-v3-text">
-            <text x="405" y="40" textAnchor="middle" fill="#10b981" fontSize="9" fontFamily="monospace" fontWeight="600" style={{ pointerEvents: 'none', userSelect: 'none' }}>● Active</text>
+            <text x="405" y="40" textAnchor="middle" fill="#10b981" fontSize="10" fontFamily="monospace" fontWeight="600" style={{ pointerEvents: 'none', userSelect: 'none' }}>● Active</text>
           </g>
 
           {/* main trunk stub */}
           <circle cx="455" cy="148" r="16" fill="#09090b" stroke="#27272a" strokeWidth="1.5" />
-          <text x="455" y="148" textAnchor="middle" dominantBaseline="middle" fill="#52525b" fontSize="8" fontFamily="monospace" style={{ userSelect: 'none' }}>main</text>
+          <text x="455" y="148" textAnchor="middle" dominantBaseline="middle" fill="#71717a" fontSize="10" fontFamily="monospace" style={{ userSelect: 'none' }}>main</text>
 
           {/* Localized Floating Tooltips inside SVG viewBox */}
           {/* Tooltip v1 */}
@@ -265,9 +265,9 @@ export function GitTreeGraphic() {
             }}
           >
             <div className="bg-zinc-950/95 border border-zinc-800 rounded-lg p-2.5 shadow-xl shadow-black/40 backdrop-blur-xs pointer-events-none">
-              <div className="text-zinc-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v1</div>
-              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">Initial prompt draft</div>
-              <div className="text-zinc-500/80 font-mono text-[8px] mt-1">karan · 2h ago</div>
+              <div className="text-zinc-400 uppercase font-bold tracking-wider font-mono text-xs">Commit — v1</div>
+              <div className="text-zinc-200 font-mono text-xs mt-0.5 font-medium leading-normal">Initial prompt draft</div>
+              <div className="text-zinc-400 font-mono text-xs mt-1">karan · 2h ago</div>
             </div>
           </foreignObject>
 
@@ -287,9 +287,9 @@ export function GitTreeGraphic() {
             }}
           >
             <div className="bg-zinc-950/95 border border-zinc-800 rounded-lg p-2.5 shadow-xl shadow-black/40 backdrop-blur-xs pointer-events-none">
-              <div className="text-zinc-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v2</div>
-              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">feat: add refund check</div>
-              <div className="text-zinc-500/80 font-mono text-[8px] mt-1">karan · 45m ago</div>
+              <div className="text-zinc-400 uppercase font-bold tracking-wider font-mono text-xs">Commit — v2</div>
+              <div className="text-zinc-200 font-mono text-xs mt-0.5 font-medium leading-normal">feat: add refund check</div>
+              <div className="text-zinc-400 font-mono text-xs mt-1">karan · 45m ago</div>
             </div>
           </foreignObject>
 
@@ -309,9 +309,9 @@ export function GitTreeGraphic() {
             }}
           >
             <div className="bg-zinc-950/95 border border-emerald-500/20 rounded-lg p-2.5 shadow-xl shadow-emerald-500/5 backdrop-blur-xs pointer-events-none">
-              <div className="text-emerald-500 uppercase font-bold tracking-wider font-mono text-[8px]">Commit — v3</div>
-              <div className="text-zinc-200 font-mono text-[9px] mt-0.5 font-medium leading-normal">feat: adjust criteria (active)</div>
-              <div className="text-emerald-500/60 font-mono text-[8px] mt-1">karan · 10m ago</div>
+              <div className="text-emerald-400 uppercase font-bold tracking-wider font-mono text-xs">Commit — v3</div>
+              <div className="text-zinc-200 font-mono text-xs mt-0.5 font-medium leading-normal">feat: adjust criteria (active)</div>
+              <div className="text-emerald-400 font-mono text-xs mt-1">karan · 10m ago</div>
             </div>
           </foreignObject>
         </svg>
@@ -319,32 +319,32 @@ export function GitTreeGraphic() {
 
       {/* Dynamic bottom panel toggle */}
       {selectedVersion ? (
-        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1.5 shrink-0 z-10 animate-in fade-in slide-in-from-bottom-2 duration-300">
-          <div className="flex justify-between items-center text-[9px] text-zinc-500 uppercase font-bold border-b border-zinc-900 pb-1.5">
+        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-xs text-zinc-300 space-y-1.5 shrink-0 z-10 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <div className="flex justify-between items-center text-xs text-zinc-400 uppercase font-bold border-b border-zinc-900 pb-1.5">
             <span className="text-emerald-400 font-semibold font-mono">Prompt Inspector — {PROMPT_VERSIONS[selectedVersion].title}</span>
             <button
               onClick={() => setSelectedVersion(null)}
-              className="text-zinc-500 hover:text-zinc-300 font-mono font-bold cursor-pointer transition-colors px-1.5 py-0.5 rounded hover:bg-zinc-900"
+              className="text-zinc-400 hover:text-zinc-200 font-mono font-bold cursor-pointer transition-colors px-1.5 py-0.5 rounded hover:bg-zinc-900"
             >
               [Close X]
             </button>
           </div>
           <div className="space-y-1">
-            <div className="flex justify-between text-[9px] text-zinc-500">
+            <div className="flex justify-between text-xs text-zinc-400">
               <span className="font-mono">Commit: &quot;{PROMPT_VERSIONS[selectedVersion].commit}&quot;</span>
               <span className="font-mono">{PROMPT_VERSIONS[selectedVersion].author}</span>
             </div>
-            <pre className="text-zinc-350 bg-zinc-950/90 border border-zinc-900 rounded p-2 text-[9px] max-h-[50px] overflow-y-auto whitespace-pre-wrap font-mono leading-relaxed">
+            <pre className="text-zinc-300 bg-zinc-950/90 border border-zinc-900 rounded p-2.5 text-xs max-h-[60px] overflow-y-auto whitespace-pre-wrap font-mono leading-relaxed">
               {PROMPT_VERSIONS[selectedVersion].content}
             </pre>
           </div>
         </div>
       ) : (
         /* Typewriter commit log */
-        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-[10px] text-zinc-400 space-y-1 shrink-0 z-10">
-          <div className="flex justify-between text-[9px] text-zinc-650 uppercase font-semibold">
+        <div className="border border-zinc-900 bg-zinc-950/70 rounded-lg p-3 font-mono text-xs text-zinc-300 space-y-1 shrink-0 z-10">
+          <div className="flex justify-between text-xs text-zinc-400 uppercase font-semibold">
             <span>Latest Commit</span>
-            <span className="text-emerald-600">branch: main</span>
+            <span className="text-emerald-400">branch: main</span>
           </div>
           <div className="flex items-center gap-1.5 text-zinc-200">
             <span className="text-emerald-400 font-semibold font-mono">commit 4d9863f</span>

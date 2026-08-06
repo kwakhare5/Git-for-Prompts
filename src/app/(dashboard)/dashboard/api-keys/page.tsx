@@ -51,14 +51,14 @@ export default async function ApiKeysPage() {
 
               <div>
                 <p className="text-xs text-zinc-400 font-sans mb-2">Fetch latest prompt version:</p>
-                <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-[11px] text-zinc-300 whitespace-pre overflow-x-auto">
+                <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-xs text-zinc-300 whitespace-pre overflow-x-auto">
                   {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
                 </code>
               </div>
 
               <div>
                 <p className="text-xs text-zinc-400 font-sans mb-2">JSON Response:</p>
-                <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-[11px] text-zinc-400 whitespace-pre overflow-x-auto">
+                <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-xs text-zinc-300 whitespace-pre overflow-x-auto">
                   {`{\n  "promptId": "uuid",\n  "versionNumber": 3,\n  "content": "string"\n}`}
                 </code>
               </div>
@@ -71,11 +71,11 @@ export default async function ApiKeysPage() {
               <p className="text-xs text-zinc-400 font-sans">
                 After copying your key, run this in your terminal to connect the CLI to your account:
               </p>
-              <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-[11px] text-zinc-300 whitespace-pre overflow-x-auto">
+              <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-xs text-zinc-300 whitespace-pre overflow-x-auto">
                 {`gfp auth <your-api-key>`}
               </code>
-              <p className="text-[11px] text-zinc-500 font-sans">
-                Then use <span className="font-mono text-zinc-400">gfp push</span> and <span className="font-mono text-zinc-400">gfp pull</span> to sync prompts between your terminal and this dashboard.
+              <p className="text-xs text-zinc-400 font-sans">
+                Then use <span className="font-mono text-zinc-300">gfp push</span> and <span className="font-mono text-zinc-300">gfp pull</span> to sync prompts between your terminal and this dashboard.
               </p>
             </div>
 

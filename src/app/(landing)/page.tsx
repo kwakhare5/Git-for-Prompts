@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div id="home" className="flex flex-col min-h-screen bg-[#111111] text-[#f5f0eb] font-sans selection:bg-zinc-800 relative overflow-x-hidden">
+    <div id="home" className="flex flex-col min-h-screen bg-[#111111] bg-grid-pattern text-[#f5f0eb] font-sans selection:bg-zinc-800 relative overflow-x-hidden">
       {/* Floating Island Header */}
       <Navbar
         activeTab={activeTab}

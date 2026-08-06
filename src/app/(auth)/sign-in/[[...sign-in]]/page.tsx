@@ -49,7 +49,7 @@ export default function SignInPage() {
 
         <div className="w-full flex items-center gap-3">
           <div className="flex-1 h-px bg-white/[0.08]" />
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">or</span>
+          <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest font-semibold">or</span>
           <div className="flex-1 h-px bg-white/[0.08]" />
         </div>
 
@@ -61,8 +61,8 @@ export default function SignInPage() {
           Enter Workspace →
         </Link>
 
-        <div className="pt-2 border-t border-white/[0.08] w-full text-[11px] text-zinc-500 font-mono">
-          Local Dev Mode · Add Clerk keys to <code className="text-zinc-300">.env.local</code> for live OAuth
+        <div className="pt-2 border-t border-white/[0.08] w-full text-xs text-zinc-400 font-mono">
+          Local Dev Mode · Add Clerk keys to <code className="text-zinc-200">.env.local</code> for live OAuth
         </div>
       </div>
     );
