@@ -13,7 +13,7 @@ interface TourTabProps {
 
 export function TourTab({ onOpenSandbox }: TourTabProps) {
   return (
-    <div className="w-full space-y-20 md:space-y-28 py-6 bg-[#111111] bg-grid-pattern relative">
+    <div className="w-full space-y-20 md:space-y-28 py-6">
       {/* 1. Hero & Instant Monaco Diff Proof */}
       <Hero onTrySandbox={onOpenSandbox} />
       <InteractiveDiffPlayground />
