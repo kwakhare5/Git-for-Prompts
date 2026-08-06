@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Topbar } from "@/components/topbar";
 import { Layers, CheckCircle, Key, Plus, GitBranch } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
 export const metadata = { title: "Dashboard · Git for Prompts" };
 
 async function getPromptsWithStats(userId: string) {

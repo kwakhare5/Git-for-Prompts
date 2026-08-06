@@ -26,8 +26,8 @@ jobs:
             const net = require('net');
             
             if (!process.env.DATABASE_URL) {
-              console.error('DATABASE_URL is not set in GitHub Secrets');
-              process.exit(1);
+              console.log('DATABASE_URL is not set in GitHub Secrets. Skipping database ping.');
+              process.exit(0);
             }
             
             const parsed = new URL(process.env.DATABASE_URL);

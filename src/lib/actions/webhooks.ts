@@ -63,7 +63,7 @@ export async function deleteWebhook(input: unknown) {
 
 export async function listWebhooks() {
   const userId = await getAuthUserId();
-  if (!userId) throw new Error('Unauthorized');
+  if (!userId) return [];
 
   return db
     .select({
