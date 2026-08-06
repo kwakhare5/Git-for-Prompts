@@ -164,30 +164,30 @@ export function Sidebar() {
             </nav>
           </div>
 
-          <div className="p-3 rounded-2xl bg-[#161616] border border-white/[0.08] space-y-2">
+          <div className="p-3.5 rounded-2xl bg-[#161616] border border-white/[0.08] space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 flex items-center gap-1.5 font-medium">
-                <Terminal className="w-3 h-3 text-zinc-400" /> CLI Ready
+              <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 font-medium">
+                <Terminal className="w-3.5 h-3.5 text-zinc-400" /> CLI Ready
               </span>
-              <span className="text-[9px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+              <span className="text-xs font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-semibold">
                 gfp CLI
               </span>
             </div>
-            <p className="text-[11px] text-zinc-500 leading-snug font-sans">
-              Run <code className="text-zinc-300 font-mono text-[10px]">gfp push</code> or <code className="text-zinc-300 font-mono text-[10px]">gfp run</code> directly from terminal.
+            <p className="text-xs text-zinc-400 leading-snug font-sans">
+              Run <code className="text-zinc-200 font-mono text-xs">gfp push</code> or <code className="text-zinc-200 font-mono text-xs">gfp run</code> directly from terminal.
             </p>
           </div>
         </div>
 
         <div className="border-t border-white/[0.08] p-3 bg-[#0e0e0e]">
-          <div className="flex items-center gap-3 p-1.5 rounded-xl bg-[#161616] border border-white/[0.08]">
+          <div className="flex items-center gap-3 p-2 rounded-xl bg-[#161616] border border-white/[0.08]">
             {hasClerkKeys ? (
               <>
                 <UserButton appearance={clerkAppearance} />
                 <div className="flex flex-col min-w-0">
-                  <span className="text-xs font-medium text-zinc-200 truncate font-sans">Account</span>
-                  <span className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-zinc-400" /> Signed in
+                  <span className="text-xs font-semibold text-zinc-200 truncate font-sans">Account</span>
+                  <span className="text-xs text-zinc-400 font-mono flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-zinc-400" /> Signed in
                   </span>
                 </div>
               </>
@@ -198,7 +198,7 @@ export function Sidebar() {
                 </div>
                 <div className="flex flex-col min-w-0">
                   <span className="text-xs font-semibold text-zinc-200 truncate font-mono">Local Dev User</span>
-                  <span className="text-[10px] text-zinc-400 font-mono flex items-center gap-1">
+                  <span className="text-xs text-zinc-400 font-mono flex items-center gap-1">
                     Offline Mode
                   </span>
                 </div>

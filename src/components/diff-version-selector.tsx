@@ -30,7 +30,7 @@ export function DiffVersionSelector({
     <div className="flex items-center gap-3 flex-wrap">
       {/* FROM selector */}
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-mono text-zinc-600 tracking-widest uppercase">
+        <span className="text-xs font-mono text-zinc-400 tracking-wider uppercase font-semibold">
           From
         </span>
         <select
@@ -47,11 +47,11 @@ export function DiffVersionSelector({
         </select>
       </div>
 
-      <span className="text-zinc-700 font-mono text-sm" aria-hidden="true">→</span>
+      <span className="text-zinc-500 font-mono text-sm" aria-hidden="true">→</span>
 
       {/* TO selector */}
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-mono text-zinc-600 tracking-widest uppercase">
+        <span className="text-xs font-mono text-zinc-400 tracking-wider uppercase font-semibold">
           To
         </span>
         <select

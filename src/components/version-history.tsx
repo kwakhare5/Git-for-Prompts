@@ -126,7 +126,7 @@ export function VersionHistory({
                     const bundle = v.bundle as unknown as PromptBundle;
                     const label = `${bundle.modelConfig?.provider ?? ''}/${bundle.modelConfig?.model ?? ''}`;
                     return label !== '/' ? (
-                      <span className="text-[10px] font-mono text-zinc-600 bg-zinc-800 border border-zinc-700 px-1.5 py-0.5 rounded">
+                      <span className="text-xs font-mono text-zinc-400 bg-zinc-800 border border-zinc-700 px-2 py-0.5 rounded font-medium">
                         {label}
                       </span>
                     ) : null;
