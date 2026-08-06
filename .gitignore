@@ -55,7 +55,6 @@ next-env.d.ts
 .superpowers/
 
 # Build artifacts / local env
-tsconfig.tsbuildinfo
 .env.local
 
 # gfp CLI local storage
