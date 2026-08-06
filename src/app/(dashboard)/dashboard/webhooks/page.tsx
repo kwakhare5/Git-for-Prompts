@@ -6,13 +6,15 @@ import { Topbar } from '@/components/topbar';
 import { Webhook, Radio } from 'lucide-react';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Webhooks · Git for Prompts',
   description: 'Register webhook URLs to receive notifications when new prompt versions are saved.',
 };
 
 export default async function WebhooksPage() {
-  const existingWebhooks = await listWebhooks();
+  const existingWebhooks = await listWebhooks().catch(() => []);
 
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
