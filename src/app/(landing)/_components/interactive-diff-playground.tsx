@@ -52,10 +52,10 @@ export function InteractiveDiffPlayground() {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           Live Playground
         </div>
-        <h2 className="text-3xl md:text-4xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
           Try the Diff Playground.
         </h2>
-        <p className="mt-2 text-zinc-400 max-w-lg mx-auto text-sm leading-relaxed font-sans">
+        <p className="mt-2 text-zinc-400 max-w-lg mx-auto text-sm text-zinc-400 leading-relaxed font-sans">
           Compare prompt templates side-by-side. Inspect line-level changes and model configuration diffs in real time.
         </p>
       </div>

@@ -130,7 +130,7 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
                 Total Bundles
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -147,7 +147,7 @@ export default async function DashboardPage() {
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
                 Total Versions
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -164,7 +164,7 @@ export default async function DashboardPage() {
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
                 Avg Pass Rate
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -181,7 +181,7 @@ export default async function DashboardPage() {
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
+              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
                 Active API Keys
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">

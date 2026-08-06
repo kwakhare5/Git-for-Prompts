@@ -118,7 +118,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-base md:text-lg text-zinc-400 max-w-xl leading-relaxed font-sans z-10"
+        className="text-sm md:text-base text-zinc-400 max-w-xl leading-relaxed font-sans z-10"
       >
         {siteConfig.tagline}
       </motion.p>

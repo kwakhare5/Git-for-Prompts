@@ -52,11 +52,11 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
 
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 pb-12 space-y-12 select-none font-sans">
-      <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
+      <div className="text-center space-y-2.5 max-w-2xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
           What we help teams fix.
         </h2>
-        <p className="text-sm md:text-base text-zinc-400 leading-relaxed font-sans">
+        <p className="text-sm text-zinc-400 leading-relaxed font-sans">
           Eliminate prompt regressions, untracked changes, author chasing, and model pipeline drifts.
         </p>
       </div>
@@ -69,9 +69,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
           <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
           
           <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-semibold block">01 / Testing & Integrity</span>
-            <h3 className="text-lg md:text-xl font-bold text-white font-sans">Untested Prompt Regressions</h3>
-            <p className="text-sm text-zinc-300 font-normal leading-relaxed font-sans">
+            <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold block">01 / Testing & Integrity</span>
+            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Untested Prompt Regressions</h3>
+            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
               You edit prompt instructions to solve an edge-case, and it silently breaks three others in production.
             </p>
           </div>
@@ -130,9 +130,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
           <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
           
           <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-semibold block">02 / Versioning & Storage</span>
-            <h3 className="text-lg md:text-xl font-bold text-white font-sans">Document Decay & Fragmentation</h3>
-            <p className="text-sm text-zinc-300 font-normal leading-relaxed font-sans">
+            <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold block">02 / Versioning & Storage</span>
+            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Document Decay & Fragmentation</h3>
+            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
               Prompts live scattered in Google Docs, Slack notes, and hardcoded in app code. Nobody knows which is active.
             </p>
           </div>
@@ -167,9 +167,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         {/* Card 3: Chasing Prompt Authors */}
         <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
           <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-semibold block">03 / Attribution audit</span>
-            <h3 className="text-lg md:text-xl font-bold text-white font-sans">Which Version Is Actually Live?</h3>
-            <p className="text-sm text-zinc-300 font-normal leading-relaxed font-sans">
+            <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold block">03 / Attribution audit</span>
+            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Which Version Is Actually Live?</h3>
+            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
               You edited the prompt last Tuesday. But which version is in production? You&apos;d need to grep git history — if it&apos;s even there.
             </p>
           </div>
@@ -226,9 +226,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         {/* Card 4: Buried Failures */}
         <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
           <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-widest font-semibold block">04 / Incident alerts</span>
-            <h3 className="text-lg md:text-xl font-bold text-white font-sans">Silenced Error Regressions</h3>
-            <p className="text-sm text-zinc-300 font-normal leading-relaxed font-sans">
+            <span className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-semibold block">04 / Incident alerts</span>
+            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Silenced Error Regressions</h3>
+            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
               LLM format breakages and parser crashes happen, but slip past because they are buried in cloud logs.
             </p>
           </div>
