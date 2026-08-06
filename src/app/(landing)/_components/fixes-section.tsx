@@ -52,11 +52,11 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
 
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 pb-12 space-y-12 select-none font-sans">
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 font-sans">
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
           What we help teams fix.
         </h2>
-        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
+        <p className="text-sm md:text-base text-zinc-400 leading-relaxed font-sans">
           Eliminate prompt regressions, untracked changes, author chasing, and model pipeline drifts.
         </p>
       </div>

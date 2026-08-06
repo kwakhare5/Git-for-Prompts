@@ -104,14 +104,14 @@ export function Hero({ onTrySandbox }: HeroProps) {
       className="relative flex flex-col items-center text-center pt-14 pb-10 px-6 max-w-6xl mx-auto gap-6"
     >
       {/* Background linear grid overlay */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
 
       {/* Headline */}
       <motion.h1
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl leading-[1.12] text-balance z-10"
+        className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#f5f0eb] max-w-4xl leading-[1.15] text-balance z-10 font-sans"
       >
         {siteConfig.headline}
       </motion.h1>
@@ -121,7 +121,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg md:text-xl text-zinc-300 max-w-2xl leading-relaxed font-normal z-10"
+        className="text-base md:text-lg text-zinc-400 max-w-xl leading-relaxed font-sans z-10"
       >
         {siteConfig.tagline}
       </motion.p>
