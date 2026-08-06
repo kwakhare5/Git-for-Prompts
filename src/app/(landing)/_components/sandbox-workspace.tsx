@@ -39,7 +39,7 @@ export function SandboxWorkspace() {
           </div>
 
           <div className="space-y-3">
-            <span className="text-[10px] font-mono tracking-wider text-zinc-500 uppercase">Version History</span>
+            <span className="text-xs font-mono tracking-wider text-zinc-400 uppercase font-semibold">Version History</span>
             <div className="space-y-1.5">
               {versions.slice().reverse().map((v) => (
                 <button
@@ -54,9 +54,9 @@ export function SandboxWorkspace() {
                       : 'bg-white/[0.02] border-white/[0.06] hover:border-white/10 text-zinc-400 hover:text-zinc-300'
                   }`}
                 >
-                  <div className="flex items-center justify-between w-full font-mono text-[10px]">
-                    <span className="font-semibold text-zinc-300">v{v.versionNumber}</span>
-                    <span className="text-zinc-500">{v.createdAt}</span>
+                  <div className="flex items-center justify-between w-full font-mono text-xs">
+                    <span className="font-semibold text-zinc-200">v{v.versionNumber}</span>
+                    <span className="text-zinc-400">{v.createdAt}</span>
                   </div>
                   <p className="text-xs truncate w-full mt-1.5 text-zinc-400 font-mono">{v.commitMessage}</p>
                 </button>
@@ -145,12 +145,12 @@ export function SandboxWorkspace() {
               <div className="flex-1 flex flex-col space-y-4 animate-in fade-in duration-200 font-mono text-xs">
                 <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-[#121212]">
                   <div>
-                    <span className="font-semibold text-zinc-200">{testCase.name}</span>
-                    <p className="text-zinc-400 text-[11px] mt-0.5">{testCase.input_text}</p>
+                    <span className="font-semibold text-zinc-200 text-sm">{testCase.name}</span>
+                    <p className="text-zinc-400 text-xs mt-0.5">{testCase.input_text}</p>
                   </div>
                   <button
                     onClick={handleRunTestCase}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] transition-all cursor-pointer font-semibold"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] transition-all cursor-pointer font-semibold text-xs"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" /> Run Test
                   </button>
@@ -158,7 +158,7 @@ export function SandboxWorkspace() {
 
                 {testResult !== 'idle' && (
                   <div className="p-4 rounded-xl border border-white/10 bg-[#0e0e0e] space-y-3">
-                    <div className="flex items-center justify-between text-[11px]">
+                    <div className="flex items-center justify-between text-xs">
                       <span className="text-zinc-400">Execution Status</span>
                       <span className={testResult === 'passed' ? 'text-emerald-400 font-bold' : 'text-amber-400'}>
                         {testResult.toUpperCase()}

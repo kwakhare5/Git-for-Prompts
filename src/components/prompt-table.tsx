@@ -89,7 +89,7 @@ function PromptTableRow({ prompt }: { prompt: PromptRow }) {
       </td>
 
       <td className="py-3.5 px-3 hidden sm:table-cell">
-        <span className={cn('font-mono text-[11px] px-2.5 py-1 rounded-full border font-semibold inline-flex items-center gap-1.5', passRateColor)}>
+        <span className={cn('font-mono text-xs px-2.5 py-1 rounded-full border font-semibold inline-flex items-center gap-1.5', passRateColor)}>
           {passRate}
         </span>
       </td>

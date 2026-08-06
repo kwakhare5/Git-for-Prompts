@@ -38,7 +38,7 @@ export default async function WebhooksPage() {
                 </h2>
                 <StatusBadge variant="sky">HMAC SHA-256</StatusBadge>
               </div>
-              <pre className="text-[11px] text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre bg-[#111111] border border-white/[0.08] rounded-xl p-3 no-scrollbar">{`POST https://your-server.com/hook
+              <pre className="text-xs text-zinc-300 font-mono leading-relaxed overflow-x-auto whitespace-pre bg-[#111111] border border-white/[0.08] rounded-xl p-3 no-scrollbar">{`POST https://your-server.com/hook
 Content-Type: application/json
 X-GFP-Signature: sha256=<hmac>
 X-GFP-Event: version.created

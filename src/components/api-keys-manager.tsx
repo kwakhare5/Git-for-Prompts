@@ -137,8 +137,8 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
           {/* curl usage hint */}
           <div className="rounded-md border border-zinc-800 bg-zinc-900/50 px-3 py-2.5">
-            <p className="text-[10px] text-zinc-500 mb-1.5 font-mono">Example usage</p>
-            <code className="font-mono text-[11px] text-zinc-400 break-all">
+            <p className="text-xs text-zinc-400 mb-1.5 font-mono font-semibold uppercase tracking-wider">Example usage</p>
+            <code className="font-mono text-xs text-zinc-300 break-all">
               {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
             </code>
           </div>
@@ -190,7 +190,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
             Active Keys
           </h2>
           {keys.length > 0 && (
-            <span className="rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-0.5 text-[10px] font-mono font-medium">
+            <span className="rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 px-2.5 py-0.5 text-xs font-mono font-semibold">
               {keys.length} Active
             </span>
           )}
@@ -214,7 +214,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
                     <span className="text-sm font-medium text-zinc-200 truncate">
                       {key.name}
                     </span>
-                    <code className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
+                    <code className="rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-400 font-medium">
                       {key.keyPrefix}••••••••
                     </code>
                   </div>

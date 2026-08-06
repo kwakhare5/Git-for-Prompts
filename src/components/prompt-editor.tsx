@@ -122,7 +122,7 @@ export function PromptEditor({
         <div className="rounded-lg overflow-hidden border border-zinc-800 flex flex-col bg-zinc-950 shadow-2xl">
           <div className="flex items-center gap-3 bg-zinc-900 border-b border-zinc-800 px-4 py-2.5">
             <div className="flex flex-col min-w-0 mr-auto">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">prompt.txt</span>
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">prompt.txt</span>
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -217,7 +217,7 @@ export function PromptEditor({
           >
             V2 · Bundle
           </button>
-          <span className="text-[10px] text-zinc-700">· V2 stores system prompt + model config + variables</span>
+          <span className="text-xs text-zinc-400">· V2 stores system prompt + model config + variables</span>
         </div>
 
         <BundleEditor
@@ -243,9 +243,9 @@ export function PromptEditor({
         {/* Header bar — now contains controls for easy access */}
         <div className="flex items-center gap-3 bg-zinc-900 border-b border-zinc-800 px-4 py-2.5">
           <div className="flex flex-col min-w-0 mr-auto">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">prompt.txt</span>
+            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">prompt.txt</span>
             {isDirty && (
-              <span className="text-[10px] font-medium text-amber-500 animate-pulse">Unsaved Changes</span>
+              <span className="text-xs font-medium text-amber-500 animate-pulse">Unsaved Changes</span>
             )}
           </div>
 
@@ -316,22 +316,22 @@ export function PromptEditor({
       {/* Footer — Stats, Variables & Errors */}
       <div className="flex flex-col gap-1.5 px-1">
         <div className="flex items-center justify-between">
-          <div className="text-[10px] text-zinc-500 font-mono tabular-nums uppercase tracking-tight">
+          <div className="text-xs text-zinc-400 font-mono tabular-nums uppercase tracking-tight font-semibold">
             {charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens
           </div>
           {error && (
-            <p role="alert" className="text-[10px] text-red-400 font-medium">{error}</p>
+            <p role="alert" className="text-xs text-red-400 font-medium">{error}</p>
           )}
         </div>
 
         {/* Variable chips — shown whenever {{var}} placeholders are detected */}
         {detectedVariables.length > 0 && (
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-zinc-600 font-mono uppercase tracking-wider shrink-0">Variables:</span>
+            <span className="text-xs text-zinc-400 font-mono uppercase tracking-wider shrink-0 font-semibold">Variables:</span>
             {detectedVariables.map((v) => (
               <span
                 key={v}
-                className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-violet-950 border border-violet-800 text-[10px] font-mono text-violet-300"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-violet-950 border border-violet-800 text-xs font-mono text-violet-300 font-medium"
               >
                 <span className="opacity-50">&#123;&#123;</span>{v}<span className="opacity-50">&#125;&#125;</span>
               </span>

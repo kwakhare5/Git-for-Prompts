@@ -144,7 +144,7 @@ export function BundleEditor({
               >
                 {tab}
                 {tab === 'variables' && detectedVariables.length > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-violet-900 text-violet-300 text-[9px] font-mono">
+                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-violet-900 text-violet-300 text-xs font-mono font-bold">
                     {detectedVariables.length}
                   </span>
                 )}
@@ -328,7 +328,7 @@ export function BundleEditor({
                   onChange={(e) => updateModelConfig('temperature', parseFloat(e.target.value))}
                   className="w-full accent-zinc-300"
                 />
-                <div className="flex justify-between text-[10px] text-zinc-600 font-mono">
+                <div className="flex justify-between text-xs text-zinc-400 font-mono font-semibold">
                   <span>0 · precise</span>
                   <span>2 · creative</span>
                 </div>
@@ -390,8 +390,8 @@ export function BundleEditor({
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-zinc-600 mt-2">
-                  Pass values via API: <code className="font-mono bg-zinc-800 px-1 rounded text-[11px]">?variables[name]=value</code>
+                <p className="text-xs text-zinc-400 mt-2">
+                  Pass values via API: <code className="font-mono bg-zinc-800 px-1.5 py-0.5 rounded text-xs text-zinc-300">?variables[name]=value</code>
                 </p>
               </div>
             )}

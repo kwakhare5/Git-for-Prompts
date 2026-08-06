@@ -77,11 +77,11 @@ export default async function DashboardExplorePage() {
                       <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57] shrink-0" />
                       <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e] shrink-0" />
                       <span className="w-2.5 h-2.5 rounded-full bg-[#28c840] shrink-0" />
-                      <span className="ml-1 text-[11px] font-mono text-zinc-400 truncate">
+                      <span className="ml-1 text-xs font-mono text-zinc-300 font-semibold truncate">
                         v{versionNum}
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 shrink-0">
+                    <span className="text-xs font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20 shrink-0 font-semibold">
                       public
                     </span>
                   </div>
@@ -107,7 +107,7 @@ export default async function DashboardExplorePage() {
                         Inspect <ArrowUpRight className="w-3 h-3 text-zinc-500" />
                       </Link>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-zinc-500 text-[11px]">
+                        <span className="text-zinc-400 text-xs font-mono">
                           <RelativeTime date={prompt.updatedAt} />
                         </span>
                         <ForkButton promptId={prompt.id} promptName={prompt.name} variant="secondary" />

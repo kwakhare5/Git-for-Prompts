@@ -130,7 +130,7 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Bundles
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -140,14 +140,14 @@ export default async function DashboardPage() {
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {promptsWithStats.length}
             </div>
-            <p className="text-[11px] text-zinc-400 font-mono">
+            <p className="text-xs text-zinc-400 font-mono">
               Immutable version control
             </p>
           </div>
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Versions
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -157,14 +157,14 @@ export default async function DashboardPage() {
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {totalVersionCount}
             </div>
-            <p className="text-[11px] text-zinc-400 font-mono">
+            <p className="text-xs text-zinc-400 font-mono">
               Immutable snapshots saved
             </p>
           </div>
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Avg Pass Rate
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -174,14 +174,14 @@ export default async function DashboardPage() {
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {avgPassRate}
             </div>
-            <p className="text-[11px] text-zinc-400 font-mono">
+            <p className="text-xs text-zinc-400 font-mono">
               Automated AI test suite
             </p>
           </div>
 
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider block font-medium">
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Active API Keys
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
@@ -191,9 +191,9 @@ export default async function DashboardPage() {
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {totalKeys}
             </div>
-            <p className="text-[11px] text-zinc-400 font-mono">
+            <p className="text-xs text-zinc-400 font-mono">
               {totalKeys === 0 ? (
-                <Link href="/dashboard/api-keys" className="text-zinc-400 hover:text-zinc-200 underline underline-offset-2 transition-colors">Create an API key</Link>
+                <Link href="/dashboard/api-keys" className="text-zinc-300 hover:text-white underline underline-offset-2 transition-colors">Create an API key</Link>
               ) : 'SHA-256 credentials'}
             </p>
           </div>
