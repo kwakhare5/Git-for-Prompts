@@ -189,9 +189,9 @@ export function BundleEditor({
           <div className="flex flex-col divide-y divide-zinc-800/60">
             {/* System prompt */}
             <div>
-              <div className="flex items-center gap-2 px-4 py-1.5 bg-zinc-900/50">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">System Prompt</span>
-                <span className="text-[10px] text-zinc-700">· Sets AI personality & instructions</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50">
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">System Prompt</span>
+                <span className="text-xs text-zinc-400 font-sans">· Sets AI personality & instructions</span>
               </div>
               <div role="region" aria-label="System prompt editor">
                 <MonacoEditor
@@ -225,9 +225,9 @@ export function BundleEditor({
 
             {/* User template */}
             <div>
-              <div className="flex items-center gap-2 px-4 py-1.5 bg-zinc-900/50">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500">User Template</span>
-                <span className="text-[10px] text-zinc-700">· Use {'{{variable}}'} placeholders</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50">
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">User Template</span>
+                <span className="text-xs text-zinc-400 font-sans">· Use {'{{variable}}'} placeholders</span>
               </div>
               <div role="region" aria-label="User template editor">
                 <MonacoEditor
