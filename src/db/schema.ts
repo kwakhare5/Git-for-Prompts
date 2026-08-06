@@ -104,7 +104,7 @@ export const apiKeys = pgTable(
     id: uuid('id').defaultRandom().primaryKey(),
     ownerId: varchar('owner_id', { length: 255 }).notNull(), // Clerk userId
     name: varchar('name', { length: 255 }).notNull(),         // "Production key"
-    keyHash: varchar('key_hash', { length: 255 }).notNull(),  // bcrypt hash — never store plaintext
+    keyHash: varchar('key_hash', { length: 255 }).default('sha256_only').notNull(),  // SHA-256 legacy placeholder — bcrypt eliminated
     keyLookupHash: varchar('key_lookup_hash', { length: 64 }).notNull(), // SHA-256 for O(1) lookup
     keyPrefix: varchar('key_prefix', { length: 10 }).notNull(), // "gfp_live_" prefix for display
     lastUsedAt: timestamp('last_used_at'),

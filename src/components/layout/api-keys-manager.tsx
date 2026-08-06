@@ -160,7 +160,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
       )}
 
       {/* ── Generate Form ── */}
-      <div className="rounded-2xl border border-border bg-card p-5 shadow-xl space-y-4 font-sans">
+      <div className="rounded-xl border border-border bg-card p-5 shadow-xl space-y-4 font-sans">
         <div>
           <h2 className="text-sm font-semibold text-foreground font-sans">Generate new key</h2>
           <p className="text-xs text-muted-foreground mt-0.5 font-sans">
@@ -206,12 +206,12 @@ export function ApiKeysManager({ initialKeys }: Props) {
         </div>
 
         {keys.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center">
+          <div className="rounded-xl border border-dashed border-border bg-card py-12 text-center">
             <p className="text-sm text-muted-foreground font-sans font-medium">No API keys yet.</p>
             <p className="text-xs text-muted-foreground mt-1 font-sans">Generate your first key above to authenticate programmatic REST API requests.</p>
           </div>
         ) : (
-          <div className="divide-y divide-border rounded-2xl border border-border bg-card overflow-hidden shadow-xl">
+          <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden shadow-xl">
             {keys.map((key) => (
               <div
                 key={key.id}

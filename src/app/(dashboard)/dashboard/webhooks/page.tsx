@@ -31,14 +31,14 @@ export default async function WebhooksPage() {
           <WebhooksClient webhooks={existingWebhooks} />
 
           <aside className="flex flex-col gap-4 lg:sticky lg:top-20 font-sans">
-            <div className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl font-sans">
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl font-sans">
               <div className="flex items-center justify-between font-mono">
                 <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
                   <Radio className="w-4 h-4 text-muted-foreground" /> Webhook Payload
                 </h2>
                 <StatusBadge variant="sky">HMAC SHA-256</StatusBadge>
               </div>
-              <pre className="text-xs text-foreground font-mono leading-relaxed overflow-x-auto whitespace-pre bg-background border border-border rounded-xl p-3 no-scrollbar">{`POST https://your-server.com/hook
+              <pre className="text-xs text-foreground font-mono leading-relaxed overflow-x-auto whitespace-pre bg-background border border-border rounded-lg p-3 no-scrollbar">{`POST https://your-server.com/hook
 Content-Type: application/json
 X-GFP-Signature: sha256=<hmac>
 X-GFP-Event: version.created
@@ -50,7 +50,7 @@ X-GFP-Event: version.created
 }`}</pre>
             </div>
 
-            <div className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm font-sans">
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm font-sans">
               <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">Workflow Steps</h2>
               <ul className="flex flex-col gap-2 text-xs text-muted-foreground font-sans mt-1">
                 <li className="flex items-start gap-2">

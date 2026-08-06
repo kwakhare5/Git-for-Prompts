@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react';
 import { createWebhook, deleteWebhook } from '@/lib/actions/webhooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { DeleteConfirmButton } from '@/components/ui/delete-confirm-button';
+import { EmptyState } from '@/components/ui/empty-state';
 
 interface Webhook {
   id: string;
@@ -23,7 +25,6 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
   const [label, setLabel] = useState('');
   const [newSecret, setNewSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleCreate() {
@@ -58,7 +59,6 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
       try {
         await deleteWebhook({ webhookId: id });
         setHooks((prev) => prev.filter((h) => h.id !== id));
-        setConfirmDeleteId(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to delete webhook');
       }
@@ -69,11 +69,11 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
     <div className="flex flex-col gap-6 font-sans">
       {/* New secret — shown once after creation */}
       {newSecret && (
-        <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col gap-2 shadow-sm font-sans">
+        <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col gap-2 shadow-sm font-sans">
           <p className="text-sm font-semibold text-emerald-400 font-sans">Webhook created — copy your secret now</p>
           <p className="text-xs text-emerald-400/80 font-sans">This will not be shown again.</p>
           <div className="flex items-center gap-2 mt-1">
-            <code className="flex-1 text-xs font-mono text-emerald-300 bg-background border border-border rounded-xl px-3.5 py-2.5 break-all">
+            <code className="flex-1 text-xs font-mono text-emerald-300 bg-background border border-border rounded-lg px-3.5 py-2.5 break-all">
               {newSecret}
             </code>
             <Button
@@ -97,7 +97,7 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
       )}
 
       {/* Create form */}
-      <div className="flex flex-col gap-4 p-6 rounded-2xl bg-card border border-border shadow-sm font-sans">
+      <div className="flex flex-col gap-4 p-6 rounded-xl bg-card border border-border shadow-sm font-sans">
         <p className="text-base font-bold text-foreground">Register new webhook</p>
         <Input
           type="url"
@@ -128,16 +128,17 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
       {/* Existing webhooks list */}
       {hooks.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border py-12 text-center bg-card">
-          <p className="text-base font-semibold text-foreground">No webhooks registered yet.</p>
-          <p className="text-xs text-muted-foreground mt-1.5 font-sans">Add your first webhook URL above.</p>
-        </div>
+        <EmptyState
+          icon="⚓"
+          heading="No webhooks registered yet"
+          description="Register a HTTP POST endpoint above to receive instant version.created payload events."
+        />
       ) : (
-        <div className="rounded-2xl border border-border bg-card divide-y divide-border shadow-sm font-sans">
+        <div className="rounded-xl border border-border bg-card divide-y divide-border shadow-sm font-sans">
           {hooks.map((hook) => (
             <div
               key={hook.id}
-              className="flex items-center justify-between gap-4 px-5 py-4 first:rounded-t-2xl last:rounded-b-2xl hover:bg-accent/40 transition-colors"
+              className="flex items-center justify-between gap-4 px-5 py-4 first:rounded-t-xl last:rounded-b-xl hover:bg-accent/40 transition-colors"
             >
               <div className="flex flex-col gap-1 min-w-0 font-sans">
                 {hook.label && (
@@ -150,37 +151,11 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
                 </span>
               </div>
 
-              {confirmDeleteId === hook.id ? (
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-muted-foreground font-sans">Delete?</span>
-                  <Button
-                    onClick={() => handleDelete(hook.id)}
-                    disabled={isPending}
-                    variant="destructive"
-                    size="sm"
-                    className="font-mono cursor-pointer"
-                  >
-                    Confirm
-                  </Button>
-                  <Button
-                    onClick={() => setConfirmDeleteId(null)}
-                    variant="ghost"
-                    size="sm"
-                    className="font-sans cursor-pointer"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => setConfirmDeleteId(hook.id)}
-                  variant="ghost"
-                  size="sm"
-                  className="text-xs text-muted-foreground hover:text-destructive font-mono cursor-pointer"
-                >
-                  Delete
-                </Button>
-              )}
+              <DeleteConfirmButton
+                onDelete={() => handleDelete(hook.id)}
+                isPending={isPending}
+                ariaLabel={`Delete webhook ${hook.label || hook.url}`}
+              />
             </div>
           ))}
         </div>

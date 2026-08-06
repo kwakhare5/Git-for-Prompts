@@ -1,15 +1,24 @@
+import dynamicImport from "next/dynamic";
 import { PageHeader, Topbar } from "@/components/layout";
 import { getAuthUserId } from "@/lib/auth";
 import { db } from "@/db";
 import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { PromptTable, QuickCreateModal, ActivityStream, type ActivityEvent, PromptAnalyticsChart } from '@/components/domain/prompts';
+import { PromptTable, QuickCreateModal, ActivityStream, type ActivityEvent } from '@/components/domain/prompts';
 import { EmptyState } from "@/components/ui/empty-state";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Layers, CheckCircle, Key, GitBranch, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const PromptAnalyticsChart = dynamicImport(
+  () => import('@/components/domain/prompts/prompt-analytics-chart').then((m) => m.PromptAnalyticsChart),
+  {
+    loading: () => <Skeleton className="h-[200px] w-full rounded-xl bg-card border border-border" />,
+  }
+);
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: "Dashboard · Git for Prompts" };

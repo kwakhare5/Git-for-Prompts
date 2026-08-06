@@ -47,7 +47,7 @@ export function CommandMenu() {
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
-      <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-popover text-popover-foreground shadow-2xl z-10 font-sans">
+      <div className="relative w-full max-w-xl overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl z-10 font-sans">
         <Command label="Command Menu" className="w-full">
           {/* Paco Coursey cmdk Search Bar */}
           <div className="flex items-center border-b border-border px-4 py-3.5 bg-muted/30">

@@ -41,7 +41,7 @@ export default async function ApiKeysPage() {
           <ApiKeysManager initialKeys={keys} />
 
           <aside className="flex flex-col gap-4 lg:sticky lg:top-20 font-sans">
-            <div className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-4 shadow-xl">
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-4 shadow-xl">
               <div className="flex items-center justify-between">
                 <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
                   <Code2 className="w-4 h-4 text-muted-foreground" /> REST API Endpoint
@@ -51,27 +51,27 @@ export default async function ApiKeysPage() {
 
               <div>
                 <p className="text-xs text-muted-foreground font-sans mb-2">Fetch latest prompt version:</p>
-                <code className="block rounded-xl border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
+                <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
                   {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
                 </code>
               </div>
 
               <div>
                 <p className="text-xs text-muted-foreground font-sans mb-2">JSON Response:</p>
-                <code className="block rounded-xl border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
+                <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
                   {`{\n  "promptId": "uuid",\n  "versionNumber": 3,\n  "content": "string"\n}`}
                 </code>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl">
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl">
               <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
                 <Code2 className="w-4 h-4 text-muted-foreground" /> Connect CLI
               </h2>
               <p className="text-xs text-muted-foreground font-sans">
                 After copying your key, run this in your terminal to connect the CLI to your account:
               </p>
-              <code className="block rounded-xl border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
+              <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
                 {`gfp auth <your-api-key>`}
               </code>
               <p className="text-xs text-muted-foreground font-sans">
@@ -79,7 +79,7 @@ export default async function ApiKeysPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm">
+            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm">
               <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-muted-foreground" /> Security Standards
               </h2>
