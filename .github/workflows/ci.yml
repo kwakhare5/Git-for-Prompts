@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Build & Test
+    name: Typecheck & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -27,10 +27,13 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      - name: Typecheck & Build
-        run: pnpm build
+      - name: Build @gfp/core
+        run: pnpm --filter @gfp/core build
 
-      - name: Run Vitest Unit & Integration Tests
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Run tests
         run: pnpm test
