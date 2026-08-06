@@ -15,7 +15,7 @@ const LINKS = [
     items: [
       { label: 'REST API', href: '#docs' },
       { label: 'CLI Reference', href: '#docs' },
-      { label: 'Webhooks', href: '#docs' },
+      { label: 'Webhooks', href: '/dashboard/webhooks' },
     ],
   },
   {
@@ -23,7 +23,6 @@ const LINKS = [
     items: [
       { label: 'GitHub', href: 'https://github.com/kwakhare5/Git-for-Prompts', external: true },
       { label: 'Twitter / X', href: 'https://x.com/kwakhare5', external: true },
-      { label: 'Changelog', href: '#' },
     ],
   },
 ];
@@ -92,7 +91,7 @@ export function Footer() {
           </a>
         </p>
         <p className="text-xs text-zinc-500">
-          Crafted for prompt engineers & LLM teams.
+          Built for developers who care about their prompts.
         </p>
       </div>
     </footer>

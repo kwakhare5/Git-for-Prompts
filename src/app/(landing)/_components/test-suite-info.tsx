@@ -46,7 +46,7 @@ export function TestSuiteInfo() {
                 <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse font-mono" />
                 <span className="text-zinc-200 font-semibold font-mono">Assert refund window check</span>
               </div>
-              <span className="text-emerald-400 font-semibold font-mono">PASS (96/100)</span>
+              <span className="text-emerald-400 font-bold font-mono">PASS ✓</span>
             </div>
 
             <div className="p-3 border border-white/[0.06] bg-[#121212] rounded-lg flex items-center justify-between font-mono">
@@ -54,7 +54,7 @@ export function TestSuiteInfo() {
                 <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse font-mono" />
                 <span className="text-zinc-200 font-semibold font-mono">Assert formal salutations</span>
               </div>
-              <span className="text-emerald-400 font-semibold font-mono">PASS (100/100)</span>
+              <span className="text-emerald-400 font-bold font-mono">PASS ✓</span>
             </div>
           </div>
 

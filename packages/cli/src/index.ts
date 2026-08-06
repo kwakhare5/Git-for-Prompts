@@ -8,23 +8,27 @@
  * Commands:
  *   gfp init                           Initialize .gfp project
  *   gfp add <name> [options]           Add/update a prompt bundle
+ *   gfp list                           List all local prompt bundles
  *   gfp history <name>                 Show version history
  *   gfp diff <name> <v1> <v2>          Compare two versions
  *   gfp run <name> [options]           Run eval tests locally
+ *   gfp test-add <name> [options]      Add a test case to a prompt
  *   gfp auth <api-key>                 Save API key for cloud sync
- *   gfp push <name>                    Sync local → cloud (Phase 4)
- *   gfp pull <name>                    Sync cloud → local (Phase 4)
+ *   gfp push <name>                    Sync local → cloud
+ *   gfp pull <name>                    Sync cloud → local
  */
 
 import { Command } from 'commander';
 import { cmdInit } from './commands/init.js';
 import { cmdAdd } from './commands/add.js';
+import { cmdList } from './commands/list.js';
 import { cmdHistory } from './commands/history.js';
 import { cmdDiff } from './commands/diff.js';
 import { cmdRun } from './commands/run.js';
 import { cmdAuth } from './commands/auth.js';
 import { cmdPush } from './commands/push.js';
 import { cmdPull } from './commands/pull.js';
+import { cmdTestAdd } from './commands/test-add.js';
 
 const program = new Command();
 
@@ -54,6 +58,15 @@ program
   .option('-m, --message <msg>', 'Commit message for this version')
   .action(async (name: string, options) => {
     await cmdAdd(name, options);
+  });
+
+// ─── list ────────────────────────────────────────────────────────────────────
+
+program
+  .command('list')
+  .description('List all locally saved prompt bundles')
+  .action(async () => {
+    await cmdList();
   });
 
 // ─── history ─────────────────────────────────────────────────────────────────
@@ -102,7 +115,20 @@ program
     cmdAuth(apiKey, options);
   });
 
-// ─── push / pull stubs ──────────────────────────────────────────────────────
+// ─── test-add ────────────────────────────────────────────────────────────────
+
+program
+  .command('test-add')
+  .argument('<name>', 'Prompt name')
+  .description('Add a test case to a local prompt (enables gfp run)')
+  .option('-n, --test-name <name>', 'Test case name')
+  .option('-i, --input <text>', 'Input text to send to the prompt')
+  .option('-c, --criteria <text>', 'Expected criteria the output should meet')
+  .action(async (name: string, options) => {
+    await cmdTestAdd(name, options);
+  });
+
+// ─── push / pull ─────────────────────────────────────────────────────────────
 
 program
   .command('push')

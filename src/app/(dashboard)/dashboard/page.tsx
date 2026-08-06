@@ -7,7 +7,7 @@ import Link from "next/link";
 import { PromptTable } from "@/components/prompt-table";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Topbar } from "@/components/topbar";
-import { Layers, CloudCheck, CheckCircle, Key, Plus } from "lucide-react";
+import { Layers, CheckCircle, Key, Plus, GitBranch } from "lucide-react";
 
 export const metadata = { title: "Dashboard · Git for Prompts" };
 
@@ -18,7 +18,7 @@ async function getPromptsWithStats(userId: string) {
     .where(eq(prompts.ownerId, userId))
     .orderBy(desc(prompts.updatedAt));
 
-  if (userPrompts.length === 0) return { promptsWithStats: [], totalKeys: 0 };
+  if (userPrompts.length === 0) return { promptsWithStats: [], totalKeys: 0, totalVersionCount: 0 };
 
   const promptIds = userPrompts.map((p) => p.id);
 
@@ -35,6 +35,7 @@ async function getPromptsWithStats(userId: string) {
   ]);
 
   const versionCountMap = new Map(versionCounts.map((r) => [r.promptId, r.count]));
+  const totalVersionCount = versionCounts.reduce((acc, r) => acc + r.count, 0);
 
   const latestVersionIds = userPrompts
     .map((p) => p.currentVersionId)
@@ -89,14 +90,14 @@ async function getPromptsWithStats(userId: string) {
     };
   });
 
-  return { promptsWithStats, totalKeys: userApiKeys.length };
+  return { promptsWithStats, totalKeys: userApiKeys.length, totalVersionCount };
 }
 
 export default async function DashboardPage() {
   const userId = await getAuthUserId();
   if (!userId) return null;
 
-  const { promptsWithStats, totalKeys } = await getPromptsWithStats(userId);
+  const { promptsWithStats, totalKeys, totalVersionCount } = await getPromptsWithStats(userId);
 
   const testedPrompts = promptsWithStats.filter((p) => p.testsTotal > 0);
   const totalPassed = testedPrompts.reduce((acc, p) => acc + p.testsPassed, 0);
@@ -146,17 +147,17 @@ export default async function DashboardPage() {
           <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-medium">
-                Cloud Sync
+                Total Versions
               </span>
               <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <CloudCheck className="w-4 h-4" />
+                <GitBranch className="w-4 h-4" />
               </div>
             </div>
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {promptsWithStats.length}
+              {totalVersionCount}
             </div>
             <p className="text-[11px] text-zinc-400 font-mono">
-              Postgres + SQLite synced
+              Immutable snapshots saved
             </p>
           </div>
 
@@ -187,10 +188,12 @@ export default async function DashboardPage() {
               </div>
             </div>
             <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {totalKeys || 1}
+              {totalKeys}
             </div>
             <p className="text-[11px] text-zinc-400 font-mono">
-              SHA-256 credentials
+              {totalKeys === 0 ? (
+                <Link href="/dashboard/api-keys" className="text-zinc-400 hover:text-zinc-200 underline underline-offset-2 transition-colors">Create an API key</Link>
+              ) : 'SHA-256 credentials'}
             </p>
           </div>
         </div>

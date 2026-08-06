@@ -32,7 +32,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
           onClick={(e) => onNavClick(e, 'docs')}
           className="text-zinc-400 hover:text-[#f5f0eb] transition-colors cursor-pointer"
         >
-          API Docs
+          Docs
         </Link>
         <button
           onClick={() => onChangeTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
