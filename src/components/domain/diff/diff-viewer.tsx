@@ -173,9 +173,7 @@ export function DiffViewer({
           theme={GFP_THEME_NAME}
           original={originalContent}
           modified={modifiedContent}
-          beforeMount={registerGfpTheme}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onMount={handleMount as any}
+          onMount={(editor) => handleMount(editor as unknown as StandaloneDiffEditor)}
           options={{
             readOnly: true,
             renderSideBySide: true,

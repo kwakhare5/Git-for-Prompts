@@ -21,4 +21,6 @@ export { extractVariables, extractBundleVariables, interpolateVariables, interpo
 export { extractJson, runWithConcurrency, runSingleTestCase, runEvaluations, runEvaluationsLegacy, } from './eval.js';
 // Diff: structural bundle comparison
 export { diffBundles, diffVersions, } from './diff.js';
+// AI Config: centralized provider & model defaults
+export { GROQ_URL, OPENROUTER_URL, DEFAULT_GROQ_EXECUTION_MODEL, DEFAULT_GROQ_EVALUATION_MODEL, DEFAULT_OPENROUTER_EXECUTION_MODEL, DEFAULT_OPENROUTER_EVALUATION_MODEL, DEFAULT_AI_TIMEOUT_MS, DEFAULT_MAX_CONCURRENT_TESTS, } from './ai-config.js';
 //# sourceMappingURL=index.js.map

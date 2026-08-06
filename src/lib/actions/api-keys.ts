@@ -4,7 +4,6 @@ import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { apiKeys } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
-import bcrypt from 'bcryptjs';
 import { randomBytes, createHash } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { createApiKeySchema, deleteApiKeySchema } from '@/lib/validations/api-key';
@@ -25,15 +24,12 @@ export async function generateApiKey(input: unknown) {
     const fullKey = `gfp_live_${rawSecret}`;
     const keyPrefix = 'gfp_live_';
 
-    // bcrypt with cost factor 10 — secure but not too slow for a one-time operation
-    const keyHash = await bcrypt.hash(fullKey, 10);
-
-    // SHA-256 for fast O(1) indexed lookup — not reversible, not a password hash
+    // SHA-256 for fast O(1) indexed lookup — not reversible, 128-bit entropy key
     const keyLookupHash = createHash('sha256').update(fullKey).digest('hex');
 
     const [created] = await db
       .insert(apiKeys)
-      .values({ name, ownerId: userId, keyHash, keyLookupHash, keyPrefix })
+      .values({ name, ownerId: userId, keyHash: 'sha256_only', keyLookupHash, keyPrefix })
       .returning();
 
     revalidatePath('/dashboard/api-keys');

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Navbar } from './_components/navbar';
-import { TourTab } from './_components/tour-tab';
-import { SandboxWorkspace } from './_components/sandbox-workspace';
+import { Navbar } from '@/components/domain/landing/navbar';
+import { TourTab } from '@/components/domain/landing/tour-tab';
+import { SandboxWorkspace } from '@/components/domain/landing/sandbox-workspace';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'tour' | 'sandbox'>('tour');

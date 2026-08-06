@@ -5,7 +5,7 @@
  * Fast feedback loop for the extraction and interpolation logic.
  */
 
-import { extractVariables, interpolateVariables } from '@/lib/variables';
+import { extractVariables, interpolateVariables } from '@gfp/core';
 
 // ─── extractVariables ────────────────────────────────────────────────────────
 

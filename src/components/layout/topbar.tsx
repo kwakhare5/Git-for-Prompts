@@ -1,15 +1,22 @@
 'use client';
 
+import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Plus, ChevronRight } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CommandTrigger } from './command-trigger';
-
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 
 export function Topbar() {
   const pathname = usePathname();
@@ -41,24 +48,32 @@ export function Topbar() {
     <header className="h-14 border-b border-border bg-background/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 font-sans">
       <div className="flex items-center gap-3">
         <SidebarTrigger />
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground font-sans">
-          <Link href="/dashboard" className="hover:text-foreground transition-colors font-medium">
-            Workspace
-          </Link>
-        {breadcrumbs.map((item, idx) => (
-          <div key={item.href} className="flex items-center gap-2">
-            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60 shrink-0" />
-            <Link
-              href={item.href}
-              className={`transition-colors font-medium ${
-                idx === breadcrumbs.length - 1 ? 'text-foreground font-semibold' : 'hover:text-foreground'
-              }`}
-            >
-              {item.label}
-            </Link>
-          </div>
-        ))}
-      </nav>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink render={<Link href="/dashboard" />}>
+                Workspace
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            {breadcrumbs.map((item, idx) => {
+              const isLast = idx === breadcrumbs.length - 1;
+              return (
+                <React.Fragment key={item.href}>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    {isLast ? (
+                      <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                    ) : (
+                      <BreadcrumbLink render={<Link href={item.href} />}>
+                        {item.label}
+                      </BreadcrumbLink>
+                    )}
+                  </BreadcrumbItem>
+                </React.Fragment>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
 
       <div className="flex items-center gap-3">

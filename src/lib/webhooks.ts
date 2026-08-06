@@ -2,10 +2,9 @@
  * Webhook delivery — fires a signed POST to all registered webhook URLs
  * for a given (ownerId, promptId) pair.
  *
- * Signing: HMAC-SHA256 of the raw JSON body, keyed off the webhook's secret.
- * The secret itself is never stored — only SHA-256(secret) is in the DB, used
- * only to identify the key for signing. The raw secret is returned once on
- * registration and stored client-side by the user.
+ * Signing: HMAC-SHA256 of the raw JSON body, keyed off SHA-256(secret).
+ * The raw secret is returned once on registration to the user; the server stores
+ * SHA-256(secret) (`secretHash`) to sign payloads without retaining plaintext secrets.
  *
  * Header: X-GFP-Signature: sha256=<hex-digest>
  * (same convention as GitHub and Stripe — widely understood by CI systems)
