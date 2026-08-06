@@ -20,10 +20,10 @@ export function BrandLogo({ href = '/', onClick, className }: BrandLogoProps) {
         <GitFork className="w-4 h-4 text-[#f5f0eb]" />
       </div>
       <div className="flex flex-col">
-        <span className="font-bold text-xs text-[#f5f0eb] tracking-tight leading-none font-sans">
+        <span className="font-extrabold text-sm text-[#f5f0eb] tracking-tight leading-none font-sans">
           Git for Prompts
         </span>
-        <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold mt-0.5">
+        <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-[0.2em] font-medium mt-0.5">
           PROMPT VCS
         </span>
       </div>

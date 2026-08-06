@@ -168,21 +168,26 @@ response = openai.chat.completions.create(
   };
 
   return (
-    <section id="docs" className="max-w-6xl mx-auto px-6 py-6 md:py-8 space-y-6 select-none font-sans">
-      <div className="max-w-2xl space-y-3">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">
+    <section id="docs" className="max-w-6xl mx-auto px-6 py-6 md:py-8 space-y-8 select-none font-sans">
+      {/* Centered Master Header */}
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 font-mono text-xs uppercase tracking-wider font-semibold">
+          <Terminal className="h-3.5 w-3.5 text-zinc-400" /> Developer SDK &amp; CLI
+        </div>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
           REST API &amp; CLI Integration
         </h2>
         <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
-          Decouple prompts from your application code. Fetch the active version at runtime via HTTP — works with any language, any framework.
+          Decouple prompts from application code. Fetch the active version at runtime via HTTP — works with any language, any framework.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch select-none">
+      {/* Symmetrical 2-Column Equal Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch select-none">
         {/* Left Column - Code tabs */}
-        <div className="lg:col-span-7 relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[350px]">
-          <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0">
-            <div className="flex items-center gap-2 flex-wrap">
+        <div className="relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[350px]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0">
+            <div className="flex items-center gap-1.5 flex-wrap">
               {[
                 { id: 'curl', label: 'cURL' },
                 { id: 'node', label: 'Node.js' },
@@ -194,7 +199,7 @@ response = openai.chat.completions.create(
                     setActiveTab(tab.id as 'curl' | 'node' | 'python');
                     setCopied(false);
                   }}
-                  className={`px-3.5 py-1.5 text-xs font-semibold font-mono rounded-lg transition-all cursor-pointer ${
+                  className={`px-3 py-1 text-xs font-semibold font-mono rounded-lg transition-all cursor-pointer ${
                     activeTab === tab.id
                       ? 'bg-white/10 text-white border border-white/10'
                       : 'text-zinc-400 hover:text-zinc-200 bg-transparent border border-transparent'
@@ -207,7 +212,7 @@ response = openai.chat.completions.create(
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#f5f0eb] transition-colors p-1.5 cursor-pointer font-mono font-semibold"
+              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#f5f0eb] transition-colors p-1 cursor-pointer font-mono font-semibold"
             >
               {copied ? (
                 <>
@@ -224,14 +229,14 @@ response = openai.chat.completions.create(
           </div>
 
           {/* Code snippet block */}
-          <pre className="p-5 overflow-y-auto text-zinc-200 font-mono text-sm leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-2xl no-scrollbar">
+          <pre className="p-4 overflow-y-auto text-zinc-200 font-mono text-xs md:text-sm leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-2xl no-scrollbar">
             <code className="font-mono">{snippets[activeTab]}</code>
           </pre>
         </div>
 
         {/* Right Column - Real CLI terminal */}
-        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[350px]">
-          <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0 select-none">
+        <div className="border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[350px]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0 select-none">
             <div className="flex gap-1.5 select-none">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/75" />
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/75" />
