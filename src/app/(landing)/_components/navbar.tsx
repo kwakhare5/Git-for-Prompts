@@ -19,7 +19,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
       <BrandLogo href="/" />
 
       {/* Unboxed Clean Text Links */}
-      <nav className="hidden md:flex items-center gap-5 text-xs font-mono font-medium">
+      <nav className="hidden md:flex items-center gap-6 text-sm font-sans font-medium">
         <Link
           href="#home"
           onClick={(e) => onNavClick(e, 'home')}

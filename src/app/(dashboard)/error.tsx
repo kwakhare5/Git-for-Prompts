@@ -36,7 +36,7 @@ export default function DashboardError({
         </div>
 
         {error.digest && (
-          <div className="w-full p-3 rounded-xl bg-[#111111] border border-white/[0.08] font-mono text-[11px] text-rose-300/80 truncate">
+          <div className="w-full p-3 rounded-xl bg-[#111111] border border-white/[0.08] font-mono text-xs text-rose-300/80 truncate">
             Digest: {error.digest}
           </div>
         )}

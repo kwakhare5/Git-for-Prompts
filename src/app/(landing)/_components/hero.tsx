@@ -46,8 +46,8 @@ function InteractiveTerminal() {
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-            <span className="ml-2 text-[11px] text-zinc-400 select-none flex items-center gap-1.5">
-              <TerminalIcon className="w-3.5 h-3.5 text-zinc-500" />
+            <span className="ml-2 text-xs text-zinc-400 select-none flex items-center gap-1.5 font-mono">
+              <TerminalIcon className="w-3.5 h-3.5 text-zinc-400" />
               gfp CLI — terminal
             </span>
           </div>
@@ -57,10 +57,10 @@ function InteractiveTerminal() {
               <button
                 key={s.cmd}
                 onClick={() => setActiveStep(idx)}
-                className={`px-2 py-0.5 rounded text-[10px] transition-colors cursor-pointer ${
+                className={`px-2.5 py-0.5 rounded text-xs transition-colors cursor-pointer font-mono ${
                   activeStep === idx
-                    ? 'bg-white/10 text-white font-medium'
-                    : 'text-zinc-500 hover:text-zinc-300'
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-zinc-400 hover:text-zinc-200'
                 }`}
               >
                 Step {idx + 1}
@@ -81,9 +81,9 @@ function InteractiveTerminal() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] text-[11px] text-zinc-500 font-mono">
+          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] text-xs text-zinc-400 font-mono">
             <span>{step.description}</span>
-            <span className="text-zinc-600">Click steps 1-4 to switch</span>
+            <span className="text-zinc-400">Click steps 1-4 to switch</span>
           </div>
         </div>
       </div>
@@ -101,17 +101,14 @@ export function Hero({ onTrySandbox }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative flex flex-col items-center text-center pt-14 pb-10 px-6 max-w-6xl mx-auto gap-6"
+      className="relative flex flex-col items-center text-center pt-8 pb-6 px-6 max-w-6xl mx-auto gap-5"
     >
-      {/* Background linear grid overlay */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
-
       {/* Headline */}
       <motion.h1
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-4xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.15] text-balance z-10"
+        className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#f5f0eb] max-w-4xl leading-[1.15] text-balance z-10 font-sans"
       >
         {siteConfig.headline}
       </motion.h1>
@@ -121,7 +118,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-base md:text-lg text-zinc-400 max-w-xl leading-relaxed font-light z-10"
+        className="text-sm md:text-base text-zinc-400 max-w-xl leading-relaxed font-sans z-10"
       >
         {siteConfig.tagline}
       </motion.p>

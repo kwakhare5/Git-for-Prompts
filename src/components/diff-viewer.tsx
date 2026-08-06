@@ -108,7 +108,7 @@ export function DiffViewer({
       {/* Bundle structural diff header — only when both versions are V2 */}
       {showBundleHeader && (
         <div className="flex items-start gap-4 rounded-t-lg border border-b-0 border-zinc-800 bg-zinc-900/70 px-4 py-2.5">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 shrink-0 mt-0.5">Bundle</span>
+          <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold shrink-0 mt-0.5">Bundle</span>
           <div className="flex flex-wrap gap-3 text-xs font-mono">
             {modelChanged ? (
               <span>

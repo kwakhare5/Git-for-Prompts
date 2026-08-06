@@ -34,13 +34,13 @@ export function Topbar() {
 
   return (
     <header className="h-14 border-b border-white/[0.08] bg-[#111111]/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 select-none font-sans">
-      <nav className="flex items-center gap-1.5 text-xs text-zinc-400 font-sans">
+      <nav className="flex items-center gap-2 text-sm text-zinc-400 font-sans">
         <Link href="/dashboard" className="hover:text-[#f5f0eb] transition-colors font-medium">
           Workspace
         </Link>
         {breadcrumbs.map((item, idx) => (
-          <div key={item.href} className="flex items-center gap-1.5">
-            <ChevronRight className="w-3 h-3 text-zinc-600 shrink-0" />
+          <div key={item.href} className="flex items-center gap-2">
+            <ChevronRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
             <Link
               href={item.href}
               className={`transition-colors font-medium ${

@@ -69,23 +69,23 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
     <div className="flex flex-col gap-6">
       {/* New secret — shown once after creation */}
       {newSecret && (
-        <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-800 flex flex-col gap-2">
-          <p className="text-xs font-semibold text-emerald-400">Webhook created — copy your secret now</p>
-          <p className="text-[11px] text-emerald-600">This will not be shown again.</p>
+        <div className="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 flex flex-col gap-2 shadow-sm">
+          <p className="text-sm font-semibold text-emerald-400 font-sans">Webhook created — copy your secret now</p>
+          <p className="text-xs text-emerald-500 font-sans">This will not be shown again.</p>
           <div className="flex items-center gap-2 mt-1">
-            <code className="flex-1 text-xs font-mono text-emerald-300 bg-zinc-950 border border-zinc-800 rounded px-3 py-2 break-all">
+            <code className="flex-1 text-xs font-mono text-emerald-300 bg-[#111111] border border-white/[0.08] rounded-xl px-3.5 py-2.5 break-all">
               {newSecret}
             </code>
             <button
               onClick={() => navigator.clipboard.writeText(newSecret)}
-              className="shrink-0 text-xs text-zinc-400 hover:text-zinc-200 px-3 py-2 rounded border border-zinc-700 hover:border-zinc-600 transition-colors"
+              className="shrink-0 text-xs text-zinc-300 hover:text-white px-3.5 py-2.5 rounded-xl border border-white/[0.1] hover:border-white/20 transition-all font-mono font-semibold"
             >
               Copy
             </button>
           </div>
           <button
             onClick={() => setNewSecret(null)}
-            className="self-end text-[11px] text-zinc-600 hover:text-zinc-400 transition-colors mt-1"
+            className="self-end text-xs text-zinc-400 hover:text-zinc-200 transition-colors mt-1 font-mono"
           >
             Dismiss
           </button>
@@ -93,14 +93,14 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
       )}
 
       {/* Create form */}
-      <div className="flex flex-col gap-3 p-4 rounded-xl bg-zinc-900/40 border border-zinc-800">
-        <p className="text-xs font-semibold text-zinc-300">Register new webhook</p>
+      <div className="flex flex-col gap-4 p-6 rounded-2xl bg-[#161616] border border-white/[0.08] shadow-sm font-sans">
+        <p className="text-base font-bold text-[#f5f0eb]">Register new webhook</p>
         <input
           type="url"
           placeholder="https://your-server.com/webhook"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="bg-zinc-950 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+          className="bg-[#111111] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
         />
         <input
           type="text"
@@ -108,13 +108,13 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           maxLength={255}
-          className="bg-zinc-950 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+          className="bg-[#111111] border border-white/[0.08] rounded-xl px-3.5 py-2.5 text-sm text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
         />
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-red-400 font-mono">{error}</p>}
         <button
           onClick={handleCreate}
           disabled={isPending || !url.trim()}
-          className="self-start bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-sm font-medium px-4 py-2 rounded-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="self-start bg-[#f5f0eb] hover:bg-white text-zinc-950 text-xs font-semibold px-4 py-2.5 rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-sm"
         >
           {isPending ? 'Creating…' : 'Add Webhook'}
         </button>
@@ -122,23 +122,23 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
       {/* Existing webhooks list */}
       {hooks.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-zinc-800 py-12 text-center">
-          <p className="text-sm text-zinc-500">No webhooks registered yet.</p>
-          <p className="text-xs text-zinc-600 mt-1">Add your first webhook URL above.</p>
+        <div className="rounded-2xl border border-dashed border-white/[0.08] py-12 text-center bg-[#161616]">
+          <p className="text-base font-semibold text-[#f5f0eb]">No webhooks registered yet.</p>
+          <p className="text-xs text-zinc-400 mt-1.5 font-sans">Add your first webhook URL above.</p>
         </div>
       ) : (
-        <div className="rounded-xl border border-zinc-800 divide-y divide-zinc-800">
+        <div className="rounded-2xl border border-white/[0.08] bg-[#161616] divide-y divide-white/[0.08] shadow-sm">
           {hooks.map((hook) => (
             <div
               key={hook.id}
-              className="flex items-center justify-between gap-4 px-4 py-3.5 first:rounded-t-xl last:rounded-b-xl hover:bg-zinc-800/30 transition-colors"
+              className="flex items-center justify-between gap-4 px-5 py-4 first:rounded-t-2xl last:rounded-b-2xl hover:bg-white/[0.02] transition-colors"
             >
-              <div className="flex flex-col gap-0.5 min-w-0">
+              <div className="flex flex-col gap-1 min-w-0 font-sans">
                 {hook.label && (
-                  <span className="text-xs font-medium text-zinc-300 truncate">{hook.label}</span>
+                  <span className="text-sm font-semibold text-[#f5f0eb] truncate">{hook.label}</span>
                 )}
-                <span className="text-xs font-mono text-zinc-500 truncate">{hook.url}</span>
-                <span className="text-[10px] text-zinc-700">
+                <span className="text-xs font-mono text-zinc-400 truncate">{hook.url}</span>
+                <span className="text-xs font-mono text-zinc-500">
                   {hook.promptId ? `Prompt-specific` : 'Global'} ·{' '}
                   {new Date(hook.createdAt).toLocaleDateString()}
                 </span>
@@ -146,17 +146,17 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
               {confirmDeleteId === hook.id ? (
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-zinc-400">Delete?</span>
+                  <span className="text-xs text-zinc-400 font-sans">Delete?</span>
                   <button
                     onClick={() => handleDelete(hook.id)}
                     disabled={isPending}
-                    className="text-xs text-red-400 hover:text-red-300 transition-colors px-2 py-1 rounded border border-red-900 hover:border-red-700"
+                    className="text-xs text-red-400 hover:text-red-300 transition-colors px-2.5 py-1 rounded-lg border border-red-900/60 bg-red-950/40 font-mono font-semibold"
                   >
                     Confirm
                   </button>
                   <button
                     onClick={() => setConfirmDeleteId(null)}
-                    className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors font-sans"
                   >
                     Cancel
                   </button>
@@ -164,7 +164,7 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
               ) : (
                 <button
                   onClick={() => setConfirmDeleteId(hook.id)}
-                  className="shrink-0 text-xs text-zinc-600 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-950/20"
+                  className="shrink-0 text-xs text-zinc-500 hover:text-red-400 transition-colors px-2.5 py-1 rounded-lg hover:bg-red-950/20 font-mono"
                 >
                   Delete
                 </button>

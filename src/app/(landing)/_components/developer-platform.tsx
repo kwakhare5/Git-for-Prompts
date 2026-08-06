@@ -5,7 +5,7 @@ import { SdkSection } from './sdk-section';
 
 export function DeveloperPlatform() {
   return (
-    <div id="docs" className="space-y-16">
+    <div id="docs" className="space-y-6">
       <TestSuiteInfo />
       <SdkSection />
     </div>

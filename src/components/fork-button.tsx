@@ -54,7 +54,7 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
         {isPending ? 'Forking…' : 'Fork'}
       </button>
       {error && (
-        <p className="text-[11px] text-red-400 leading-tight max-w-[180px]">{error}</p>
+        <p className="text-xs text-red-400 font-mono leading-tight max-w-[180px]">{error}</p>
       )}
     </div>
   );

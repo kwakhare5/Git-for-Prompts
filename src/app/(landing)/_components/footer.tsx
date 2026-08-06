@@ -33,13 +33,13 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
-          <div className="text-white font-semibold tracking-tight text-sm">
+          <div className="text-[#f5f0eb] font-bold tracking-tight text-base font-sans">
             git for prompts
           </div>
-          <p className="text-xs text-zinc-500 leading-relaxed max-w-[200px]">
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-[220px] font-sans">
             {siteConfig.tagline}
           </p>
-          <p className="text-[10px] font-mono text-zinc-700 mt-auto">
+          <p className="text-xs font-mono text-zinc-500 mt-auto">
             MIT License
           </p>
         </div>
@@ -47,10 +47,10 @@ export function Footer() {
         {/* Link groups */}
         {LINKS.map((group) => (
           <div key={group.group} className="flex flex-col gap-3">
-            <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-zinc-600">
+            <p className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">
               {group.group}
             </p>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-2.5">
               {group.items.map((item) => (
                 <li key={item.label}>
                   {'external' in item && item.external ? (
@@ -58,14 +58,14 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-zinc-400 hover:text-white transition-colors"
+                      className="text-sm text-zinc-400 hover:text-[#f5f0eb] transition-colors font-sans"
                     >
                       {item.label} ↗
                     </a>
                   ) : (
                     <Link
                       href={item.href}
-                      className="text-xs text-zinc-400 hover:text-white transition-colors"
+                      className="text-sm text-zinc-400 hover:text-[#f5f0eb] transition-colors font-sans"
                     >
                       {item.label}
                     </Link>
@@ -78,19 +78,19 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/[0.04] py-5 px-6 max-w-6xl mx-auto flex items-center justify-between">
-        <p className="text-[11px] font-mono text-zinc-500">
+      <div className="border-t border-white/[0.04] py-6 px-6 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs font-mono text-zinc-400">
           © {new Date().getFullYear()} Git for Prompts · Built by{' '}
           <a
             href="https://github.com/kwakhare5"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-400 hover:text-white transition-colors"
+            className="text-zinc-300 hover:text-white transition-colors"
           >
             Karan Wakhare
           </a>
         </p>
-        <p className="text-xs text-zinc-500">
+        <p className="text-sm text-zinc-400 font-sans">
           Built for developers who care about their prompts.
         </p>
       </div>

@@ -233,7 +233,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
           <div className="flex items-center gap-3 shrink-0">
             {/* A side — version label above score */}
             <div className="text-center min-w-[3rem]">
-              <div className="text-[10px] font-mono text-zinc-500 mb-0.5">
+              <div className="text-xs font-mono text-zinc-400 mb-0.5 font-semibold">
                 v{versionA?.versionNumber}
               </div>
               <div className={cn('text-xl font-bold tabular-nums', winnerSide === 'A' ? 'text-emerald-400' : 'text-zinc-400')}>
@@ -242,11 +242,11 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
             </div>
 
             {/* vs separator */}
-            <div className="text-zinc-600 text-xs font-mono select-none">vs</div>
+            <div className="text-zinc-500 text-xs font-mono select-none font-bold">vs</div>
 
             {/* B side — version label above score */}
             <div className="text-center min-w-[3rem]">
-              <div className="text-[10px] font-mono text-zinc-500 mb-0.5">
+              <div className="text-xs font-mono text-zinc-400 mb-0.5 font-semibold">
                 v{versionB?.versionNumber}
               </div>
               <div className={cn('text-xl font-bold tabular-nums', winnerSide === 'B' ? 'text-emerald-400' : 'text-zinc-400')}>

@@ -95,8 +95,8 @@ export default async function DashboardExploreDetailPage({ params }: Props) {
                 </span>
               ))}
             </div>
-            <p className="text-[11px] text-zinc-500 mt-1">
-              Pass values dynamically as query parameters: <code className="text-zinc-400 font-mono">?variables[{latest.variables[0]}]=value</code>
+            <p className="text-xs text-zinc-400 mt-1 font-sans">
+              Pass values dynamically as query parameters: <code className="text-zinc-300 font-mono text-xs">?variables[{latest.variables[0]}]=value</code>
             </p>
           </div>
         )}
