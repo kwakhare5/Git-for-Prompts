@@ -151,11 +151,11 @@ export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Filter prompts by name, description, or ID..."
-            className="w-full pl-10 pr-3 py-2 rounded-xl border border-white/[0.08] bg-[#161616] text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
+            className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-white/[0.08] bg-[#161616] text-sm text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
           />
         </div>
 
-        <div className="flex items-center gap-1 bg-[#161616] border border-white/[0.08] p-1 rounded-xl font-mono text-[11px] shrink-0">
+        <div className="flex items-center gap-1 bg-[#161616] border border-white/[0.08] p-1 rounded-xl font-mono text-xs shrink-0">
           <button
             onClick={() => setFilterVisibility('all')}
             className={cn(
@@ -196,16 +196,16 @@ export function PromptTable({ prompts }: { prompts: PromptRow[] }) {
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-white/[0.08] bg-[#111111]">
-              <th className="py-3 pl-4 pr-3 sm:pl-6 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">
+              <th className="py-3.5 pl-4 pr-3 sm:pl-6 text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">
                 Prompt Bundle
               </th>
-              <th className="py-3 px-3 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden sm:table-cell">
+              <th className="py-3.5 px-3 text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden sm:table-cell">
                 Evaluation Pass
               </th>
-              <th className="py-3 px-3 text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden md:table-cell">
+              <th className="py-3.5 px-3 text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold hidden md:table-cell">
                 Last Commit
               </th>
-              <th className="py-3 pr-4 pl-3 sm:pr-6 text-right text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">
+              <th className="py-3.5 pr-4 pl-3 sm:pr-6 text-right text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">
                 Actions
               </th>
             </tr>

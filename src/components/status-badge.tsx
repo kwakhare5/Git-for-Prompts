@@ -33,7 +33,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium border shrink-0 select-none transition-all duration-150 ease-out hover:scale-[1.02]",
+        "inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-mono font-semibold border shrink-0 select-none transition-all duration-150 ease-out hover:scale-[1.02]",
         variantStyles[variant],
         className
       )}
