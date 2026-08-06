@@ -51,9 +51,9 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
   }, []);
 
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-16 pb-12 space-y-12 select-none font-sans">
-      <div className="text-center space-y-2.5 max-w-2xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
+    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
           What we help teams fix.
         </h2>
         <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">

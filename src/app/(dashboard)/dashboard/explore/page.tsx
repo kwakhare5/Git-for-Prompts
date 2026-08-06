@@ -86,7 +86,7 @@ export default async function DashboardExplorePage() {
                     </span>
                   </div>
 
-                  <div className="p-4 bg-[#0a0a0a] flex-1 flex flex-col justify-between gap-3">
+                  <div className="p-5 bg-[#161616] flex-1 flex flex-col justify-between gap-3">
                     <div>
                       <Link
                         href={`/dashboard/explore/${prompt.id}`}

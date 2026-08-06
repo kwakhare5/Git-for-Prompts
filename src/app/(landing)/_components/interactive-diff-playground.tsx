@@ -45,17 +45,17 @@ export function InteractiveDiffPlayground() {
   const model = PROVIDER_MODELS[provider] ?? 'llama-3.3-70b-versatile';
 
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
       {/* Header */}
-      <div className="text-center mb-8 space-y-2">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs font-mono text-zinc-400 mb-2">
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs font-mono text-zinc-400 mb-1">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           Live Playground
         </div>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
           Try the Diff Playground.
         </h2>
-        <p className="mt-2 text-zinc-300 max-w-xl mx-auto text-base md:text-lg leading-relaxed font-normal font-sans">
+        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
           Compare prompt templates side-by-side. Inspect line-level changes and model configuration diffs in real time.
         </p>
       </div>

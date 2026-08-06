@@ -4,15 +4,15 @@ import { Sparkles, Check } from 'lucide-react';
 
 export function TestSuiteInfo() {
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-12 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-emerald-950/80 bg-emerald-950/30 text-emerald-400 font-mono text-xs uppercase tracking-wider font-semibold">
             <Sparkles className="h-3.5 w-3.5" /> QA & Testing Infrastructure
           </div>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-[#f5f0eb] leading-tight tracking-tight font-sans">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] leading-tight tracking-tight font-sans">
             Deploy with absolute confidence.
-          </h3>
+          </h2>
           <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
             Each prompt modification you perform is validated against custom assertion test sets before it goes live. You don&apos;t just update prompt text; you grade it.
           </p>
@@ -34,7 +34,7 @@ export function TestSuiteInfo() {
         </div>
 
         {/* Visual Mock Runner Card */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-xl relative overflow-hidden flex flex-col font-mono text-xs">
+        <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-xl relative overflow-hidden flex flex-col font-mono text-xs h-[440px]">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl font-mono text-xs">
             <span className="text-zinc-300 uppercase font-semibold tracking-wider font-mono">Assert suite: refund_eval_matrix</span>
             <span className="text-emerald-400 font-bold font-mono">100% PASSED</span>

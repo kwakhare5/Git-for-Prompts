@@ -3,14 +3,14 @@ import { Card } from '@/components/ui/card';
 
 export function SecurityInfo() {
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-16 pb-12 space-y-12 select-none font-sans">
-      <div className="text-center space-y-2.5 max-w-2xl mx-auto">
+    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
+      <div className="text-center space-y-3 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 font-mono text-xs uppercase tracking-wider font-semibold">
           <Shield className="h-3.5 w-3.5 text-zinc-400" /> Platform Security & Architecture
         </div>
-        <h3 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">
           Production-Ready Security Standards
-        </h3>
+        </h2>
         <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
           Your prompts contain crucial business rules. We protect your prompt infrastructure with strict auth protocols and server validation.
         </p>
