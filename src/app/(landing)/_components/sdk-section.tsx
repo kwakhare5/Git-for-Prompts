@@ -170,17 +170,17 @@ response = openai.chat.completions.create(
   return (
     <section id="docs" className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-8 select-none font-sans">
       <div className="max-w-2xl space-y-3">
-        <h3 className="text-2xl font-bold text-zinc-100 font-sans">REST API &amp; CLI Integration</h3>
-        <p className="text-sm text-zinc-400 leading-relaxed font-light font-sans">
+        <h3 className="text-3xl md:text-4xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">REST API &amp; CLI Integration</h3>
+        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
           Decouple prompts from your application code. Fetch the active version at runtime via HTTP — works with any language, any framework.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch select-none">
         {/* Left Column - Code tabs */}
-        <div className="lg:col-span-7 relative rounded-xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[380px]">
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="lg:col-span-7 relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[400px]">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0">
+            <div className="flex items-center gap-2 flex-wrap">
               {[
                 { id: 'curl', label: 'cURL' },
                 { id: 'node', label: 'Node.js' },
@@ -192,10 +192,10 @@ response = openai.chat.completions.create(
                     setActiveTab(tab.id as 'curl' | 'node' | 'python');
                     setCopied(false);
                   }}
-                  className={`px-3 py-1 text-[11px] font-semibold font-mono rounded-md transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 text-xs font-semibold font-mono rounded-lg transition-all cursor-pointer ${
                     activeTab === tab.id
                       ? 'bg-white/10 text-white border border-white/10'
-                      : 'text-zinc-500 hover:text-zinc-300 bg-transparent border border-transparent'
+                      : 'text-zinc-400 hover:text-zinc-200 bg-transparent border border-transparent'
                   }`}
                 >
                   {tab.label}
@@ -205,16 +205,16 @@ response = openai.chat.completions.create(
 
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors p-1 cursor-pointer font-mono font-semibold"
+              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#f5f0eb] transition-colors p-1.5 cursor-pointer font-mono font-semibold"
             >
               {copied ? (
                 <>
-                  <Check className="h-3 w-3 text-emerald-400" />
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
                   <span className="text-emerald-400 font-mono">Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-3 w-3" />
+                  <Copy className="h-3.5 w-3.5" />
                   <span className="font-mono">Copy</span>
                 </>
               )}
@@ -222,21 +222,21 @@ response = openai.chat.completions.create(
           </div>
 
           {/* Code snippet block */}
-          <pre className="p-5 overflow-y-auto text-zinc-300 font-mono text-xs leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-xl no-scrollbar">
+          <pre className="p-6 overflow-y-auto text-zinc-200 font-mono text-sm leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-2xl no-scrollbar">
             <code className="font-mono">{snippets[activeTab]}</code>
           </pre>
         </div>
 
         {/* Right Column - Real CLI terminal */}
-        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[380px]">
-          <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0 select-none">
+        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[400px]">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0 select-none">
             <div className="flex gap-1.5 select-none">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/75" />
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/75" />
               <span className="w-2.5 h-2.5 rounded-full bg-green-500/75" />
             </div>
-            <span className="text-[9px] font-mono text-zinc-500 flex items-center gap-1 uppercase tracking-wider font-semibold">
-              <Terminal className="h-3 w-3" /> gfp-cli
+            <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 uppercase tracking-wider font-semibold">
+              <Terminal className="h-3.5 w-3.5" /> gfp-cli
             </span>
           </div>
 
