@@ -4,10 +4,10 @@ import { prompts, versions, testCases } from '@/db/schema';
 import { and, eq, desc, count } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { PromptDetailClient } from '@/components/prompts/prompt-detail-client';
-import { PromptSubnav } from '@/components/prompts/prompt-subnav';
+import { PromptDetailClient, PromptSubnav } from '@/components/domain/prompts';
+import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
-import { Topbar } from '@/components/layout/topbar';
+import { Topbar } from '@/components/layout';
 import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import { Plus, ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
@@ -66,42 +66,40 @@ export default async function PromptDetailPage({
   const hasVersions = allVersions.length > 0;
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
+    <div className="flex-1 flex flex-col min-w-0 bg-background font-sans">
       <Topbar />
 
-      <div className="p-4 sm:p-8 space-y-6 select-none font-sans max-w-7xl w-full mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
+      <div className="p-4 sm:p-8 space-y-6 font-sans max-w-7xl w-full mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
           <div className="flex items-center gap-3 min-w-0">
             <Link
               href="/dashboard"
-              className="p-2 rounded-xl bg-[#161616] border border-white/[0.08] text-zinc-400 hover:text-[#f5f0eb] hover:border-white/20 transition-colors shrink-0"
+              className="p-2 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border/80 transition-colors shrink-0"
               title="Back to Prompts"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div className="min-w-0">
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] truncate tracking-tight font-sans">{prompt.name}</h1>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-foreground truncate tracking-tight font-sans">{prompt.name}</h1>
                 {hasVersions && (
-                  <span className="shrink-0 font-mono text-xs bg-white/10 text-[#f5f0eb] border border-white/10 px-2.5 py-0.5 rounded-full font-semibold">
+                  <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2.5 py-0.5 rounded-md font-semibold">
                     v{allVersions[0].versionNumber}
                   </span>
                 )}
               </div>
               {prompt.description && (
-                <p className="text-sm text-zinc-400 mt-1 truncate font-sans leading-relaxed">{prompt.description}</p>
+                <p className="text-sm text-muted-foreground mt-1 truncate font-sans leading-relaxed">{prompt.description}</p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href={`/dashboard/prompts/${id}/edit`}
-              id="new-version-btn"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[#f5f0eb] px-3.5 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-white transition-all shadow-sm active:scale-[0.98]"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              New Version
+          <div className="flex items-center gap-3 shrink-0 font-sans">
+            <Link href={`/dashboard/prompts/${id}/edit`} passHref id="new-version-btn">
+              <Button size="sm" variant="default" className="gap-1.5 font-sans font-bold shadow-sm cursor-pointer">
+                <Plus className="w-3.5 h-3.5" />
+                New Version
+              </Button>
             </Link>
           </div>
         </div>

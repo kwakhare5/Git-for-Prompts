@@ -17,6 +17,9 @@ import dynamic from 'next/dynamic';
 import { validateBundle, extractBundleVariables } from '@gfp/core';
 import type { PromptBundle } from '@gfp/core';
 import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
@@ -122,76 +125,75 @@ export function BundleEditor({
   const currentModels = DEFAULT_MODELS[bundle.modelConfig.provider] ?? [];
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 font-sans">
       {/* Shell */}
-      <div className="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-950 shadow-2xl">
+      <div className="rounded-xl overflow-hidden border border-border bg-card shadow-2xl font-sans">
 
         {/* Tab bar + controls */}
-        <div className="flex items-center gap-0 bg-zinc-900 border-b border-zinc-800 px-4">
+        <div className="flex items-center gap-0 bg-muted/40 border-b border-border px-4 font-sans">
           {/* Tabs */}
-          <div className="flex items-center gap-0 flex-1">
+          <div className="flex items-center gap-1 flex-1 font-sans py-1.5">
             {(['prompt', 'model', 'variables'] as Tab[]).map((tab) => (
-              <button
+              <Button
                 key={tab}
                 id={`bundle-editor-tab-${tab}`}
+                type="button"
+                variant={activeTab === tab ? 'secondary' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveTab(tab)}
-                className={cn(
-                  'relative px-3 py-2.5 text-xs font-medium capitalize transition-colors border-b-2 -mb-px',
-                  activeTab === tab
-                    ? 'border-zinc-200 text-zinc-100'
-                    : 'border-transparent text-zinc-500 hover:text-zinc-300'
-                )}
+                className="h-8 px-3 text-xs font-semibold capitalize font-sans cursor-pointer"
               >
                 {tab}
                 {tab === 'variables' && detectedVariables.length > 0 && (
-                  <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-violet-900 text-violet-300 text-xs font-mono font-bold">
+                  <Badge variant="outline" className="ml-1.5 font-mono text-[10px] text-sky-400 border-sky-500/20 bg-sky-500/10">
                     {detectedVariables.length}
-                  </span>
+                  </Badge>
                 )}
-              </button>
+              </Button>
             ))}
           </div>
 
           {/* Commit + save */}
-          <div className="flex items-center gap-2 py-1.5">
-            <input
+          <div className="flex items-center gap-2 py-2 font-sans">
+            <Input
               id="bundle-editor-commit-message"
               type="text"
               placeholder='What changed? (e.g. "Fixed tone")'
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="w-56 bg-zinc-900 border border-zinc-700 rounded-md px-2.5 py-1 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+              className="w-56 h-8 text-xs bg-background border-border text-foreground placeholder:text-muted-foreground font-sans"
             />
-            <button
+            <Button
               id="bundle-editor-save-btn"
               onClick={handleSave}
               disabled={isPending}
-              className="bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-xs font-semibold px-3 py-1 rounded transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] disabled:opacity-30 flex items-center gap-1.5"
+              variant="default"
+              size="sm"
+              className="font-sans cursor-pointer font-bold shadow-sm"
             >
-              {isPending && (
-                <span className="w-3 h-3 border-2 border-zinc-600 border-t-transparent rounded-full animate-spin" />
-              )}
               {isPending ? 'Saving…' : 'Save'}
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onCancel}
               disabled={isPending}
-              className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors px-1"
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* ── Tab: Prompt ── */}
         {activeTab === 'prompt' && (
-          <div className="flex flex-col divide-y divide-zinc-800/60">
+          <div className="flex flex-col divide-y divide-border">
             {/* System prompt */}
             <div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50">
-                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">System Prompt</span>
-                <span className="text-xs text-zinc-400 font-sans">· Sets AI personality & instructions</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-muted/40 border-b border-border">
+                <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold">System Prompt</span>
+                <span className="text-xs text-muted-foreground font-sans">· Sets AI personality & instructions</span>
               </div>
               <div role="region" aria-label="System prompt editor">
                 <MonacoEditor
@@ -225,9 +227,9 @@ export function BundleEditor({
 
             {/* User template */}
             <div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-zinc-900/50">
-                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold">User Template</span>
-                <span className="text-xs text-zinc-400 font-sans">· Use {'{{variable}}'} placeholders</span>
+              <div className="flex items-center gap-2 px-4 py-2 bg-muted/40 border-b border-border">
+                <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold">User Template</span>
+                <span className="text-xs text-muted-foreground font-sans">· Use {'{{variable}}'} placeholders</span>
               </div>
               <div role="region" aria-label="User template editor">
                 <MonacoEditor
@@ -263,12 +265,12 @@ export function BundleEditor({
 
         {/* ── Tab: Model Config ── */}
         {activeTab === 'model' && (
-          <div className="p-6 flex flex-col gap-5" style={{ minHeight: parseInt(height) * 2 + 'px' }}>
-            <div className="grid grid-cols-2 gap-4 max-w-lg">
+          <div className="p-6 flex flex-col gap-5 font-sans" style={{ minHeight: parseInt(height) * 2 + 'px' }}>
+            <div className="grid grid-cols-2 gap-4 max-w-lg font-sans">
 
               {/* Provider */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="bundle-provider" className="text-xs font-medium text-zinc-400">
+              <div className="flex flex-col gap-1.5 font-sans">
+                <label htmlFor="bundle-provider" className="text-xs font-medium text-muted-foreground font-sans">
                   Provider
                 </label>
                 <select
@@ -281,7 +283,7 @@ export function BundleEditor({
                     const models = DEFAULT_MODELS[provider] ?? [];
                     if (models.length > 0) updateModelConfig('model', models[0]);
                   }}
-                  className="bg-zinc-900 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  className="bg-card border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-ring transition-colors font-mono cursor-pointer"
                 >
                   {PROVIDERS.map((p) => (
                     <option key={p.value} value={p.value}>
@@ -292,18 +294,18 @@ export function BundleEditor({
               </div>
 
               {/* Model */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="bundle-model" className="text-xs font-medium text-zinc-400">
+              <div className="flex flex-col gap-1.5 font-sans">
+                <label htmlFor="bundle-model" className="text-xs font-medium text-muted-foreground font-sans">
                   Model
                 </label>
-                <input
+                <Input
                   id="bundle-model"
                   type="text"
                   value={bundle.modelConfig.model}
                   onChange={(e) => updateModelConfig('model', e.target.value)}
                   list="bundle-model-suggestions"
                   placeholder="e.g. gpt-4o"
-                  className="bg-zinc-900 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  className="bg-background border-border text-foreground placeholder:text-muted-foreground font-mono text-sm"
                 />
                 <datalist id="bundle-model-suggestions">
                   {currentModels.map((m) => (
@@ -313,10 +315,10 @@ export function BundleEditor({
               </div>
 
               {/* Temperature */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="bundle-temperature" className="text-xs font-medium text-zinc-400 flex items-center justify-between">
+              <div className="flex flex-col gap-1.5 font-sans">
+                <label htmlFor="bundle-temperature" className="text-xs font-medium text-muted-foreground flex items-center justify-between font-sans">
                   Temperature
-                  <span className="font-mono text-zinc-500">{bundle.modelConfig.temperature ?? 0.7}</span>
+                  <span className="font-mono text-foreground font-semibold">{bundle.modelConfig.temperature ?? 0.7}</span>
                 </label>
                 <input
                   id="bundle-temperature"
@@ -326,20 +328,20 @@ export function BundleEditor({
                   step="0.05"
                   value={bundle.modelConfig.temperature ?? 0.7}
                   onChange={(e) => updateModelConfig('temperature', parseFloat(e.target.value))}
-                  className="w-full accent-zinc-300"
+                  className="w-full accent-primary cursor-pointer"
                 />
-                <div className="flex justify-between text-xs text-zinc-400 font-mono font-semibold">
+                <div className="flex justify-between text-xs text-muted-foreground font-mono font-semibold">
                   <span>0 · precise</span>
                   <span>2 · creative</span>
                 </div>
               </div>
 
               {/* Max Tokens */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="bundle-max-tokens" className="text-xs font-medium text-zinc-400">
+              <div className="flex flex-col gap-1.5 font-sans">
+                <label htmlFor="bundle-max-tokens" className="text-xs font-medium text-muted-foreground font-sans">
                   Max Tokens
                 </label>
-                <input
+                <Input
                   id="bundle-max-tokens"
                   type="number"
                   min="1"
@@ -347,16 +349,16 @@ export function BundleEditor({
                   step="256"
                   value={bundle.modelConfig.maxTokens ?? 1024}
                   onChange={(e) => updateModelConfig('maxTokens', parseInt(e.target.value, 10))}
-                  className="bg-zinc-900 border border-zinc-700 rounded-md px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  className="bg-background border-border text-foreground font-mono text-sm"
                 />
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 max-w-lg font-mono text-xs text-zinc-500">
-              <span className="text-zinc-400">{bundle.modelConfig.provider}/</span>
-              <span className="text-zinc-200">{bundle.modelConfig.model}</span>
-              <span className="ml-3 text-zinc-600">temp={bundle.modelConfig.temperature ?? 0.7}</span>
-              <span className="ml-2 text-zinc-600">max_tokens={bundle.modelConfig.maxTokens ?? 1024}</span>
+            <div className="p-3.5 rounded-xl bg-muted/40 border border-border max-w-lg font-mono text-xs text-muted-foreground">
+              <span className="text-muted-foreground font-semibold">{bundle.modelConfig.provider}/</span>
+              <span className="text-foreground font-bold">{bundle.modelConfig.model}</span>
+              <span className="ml-3 text-muted-foreground">temp={bundle.modelConfig.temperature ?? 0.7}</span>
+              <span className="ml-2 text-muted-foreground">max_tokens={bundle.modelConfig.maxTokens ?? 1024}</span>
             </div>
           </div>
         )}
@@ -366,32 +368,31 @@ export function BundleEditor({
           <div className="p-6" style={{ minHeight: parseInt(height) * 2 + 'px' }}>
             {detectedVariables.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <span className="text-3xl font-mono text-zinc-700 mb-3">{'{{}}'}</span>
-                <p className="text-sm text-zinc-500">No variables detected.</p>
-                <p className="text-xs text-zinc-600 mt-1">
-                  Use <code className="font-mono bg-zinc-800 px-1 rounded">{'{{variable_name}}'}</code> in your prompt templates.
+                <span className="text-3xl font-mono text-muted-foreground mb-3">{'{{}}'}</span>
+                <p className="text-sm text-muted-foreground">No variables detected.</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Use <code className="font-mono bg-muted px-1 rounded">{'{{variable_name}}'}</code> in your prompt templates.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col gap-3 max-w-md">
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-muted-foreground">
                   {detectedVariables.length} variable{detectedVariables.length !== 1 ? 's' : ''} detected across system prompt + user template.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {detectedVariables.map((v) => (
                     <span
                       key={v}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-violet-950 border border-violet-800 text-xs font-mono text-violet-300"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-sky-500/10 border border-sky-500/20 text-xs font-mono text-sky-400"
                     >
-                      <span className="opacity-40">{'{{'}
-                      </span>
+                      <span className="opacity-40">{'{{'}</span>
                       {v}
                       <span className="opacity-40">{'}}'}</span>
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-zinc-400 mt-2">
-                  Pass values via API: <code className="font-mono bg-zinc-800 px-1.5 py-0.5 rounded text-xs text-zinc-300">?variables[name]=value</code>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Pass values via API: <code className="font-mono bg-muted px-1.5 py-0.5 rounded text-xs text-foreground">?variables[name]=value</code>
                 </p>
               </div>
             )}

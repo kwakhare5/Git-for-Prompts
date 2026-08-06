@@ -19,10 +19,10 @@ export function PageHeader({
   children,
 }: PageHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6 font-sans">
       <div>
         <div className="flex items-center gap-2.5">
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] tracking-tight font-sans">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight font-sans">
             {title}
           </h1>
           {badge && (
@@ -32,7 +32,7 @@ export function PageHeader({
           )}
         </div>
         {subtitle && (
-          <p className="text-sm text-zinc-400 mt-1.5 font-sans leading-relaxed">
+          <p className="text-sm text-muted-foreground mt-1.5 font-sans leading-relaxed">
             {subtitle}
           </p>
         )}

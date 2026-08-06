@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { generateApiKey, deleteApiKey } from '@/lib/actions/api-keys';
 import { Check, X, Copy } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -97,48 +99,53 @@ export function ApiKeysManager({ initialKeys }: Props) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans">
 
       {/* ── New Key Banner (shown once after generation) ── */}
       {newKey && (
-        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] shadow-xl">
+        <div className="rounded-xl border border-border bg-card p-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200 ease-out-emil shadow-xl">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold text-[#f5f0eb]">
+              <p className="text-sm font-semibold text-foreground">
                 Key generated — copy it now
               </p>
-              <p className="mt-0.5 text-xs text-zinc-400">
+              <p className="mt-0.5 text-xs text-muted-foreground">
                 This is the only time your full key will be shown. We don&apos;t store it.
               </p>
             </div>
-            <button
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
               onClick={dismissNewKey}
-              className="text-zinc-500 hover:text-zinc-300 transition-colors shrink-0"
+              className="text-muted-foreground hover:text-foreground shrink-0 cursor-pointer"
               aria-label="Dismiss"
             >
               <X className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
 
           {/* Key display */}
           <div className="flex items-center gap-2">
-            <code className="flex-1 rounded-md border border-white/[0.08] bg-[#111111] px-3 py-2.5 font-mono text-xs text-[#f5f0eb] break-all select-all">
+            <code className="flex-1 rounded-md border border-border bg-background px-3 py-2.5 font-mono text-xs text-foreground break-all select-all">
               {newKey}
             </code>
-            <button
+            <Button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#111111] px-3 py-2.5 text-xs font-medium text-zinc-300 hover:bg-white/10 hover:text-white transition-colors"
+              variant="outline"
+              size="sm"
+              className="gap-1.5 cursor-pointer font-sans"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-white" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-foreground" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? 'Copied' : 'Copy'}
-            </button>
+            </Button>
           </div>
 
           {/* curl usage hint */}
-          <div className="rounded-md border border-zinc-800 bg-zinc-900/50 px-3 py-2.5">
-            <p className="text-xs text-zinc-400 mb-1.5 font-mono font-semibold uppercase tracking-wider">Example usage</p>
-            <code className="font-mono text-xs text-zinc-300 break-all">
+          <div className="rounded-md border border-border bg-background px-3 py-2.5 font-mono">
+            <p className="text-xs text-muted-foreground mb-1.5 font-mono font-semibold uppercase tracking-wider">Example usage</p>
+            <code className="font-mono text-xs text-foreground break-all">
               {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
             </code>
           </div>
@@ -147,22 +154,22 @@ export function ApiKeysManager({ initialKeys }: Props) {
 
       {/* ── Error ── */}
       {error && (
-        <div className="rounded-xl border border-red-700/50 bg-red-950/40 px-4 py-3 text-sm text-red-400">
+        <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive font-mono">
           {error}
         </div>
       )}
 
       {/* ── Generate Form ── */}
-      <div className="rounded-2xl border border-white/[0.08] bg-[#161616] p-5 shadow-xl space-y-4">
+      <div className="rounded-2xl border border-border bg-card p-5 shadow-xl space-y-4 font-sans">
         <div>
-          <h2 className="text-sm font-semibold text-[#f5f0eb] font-sans">Generate new key</h2>
-          <p className="text-xs text-zinc-400 mt-0.5 font-sans">
+          <h2 className="text-sm font-semibold text-foreground font-sans">Generate new key</h2>
+          <p className="text-xs text-muted-foreground mt-0.5 font-sans">
             Give the key a name so you know where it&apos;s used (e.g. &quot;Production app&quot;, &quot;CI pipeline&quot;).
           </p>
         </div>
 
         <div className="flex gap-2">
-          <input
+          <Input
             id="api-key-name-input"
             type="text"
             value={name}
@@ -170,23 +177,25 @@ export function ApiKeysManager({ initialKeys }: Props) {
             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
             placeholder="Key name…"
             maxLength={255}
-            className="flex-1 rounded-xl border border-white/[0.08] bg-[#111111] px-3.5 py-2 text-xs text-[#f5f0eb] placeholder:text-zinc-500 focus:outline-none focus:border-white/20 font-mono transition-colors"
+            className="flex-1 font-mono text-xs"
           />
-          <button
+          <Button
             id="generate-api-key-btn"
             onClick={handleGenerate}
             disabled={isPending || !name.trim()}
-            className="rounded-xl bg-[#f5f0eb] px-4 py-2 text-xs font-semibold text-zinc-950 hover:bg-white active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed transition-all font-sans"
+            variant="default"
+            size="sm"
+            className="font-sans cursor-pointer shadow-sm"
           >
             {isPending ? 'Generating…' : 'Generate Key'}
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* ── Key List ── */}
-      <div className="space-y-4">
+      <div className="space-y-4 font-sans">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-[#f5f0eb] font-sans">
+          <h2 className="text-sm font-semibold text-foreground font-sans">
             Active Keys
           </h2>
           {keys.length > 0 && (
@@ -197,32 +206,32 @@ export function ApiKeysManager({ initialKeys }: Props) {
         </div>
 
         {keys.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/[0.08] bg-[#161616] py-12 text-center">
-            <p className="text-sm text-zinc-400 font-sans font-medium">No API keys yet.</p>
-            <p className="text-xs text-zinc-500 mt-1 font-sans">Generate your first key above to authenticate programmatic REST API requests.</p>
+          <div className="rounded-2xl border border-dashed border-border bg-card py-12 text-center">
+            <p className="text-sm text-muted-foreground font-sans font-medium">No API keys yet.</p>
+            <p className="text-xs text-muted-foreground mt-1 font-sans">Generate your first key above to authenticate programmatic REST API requests.</p>
           </div>
         ) : (
-          <div className="divide-y divide-white/[0.08] rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden shadow-xl">
+          <div className="divide-y divide-border rounded-2xl border border-border bg-card overflow-hidden shadow-xl">
             {keys.map((key) => (
               <div
                 key={key.id}
-                className="flex items-center justify-between gap-4 px-4 py-3.5"
+                className="flex items-center justify-between gap-4 px-4 py-3.5 font-sans"
               >
                 {/* Key info */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-medium text-zinc-200 truncate">
+                    <span className="text-sm font-medium text-foreground truncate font-sans">
                       {key.name}
                     </span>
-                    <code className="rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-400 font-medium">
+                    <code className="rounded bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground font-medium">
                       {key.keyPrefix}••••••••
                     </code>
                   </div>
-                  <div className="mt-1 flex items-center gap-3 text-xs text-zinc-500">
+                  <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground font-sans">
                     <span>
                       Created {formatDistanceToNow(new Date(key.createdAt), { addSuffix: true })}
                     </span>
-                    <span className="text-zinc-700">·</span>
+                    <span className="text-muted-foreground/40">·</span>
                     <span>
                       {key.lastUsedAt
                         ? `Last used ${formatDistanceToNow(new Date(key.lastUsedAt), { addSuffix: true })}`
@@ -235,31 +244,37 @@ export function ApiKeysManager({ initialKeys }: Props) {
                 <div className="shrink-0 flex items-center gap-2">
                   {confirmRevokeId === key.id ? (
                     <>
-                      <span className="text-xs text-zinc-400">Revoke key?</span>
-                      <button
+                      <span className="text-xs text-muted-foreground font-sans font-medium">Revoke key?</span>
+                      <Button
+                        variant="destructive"
+                        size="sm"
                         onClick={() => handleRevoke(key.id)}
                         disabled={isPending}
-                        className="text-xs text-red-400 hover:text-red-300 transition-colors disabled:opacity-50 font-medium"
+                        className="h-7 text-xs font-semibold cursor-pointer"
                       >
                         {deletingId === key.id ? 'Revoking…' : 'Confirm'}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => setConfirmRevokeId(null)}
                         disabled={isPending}
-                        className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
+                        className="h-7 text-xs text-muted-foreground hover:text-foreground cursor-pointer"
                       >
                         Cancel
-                      </button>
+                      </Button>
                     </>
                   ) : (
-                    <button
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleRevoke(key.id)}
                       disabled={deletingId === key.id || isPending}
                       aria-label={`Revoke key "${key.name}"`}
-                      className="rounded-md border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:border-red-700/50 hover:bg-red-950/30 hover:text-red-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      className="h-7 text-xs text-muted-foreground hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive cursor-pointer font-sans"
                     >
                       Revoke
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>

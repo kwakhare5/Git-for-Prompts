@@ -104,47 +104,47 @@ export function DiffViewer({
   const noChanges = stats !== null && stats.added === 0 && stats.removed === 0;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col font-sans">
       {/* Bundle structural diff header — only when both versions are V2 */}
       {showBundleHeader && (
-        <div className="flex items-start gap-4 rounded-t-lg border border-b-0 border-zinc-800 bg-zinc-900/70 px-4 py-2.5">
-          <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold shrink-0 mt-0.5">Bundle</span>
+        <div className="flex items-start gap-4 rounded-t-lg border border-b-0 border-border bg-muted/40 px-4 py-2.5">
+          <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold shrink-0 mt-0.5">Bundle</span>
           <div className="flex flex-wrap gap-3 text-xs font-mono">
             {modelChanged ? (
               <span>
-                <span className="text-red-400/80">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
-                <span className="text-zinc-600 mx-1.5">→</span>
-                <span className="text-emerald-400/80">{modifiedBundle.modelConfig.provider}/{modifiedBundle.modelConfig.model}</span>
+                <span className="text-destructive">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+                <span className="text-muted-foreground mx-1.5">→</span>
+                <span className="text-emerald-400">{modifiedBundle.modelConfig.provider}/{modifiedBundle.modelConfig.model}</span>
               </span>
             ) : (
-              <span className="text-zinc-600">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+              <span className="text-muted-foreground">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
             )}
             {tempChanged && (
-              <span className="text-zinc-500">
-                temp <span className="text-red-400/80">{originalBundle.modelConfig.temperature}</span>
-                <span className="text-zinc-600 mx-1">→</span>
-                <span className="text-emerald-400/80">{modifiedBundle.modelConfig.temperature}</span>
+              <span className="text-muted-foreground">
+                temp <span className="text-destructive">{originalBundle.modelConfig.temperature}</span>
+                <span className="text-muted-foreground mx-1">→</span>
+                <span className="text-emerald-400">{modifiedBundle.modelConfig.temperature}</span>
               </span>
             )}
             {!modelChanged && !tempChanged && (
-              <span className="text-zinc-700">Model config unchanged</span>
+              <span className="text-muted-foreground">Model config unchanged</span>
             )}
           </div>
         </div>
       )}
       {/* Stats bar — only shown once Monaco has computed the diff */}
-      <div className={`flex items-center gap-4 border border-b-0 border-zinc-800 bg-zinc-900/50 px-4 py-2 min-h-[36px] ${showBundleHeader ? '' : 'rounded-t-lg'}`}>
+      <div className={`flex items-center gap-4 border border-b-0 border-border bg-muted/30 px-4 py-2 min-h-[36px] ${showBundleHeader ? '' : 'rounded-t-lg'}`}>
         {stats === null ? (
-          <span className="text-xs font-mono text-zinc-700 animate-pulse">Computing diff…</span>
+          <span className="text-xs font-mono text-muted-foreground animate-pulse">Computing diff…</span>
         ) : noChanges ? (
-          <span className="text-xs font-mono text-zinc-600">Identical — no changes between these versions</span>
+          <span className="text-xs font-mono text-muted-foreground">Identical — no changes between these versions</span>
         ) : (
           <>
             <span className="text-xs font-mono text-emerald-400 tabular-nums">
               +{stats.added} {stats.added === 1 ? 'line' : 'lines'} added
             </span>
-            <span className="text-xs text-zinc-700" aria-hidden="true">·</span>
-            <span className="text-xs font-mono text-red-400 tabular-nums">
+            <span className="text-xs text-muted-foreground" aria-hidden="true">·</span>
+            <span className="text-xs font-mono text-destructive tabular-nums">
               −{stats.removed} {stats.removed === 1 ? 'line' : 'lines'} removed
             </span>
           </>
@@ -152,21 +152,21 @@ export function DiffViewer({
       </div>
 
       {/* Column labels — version number + commit message above each panel */}
-      <div className="grid grid-cols-2 divide-x divide-zinc-800 border border-b-0 border-zinc-800">
-        <div className="px-4 py-2 bg-zinc-900">
-          <span className="text-xs font-mono text-zinc-400 truncate block" title={originalLabel}>
+      <div className="grid grid-cols-2 divide-x divide-border border border-b-0 border-border">
+        <div className="px-4 py-2 bg-muted/50">
+          <span className="text-xs font-mono text-muted-foreground truncate block" title={originalLabel}>
             {originalLabel}
           </span>
         </div>
-        <div className="px-4 py-2 bg-zinc-900">
-          <span className="text-xs font-mono text-zinc-400 truncate block" title={modifiedLabel}>
+        <div className="px-4 py-2 bg-muted/50">
+          <span className="text-xs font-mono text-muted-foreground truncate block" title={modifiedLabel}>
             {modifiedLabel}
           </span>
         </div>
       </div>
 
       {/* Monaco DiffEditor */}
-      <div className="rounded-b-lg overflow-hidden border border-zinc-800">
+      <div className="rounded-b-lg overflow-hidden border border-border">
         <MonacoDiffEditor
           height={height}
           language="plaintext"
@@ -182,8 +182,7 @@ export function DiffViewer({
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             wordWrap: 'on',
-            // Matches PromptEditor exactly — same font stack, size, and spacing
-            fontFamily: '"JetBrains Mono", "Fira Code", Menlo, monospace',
+            fontFamily: 'var(--font-jetbrains-mono), monospace',
             fontSize: 13,
             lineHeight: 22,
             padding: { top: 12, bottom: 12 },

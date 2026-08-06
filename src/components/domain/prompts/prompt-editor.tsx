@@ -9,6 +9,9 @@ import { extractVariables } from '@/lib/variables';
 import { createBundleFromLegacy } from '@gfp/core';
 import { BundleEditor } from './bundle-editor';
 import type { PromptBundle } from '@gfp/core';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -118,14 +121,16 @@ export function PromptEditor({
   // ── Read-only mode ───────────────────────────────────────────────────────────
   if (readOnly) {
     return (
-      <div className="flex flex-col gap-2">
-        <div className="rounded-lg overflow-hidden border border-zinc-800 flex flex-col bg-zinc-950 shadow-2xl">
-          <div className="flex items-center gap-3 bg-zinc-900 border-b border-zinc-800 px-4 py-2.5">
-            <div className="flex flex-col min-w-0 mr-auto">
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">prompt.txt</span>
+      <div className="flex flex-col gap-2 font-sans">
+        <div className="rounded-xl overflow-hidden border border-border flex flex-col bg-card shadow-2xl font-sans">
+          <div className="flex items-center gap-3 bg-muted/40 border-b border-border px-4 py-2.5 font-sans">
+            <div className="flex flex-col min-w-0 mr-auto font-sans">
+              <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">prompt.txt</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
+            <div className="flex items-center gap-2 font-sans">
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={async () => {
                   try {
                     await navigator.clipboard.writeText(content);
@@ -144,13 +149,13 @@ export function PromptEditor({
                     setTimeout(() => setCopied(false), 2000);
                   }
                 }}
-                className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-200 transition-colors px-2 py-1 rounded hover:bg-zinc-800"
+                className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
                 aria-label="Copy prompt to clipboard"
               >
                 {copied ? (
                   <>
                     <span className="text-emerald-400">✓</span>
-                    <span className="text-emerald-400">Copied!</span>
+                    <span className="text-emerald-400 font-sans">Copied!</span>
                   </>
                 ) : (
                   <>
@@ -158,8 +163,8 @@ export function PromptEditor({
                     Copy
                   </>
                 )}
-              </button>
-              <span className="text-xs text-zinc-600 font-mono">read-only</span>
+              </Button>
+              <Badge variant="outline" className="text-xs font-mono text-muted-foreground">read-only</Badge>
             </div>
           </div>
           <div role="region" aria-label="Prompt content (read-only)">
@@ -196,28 +201,29 @@ export function PromptEditor({
   // ── V2 mode — delegate entirely to BundleEditor ───────────────────────────
   if (mode === 'v2') {
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 font-sans">
         {/* Mode toggle */}
-        <div className="flex items-center gap-2 px-1">
-          <span className="text-xs text-zinc-500">Editor mode:</span>
-          <button
+        <div className="flex items-center gap-2 px-1 font-sans">
+          <span className="text-xs text-muted-foreground font-sans">Editor mode:</span>
+          <Button
             id="editor-mode-v1"
+            variant="ghost"
+            size="xs"
             onClick={() => setMode('v1')}
-            className={cn(
-              'text-xs px-2 py-0.5 rounded transition-colors',
-              /* in V2 block, V1 is inactive */ 'text-zinc-600 hover:text-zinc-400'
-            )}
+            className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
           >
             V1 · Text
-          </button>
-          <button
+          </Button>
+          <Button
             id="editor-mode-v2"
+            variant="secondary"
+            size="xs"
             onClick={() => setMode('v2')}
-            className="text-xs px-2 py-0.5 rounded transition-colors bg-zinc-700 text-zinc-200"
+            className="text-xs font-sans cursor-pointer font-bold"
           >
             V2 · Bundle
-          </button>
-          <span className="text-xs text-zinc-400">· V2 stores system prompt + model config + variables</span>
+          </Button>
+          <span className="text-xs text-muted-foreground font-sans">· V2 stores system prompt + model config + variables</span>
         </div>
 
         <BundleEditor
@@ -229,60 +235,61 @@ export function PromptEditor({
         />
 
         {error && (
-          <p role="alert" className="text-xs text-red-400 px-1">{error}</p>
+          <p role="alert" className="text-xs text-destructive px-1 font-mono">{error}</p>
         )}
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 font-sans">
 
       {/* Editor shell */}
-      <div className="rounded-lg overflow-hidden border border-zinc-800 flex flex-col bg-zinc-950 shadow-2xl">
-        {/* Header bar — now contains controls for easy access */}
-        <div className="flex items-center gap-3 bg-zinc-900 border-b border-zinc-800 px-4 py-2.5">
-          <div className="flex flex-col min-w-0 mr-auto">
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">prompt.txt</span>
+      <div className="rounded-xl overflow-hidden border border-border flex flex-col bg-card shadow-2xl font-sans">
+        {/* Header bar */}
+        <div className="flex items-center gap-3 bg-muted/40 border-b border-border px-4 py-2.5 font-sans">
+          <div className="flex flex-col min-w-0 mr-auto font-sans">
+            <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">prompt.txt</span>
             {isDirty && (
-              <span className="text-xs font-medium text-amber-500 animate-pulse">Unsaved Changes</span>
+              <span className="text-xs font-medium text-amber-400 animate-pulse font-sans">Unsaved Changes</span>
             )}
           </div>
 
-          <div className="flex items-center gap-3 flex-1 max-w-xl">
-            <input
+          <div className="flex items-center gap-3 flex-1 max-w-xl font-sans">
+            <Input
               id="commit-message"
               type="text"
               placeholder='What did you change? (e.g. "Improved tone")'
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="flex-1 bg-zinc-900 border border-zinc-700 rounded-md px-2.5 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-colors"
+              className="flex-1 h-8 text-xs bg-background border-border text-foreground placeholder:text-muted-foreground font-sans"
             />
-            <div className="flex items-center gap-2 shrink-0">
-              <button
+            <div className="flex items-center gap-2 shrink-0 font-sans">
+              <Button
                 id="save-version-btn"
                 onClick={handleSaveV1}
                 disabled={isPending || !content.trim()}
-                className="bg-zinc-50 hover:bg-zinc-200 text-zinc-950 text-xs font-semibold px-3 py-1.5 rounded transition-all disabled:opacity-30 flex items-center gap-1.5"
+                variant="default"
+                size="sm"
+                className="font-sans cursor-pointer font-bold shadow-sm"
               >
-                {isPending ? (
-                  <span className="w-3 h-3 border-2 border-zinc-600 border-t-transparent rounded-full animate-spin" />
-                ) : null}
-                {isPending ? 'Saving' : 'Save'}
-              </button>
-              <button
+                {isPending ? 'Saving…' : 'Save'}
+              </Button>
+              <Button
                 onClick={() => router.back()}
                 disabled={isPending}
-                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors px-1"
+                variant="ghost"
+                size="sm"
+                className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>
 
-        {/* A3: labelled region so screen readers identify the Monaco editor */}
+        {/* Monaco editor */}
         <div role="region" aria-label="Prompt content editor">
           <MonacoEditor
             height={height}
@@ -310,31 +317,31 @@ export function PromptEditor({
             }}
           />
         </div>
-        {/* closes editor shell */}
       </div>
 
-      {/* Footer — Stats, Variables & Errors */}
-      <div className="flex flex-col gap-1.5 px-1">
-        <div className="flex items-center justify-between">
-          <div className="text-xs text-zinc-400 font-mono tabular-nums uppercase tracking-tight font-semibold">
+      {/* Footer — Stats & Variables */}
+      <div className="flex flex-col gap-1.5 px-1 font-sans">
+        <div className="flex items-center justify-between font-sans">
+          <div className="text-xs text-muted-foreground font-mono tabular-nums uppercase tracking-tight font-semibold">
             {charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens
           </div>
           {error && (
-            <p role="alert" className="text-xs text-red-400 font-medium">{error}</p>
+            <p role="alert" className="text-xs text-destructive font-medium font-mono">{error}</p>
           )}
         </div>
 
-        {/* Variable chips — shown whenever {{var}} placeholders are detected */}
+        {/* Variable chips */}
         {detectedVariables.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs text-zinc-400 font-mono uppercase tracking-wider shrink-0 font-semibold">Variables:</span>
+          <div className="flex flex-wrap items-center gap-1.5 font-sans">
+            <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider shrink-0 font-semibold">Variables:</span>
             {detectedVariables.map((v) => (
-              <span
+              <Badge
                 key={v}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-violet-950 border border-violet-800 text-xs font-mono text-violet-300 font-medium"
+                variant="outline"
+                className="font-mono text-xs text-sky-400 border-sky-500/20 bg-sky-500/10"
               >
-                <span className="opacity-50">&#123;&#123;</span>{v}<span className="opacity-50">&#125;&#125;</span>
-              </span>
+                {'{{'}{v}{'}}'}
+              </Badge>
             ))}
           </div>
         )}

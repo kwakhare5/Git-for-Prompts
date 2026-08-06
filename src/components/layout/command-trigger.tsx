@@ -1,6 +1,7 @@
 'use client';
 
 import { Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface CommandTriggerProps {
   className?: string;
@@ -19,19 +20,21 @@ export function CommandTrigger({
   };
 
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
+      size="sm"
       onClick={triggerCommandMenu}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-white/[0.08] bg-[#111111] text-sm text-zinc-400 hover:text-[#f5f0eb] hover:border-white/20 transition-all cursor-pointer font-mono group select-none ${className}`}
+      className={`h-9 px-3 justify-start gap-2 bg-card border-border text-muted-foreground hover:text-foreground font-mono group cursor-pointer ${className}`}
       title="Search commands (CTRL+K)"
     >
-      <Search className="w-4 h-4 text-zinc-500 group-hover:text-zinc-300 transition-colors shrink-0" />
-      <span className="text-zinc-400 font-sans text-sm">{placeholder}</span>
+      <Search className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+      <span className="text-muted-foreground font-sans text-sm">{placeholder}</span>
       {showKbd && (
-        <kbd className="text-xs font-mono bg-[#161616] border border-white/[0.08] rounded px-2 py-0.5 text-zinc-400 group-hover:text-[#f5f0eb] transition-colors ml-auto font-semibold">
+        <kbd className="text-[10px] font-mono bg-muted border border-border rounded px-1.5 py-0.5 text-muted-foreground group-hover:text-foreground transition-colors ml-auto font-semibold">
           CTRL+K
         </kbd>
       )}
-    </button>
+    </Button>
   );
 }
