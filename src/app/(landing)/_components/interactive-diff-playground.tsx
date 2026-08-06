@@ -47,15 +47,15 @@ export function InteractiveDiffPlayground() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 select-none font-sans">
       {/* Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-mono text-zinc-400 mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+      <div className="text-center mb-10 space-y-3">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs font-mono text-zinc-300 mb-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
           Live Playground
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight font-sans">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight font-sans">
           Try the Diff Playground.
         </h2>
-        <p className="mt-3 text-zinc-400 max-w-lg mx-auto text-sm leading-relaxed font-light font-sans">
+        <p className="mt-3 text-zinc-300 max-w-xl mx-auto text-base md:text-lg leading-relaxed font-normal font-sans">
           Compare prompt templates side-by-side. Inspect line-level changes and model configuration diffs in real time.
         </p>
       </div>
