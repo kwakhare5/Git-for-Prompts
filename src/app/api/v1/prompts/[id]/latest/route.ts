@@ -3,7 +3,7 @@ import { db } from '@/db';
 import { apiKeys, prompts, versions } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
-import { interpolateVariables } from '@/lib/variables';
+import { interpolateVariables } from '@gfp/core';
 import { authenticateApiKey } from '@/lib/api-auth';
 
 // ─────────────────────────────────────────────────────────────────────────────

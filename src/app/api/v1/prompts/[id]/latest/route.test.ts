@@ -43,7 +43,7 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
       .values({
         ownerId: mockOwnerId,
         name: 'Integration Test Key',
-        keyHash: 'dummy_hash',
+        keyHash: 'sha256_only',
         keyLookupHash: lookupHash,
         keyPrefix: 'gfp_live_',
       })

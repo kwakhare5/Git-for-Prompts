@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Eye, Edit3, GitCompare, Split, CheckSquare } from 'lucide-react';
 
+import { Badge } from '@/components/ui/badge';
+
 interface PromptSubnavProps {
   promptId: string;
   testCount?: number;
@@ -24,7 +26,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
   ];
 
   return (
-    <nav className="flex items-center gap-1 bg-card border border-border p-1.5 rounded-2xl font-mono text-xs select-none shadow-sm overflow-x-auto no-scrollbar">
+    <nav className="flex items-center gap-1 bg-card border border-border p-1.5 rounded-xl font-mono text-xs select-none shadow-sm overflow-x-auto no-scrollbar">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
@@ -56,9 +58,9 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             <Icon className={cn('w-4 h-4', isActive ? 'text-foreground' : 'text-muted-foreground')} />
             <span>{tab.label}</span>
             {tab.count !== undefined && tab.count > 0 && (
-              <span className="ml-1 text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-muted text-foreground border border-border">
+              <Badge variant="outline" className="ml-1 font-mono font-semibold">
                 {tab.count}
-              </span>
+              </Badge>
             )}
           </Link>
         );

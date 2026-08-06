@@ -24,7 +24,7 @@ export default function NewPromptPage() {
       {/* Two-column layout */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_320px] lg:items-start">
         {/* Left — form */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
           <CreatePromptForm />
         </div>
 

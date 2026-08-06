@@ -80,38 +80,30 @@ const evaluationResultSchema = z.object({
   reason: z.string(),
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Configuration
-// ─────────────────────────────────────────────────────────────────────────────
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+import {
+  GROQ_URL,
+  OPENROUTER_URL,
+  DEFAULT_GROQ_EXECUTION_MODEL,
+  DEFAULT_GROQ_EVALUATION_MODEL,
+  DEFAULT_OPENROUTER_EXECUTION_MODEL,
+  DEFAULT_OPENROUTER_EVALUATION_MODEL,
+  DEFAULT_AI_TIMEOUT_MS,
+  DEFAULT_MAX_CONCURRENT_TESTS,
+} from '@gfp/core';
 
-/**
- * Model configuration — overridable per environment, per purpose.
- *
- * Two purposes exist:
- *  - "execution": running the user's own prompt against a test input.
- *  - "evaluation": grading that output against the test's expected
- *    criteria.
- *
- * These can legitimately want different models — e.g. a cheap/fast model
- * to execute hundreds of prompts in a bulk test run, and a heavier
- * reasoning model as the judge for evaluation accuracy. Each is
- * independently overridable via env var; if the eval-specific var is
- * unset, it falls back to the execution model so existing deployments
- * keep their current (identical-model) behavior with zero config changes
- * required.
- */
-const GROQ_EXECUTION_MODEL = process.env.GROQ_EXECUTION_MODEL || 'llama-3.3-70b-versatile';
-const GROQ_EVALUATION_MODEL = process.env.GROQ_EVALUATION_MODEL || GROQ_EXECUTION_MODEL;
+// ─────────────────────────────────────────────────────────────────────────────
+// Configuration — centralized defaults overridden via process.env
+// ─────────────────────────────────────────────────────────────────────────────
+const GROQ_EXECUTION_MODEL = process.env.GROQ_EXECUTION_MODEL || DEFAULT_GROQ_EXECUTION_MODEL;
+const GROQ_EVALUATION_MODEL = process.env.GROQ_EVALUATION_MODEL || DEFAULT_GROQ_EVALUATION_MODEL;
 
-const OPENROUTER_EXECUTION_MODEL = process.env.OPENROUTER_EXECUTION_MODEL || 'openrouter/free';
-const OPENROUTER_EVALUATION_MODEL = process.env.OPENROUTER_EVALUATION_MODEL || OPENROUTER_EXECUTION_MODEL;
+const OPENROUTER_EXECUTION_MODEL = process.env.OPENROUTER_EXECUTION_MODEL || DEFAULT_OPENROUTER_EXECUTION_MODEL;
+const OPENROUTER_EVALUATION_MODEL = process.env.OPENROUTER_EVALUATION_MODEL || DEFAULT_OPENROUTER_EVALUATION_MODEL;
 
 type AIPurpose = 'execution' | 'evaluation';
 
-const AI_TIMEOUT_MS = 30_000;
-const MAX_CONCURRENT_TESTS = 10; // Groq is fast enough for high concurrency
+const AI_TIMEOUT_MS = DEFAULT_AI_TIMEOUT_MS;
+const MAX_CONCURRENT_TESTS = DEFAULT_MAX_CONCURRENT_TESTS;
 
 /**
  * Simple concurrency limiter.
