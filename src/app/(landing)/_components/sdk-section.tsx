@@ -168,7 +168,7 @@ response = openai.chat.completions.create(
   };
 
   return (
-    <section id="docs" className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
+    <section id="docs" className="max-w-6xl mx-auto px-6 py-6 md:py-8 space-y-6 select-none font-sans">
       <div className="max-w-2xl space-y-3">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">
           REST API &amp; CLI Integration
@@ -180,7 +180,7 @@ response = openai.chat.completions.create(
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch select-none">
         {/* Left Column - Code tabs */}
-        <div className="lg:col-span-7 relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[440px]">
+        <div className="lg:col-span-7 relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[350px]">
           <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0">
             <div className="flex items-center gap-2 flex-wrap">
               {[
@@ -230,7 +230,7 @@ response = openai.chat.completions.create(
         </div>
 
         {/* Right Column - Real CLI terminal */}
-        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[440px]">
+        <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[350px]">
           <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0 select-none">
             <div className="flex gap-1.5 select-none">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/75" />

@@ -101,7 +101,7 @@ export function Hero({ onTrySandbox }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative flex flex-col items-center text-center pt-14 pb-10 px-6 max-w-6xl mx-auto gap-6"
+      className="relative flex flex-col items-center text-center pt-8 pb-6 px-6 max-w-6xl mx-auto gap-5"
     >
       {/* Headline */}
       <motion.h1

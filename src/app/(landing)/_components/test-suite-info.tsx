@@ -4,7 +4,7 @@ import { Sparkles, Check } from 'lucide-react';
 
 export function TestSuiteInfo() {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 py-6 md:py-8 space-y-6 select-none font-sans">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-emerald-950/80 bg-emerald-950/30 text-emerald-400 font-mono text-xs uppercase tracking-wider font-semibold">
@@ -34,7 +34,7 @@ export function TestSuiteInfo() {
         </div>
 
         {/* Visual Mock Runner Card */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-xl relative overflow-hidden flex flex-col font-mono text-xs h-[440px]">
+        <div className="rounded-2xl border border-white/[0.08] bg-[#161616] shadow-xl relative overflow-hidden flex flex-col font-mono text-xs h-[350px]">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl font-mono text-xs">
             <span className="text-zinc-300 uppercase font-semibold tracking-wider font-mono">Assert suite: refund_eval_matrix</span>
             <span className="text-emerald-400 font-bold font-mono">100% PASSED</span>
