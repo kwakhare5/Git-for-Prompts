@@ -94,10 +94,38 @@ export async function cmdPush(name: string, options: PushOptions): Promise<void>
         cloudPromptId = lookupRes.data['promptId'] as string;
         console.log(`\x1b[90mFound cloud prompt: ${cloudPromptId}\x1b[0m`);
       } else if (lookupRes.status === 404) {
-        console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found in cloud.`);
-        console.error('Create it on the dashboard first, then paste the prompt ID with:');
-        console.error(`  gfp push ${name} --cloud-id <your-cloud-prompt-id>`);
-        process.exit(1);
+        // Auto-create the cloud prompt
+        console.log(`\x1b[90mPrompt "${name}" not found in cloud. Creating it…\x1b[0m`);
+        const createRes = await apiRequest(
+          `${config.baseUrl}/api/v1/prompts`,
+          config.apiKey,
+          'POST',
+          { name }
+        );
+
+        if (createRes.status === 201) {
+          cloudPromptId = createRes.data['promptId'] as string;
+          console.log(`\x1b[32m✓\x1b[0m Created cloud prompt: ${name} (${cloudPromptId})`);
+        } else if (createRes.status === 401) {
+          console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
+          process.exit(1);
+        } else if (createRes.status === 409) {
+          // Race condition: someone else created it. Try lookup again.
+          const retryRes = await apiRequest(
+            `${config.baseUrl}/api/v1/prompts?name=${encodeURIComponent(name)}`,
+            config.apiKey,
+            'GET'
+          );
+          if (retryRes.status === 200) {
+            cloudPromptId = retryRes.data['promptId'] as string;
+          } else {
+            console.error(`\x1b[31mError:\x1b[0m Could not create or find cloud prompt. Try: gfp push ${name} --cloud-id <id>`);
+            process.exit(1);
+          }
+        } else {
+          console.error(`\x1b[31mError:\x1b[0m Failed to create cloud prompt ${createRes.status}: ${JSON.stringify(createRes.data)}`);
+          process.exit(1);
+        }
       } else if (lookupRes.status === 401) {
         console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
         process.exit(1);

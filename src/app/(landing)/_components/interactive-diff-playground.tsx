@@ -36,7 +36,13 @@ Rules:
 export function InteractiveDiffPlayground() {
   const [temperature, setTemperature] = useState(0.7);
   const [provider, setProvider] = useState('groq');
-  const [model, setModel] = useState('llama-3.3-70b-versatile');
+
+  const PROVIDER_MODELS: Record<string, string> = {
+    groq: 'llama-3.3-70b-versatile',
+    openai: 'gpt-4o',
+    anthropic: 'claude-3-5-sonnet',
+  };
+  const model = PROVIDER_MODELS[provider] ?? 'llama-3.3-70b-versatile';
 
   return (
     <section className="max-w-6xl mx-auto px-6 pt-20 pb-12 select-none font-sans">

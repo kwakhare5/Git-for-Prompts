@@ -8,19 +8,23 @@ interface TerminalLine {
   type: 'cmd' | 'output' | 'success' | 'info';
 }
 
+// Real CLI commands that actually work
 const script: { cmd: string; outputs: TerminalLine[] }[] = [
-  { cmd: 'gfp auth', outputs: [
-    { text: 'Logging into Git for Prompts...', type: 'info' },
-    { text: '✓ Authenticated as karan (user_3F2JhB...)', type: 'success' }
+  { cmd: 'gfp init', outputs: [
+    { text: '✓ Initialized gfp project', type: 'success' },
+    { text: '  Database: .gfp/bundles.db', type: 'info' },
   ]},
-  { cmd: 'gfp pull customer-support --version 4', outputs: [
-    { text: 'Downloading customer-support version 4...', type: 'info' },
-    { text: '✓ Created prompt_template.txt (208 tokens)', type: 'success' }
+  { cmd: 'gfp add customer-support --content "You are a helpful support agent."', outputs: [
+    { text: '✓ Saved as v1', type: 'success' },
+    { text: '  text-only · 37 chars', type: 'info' },
   ]},
-  { cmd: 'gfp push customer-support ./prompt_template.txt', outputs: [
-    { text: 'Pushing new version...', type: 'info' },
-    { text: '✓ Pushed as v5 · webhook fired to 2 endpoints', type: 'success' }
-  ]}
+  { cmd: 'gfp auth gfp_live_...', outputs: [
+    { text: '✓ API key saved to .gfp/config.json', type: 'success' },
+  ]},
+  { cmd: 'gfp push customer-support', outputs: [
+    { text: '✓ Created cloud prompt: customer-support', type: 'success' },
+    { text: '✓ Pushed v1 → cloud v1', type: 'success' },
+  ]},
 ];
 
 function MockTerminal() {
@@ -29,7 +33,7 @@ function MockTerminal() {
 
   useEffect(() => {
     let isMounted = true;
-    
+
     const runScript = async () => {
       if (!isMounted) return;
       setLines([]);
@@ -37,16 +41,16 @@ function MockTerminal() {
 
       for (const item of script) {
         if (!isMounted) return;
-        
+
         // Type the command
         for (let i = 0; i <= item.cmd.length; i++) {
           if (!isMounted) return;
-          await new Promise((r) => setTimeout(r, 55));
+          await new Promise((r) => setTimeout(r, 40));
           setCurrentTyped(item.cmd.slice(0, i));
         }
 
         if (!isMounted) return;
-        await new Promise((r) => setTimeout(r, 200));
+        await new Promise((r) => setTimeout(r, 150));
 
         // Commit command line to history
         setLines((prev) => [...prev, { text: item.cmd, type: 'cmd' }]);
@@ -55,12 +59,12 @@ function MockTerminal() {
         // Show outputs with delays
         for (const out of item.outputs) {
           if (!isMounted) return;
-          await new Promise((r) => setTimeout(r, 350));
+          await new Promise((r) => setTimeout(r, 280));
           setLines((prev) => [...prev, out as TerminalLine]);
         }
 
         if (!isMounted) return;
-        await new Promise((r) => setTimeout(r, 1200));
+        await new Promise((r) => setTimeout(r, 900));
       }
 
       if (isMounted) {
@@ -106,59 +110,55 @@ function MockTerminal() {
 }
 
 export function SdkSection() {
-  const [activeTab, setActiveTab] = useState<'node' | 'curl' | 'python' | 'go'>('node');
+  const [activeTab, setActiveTab] = useState<'curl' | 'node' | 'python'>('curl');
   const [copied, setCopied] = useState<boolean>(false);
 
+  // Only real, working integration patterns — no fake SDKs
   const snippets = {
-    node: `import { GFPClient } from '@gitforprompts/sdk';
+    curl: `# Fetch latest prompt version via REST API
+curl -X GET \\
+  "https://gitforprompts.vercel.app/api/v1/prompts/<your-prompt-id>/latest" \\
+  -H "Authorization: Bearer gfp_live_your_api_key_here"
 
-const gfp = new GFPClient({ apiKey: process.env.GFP_API_KEY });
+# Response
+{
+  "promptId": "uuid",
+  "versionNumber": 3,
+  "content": "You are a helpful support agent...",
+  "variables": ["user_name", "product"]
+}`,
+    node: `// Fetch prompt at runtime — no SDK needed, just fetch()
+const res = await fetch(
+  \`https://gitforprompts.vercel.app/api/v1/prompts/\${promptId}/latest\`,
+  { headers: { Authorization: \`Bearer \${process.env.GFP_API_KEY}\` } }
+);
+const { content } = await res.json();
 
-// Fetch active version of prompt template at runtime
-const systemPrompt = await gfp.prompts.getLatest('customer-support');
-
+// Use in your AI call
 const response = await openai.chat.completions.create({
+  model: 'gpt-4o',
   messages: [
-    { role: 'system', content: systemPrompt },
-    { role: 'user', content: userInput }
-  ]
+    { role: 'system', content },
+    { role: 'user', content: userInput },
+  ],
 });`,
-    curl: `curl -X GET "https://gitforprompts.vercel.app/api/v1/prompts/customer-support/latest" \\
-  -H "Authorization: Bearer gfp_live_your_api_key_here"`,
-    python: `from gfp_sdk import GFPClient
-import os
+    python: `import os, httpx
 
-gfp = GFPClient(api_key=os.environ.get("GFP_API_KEY"))
+# Fetch prompt at runtime
+resp = httpx.get(
+    f"https://gitforprompts.vercel.app/api/v1/prompts/{prompt_id}/latest",
+    headers={"Authorization": f"Bearer {os.environ['GFP_API_KEY']}"},
+)
+system_prompt = resp.json()["content"]
 
-# Retrieve active prompt dynamically
-system_prompt = gfp.prompts.get_latest("customer-support")
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
+# Use with OpenAI
+response = openai.chat.completions.create(
+    model="gpt-4o",
     messages=[
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_input}
-    ]
+        {"role": "user", "content": user_input},
+    ],
 )`,
-    go: `package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-
-	"github.com/gitforprompts/gfp-go"
-)
-
-func main() {
-	// Initialize our Git for Prompts client
-	gfp := gfp.NewClient(os.Getenv("GFP_API_KEY"))
-	
-	// Fetch the active version of "customer-support" at runtime
-	systemPrompt, _ := gfp.GetLatest(context.Background(), "customer-support")
-	
-	fmt.Println(systemPrompt)
-}`
   };
 
   const handleCopy = () => {
@@ -170,27 +170,26 @@ func main() {
   return (
     <section id="docs" className="max-w-6xl mx-auto px-6 pt-20 pb-12 space-y-8 select-none font-sans">
       <div className="max-w-2xl space-y-3">
-        <h3 className="text-2xl font-bold text-zinc-100 font-sans">Developer SDK & Integration</h3>
+        <h3 className="text-2xl font-bold text-zinc-100 font-sans">REST API &amp; CLI Integration</h3>
         <p className="text-sm text-zinc-400 leading-relaxed font-light font-sans">
-          Decouple prompts from application code. Fetch the active versions dynamically at runtime using our SDKs, CLI, or HTTP endpoints.
+          Decouple prompts from your application code. Fetch the active version at runtime via HTTP — works with any language, any framework.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch select-none">
-        {/* Left Column - Code Header tabs */}
+        {/* Left Column - Code tabs */}
         <div className="lg:col-span-7 relative rounded-xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[380px]">
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               {[
+                { id: 'curl', label: 'cURL' },
                 { id: 'node', label: 'Node.js' },
                 { id: 'python', label: 'Python' },
-                { id: 'go', label: 'Go SDK' },
-                { id: 'curl', label: 'cURL' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => {
-                    setActiveTab(tab.id as 'node' | 'curl' | 'python' | 'go');
+                    setActiveTab(tab.id as 'curl' | 'node' | 'python');
                     setCopied(false);
                   }}
                   className={`px-3 py-1 text-[11px] font-semibold font-mono rounded-md transition-all cursor-pointer ${
@@ -228,7 +227,7 @@ func main() {
           </pre>
         </div>
 
-        {/* Right Column - Mock Terminal */}
+        {/* Right Column - Real CLI terminal */}
         <div className="lg:col-span-5 border border-white/[0.08] bg-[#161616] rounded-xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[380px]">
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06] bg-[#121212] rounded-t-xl shrink-0 select-none">
             <div className="flex gap-1.5 select-none">
@@ -240,7 +239,7 @@ func main() {
               <Terminal className="h-3 w-3" /> gfp-cli
             </span>
           </div>
-          
+
           <MockTerminal />
         </div>
       </div>

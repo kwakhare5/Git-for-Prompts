@@ -234,15 +234,25 @@ async function fetchWithTimeout(
  * Free-form execution — never JSON-constrained, since this runs the
  * user's own prompt content, not our internal evaluator. Always uses the
  * "execution" model pair.
+ *
+ * For V2 bundles: systemPrompt is the top-level system message, and
+ * promptContent is the user template (combined with userInput).
+ * For V1 (no bundle): promptContent is treated as the system message.
  */
 async function runPromptAgainstInput(
   promptContent: string,
-  userInput: string
+  userInput: string,
+  systemPrompt?: string | null
 ): Promise<string> {
-  const messages: Message[] = [
-    { role: 'system', content: promptContent },
-    { role: 'user', content: userInput },
-  ];
+  const messages: Message[] = systemPrompt
+    ? [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: promptContent ? `${promptContent}\n\n${userInput}` : userInput },
+      ]
+    : [
+        { role: 'system', content: promptContent },
+        { role: 'user', content: userInput },
+      ];
 
   return await callAI(messages, false, 'execution');
 }
@@ -315,9 +325,10 @@ Respond ONLY with valid JSON in this exact format, no markdown, no explanation:
  */
 export async function runSingleTestCase(
   promptContent: string,
-  testCase: { inputText: string; expectedCriteria: string }
+  testCase: { inputText: string; expectedCriteria: string },
+  systemPrompt?: string | null
 ): Promise<{ passed: boolean; actualOutput: string; reason: string }> {
-  const actualOutput = await runPromptAgainstInput(promptContent, testCase.inputText);
+  const actualOutput = await runPromptAgainstInput(promptContent, testCase.inputText, systemPrompt);
   const evaluation = await evaluateOutput(actualOutput, testCase.expectedCriteria);
 
   return {

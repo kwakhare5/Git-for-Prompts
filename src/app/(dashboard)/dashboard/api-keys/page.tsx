@@ -62,6 +62,21 @@ export default async function ApiKeysPage() {
               </div>
             </div>
 
+            <div className="rounded-2xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-3 shadow-xl">
+              <h2 className="text-xs font-bold text-[#f5f0eb] uppercase tracking-wider font-mono flex items-center gap-2">
+                <Code2 className="w-4 h-4 text-zinc-400" /> Connect CLI
+              </h2>
+              <p className="text-xs text-zinc-400 font-sans">
+                After copying your key, run this in your terminal to connect the CLI to your account:
+              </p>
+              <code className="block rounded-xl border border-white/[0.08] bg-[#111111] p-3 font-mono text-[11px] text-zinc-300 whitespace-pre overflow-x-auto">
+                {`gfp auth <your-api-key>`}
+              </code>
+              <p className="text-[11px] text-zinc-500 font-sans">
+                Then use <span className="font-mono text-zinc-400">gfp push</span> and <span className="font-mono text-zinc-400">gfp pull</span> to sync prompts between your terminal and this dashboard.
+              </p>
+            </div>
+
             <div className="rounded-2xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col gap-2 shadow-sm">
               <h2 className="text-xs font-bold text-[#f5f0eb] uppercase tracking-wider font-mono flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-zinc-400" /> Security Standards
