@@ -7,6 +7,8 @@ import { ApiKeysManager } from '@/components/api-keys-manager';
 import { Topbar } from '@/components/topbar';
 import { ShieldCheck, Key, Code2 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'API Keys · Git for Prompts',
   description: 'Generate and manage API keys to fetch your prompts programmatically.',
