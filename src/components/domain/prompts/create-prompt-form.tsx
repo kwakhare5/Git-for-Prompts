@@ -7,6 +7,9 @@ import { useTransition } from "react";
 import Link from "next/link";
 import { createPromptSchema, type CreatePromptInput } from "@/lib/validations/prompt";
 import { createPrompt } from "@/lib/actions/prompts";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 export function CreatePromptForm() {
   const router = useRouter();
@@ -33,64 +36,61 @@ export function CreatePromptForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 font-sans">
       {/* Name */}
       <div className="space-y-1.5">
-        <label htmlFor="name" className="block text-sm font-medium text-zinc-300">
-          Name <span className="text-red-400">*</span>
+        <label htmlFor="name" className="block text-sm font-medium text-foreground">
+          Name <span className="text-destructive">*</span>
         </label>
-        <input
+        <Input
           id="name"
           {...register("name")}
           placeholder="e.g. Customer Support Agent…"
           autoComplete="off"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
-          className="w-full rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         {errors.name && (
-          <p className="text-xs text-red-400">{errors.name.message}</p>
+          <p className="text-xs text-destructive">{errors.name.message}</p>
         )}
       </div>
 
       {/* Description */}
       <div className="space-y-1.5">
-        <label htmlFor="description" className="block text-sm font-medium text-zinc-300">
+        <label htmlFor="description" className="block text-sm font-medium text-foreground">
           Description
-          <span className="ml-1.5 text-xs text-zinc-600">(optional)</span>
+          <span className="ml-1.5 text-xs text-muted-foreground">(optional)</span>
         </label>
-        <textarea
+        <Textarea
           id="description"
           {...register("description")}
           placeholder="What does this prompt do?…"
           autoComplete="off"
           rows={3}
-          className="w-full resize-none rounded-md border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm text-zinc-50 placeholder:text-zinc-600 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 transition-colors"
         />
         {errors.description && (
-          <p className="text-xs text-red-400">{errors.description.message}</p>
+          <p className="text-xs text-destructive">{errors.description.message}</p>
         )}
       </div>
 
       {/* Root error */}
       {errors.root && (
-        <p className="rounded-md border border-red-900 bg-red-950/50 px-3 py-2 text-xs text-red-400">
+        <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
           {errors.root.message}
         </p>
       )}
 
       {/* Actions */}
       <div className="flex items-center gap-3 pt-1">
-        <button
+        <Button
           type="submit"
           disabled={isPending}
-          className="inline-flex items-center gap-2 rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {isPending ? "Creating…" : "Create Prompt"}
-        </button>
+        </Button>
         <Link
           href="/dashboard"
-          className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           Cancel
         </Link>

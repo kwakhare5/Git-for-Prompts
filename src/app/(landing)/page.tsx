@@ -34,15 +34,15 @@ export default function Home() {
   };
 
   return (
-    <div id="home" className="flex flex-col min-h-screen bg-[#111111] bg-grid-pattern text-[#f5f0eb] font-sans selection:bg-zinc-800 relative overflow-x-hidden">
-      {/* Floating Island Header */}
+    <div id="home" className="flex flex-col min-h-screen bg-background bg-grid-pattern text-foreground font-sans selection:bg-accent selection:text-accent-foreground relative overflow-x-hidden">
+      {/* Header Navigation */}
       <Navbar
         activeTab={activeTab}
         onChangeTab={changeTab}
         onNavClick={handleNavClick}
       />
 
-      {/* Main Content Area */}
+      {/* Main Content View */}
       <main className="flex-1 flex flex-col pt-24">
         {activeTab === 'tour' ? (
           <TourTab onOpenSandbox={() => changeTab('sandbox')} />

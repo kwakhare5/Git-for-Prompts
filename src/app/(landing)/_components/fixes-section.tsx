@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Clock, Sparkles, ArrowRight, FileText, MessageSquare, Code2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface FixesSectionProps {
   onOpenSandbox: () => void;
@@ -53,10 +54,10 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
   return (
     <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
           What we help teams fix.
         </h2>
-        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
+        <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-normal font-sans">
           Eliminate prompt regressions, untracked changes, author chasing, and model pipeline drifts.
         </p>
       </div>
@@ -65,24 +66,24 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
         {/* Card 1: Regression Test Pipeline */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
+        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
+          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-background/40 pointer-events-none" />
           
           <div className="space-y-2 z-10">
             <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">01 / Testing & Integrity</span>
-            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Untested Prompt Regressions</h3>
-            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
+            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Untested Prompt Regressions</h3>
+            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
               You edit prompt instructions to solve an edge-case, and it silently breaks three others in production.
             </p>
           </div>
 
-          <div className="mt-6 border border-white/[0.08] bg-[#0a0a0a] rounded-lg p-4 space-y-2.5 relative font-mono text-xs z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 font-mono">
-              <span className="text-xs font-mono text-zinc-400 uppercase font-semibold">Assertion Tests Pipeline</span>
+          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-2.5 relative font-mono text-xs z-10 shadow-inner">
+            <div className="flex items-center justify-between border-b border-border pb-2 font-mono">
+              <span className="text-xs font-mono text-muted-foreground uppercase font-semibold">Assertion Tests Pipeline</span>
               {card1State === 0 ? (
-                <span className="text-xs text-zinc-400 font-mono">Evaluating...</span>
+                <span className="text-xs text-muted-foreground font-mono">Evaluating...</span>
               ) : card1State === 1 ? (
-                <span className="text-xs text-red-400 font-bold font-mono">GAPS FOUND (33%)</span>
+                <span className="text-xs text-destructive font-bold font-mono">GAPS FOUND (33%)</span>
               ) : (
                 <span className="text-xs text-emerald-400 font-bold font-mono">ALL PASSED (100%)</span>
               )}
@@ -90,22 +91,22 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
 
             <div className="space-y-2 font-mono">
               <div className="flex items-center justify-between font-mono">
-                <span className="text-zinc-300 font-mono">Assert: Refund offer is included</span>
+                <span className="text-foreground font-mono">Assert: Refund offer is included</span>
                 {card1State === 0 ? (
-                  <span className="text-zinc-500 font-mono">Checking...</span>
+                  <span className="text-muted-foreground font-mono">Checking...</span>
                 ) : card1State === 1 ? (
-                  <span className="text-red-400 font-semibold font-mono">❌ Failed</span>
+                  <span className="text-destructive font-semibold font-mono">❌ Failed</span>
                 ) : (
                   <span className="text-emerald-400 font-semibold font-mono">✓ Passed</span>
                 )}
               </div>
 
               <div className="flex items-center justify-between font-mono">
-                <span className="text-zinc-300 font-mono">Assert: Politeness formatting</span>
+                <span className="text-foreground font-mono">Assert: Politeness formatting</span>
                 {card1State === 0 ? (
-                  <span className="text-zinc-500 font-mono">Checking...</span>
+                  <span className="text-muted-foreground font-mono">Checking...</span>
                 ) : card1State === 1 ? (
-                  <span className="text-red-400 font-semibold font-mono">❌ Failed</span>
+                  <span className="text-destructive font-semibold font-mono">❌ Failed</span>
                 ) : (
                   <span className="text-emerald-400 font-semibold font-mono">✓ Passed</span>
                 )}
@@ -113,12 +114,12 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
             </div>
 
             {card1State === 1 && (
-              <div className="absolute inset-0 bg-red-950/20 backdrop-blur-xs flex items-center justify-center p-3 animate-in fade-in duration-200">
-                <div className="bg-[#0a0a0a] border border-red-900/50 p-3 rounded-lg text-center space-y-2 shadow-xl w-[90%]">
-                  <span className="text-xs text-red-400 font-bold block">⚠️ Regression detected</span>
-                  <button className="px-3 py-1.5 text-xs rounded-md bg-red-950/60 text-red-200 border border-red-900/60 hover:bg-red-900/50 transition-colors font-mono cursor-pointer w-full font-semibold">
+              <div className="absolute inset-0 bg-destructive/10 backdrop-blur-xs flex items-center justify-center p-3 animate-in fade-in duration-200">
+                <div className="bg-background border border-destructive/30 p-3 rounded-lg text-center space-y-2 shadow-xl w-[90%]">
+                  <span className="text-xs text-destructive font-bold block">⚠️ Regression detected</span>
+                  <Button variant="destructive" size="sm" className="w-full font-mono text-xs cursor-pointer font-semibold">
                     Click to restore v2
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -126,13 +127,13 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 2: Fragmented Prompt Silos */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-black/30 pointer-events-none" />
+        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
+          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-background/40 pointer-events-none" />
           
           <div className="space-y-2 z-10">
             <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">02 / Versioning & Storage</span>
-            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Document Decay & Fragmentation</h3>
-            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
+            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Document Decay & Fragmentation</h3>
+            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
               Prompts live scattered in Google Docs, Slack notes, and hardcoded in app code. Nobody knows which is active.
             </p>
           </div>
@@ -148,14 +149,14 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
               return (
                 <div 
                   key={idx}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-white/[0.08] bg-[#0a0a0a] transition-all duration-700 font-mono"
+                  className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-background transition-all duration-700 font-mono"
                   style={{ opacity: card2DecayIdx === idx ? 0.35 : 0.95 }}
                 >
                   <div className="flex items-center gap-2.5 truncate mr-2">
-                    <ItemIcon className="w-4 h-4 text-zinc-400 shrink-0" />
-                    <span className="text-zinc-200 font-mono truncate">{item.name}</span>
+                    <ItemIcon className="w-4 h-4 text-muted-foreground shrink-0" />
+                    <span className="text-foreground font-mono truncate">{item.name}</span>
                   </div>
-                  <span className="text-xs font-mono text-red-400 bg-red-950/40 border border-red-900/50 px-2 py-0.5 rounded uppercase font-semibold shrink-0">
+                  <span className="text-xs font-mono text-destructive bg-destructive/10 border border-destructive/20 px-2 py-0.5 rounded uppercase font-semibold shrink-0">
                     {item.status}
                   </span>
                 </div>
@@ -165,57 +166,57 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 3: Chasing Prompt Authors */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
+        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
           <div className="space-y-2 z-10">
             <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">03 / Attribution audit</span>
-            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Which Version Is Actually Live?</h3>
-            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
+            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Which Version Is Actually Live?</h3>
+            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
               You edited the prompt last Tuesday. But which version is in production? You&apos;d need to grep git history — if it&apos;s even there.
             </p>
           </div>
 
-          <div className="mt-6 border border-white/[0.08] bg-[#0a0a0a] rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-white/[0.08] pb-2 text-zinc-400 font-semibold font-mono">
+          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
+            <div className="flex items-center justify-between border-b border-border pb-2 text-muted-foreground font-semibold font-mono">
               <span>Version Timeline</span>
-              <span className="flex items-center gap-1.5 font-mono text-zinc-400">
+              <span className="flex items-center gap-1.5 font-mono text-muted-foreground">
                 <Clock className="h-3.5 w-3.5 font-mono" /> {card3Timer} ago
               </span>
             </div>
 
             <div className="space-y-2.5 font-mono">
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 0 ? 'text-zinc-200' : 'text-zinc-500'}`}>v3 — &quot;be more concise&quot;</span>
+                <span className={`font-mono transition-colors ${card3Step >= 0 ? 'text-foreground' : 'text-muted-foreground'}`}>v3 — &quot;be more concise&quot;</span>
                 <span className="font-mono">
                   {card3Step === 0 ? (
-                    <span className="text-zinc-400 animate-pulse">checking...</span>
+                    <span className="text-muted-foreground animate-pulse">checking...</span>
                   ) : card3Step > 0 ? (
-                    <span className="text-zinc-400">last Tuesday?</span>
+                    <span className="text-muted-foreground">last Tuesday?</span>
                   ) : (
-                    <span className="text-zinc-500">pending</span>
+                    <span className="text-muted-foreground/60">pending</span>
                   )}
                 </span>
               </div>
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 1 ? 'text-zinc-200' : 'text-zinc-500'}`}>v4 — added tone rules</span>
+                <span className={`font-mono transition-colors ${card3Step >= 1 ? 'text-foreground' : 'text-muted-foreground'}`}>v4 — added tone rules</span>
                 <span className="font-mono">
                   {card3Step === 1 ? (
-                    <span className="text-zinc-400 animate-pulse">checking...</span>
+                    <span className="text-muted-foreground animate-pulse">checking...</span>
                   ) : card3Step > 1 ? (
-                    <span className="text-zinc-400">maybe Wednesday?</span>
+                    <span className="text-muted-foreground">maybe Wednesday?</span>
                   ) : (
-                    <span className="text-zinc-500">pending</span>
+                    <span className="text-muted-foreground/60">pending</span>
                   )}
                 </span>
               </div>
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 2 ? 'text-zinc-100 font-semibold' : 'text-zinc-500'}`}>v5 — live in prod</span>
+                <span className={`font-mono transition-colors ${card3Step >= 2 ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>v5 — live in prod</span>
                 <span className="font-mono">
                   {card3Step === 2 ? (
-                    <span className="text-zinc-400 animate-pulse">checking...</span>
+                    <span className="text-muted-foreground animate-pulse">checking...</span>
                   ) : card3Step === 3 ? (
                     <span className="text-emerald-400 font-bold">✓ Found it</span>
                   ) : (
-                    <span className="text-zinc-500">pending</span>
+                    <span className="text-muted-foreground/60">pending</span>
                   )}
                 </span>
               </div>
@@ -224,30 +225,30 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         </div>
 
         {/* Card 4: Buried Failures */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#161616] p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-md">
+        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
           <div className="space-y-2 z-10">
             <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">04 / Incident alerts</span>
-            <h3 className="text-base md:text-lg font-bold text-[#f5f0eb] font-sans">Silenced Error Regressions</h3>
-            <p className="text-xs md:text-sm text-zinc-300 font-sans leading-relaxed">
+            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Silenced Error Regressions</h3>
+            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
               LLM format breakages and parser crashes happen, but slip past because they are buried in cloud logs.
             </p>
           </div>
 
-          <div className="mt-6 border border-white/[0.08] bg-[#0a0a0a] rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex justify-between border-b border-white/[0.08] pb-2 text-zinc-400 font-semibold font-mono">
+          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
+            <div className="flex justify-between border-b border-border pb-2 text-muted-foreground font-semibold font-mono">
               <span>Server stdout stream</span>
-              <span className="text-zinc-500 font-mono">stdout.log</span>
+              <span className="text-muted-foreground font-mono">stdout.log</span>
             </div>
 
             <div className="space-y-2 font-mono">
               <div className="flex items-center justify-between transition-all font-mono sub-item-wrap">
-                <span className={`font-mono ${card4State === 2 ? 'line-through text-zinc-500 opacity-40' : 'text-red-400 font-semibold font-mono'}`}>
+                <span className={`font-mono ${card4State === 2 ? 'line-through text-muted-foreground opacity-40' : 'text-destructive font-semibold font-mono'}`}>
                   JSON parser crash (Invalid char)
                 </span>
                 <span className="font-mono">{card4State === 2 ? '[Muted]' : '[ALERT]'}</span>
               </div>
               <div className="flex items-center justify-between transition-all font-mono sub-item-wrap">
-                <span className={`font-mono ${card4State >= 1 ? 'line-through text-zinc-500 opacity-40' : 'text-red-400 font-semibold font-mono'}`}>
+                <span className={`font-mono ${card4State >= 1 ? 'line-through text-muted-foreground opacity-40' : 'text-destructive font-semibold font-mono'}`}>
                   Empty response (400 Bad Req)
                 </span>
                 <span className="font-mono">{card4State >= 1 ? '[Muted]' : '[ALERT]'}</span>

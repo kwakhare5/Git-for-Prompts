@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface CodeTabViewerProps {
   snippets: Record<'curl' | 'node' | 'python', string>;
@@ -18,36 +19,36 @@ export function CodeTabViewer({ snippets }: CodeTabViewerProps) {
   };
 
   return (
-    <div className="relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col min-h-[380px] h-full">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0 select-none">
+    <div className="relative rounded-2xl border border-border bg-card overflow-hidden font-mono text-sm shadow-xl flex flex-col min-h-[380px] h-full">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/40 rounded-t-2xl shrink-0 select-none">
         <div className="flex items-center gap-1.5 flex-wrap">
           {[
             { id: 'curl', label: 'cURL' },
             { id: 'node', label: 'Node.js' },
             { id: 'python', label: 'Python' },
           ].map((tab) => (
-            <button
+            <Button
               key={tab.id}
               type="button"
+              variant={activeTab === tab.id ? 'secondary' : 'ghost'}
+              size="sm"
               onClick={() => {
                 setActiveTab(tab.id as 'curl' | 'node' | 'python');
                 setCopied(false);
               }}
-              className={`px-3 py-1 text-xs font-semibold font-mono rounded-lg transition-all duration-150 cursor-pointer active:scale-[0.97] ${
-                activeTab === tab.id
-                  ? 'bg-white/10 text-white border border-white/10 font-bold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200 bg-transparent border border-transparent'
-              }`}
+              className="h-7 px-3 text-xs font-mono cursor-pointer"
             >
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={handleCopy}
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#f5f0eb] transition-colors p-1 cursor-pointer font-mono font-semibold active:scale-[0.97]"
+          className="h-7 px-2 text-xs font-mono text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-1.5"
         >
           {copied ? (
             <>
@@ -60,11 +61,11 @@ export function CodeTabViewer({ snippets }: CodeTabViewerProps) {
               <span className="font-mono">Copy</span>
             </>
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Code snippet block */}
-      <pre className="p-4 overflow-x-auto overflow-y-auto text-zinc-200 font-mono text-xs md:text-sm leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-2xl no-scrollbar select-text">
+      <pre className="p-4 overflow-x-auto overflow-y-auto text-foreground font-mono text-xs md:text-sm leading-relaxed flex-1 min-h-0 bg-background rounded-b-2xl no-scrollbar select-text">
         <code className="font-mono whitespace-pre-wrap break-words">{snippets[activeTab]}</code>
       </pre>
     </div>

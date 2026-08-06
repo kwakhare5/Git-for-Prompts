@@ -20,7 +20,7 @@ const variantStyles: Record<StatusBadgeVariant, string> = {
   rose: "bg-rose-500/10 text-rose-400 border-rose-500/20",
   amber: "bg-amber-500/10 text-amber-300 border-amber-500/20",
   violet: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-  neutral: "bg-zinc-800/60 text-zinc-400 border-white/[0.08]",
+  neutral: "bg-muted text-muted-foreground border-border",
 };
 
 export function StatusBadge({
@@ -33,7 +33,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-mono font-semibold border shrink-0 select-none transition-all duration-150 ease-out hover:scale-[1.02]",
+        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-mono font-semibold border shrink-0 transition-all duration-150 ease-out hover:scale-[1.02]",
         variantStyles[variant],
         className
       )}

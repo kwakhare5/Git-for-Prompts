@@ -76,7 +76,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body 
-        className="min-h-full flex flex-col bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800"
+        className={`min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-accent ${geistSans.className}`}
         suppressHydrationWarning
       >
         {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (

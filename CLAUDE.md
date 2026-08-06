@@ -131,28 +131,23 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 ## 7. SESSION RESUME
 
-**Last session date:** 2026-08-05
+**Last session date:** 2026-08-07
 
-**What we accomplished (Phases 1-8 Overhaul Complete):**
-- **Phase 1 (`@gfp/core`):** Extracted shared library package with Zod schemas for V2 PromptBundles, diff engine, variable extractor, and eval runner.
-- **Phase 2 (Cloud Bundle Support):** Migrated database schema with `bundle` JSONB column, updated Drizzle queries & API routes.
-- **Phase 3 (`gfp` CLI):** Built Wasm SQLite-powered (`sql.js`) local CLI with `init`, `add`, `history`, `diff`, `run`, and `auth` commands.
-- **Phase 4 (Cloud Sync):** Built `push` and `pull` commands with cloud prompt name-to-ID resolution and local cloud ID caching.
-- **Phase 5 (UI Enhancements):** Built 3-tab `BundleEditor`, V1/V2 mode toggle, model badges in history, and structural diff header in `DiffViewer`.
-- **Phase 6 (Docker Self-Hosting):** Created multi-stage `Dockerfile`, `docker-compose.yml` (App + Postgres 16), `.dockerignore`, and standalone config.
-- **Phase 7 (Landing Page Rewrite):** Redesigned marketing landing page with Geist font, matte charcoal theme (`#111111`), animated terminal hero, feature cards, interactive quickstart, and competitor matrix.
-- **Phase 8 (Documentation & Verification):** Rewrote `README.md`, verified zero TypeScript errors, and passed 81/81 tests.
+**What we accomplished (Pill Button Purge & Font Stack Standardization):**
+- **Pill Button Purge:** Replaced all `rounded-full` pill classes on buttons, status badges, version tags, and hero badges with standard `rounded-md` shadcn corner radius across the entire website.
+- **Button Primitive Standardization:** Updated `@/components/ui/button.tsx` to `rounded-md` base radius and `font-medium` typography.
+- **Geist & JetBrains Mono Fonts:** Updated `globals.css` `@theme` font variables and applied `geistSans.className` on `<body>` in `layout.tsx`.
+- **Quality & Verification:** Confirmed 0 TypeScript errors (`npx tsc --noEmit`), 81/81 unit tests passing (`pnpm test`), and production build passing (`pnpm build`).
 
 **Immediate next task:**
 - Ready for production deployment or launch announcement (`/ship` or `/tweet-crafter`).
 
 **Open blockers:**
-- None. All 8 phases completed.
+- None. All UI button primitives, auth page redesigns, card primitives, font stacks, and component refactorings 100% complete and verified.
 
 **Files most recently changed:**
-- `README.md`
+- `src/components/ui/button.tsx`
+- `src/components/layout/status-badge.tsx`
+- `src/app/globals.css`
+- `src/app/layout.tsx`
 - `CLAUDE.md`
-- `src/app/(landing)/_components/hero.tsx`
-- `src/components/bundle-editor.tsx`
-- `packages/cli/src/commands/push.ts`
-- `packages/cli/src/commands/pull.ts`

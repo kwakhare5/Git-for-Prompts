@@ -4,8 +4,7 @@ import { prompts, versions } from '@/db/schema';
 import { and, eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { DiffViewer } from '@/components/diff/diff-viewer';
-import { DiffVersionSelector } from '@/components/diff/diff-version-selector';
+import { DiffViewer, DiffVersionSelector } from '@/components/domain/diff';
 import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
 import type { InferSelectModel } from 'drizzle-orm';
@@ -123,22 +122,22 @@ export default async function DiffPage({
   }`;
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-4 sm:p-8 font-sans bg-background">
       {/* Page header */}
       {/* #21: items-center instead of items-start — aligns version selector with the header text */}
       <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href={`/dashboard/prompts/${id}`}
-            className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors shrink-0"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
             aria-label="Back to prompt"
           >
             ← {prompt.name}
           </Link>
-          <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
+          <div className="h-4 w-px bg-border shrink-0" aria-hidden="true" />
           <div className="min-w-0">
-            <h1 className="text-xl font-bold text-zinc-50 truncate">{prompt.name}</h1>
-            <p className="text-xs text-zinc-600 font-mono mt-0.5">
+            <h1 className="text-xl font-bold text-foreground truncate">{prompt.name}</h1>
+            <p className="text-xs text-muted-foreground font-mono mt-0.5">
               Comparing v{fromVersion.versionNumber} → v{toVersion.versionNumber}
             </p>
           </div>

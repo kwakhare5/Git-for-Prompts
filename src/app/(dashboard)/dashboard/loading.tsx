@@ -2,12 +2,12 @@ import { Topbar } from "@/components/layout/topbar";
 
 export default function DashboardLoading() {
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-[#111111] animate-in fade-in duration-150">
+    <div className="flex-1 flex flex-col min-w-0 bg-background animate-in fade-in duration-150 font-sans">
       <Topbar />
 
       <div className="p-6 lg:p-8 space-y-8 select-none font-sans max-w-7xl w-full mx-auto">
         {/* Header Shimmer */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2.5">
               <div className="skeleton h-8 w-44 rounded-xl" />
@@ -23,7 +23,7 @@ export default function DashboardLoading() {
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-3 shadow-sm"
+              className="p-5 rounded-2xl border border-border bg-card space-y-3 shadow-sm"
               style={{ opacity: Math.max(0.4, 1 - (i - 1) * 0.15) }}
             >
               <div className="flex items-center justify-between">
@@ -43,8 +43,8 @@ export default function DashboardLoading() {
             <div className="skeleton h-4 w-24 rounded-md" />
           </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden shadow-xl">
-            <div className="flex items-center justify-between px-6 py-3.5 border-b border-white/[0.08] bg-[#141414]">
+          <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-xl">
+            <div className="flex items-center justify-between px-6 py-3.5 border-b border-border bg-muted/40">
               <div className="skeleton h-3 w-28 rounded-md" />
               <div className="skeleton h-3 w-16 rounded-md" />
             </div>
@@ -52,7 +52,7 @@ export default function DashboardLoading() {
             {[75, 55, 65, 45, 60].map((width, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] last:border-b-0"
+                className="flex items-center justify-between px-6 py-4 border-b border-border last:border-b-0"
                 style={{ opacity: Math.max(0.2, 1 - i * 0.16) }}
               >
                 <div className="space-y-2 flex-1 max-w-sm">

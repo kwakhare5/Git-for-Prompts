@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react';
 import { PromptEditor } from './prompt-editor';
 import { VersionHistory } from './version-history';
 import { togglePromptVisibility } from '@/lib/actions/prompts';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Globe, Lock } from 'lucide-react';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
@@ -23,6 +25,7 @@ interface PromptDetailClientProps {
  * Manages active version state locally so preview switching is instant
  * (no server roundtrip when clicking a version in the sidebar).
  */
+
 export function PromptDetailClient({
   promptId,
   versions,
@@ -39,7 +42,7 @@ export function PromptDetailClient({
   const activeVersion = versions.find((v) => v.id === selectedId) ?? versions[0];
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start">
+    <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start font-sans">
       {/* Read-only Monaco preview — key forces remount on version switch for instant content update */}
       <div>
         {activeVersion && (
@@ -54,18 +57,18 @@ export function PromptDetailClient({
       </div>
 
       {/* Version history sidebar */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium text-zinc-400">
+      <div className="flex flex-col gap-3 font-sans">
+        <div className="flex items-center justify-between font-sans">
+          <h2 className="text-sm font-semibold text-foreground font-sans">
             Version History
           </h2>
-          <span className="text-xs text-zinc-500 font-mono tabular-nums">
+          <Badge variant="outline" className="text-xs font-mono">
             {totalVersionCount} version{totalVersionCount !== 1 ? 's' : ''}
-          </span>
+          </Badge>
         </div>
         {/* Show truncation notice when history is capped */}
         {totalVersionCount > versions.length && (
-          <p className="text-xs text-zinc-400 font-mono">
+          <p className="text-xs text-muted-foreground font-mono">
             Showing {versions.length} of {totalVersionCount} — oldest versions not shown
           </p>
         )}
@@ -77,8 +80,8 @@ export function PromptDetailClient({
         />
 
         {/* Visibility toggle */}
-        <div className="mt-2 pt-3 border-t border-zinc-800">
-          <button
+        <div className="mt-2 pt-3 border-t border-border font-sans">
+          <Button
             onClick={() =>
               startToggle(async () => {
                 const updated = await togglePromptVisibility(promptId);
@@ -88,25 +91,23 @@ export function PromptDetailClient({
               })
             }
             disabled={toggling}
-            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl border text-xs font-medium transition-all ${
-              isPublic
-                ? 'border-white/20 bg-white/10 text-[#f5f0eb] hover:bg-white/15'
-                : 'border-white/[0.08] bg-[#111111] text-zinc-400 hover:border-white/20'
-            } disabled:opacity-40`}
+            variant="outline"
+            size="sm"
+            className="w-full justify-between font-sans cursor-pointer h-9 text-xs"
             aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
           >
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 font-sans">
               {isPublic ? (
-                <Globe className="h-3.5 w-3.5 text-[#f5f0eb]" />
+                <Globe className="h-3.5 w-3.5 text-emerald-400" />
               ) : (
-                <Lock className="h-3.5 w-3.5 text-zinc-500" />
+                <Lock className="h-3.5 w-3.5 text-muted-foreground" />
               )}
               {isPublic ? 'Public' : 'Private'}
             </span>
             <span className="text-xs opacity-70 font-mono">
               {toggling ? '…' : showSuccess ? 'Updated!' : isPublic ? 'Click to make private' : 'Click to publish'}
             </span>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

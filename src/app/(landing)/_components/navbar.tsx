@@ -14,7 +14,7 @@ interface NavbarProps {
 
 export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
   return (
-    <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-white/[0.08] bg-[#161616]/90 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-4 py-2 select-none">
+    <header className="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between border border-border bg-card/90 backdrop-blur-xl rounded-2xl shadow-2xl transition-all duration-300 w-[calc(100%-2rem)] max-w-5xl px-4 py-2">
       {/* Brand Logo Component */}
       <BrandLogo href="/" />
 
@@ -23,27 +23,26 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
         <Link
           href="#home"
           onClick={(e) => onNavClick(e, 'home')}
-          className="text-zinc-400 hover:text-[#f5f0eb] transition-colors cursor-pointer"
+          className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           Home
         </Link>
         <Link
           href="#docs"
           onClick={(e) => onNavClick(e, 'docs')}
-          className="text-zinc-400 hover:text-[#f5f0eb] transition-colors cursor-pointer"
+          className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           Docs
         </Link>
-        <button
+        <Button
+          type="button"
+          variant={activeTab === 'sandbox' ? 'secondary' : 'ghost'}
+          size="sm"
           onClick={() => onChangeTab(activeTab === 'tour' ? 'sandbox' : 'tour')}
-          className={`transition-colors cursor-pointer ${
-            activeTab === 'sandbox'
-              ? 'text-[#f5f0eb] font-semibold'
-              : 'text-zinc-400 hover:text-[#f5f0eb]'
-          }`}
+          className="font-sans font-medium h-7 text-xs cursor-pointer"
         >
           Sandbox Playground
-        </button>
+        </Button>
       </nav>
 
       {/* Action Controls */}
@@ -54,7 +53,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
           <>
             <Show when="signed-in">
               <Link href="/dashboard" passHref>
-                <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer shadow-sm">
+                <Button size="sm" variant="default" className="font-semibold cursor-pointer shadow-sm">
                   Dashboard
                 </Button>
               </Link>
@@ -65,7 +64,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
 
             <Show when="signed-out">
               <Link href="/sign-up" passHref>
-                <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer shadow-sm">
+                <Button size="sm" variant="default" className="font-semibold cursor-pointer shadow-sm">
                   Get Started
                 </Button>
               </Link>
@@ -73,7 +72,7 @@ export function Navbar({ activeTab, onChangeTab, onNavClick }: NavbarProps) {
           </>
         ) : (
           <Link href="/sign-up" passHref>
-            <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white active:scale-[0.97] font-semibold cursor-pointer shadow-sm">
+            <Button size="sm" variant="default" className="font-semibold cursor-pointer shadow-sm">
               Get Started
             </Button>
           </Link>

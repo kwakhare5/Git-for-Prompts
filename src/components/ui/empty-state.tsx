@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 interface EmptyStateCta {
   href: string;
@@ -19,16 +20,16 @@ interface EmptyStateProps {
  */
 export function EmptyState({ icon, heading, description, cta }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-800 py-24 text-center">
-      <div aria-hidden="true" className="font-mono text-4xl text-zinc-700 mb-4">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card/40 py-24 text-center font-sans">
+      <div aria-hidden="true" className="font-mono text-4xl text-muted-foreground mb-4">
         {icon}
       </div>
-      <h2 className="text-lg font-semibold text-zinc-300 mb-2">{heading}</h2>
-      <p className="text-sm text-zinc-500 mb-6 max-w-xs">{description}</p>
+      <h2 className="text-lg font-semibold text-foreground mb-2 font-sans">{heading}</h2>
+      <p className="text-sm text-muted-foreground mb-6 max-w-xs font-sans">{description}</p>
       {cta && (
         <Link
           href={cta.href}
-          className="inline-flex items-center gap-2 rounded-md bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 transition-colors"
+          className={buttonVariants({ size: 'sm', variant: 'default', className: 'shadow-sm font-sans cursor-pointer font-semibold' })}
         >
           {cta.label}
         </Link>
