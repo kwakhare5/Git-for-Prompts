@@ -7,7 +7,8 @@ import Link from "next/link";
 import { PromptTable } from "@/components/prompt-table";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Topbar } from "@/components/topbar";
-import { Layers, CheckCircle, Key, Plus, GitBranch } from "lucide-react";
+import { QuickCreateModal } from "@/components/quick-create-modal";
+import { Layers, CheckCircle, Key, GitBranch } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: "Dashboard · Git for Prompts" };
@@ -111,33 +112,27 @@ export default async function DashboardPage() {
     <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
       <Topbar />
 
-      <div className="p-6 lg:p-8 space-y-8 select-none font-sans max-w-7xl w-full mx-auto">
+      <div className="p-5 lg:p-6 space-y-6 select-none font-sans max-w-7xl w-full mx-auto">
         <PageHeader
           title="Prompt Bundles"
           subtitle="Manage, version, diff, and evaluate your prompt infrastructure in production."
           badge={{ label: "Local-First VCS", variant: "sky" }}
         >
-          <Link
-            href="/dashboard/new"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[#f5f0eb] text-zinc-950 font-semibold text-xs hover:bg-white active:scale-[0.97] transition-all cursor-pointer shadow-sm font-sans"
-          >
-            <Plus className="w-3.5 h-3.5 text-zinc-950" />
-            New Prompt Bundle
-          </Link>
+          <QuickCreateModal />
         </PageHeader>
 
         {/* Top Metric Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Bundles
               </span>
-              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <Layers className="w-4 h-4" />
+              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <Layers className="w-3.5 h-3.5" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {promptsWithStats.length}
             </div>
             <p className="text-xs text-zinc-400 font-mono">
@@ -145,16 +140,16 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Total Versions
               </span>
-              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <GitBranch className="w-4 h-4" />
+              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <GitBranch className="w-3.5 h-3.5" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {totalVersionCount}
             </div>
             <p className="text-xs text-zinc-400 font-mono">
@@ -162,16 +157,16 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Avg Pass Rate
               </span>
-              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <CheckCircle className="w-4 h-4" />
+              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <CheckCircle className="w-3.5 h-3.5" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {avgPassRate}
             </div>
             <p className="text-xs text-zinc-400 font-mono">
@@ -179,16 +174,16 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl border border-white/[0.08] bg-[#161616] space-y-2 shadow-sm hover:border-white/20 transition-all group">
+          <div className="p-4 rounded-xl border border-white/[0.08] bg-[#161616] space-y-1.5 shadow-sm hover:border-white/20 transition-all group">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
                 Active API Keys
               </span>
-              <div className="p-2 rounded-xl bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <Key className="w-4 h-4" />
+              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
+                <Key className="w-3.5 h-3.5" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-[#f5f0eb] font-mono tracking-tight">
+            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
               {totalKeys}
             </div>
             <p className="text-xs text-zinc-400 font-mono">
@@ -211,9 +206,9 @@ export default async function DashboardPage() {
 
         {/* Prompt Data Table */}
         {promptsWithStats.length > 0 && (
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-[#f5f0eb] uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-[#f5f0eb] uppercase tracking-wider font-mono">
                 Your Prompt Repository
               </h2>
               <span className="text-xs font-mono text-zinc-400">
