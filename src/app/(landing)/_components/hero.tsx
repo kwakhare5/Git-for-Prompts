@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Terminal as TerminalIcon, Search } from 'lucide-react';
+import { Terminal as TerminalIcon } from 'lucide-react';
 import { Show } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { siteConfig } from '@/config/site';
 
 // ─── Terminal interactive steps ───────────────────────────────────────────────
@@ -15,22 +14,22 @@ const TERMINAL_STEPS = [
   {
     cmd: 'gfp init',
     description: 'Create local .gfp/ SQLite repo',
-    output: '✓ Initialized .gfp/ SQLite database in current directory',
+    output: '✓ Initialized gfp project',
   },
   {
-    cmd: 'gfp add "support-bot" -m "Initial prompt"',
+    cmd: 'gfp add support-bot --content "You are a helpful support agent."',
     description: 'Version prompt bundle locally',
-    output: '✓ Saved version 1 (id: ver_8f92a1) · 247 chars · 2 variables detected',
+    output: '✓ Saved as v1 · text-only · 37 chars',
   },
   {
     cmd: 'gfp push support-bot',
     description: 'Sync local bundle to cloud',
-    output: '✓ Synced support-bot (v1) → Cloud SaaS (prompt_id: prm_4g7h2k)',
+    output: '✓ Created cloud prompt: support-bot\n✓ Pushed v1 → cloud v1',
   },
   {
-    cmd: 'gfp pull support-bot --version 2',
+    cmd: 'gfp pull support-bot',
     description: 'Pull latest cloud prompt',
-    output: '✓ Pulled support-bot v2 from cloud · SQLite local state updated',
+    output: '✓ Pulled cloud v2 → local v2',
   },
 ];
 

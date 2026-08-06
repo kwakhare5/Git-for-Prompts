@@ -168,52 +168,52 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         <div className="md:col-span-3 rounded-xl border border-white/[0.08] bg-[#161616] p-5 flex flex-col justify-between min-h-[300px] overflow-hidden relative group transition-all hover:border-white/20 hover:bg-[#1a1a1a] shadow-sm">
           <div className="space-y-1 z-10">
             <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-semibold block">03 / Attribution audit</span>
-            <h3 className="text-sm font-semibold text-white font-sans">Chasing Prompt Changes</h3>
+            <h3 className="text-sm font-semibold text-white font-sans">Which Version Is Actually Live?</h3>
             <p className="text-xs text-zinc-400 font-light leading-relaxed font-sans">
-              Who modified the system parameters on production? Finding out takes hours of Slack threads.
+              You edited the prompt last Tuesday. But which version is in production? You&apos;d need to grep git history — if it&apos;s even there.
             </p>
           </div>
 
           <div className="mt-5 border border-white/[0.06] bg-[#0a0a0a] rounded-lg p-3 space-y-2.5 font-mono text-[9px] flex-1 flex flex-col justify-center z-10 shadow-inner">
             <div className="flex items-center justify-between border-b border-white/[0.06] pb-1 text-zinc-500 font-semibold font-mono">
-              <span>Slack Search Query</span>
+              <span>Version Timeline</span>
               <span className="flex items-center gap-1 font-mono text-zinc-600">
-                <Clock className="h-2.5 w-2.5 font-mono" /> {card3Timer} elapsed
+                <Clock className="h-2.5 w-2.5 font-mono" /> {card3Timer} ago
               </span>
             </div>
 
             <div className="space-y-2 font-mono">
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 0 ? 'text-zinc-300' : 'text-zinc-600'}`}>1. Sarah M. (searching Slack)</span>
+                <span className={`font-mono transition-colors ${card3Step >= 0 ? 'text-zinc-300' : 'text-zinc-600'}`}>v3 — &quot;be more concise&quot;</span>
                 <span className="font-mono">
                   {card3Step === 0 ? (
                     <span className="text-zinc-400 animate-pulse">checking...</span>
                   ) : card3Step > 0 ? (
-                    <span className="text-zinc-500">not found</span>
+                    <span className="text-zinc-500">last Tuesday?</span>
                   ) : (
                     <span className="text-zinc-600">pending</span>
                   )}
                 </span>
               </div>
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 1 ? 'text-zinc-300' : 'text-zinc-600'}`}>2. Dave L. (checking git blame)</span>
+                <span className={`font-mono transition-colors ${card3Step >= 1 ? 'text-zinc-300' : 'text-zinc-600'}`}>v4 — added tone rules</span>
                 <span className="font-mono">
                   {card3Step === 1 ? (
                     <span className="text-zinc-400 animate-pulse">checking...</span>
                   ) : card3Step > 1 ? (
-                    <span className="text-zinc-500">no local copy</span>
+                    <span className="text-zinc-500">maybe Wednesday?</span>
                   ) : (
                     <span className="text-zinc-600">pending</span>
                   )}
                 </span>
               </div>
               <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 2 ? 'text-zinc-300 font-semibold' : 'text-zinc-600'}`}>3. Alex K. (checking local draft)</span>
+                <span className={`font-mono transition-colors ${card3Step >= 2 ? 'text-zinc-300 font-semibold' : 'text-zinc-600'}`}>v5 — live in prod</span>
                 <span className="font-mono">
                   {card3Step === 2 ? (
                     <span className="text-zinc-400 animate-pulse">checking...</span>
                   ) : card3Step === 3 ? (
-                    <span className="text-emerald-400 font-bold">✓ Found file</span>
+                    <span className="text-emerald-400 font-bold">✓ Found it</span>
                   ) : (
                     <span className="text-zinc-600">pending</span>
                   )}

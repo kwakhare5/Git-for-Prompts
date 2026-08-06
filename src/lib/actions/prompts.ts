@@ -133,10 +133,12 @@ export async function forkPrompt(sourcePromptId: string) {
   if (latestVersion) {
     // insertNextVersion: advisory lock, variable extraction, currentVersionId
     // update — same path used by createVersion, restoreVersion, and push API.
+    // Pass bundle so V2 prompts (model config, system prompt, tools) are fully copied.
     await db.transaction((tx) =>
       insertNextVersion(tx, {
         promptId: forked.id,
         content: latestVersion.content,
+        bundle: latestVersion.bundle ?? undefined,
         commitMessage: `Forked from "${source.name}"`,
         createdBy: userId,
       })

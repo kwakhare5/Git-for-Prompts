@@ -22,7 +22,7 @@
 import { db } from '@/db';
 import { testResults } from '@/db/schema';
 import { runSingleTestCase, runWithConcurrency, MAX_CONCURRENT_TESTS } from '@/lib/ai';
-import { eq, sql } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -47,16 +47,21 @@ export type PersistResult = {
 /**
  * Run AI evaluation for every test case against a prompt version.
  * Concurrency-limited. No DB writes here — pure AI orchestration.
+ *
+ * systemPrompt: for V2 bundles, the separate top-level system prompt.
+ * When provided, promptContent is used as the user template instead of
+ * the system message.
  */
 export async function runEvaluations(
   promptContent: string,
   cases: TestCaseInput[],
-  logPrefix = '[TestRunner]'
+  logPrefix = '[TestRunner]',
+  systemPrompt?: string | null
 ): Promise<EvalAttempt[]> {
   return runWithConcurrency(
     cases.map((tc) => async (): Promise<EvalAttempt> => {
       try {
-        const result = await runSingleTestCase(promptContent, tc);
+        const result = await runSingleTestCase(promptContent, tc, systemPrompt);
         return { ok: true, testCaseId: tc.id, result };
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);

@@ -1,7 +1,8 @@
 # CLAUDE.md — Project Context
-# Hard cap: 200 lines. Global rules are in C:\Users\kwakh\.gemini\config\AGENTS.md
-# Domain terms → CONTEXT.md (read every session)
-# Heavy architecture → ARCHITECTURE.md (load on-demand)
+# Global AI rules → C:\Users\kwakh\.gemini\config\AGENTS.md
+# Skills → C:\Users\kwakh\.gemini\config\skills\
+# Playbook → C:\Users\kwakh\.gemini\config\playbook.md
+# Domain terms → CONTEXT.md | Architecture → ARCHITECTURE.md
 
 ---
 
@@ -45,7 +46,17 @@ npx tsc --noEmit   # type check only
 
 ---
 
-## 4. LOCAL RULES
+## 4. ENGINEERING PRINCIPLES
+
+- No backward compatibility. Remove obsolete paths instead of adding compatibility layers, fallbacks, or migrations.
+- Simplest implementation that fully meets current requirements. No speculative abstractions, configuration, or indirection.
+- Grow in layers. Start from the smallest version that works end to end. Never trade a working product for unfinished complexity.
+- Keep components modular. Concerns clearly separated.
+- Prefer established, well-maintained libraries when they reduce complexity or improve reliability. Do not reimplement common functionality without a clear reason.
+- Lean on existing project dependencies before writing your own implementation or adding packages. Check documentation and types before assuming a library lacks a capability.
+- Architectural decisions for the long term. No stopgaps that are "meant to be replaced later."
+
+## 4b. LOCAL RULES
 
 1. **Database — Drizzle only, ownership & advisory locking (CLOUD):**
    - Drizzle ORM only. Never supabase-js for DB queries.

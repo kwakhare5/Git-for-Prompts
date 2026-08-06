@@ -10,7 +10,6 @@ import { ZodError } from 'zod';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { runEvaluations, persistResults } from '@/lib/test-runner';
 
-type TestCaseRow = typeof testCases.$inferSelect;
 
 export async function createTestCase(input: unknown) {
   const userId = await getAuthUserId();
@@ -121,7 +120,10 @@ export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcom
     if (cases.length === 0) return [];
 
     // Delegate AI + persistence to TestRunner
-    const attempts = await runEvaluations(version.content, cases);
+    // For V2 bundles: pass the bundle's systemPrompt so it's used as the
+    // system message, with content as the user template.
+    const systemPrompt = version.bundle?.systemPrompt ?? null;
+    const attempts = await runEvaluations(version.content, cases, '[TestRunner]', systemPrompt);
 
     const rowsToInsert = attempts
       .filter((a): a is Extract<typeof a, { ok: true }> => a.ok)
@@ -214,9 +216,10 @@ export async function runComparisonForVersions(input: unknown): Promise<{
     if (cases.length === 0) return { testCases: [], resultsA: [], resultsB: [] };
 
     // Run both sides in parallel via TestRunner
+    // Pass bundle systemPrompt for each side if available (V2 bundles).
     const [attemptsA, attemptsB] = await Promise.all([
-      runEvaluations(versionA.content, cases, '[ComparisonA]'),
-      runEvaluations(versionB.content, cases, '[ComparisonB]'),
+      runEvaluations(versionA.content, cases, '[ComparisonA]', versionA.bundle?.systemPrompt ?? null),
+      runEvaluations(versionB.content, cases, '[ComparisonB]', versionB.bundle?.systemPrompt ?? null),
     ]);
 
     // Collect all rows for a single bulk upsert across both versions

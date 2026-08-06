@@ -19,6 +19,8 @@
 
 # production
 /build
+/dist
+dist/
 
 # misc
 .DS_Store
@@ -55,3 +57,5 @@ tsconfig.tsbuildinfo
 
 # gfp CLI local storage
 .gfp/
+
+.vercel
