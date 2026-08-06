@@ -3,13 +3,11 @@ FROM node:20-alpine AS base
 
 # Step 1: Install dependencies
 FROM base AS deps
-RUN apk add --no-network-timeout --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Enable pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Copy package manifests and workspace lockfiles
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/core/package.json ./packages/core/
 COPY packages/cli/package.json ./packages/cli/
@@ -27,13 +25,12 @@ COPY --from=deps /app/packages/cli/node_modules ./packages/cli/node_modules
 
 COPY . .
 
-# Set environment variables for build time (disable telemetry, dummy DB URL for static generation if needed)
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
 RUN pnpm --filter @gfp/core build && pnpm build
 
-# Step 3: Production runner stage
+# Step 3: Production runner
 FROM base AS runner
 WORKDIR /app
 
@@ -46,17 +43,15 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/packages ./packages
 
-# Set correct permissions for Next.js standalone server
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
-
-# Automatically leverage output traces to reduce image size
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+RUN chown -R nextjs:nodejs .next
 
 USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["node_modules/.bin/next", "start"]
