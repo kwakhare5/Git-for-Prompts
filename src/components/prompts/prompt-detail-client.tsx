@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { PromptEditor } from '@/components/prompt-editor';
-import { VersionHistory } from '@/components/version-history';
+import { PromptEditor } from './prompt-editor';
+import { VersionHistory } from './version-history';
 import { togglePromptVisibility } from '@/lib/actions/prompts';
 import { Globe, Lock } from 'lucide-react';
 import type { InferSelectModel } from 'drizzle-orm';

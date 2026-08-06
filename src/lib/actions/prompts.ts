@@ -95,7 +95,7 @@ export async function togglePromptVisibility(promptId: string) {
   const [updated] = await db
     .update(prompts)
     .set({ isPublic: !prompt.isPublic, updatedAt: new Date() })
-    .where(eq(prompts.id, promptId))
+    .where(and(eq(prompts.id, promptId), eq(prompts.ownerId, userId)))
     .returning();
 
   revalidatePath(`/dashboard/prompts/${promptId}`);

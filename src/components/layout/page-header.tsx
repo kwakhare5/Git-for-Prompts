@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StatusBadge, StatusBadgeVariant } from "@/components/status-badge";
+import { StatusBadge, StatusBadgeVariant } from "./status-badge";
 
 export interface PageHeaderProps {
   title: string;

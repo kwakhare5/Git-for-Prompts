@@ -47,7 +47,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             key={tab.href}
             href={tab.href}
             className={cn(
-              'flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all text-sm font-sans font-medium cursor-pointer whitespace-nowrap',
+              'flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all duration-150 ease-out text-sm font-sans font-medium cursor-pointer whitespace-nowrap active:scale-[0.98]',
               isActive
                 ? 'bg-[#111111] text-[#f5f0eb] border border-white/[0.08] font-semibold shadow-sm'
                 : 'text-zinc-400 hover:text-[#f5f0eb] hover:bg-white/[0.04]'

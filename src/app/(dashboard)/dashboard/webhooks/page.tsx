@@ -1,8 +1,8 @@
-import { PageHeader } from "@/components/page-header";
-import { StatusBadge } from "@/components/status-badge";
+import { PageHeader } from "@/components/layout/page-header";
+import { StatusBadge } from "@/components/layout/status-badge";
 import { listWebhooks } from '@/lib/actions/webhooks';
 import { WebhooksClient } from './webhooks-client';
-import { Topbar } from '@/components/topbar';
+import { Topbar } from '@/components/layout/topbar';
 import { Webhook, Radio } from 'lucide-react';
 import type { Metadata } from 'next';
 

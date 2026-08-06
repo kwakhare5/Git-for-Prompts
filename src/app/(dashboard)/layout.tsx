@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
+import { Sidebar } from "@/components/layout/sidebar";
 import { getAuthUserId } from "@/lib/auth";
 
 export default async function DashboardLayout({

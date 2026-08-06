@@ -7,7 +7,7 @@ import { createVersion } from '@/lib/actions/versions';
 import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
 import { extractVariables } from '@/lib/variables';
 import { createBundleFromLegacy } from '@gfp/core';
-import { BundleEditor } from '@/components/bundle-editor';
+import { BundleEditor } from './bundle-editor';
 import type { PromptBundle } from '@gfp/core';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';

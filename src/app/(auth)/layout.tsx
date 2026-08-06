@@ -1,4 +1,4 @@
-import { BrandLogo } from '@/components/brand-logo';
+import { BrandLogo } from '@/components/layout/brand-logo';
 
 export default function AuthLayout({
   children,

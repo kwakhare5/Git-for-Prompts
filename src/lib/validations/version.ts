@@ -17,5 +17,4 @@ export const restoreVersionSchema = z.object({
   promptId: z.string().uuid('Invalid prompt ID'),
 });
 
-export type CreateVersionInput = z.infer<typeof createVersionSchema>;
-export type RestoreVersionInput = z.infer<typeof restoreVersionSchema>;
+
