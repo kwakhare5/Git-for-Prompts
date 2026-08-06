@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { Show, UserButton } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
-import { BrandLogo } from '@/components/brand-logo';
-import { CommandTrigger } from '@/components/command-trigger';
+import { BrandLogo } from '@/components/layout/brand-logo';
+import { CommandTrigger } from '@/components/layout/command-trigger';
 
 interface NavbarProps {
   activeTab: 'tour' | 'sandbox';

@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy, Check, Terminal } from 'lucide-react';
+import { Terminal } from 'lucide-react';
+import { CodeTabViewer } from './code-tab-viewer';
 
 interface TerminalLine {
   text: string;
   type: 'cmd' | 'output' | 'success' | 'info';
 }
 
-// Real CLI commands that actually work
 const script: { cmd: string; outputs: TerminalLine[] }[] = [
   { cmd: 'gfp init', outputs: [
     { text: '✓ Initialized gfp project', type: 'success' },
@@ -39,114 +39,95 @@ function MockTerminal() {
       setLines([]);
       setCurrentTyped('');
 
-      for (const item of script) {
-        if (!isMounted) return;
-
-        // Type the command
-        for (let i = 0; i <= item.cmd.length; i++) {
+      for (const step of script) {
+        for (let i = 0; i <= step.cmd.length; i++) {
           if (!isMounted) return;
-          await new Promise((r) => setTimeout(r, 40));
-          setCurrentTyped(item.cmd.slice(0, i));
+          setCurrentTyped(step.cmd.slice(0, i));
+          await new Promise((r) => setTimeout(r, 45));
         }
 
-        if (!isMounted) return;
-        await new Promise((r) => setTimeout(r, 150));
+        await new Promise((r) => setTimeout(r, 200));
 
-        // Commit command line to history
-        setLines((prev) => [...prev, { text: item.cmd, type: 'cmd' }]);
+        if (!isMounted) return;
+        setLines((prev) => [...prev, { text: `$ ${step.cmd}`, type: 'cmd' }]);
         setCurrentTyped('');
 
-        // Show outputs with delays
-        for (const out of item.outputs) {
+        for (const out of step.outputs) {
           if (!isMounted) return;
-          await new Promise((r) => setTimeout(r, 280));
-          setLines((prev) => [...prev, out as TerminalLine]);
+          setLines((prev) => [...prev, out]);
+          await new Promise((r) => setTimeout(r, 120));
         }
 
-        if (!isMounted) return;
-        await new Promise((r) => setTimeout(r, 900));
-      }
-
-      if (isMounted) {
-        await new Promise((r) => setTimeout(r, 2500));
-        runScript();
+        await new Promise((r) => setTimeout(r, 1200));
       }
     };
 
     runScript();
+    const loopInterval = setInterval(runScript, 12000);
 
     return () => {
       isMounted = false;
+      clearInterval(loopInterval);
     };
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col justify-end p-4 font-mono text-xs leading-relaxed text-zinc-300 bg-[#0a0a0a] rounded-b-xl overflow-y-auto min-h-0 select-none no-scrollbar">
-      <div className="space-y-1.5 font-mono">
-        {lines.map((line, idx) => (
-          <div key={idx} className="font-mono">
-            {line.type === 'cmd' ? (
-              <span className="font-mono">
-                <span className="text-zinc-600 font-mono select-none">$ </span>
-                <span className="text-zinc-100 font-semibold font-mono">{line.text}</span>
-              </span>
-            ) : line.type === 'success' ? (
-              <span className="text-emerald-400 font-mono font-medium">{line.text}</span>
-            ) : line.type === 'info' ? (
-              <span className="text-zinc-500 font-mono">{line.text}</span>
-            ) : (
-              <span className="font-mono">{line.text}</span>
-            )}
-          </div>
-        ))}
-        <div className="flex items-center font-mono">
-          <span className="text-zinc-600 font-mono select-none">$ </span>
-          <span className="text-zinc-100 font-semibold font-mono">{currentTyped}</span>
-          <span className="inline-block w-[6px] h-[11px] bg-zinc-400 ml-0.5 align-middle animate-pulse" />
+    <div className="p-4 bg-[#0a0a0a] flex-1 overflow-y-auto font-mono text-xs space-y-1.5 leading-relaxed no-scrollbar select-text">
+      {lines.map((line, idx) => (
+        <div
+          key={idx}
+          className={`font-mono ${
+            line.type === 'cmd'
+              ? 'text-[#f5f0eb] font-semibold'
+              : line.type === 'success'
+              ? 'text-emerald-400 font-semibold'
+              : line.type === 'info'
+              ? 'text-zinc-400'
+              : 'text-zinc-300'
+          }`}
+        >
+          {line.text}
         </div>
-      </div>
+      ))}
+      {currentTyped && (
+        <div className="text-[#f5f0eb] font-mono font-semibold flex items-center gap-1">
+          <span>$</span>
+          <span>{currentTyped}</span>
+          <span className="w-1.5 h-3.5 bg-emerald-400 animate-pulse inline-block" />
+        </div>
+      )}
     </div>
   );
 }
 
 export function SdkSection() {
-  const [activeTab, setActiveTab] = useState<'curl' | 'node' | 'python'>('curl');
-  const [copied, setCopied] = useState<boolean>(false);
-
-  // Only real, working integration patterns — no fake SDKs
-  const snippets = {
+  const snippets: Record<'curl' | 'node' | 'python', string> = {
     curl: `# Fetch latest prompt version via REST API
-curl -X GET \\
-  "https://gitforprompts.vercel.app/api/v1/prompts/<your-prompt-id>/latest" \\
-  -H "Authorization: Bearer gfp_live_your_api_key_here"
+curl -X GET "https://gitforprompts.com/api/v1/prompts/pr_customer_refund/latest" \
+  -H "Authorization: Bearer gfp_live_YOUR_API_KEY" \
+  -H "Content-Type: application/json"
 
-# Response
-{
-  "promptId": "uuid",
-  "versionNumber": 3,
-  "content": "You are a helpful support agent...",
-  "variables": ["user_name", "product"]
-}`,
-    node: `// Fetch prompt at runtime — no SDK needed, just fetch()
-const res = await fetch(
-  \`https://gitforprompts.vercel.app/api/v1/prompts/\${promptId}/latest\`,
-  { headers: { Authorization: \`Bearer \${process.env.GFP_API_KEY}\` } }
-);
-const { content } = await res.json();
+# Response 200 OK:
+# { "promptId": "pr_customer_refund", "versionNumber": 3, "content": "..." }`,
 
-// Use in your AI call
+    node: `import { GFPClient } from '@gitforprompts/sdk';
+
+const gfp = new GFPClient({ apiKey: process.env.GFP_API_KEY });
+
+// Fetch active system prompt at runtime
+const prompt = await gfp.prompts.getLatest('pr_customer_refund');
+
+// Pass into OpenAI / Anthropic / Vercel AI SDK
 const response = await openai.chat.completions.create({
   model: 'gpt-4o',
-  messages: [
-    { role: 'system', content },
-    { role: 'user', content: userInput },
-  ],
+  messages: [{ role: 'system', content: prompt.content }],
 });`,
-    python: `import os, httpx
 
-# Fetch prompt at runtime
-resp = httpx.get(
-    f"https://gitforprompts.vercel.app/api/v1/prompts/{prompt_id}/latest",
+    python: `import requests
+import os
+
+resp = requests.get(
+    "https://gitforprompts.com/api/v1/prompts/pr_customer_refund/latest",
     headers={"Authorization": f"Bearer {os.environ['GFP_API_KEY']}"},
 )
 system_prompt = resp.json()["content"]
@@ -159,12 +140,6 @@ response = openai.chat.completions.create(
         {"role": "user", "content": user_input},
     ],
 )`,
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(snippets[activeTab]);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -184,55 +159,8 @@ response = openai.chat.completions.create(
 
       {/* Symmetrical 2-Column Equal Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch select-none">
-        {/* Left Column - Code tabs */}
-        <div className="relative rounded-2xl border border-white/[0.08] bg-[#161616] overflow-hidden font-mono text-sm shadow-xl flex flex-col h-[350px]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06] bg-[#121212] rounded-t-2xl shrink-0">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {[
-                { id: 'curl', label: 'cURL' },
-                { id: 'node', label: 'Node.js' },
-                { id: 'python', label: 'Python' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setActiveTab(tab.id as 'curl' | 'node' | 'python');
-                    setCopied(false);
-                  }}
-                  className={`px-3 py-1 text-xs font-semibold font-mono rounded-lg transition-all cursor-pointer ${
-                    activeTab === tab.id
-                      ? 'bg-white/10 text-white border border-white/10'
-                      : 'text-zinc-400 hover:text-zinc-200 bg-transparent border border-transparent'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-[#f5f0eb] transition-colors p-1 cursor-pointer font-mono font-semibold"
-            >
-              {copied ? (
-                <>
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
-                  <span className="text-emerald-400 font-mono">Copied</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="h-3.5 w-3.5" />
-                  <span className="font-mono">Copy</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Code snippet block */}
-          <pre className="p-4 overflow-y-auto text-zinc-200 font-mono text-xs md:text-sm leading-relaxed flex-1 min-h-0 bg-[#0a0a0a] rounded-b-2xl no-scrollbar">
-            <code className="font-mono">{snippets[activeTab]}</code>
-          </pre>
-        </div>
+        {/* Left Column - Code tabs component */}
+        <CodeTabViewer snippets={snippets} />
 
         {/* Right Column - Real CLI terminal */}
         <div className="border border-white/[0.08] bg-[#161616] rounded-2xl shadow-xl flex flex-col font-mono text-xs overflow-hidden h-[350px]">

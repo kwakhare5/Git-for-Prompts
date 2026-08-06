@@ -3,9 +3,9 @@ import { prompts, versions } from '@/db/schema';
 import { eq, desc, inArray } from 'drizzle-orm';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ForkButton } from '@/components/fork-button';
+import { ForkButton } from '@/components/prompts/fork-button';
 import { Globe, ArrowRight, Sparkles } from 'lucide-react';
-import { RelativeTime } from '@/components/relative-time';
+import { RelativeTime } from '@/components/layout/relative-time';
 
 export const metadata: Metadata = {
   title: 'Explore Prompts — Git for Prompts',

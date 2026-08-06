@@ -34,7 +34,7 @@ const DEFAULT_BASE_URL = 'https://gitforprompts.vercel.app';
  * Find the .gfp directory by walking up from cwd.
  * Returns null if not found (project not initialized).
  */
-export function findGfpRoot(startDir: string = process.cwd()): string | null {
+function findGfpRoot(startDir: string = process.cwd()): string | null {
   let dir = startDir;
   while (true) {
     const candidate = join(dir, GFP_DIR);
@@ -65,7 +65,7 @@ export function getDbPath(gfpDir?: string): string {
 }
 
 /** Path to the config file. */
-export function getConfigPath(gfpDir?: string): string {
+function getConfigPath(gfpDir?: string): string {
   const dir = gfpDir ?? requireGfpDir();
   return join(dir, CONFIG_FILE);
 }
@@ -105,7 +105,7 @@ export function loadConfig(gfpDir?: string): GfpConfig {
   }
 }
 
-export function saveConfig(config: GfpConfig, gfpDir?: string): void {
+function saveConfig(config: GfpConfig, gfpDir?: string): void {
   const configPath = getConfigPath(gfpDir);
   writeFileSync(configPath, JSON.stringify(config, null, 2), { mode: 0o600 });
 }

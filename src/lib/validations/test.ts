@@ -16,10 +16,6 @@ export const runComparisonSchema = z.object({
   versionIdB: z.string().uuid('Invalid version ID for B'),
 });
 
-export type CreateTestCaseInput = z.infer<typeof createTestCaseSchema>;
-export type RunTestsInput = z.infer<typeof runTestsSchema>;
-export type RunComparisonInput = z.infer<typeof runComparisonSchema>;
-
 export const deleteTestCaseSchema = z.object({
   testCaseId: z.string().uuid('Invalid test case ID'),
 });

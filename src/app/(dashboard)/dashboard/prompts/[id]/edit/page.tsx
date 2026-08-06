@@ -4,7 +4,7 @@ import { prompts, versions } from '@/db/schema';
 import { and, eq, desc } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { PromptEditor } from '@/components/prompt-editor';
+import { PromptEditor } from '@/components/prompts/prompt-editor';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({

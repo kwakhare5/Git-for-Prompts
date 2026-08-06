@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CreatePromptForm } from "@/components/create-prompt-form";
+import { CreatePromptForm } from "@/components/prompts/create-prompt-form";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = { title: "New Prompt — Git for Prompts" };

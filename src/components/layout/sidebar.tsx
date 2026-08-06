@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
 import { clerkAppearance } from '@/lib/clerk-appearance';
-import { BrandLogo } from '@/components/brand-logo';
+import { BrandLogo } from './brand-logo';
 import { cn } from '@/lib/utils';
 import {
   Home,

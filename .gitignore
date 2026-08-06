@@ -22,8 +22,9 @@
 # production
 /build
 
-# cli build output
+# package build output
 /packages/cli/dist
+/packages/core/dist
 
 # misc
 .DS_Store

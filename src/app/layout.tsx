@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 };
 
 import { Toaster } from "sonner";
-import { CommandMenu } from "@/components/command-menu";
+import { CommandMenu } from '@/components/layout/command-menu';
 
 export default function RootLayout({
   children,

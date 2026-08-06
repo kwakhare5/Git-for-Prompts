@@ -3,7 +3,7 @@
 import { useTransition, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { restoreVersion } from '@/lib/actions/versions';
-import { RelativeTime } from '@/components/relative-time';
+import { RelativeTime } from '@/components/layout/relative-time';
 import { cn } from '@/lib/utils';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';

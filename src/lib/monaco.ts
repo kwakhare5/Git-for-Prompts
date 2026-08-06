@@ -12,4 +12,4 @@ if (typeof window !== 'undefined' && !(window as any).__monaco_loader_init) {
   });
 }
 
-export { loader };
+
