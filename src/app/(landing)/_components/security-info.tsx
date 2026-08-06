@@ -11,7 +11,7 @@ export function SecurityInfo() {
         <h3 className="text-2xl md:text-3xl font-extrabold text-[#f5f0eb] font-sans tracking-tight">
           Production-Ready Security Standards
         </h3>
-        <p className="text-sm text-zinc-400 leading-relaxed font-sans">
+        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
           Your prompts contain crucial business rules. We protect your prompt infrastructure with strict auth protocols and server validation.
         </p>
       </div>

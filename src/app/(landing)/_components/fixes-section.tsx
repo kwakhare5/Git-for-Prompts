@@ -56,7 +56,7 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
         <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#f5f0eb] font-sans">
           What we help teams fix.
         </h2>
-        <p className="text-sm text-zinc-400 leading-relaxed font-sans">
+        <p className="text-base md:text-lg text-zinc-300 leading-relaxed font-normal font-sans">
           Eliminate prompt regressions, untracked changes, author chasing, and model pipeline drifts.
         </p>
       </div>
