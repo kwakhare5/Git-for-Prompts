@@ -4,7 +4,7 @@ import { prompts, versions, testCases } from '@/db/schema';
 import { and, eq, desc, count } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { CompareRunner } from '@/components/diff/compare-runner';
+import { CompareRunner } from '@/components/domain/diff';
 import { EmptyState } from '@/components/ui/empty-state';
 import { RECENT_VERSIONS_LIMIT } from '@/lib/constants';
 import type { Metadata } from 'next';
@@ -73,18 +73,18 @@ export default async function ComparePage({
   const hasEnoughVersions = allVersions.length >= 2;
 
   return (
-    <div className="p-4 sm:p-8">
+    <div className="p-4 sm:p-8 font-sans bg-background">
       <div className="flex items-center gap-3 min-w-0 mb-8">
         <Link
           href={`/dashboard/prompts/${id}`}
-          className="text-sm text-zinc-600 hover:text-zinc-400 transition-colors shrink-0"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
         >
           ← {prompt.name}
         </Link>
-        <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
-        <h1 className="text-xl font-bold text-zinc-50">Compare</h1>
+        <div className="h-4 w-px bg-border shrink-0" aria-hidden="true" />
+        <h1 className="text-xl font-bold text-foreground">Compare</h1>
         {hasEnoughVersions && (
-          <span className="shrink-0 font-mono text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
+          <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2 py-0.5 rounded-full font-semibold">
             {totalVersionCount > allVersions.length
               ? `latest ${allVersions.length} of ${totalVersionCount} versions`
               : `${totalVersionCount} versions`}

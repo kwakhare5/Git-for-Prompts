@@ -6,6 +6,11 @@ import { Plus, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CommandTrigger } from './command-trigger';
 
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+
+import { SidebarTrigger } from '@/components/ui/sidebar';
+
 export function Topbar() {
   const pathname = usePathname();
 
@@ -33,18 +38,20 @@ export function Topbar() {
   });
 
   return (
-    <header className="h-14 border-b border-white/[0.08] bg-[#111111]/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 select-none font-sans">
-      <nav className="flex items-center gap-2 text-sm text-zinc-400 font-sans">
-        <Link href="/dashboard" className="hover:text-[#f5f0eb] transition-colors font-medium">
-          Workspace
-        </Link>
+    <header className="h-14 border-b border-border bg-background/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 font-sans">
+      <div className="flex items-center gap-3">
+        <SidebarTrigger />
+        <nav className="flex items-center gap-2 text-sm text-muted-foreground font-sans">
+          <Link href="/dashboard" className="hover:text-foreground transition-colors font-medium">
+            Workspace
+          </Link>
         {breadcrumbs.map((item, idx) => (
           <div key={item.href} className="flex items-center gap-2">
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/60 shrink-0" />
             <Link
               href={item.href}
               className={`transition-colors font-medium ${
-                idx === breadcrumbs.length - 1 ? 'text-[#f5f0eb] font-semibold' : 'hover:text-zinc-200'
+                idx === breadcrumbs.length - 1 ? 'text-foreground font-semibold' : 'hover:text-foreground'
               }`}
             >
               {item.label}
@@ -52,17 +59,27 @@ export function Topbar() {
           </div>
         ))}
       </nav>
+      </div>
 
       <div className="flex items-center gap-3">
         <CommandTrigger placeholder="Search commands..." />
 
         <Link href="/dashboard/new">
-          <Button size="sm" className="bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold text-xs h-8 px-3 rounded-xl shadow-sm">
-            <Plus className="w-3.5 h-3.5 mr-1 text-zinc-950" />
+          <Button size="sm" variant="default" className="font-semibold shadow-xs cursor-pointer">
+            <Plus className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">New Prompt</span>
             <span className="sm:hidden">New</span>
           </Button>
         </Link>
+
+        <Tooltip>
+          <TooltipTrigger>
+            <Avatar className="w-8 h-8 cursor-pointer hover:border-primary transition-colors">
+              <AvatarFallback>GFP</AvatarFallback>
+            </Avatar>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Developer Account</TooltipContent>
+        </Tooltip>
       </div>
     </header>
   );

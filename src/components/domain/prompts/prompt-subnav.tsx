@@ -24,7 +24,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
   ];
 
   return (
-    <nav className="flex items-center gap-1 bg-[#161616] border border-white/[0.08] p-1.5 rounded-2xl font-mono text-xs select-none shadow-sm overflow-x-auto no-scrollbar">
+    <nav className="flex items-center gap-1 bg-card border border-border p-1.5 rounded-2xl font-mono text-xs select-none shadow-sm overflow-x-auto no-scrollbar">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
@@ -34,7 +34,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             <span
               key={tab.href}
               title="Requires at least 2 saved versions"
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-zinc-600 cursor-not-allowed text-xs font-sans opacity-50 whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-muted-foreground cursor-not-allowed text-xs font-sans opacity-50 whitespace-nowrap"
             >
               <Icon className="w-3.5 h-3.5" />
               {tab.label}
@@ -49,14 +49,14 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             className={cn(
               'flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all duration-150 ease-out text-sm font-sans font-medium cursor-pointer whitespace-nowrap active:scale-[0.98]',
               isActive
-                ? 'bg-[#111111] text-[#f5f0eb] border border-white/[0.08] font-semibold shadow-sm'
-                : 'text-zinc-400 hover:text-[#f5f0eb] hover:bg-white/[0.04]'
+                ? 'bg-background text-foreground border border-border font-semibold shadow-sm'
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
             )}
           >
-            <Icon className={cn('w-4 h-4', isActive ? 'text-[#f5f0eb]' : 'text-zinc-500')} />
+            <Icon className={cn('w-4 h-4', isActive ? 'text-foreground' : 'text-muted-foreground')} />
             <span>{tab.label}</span>
             {tab.count !== undefined && tab.count > 0 && (
-              <span className="ml-1 text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-white/10 text-[#f5f0eb] border border-white/10">
+              <span className="ml-1 text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-muted text-foreground border border-border">
                 {tab.count}
               </span>
             )}

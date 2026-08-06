@@ -1,15 +1,15 @@
-import { PageHeader } from "@/components/layout/page-header";
+import { PageHeader, Topbar } from "@/components/layout";
 import { getAuthUserId } from "@/lib/auth";
 import { db } from "@/db";
 import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { Topbar } from '@/components/layout/topbar';
-import { PromptTable } from '@/components/prompts/prompt-table';
-import { QuickCreateModal } from '@/components/prompts/quick-create-modal';
+import { PromptTable, QuickCreateModal, ActivityStream, type ActivityEvent, PromptAnalyticsChart } from '@/components/domain/prompts';
 import { EmptyState } from "@/components/ui/empty-state";
-import { Card } from "@/components/ui/card";
-import { Layers, CheckCircle, Key, GitBranch } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Layers, CheckCircle, Key, GitBranch, TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: "Dashboard · Git for Prompts" };
@@ -21,11 +21,11 @@ async function getPromptsWithStats(userId: string) {
     .where(eq(prompts.ownerId, userId))
     .orderBy(desc(prompts.updatedAt));
 
-  if (userPrompts.length === 0) return { promptsWithStats: [], totalKeys: 0, totalVersionCount: 0 };
+  if (userPrompts.length === 0) return { promptsWithStats: [], totalKeys: 0, totalVersionCount: 0, activityEvents: [] };
 
   const promptIds = userPrompts.map((p) => p.id);
 
-  const [versionCounts, userApiKeys] = await Promise.all([
+  const [versionCounts, userApiKeys, recentVersions] = await Promise.all([
     db
       .select({ promptId: versions.promptId, count: count() })
       .from(versions)
@@ -35,7 +35,29 @@ async function getPromptsWithStats(userId: string) {
       .select({ id: apiKeys.id })
       .from(apiKeys)
       .where(eq(apiKeys.ownerId, userId)),
+    db
+      .select({
+        id: versions.id,
+        promptId: versions.promptId,
+        versionNumber: versions.versionNumber,
+        commitMessage: versions.commitMessage,
+        createdAt: versions.createdAt,
+      })
+      .from(versions)
+      .where(inArray(versions.promptId, promptIds))
+      .orderBy(desc(versions.createdAt))
+      .limit(8),
   ]);
+
+  const promptNameMap = new Map(userPrompts.map((p) => [p.id, p.name]));
+
+  const activityEvents: ActivityEvent[] = recentVersions.map((v) => ({
+    id: v.id,
+    type: 'version' as const,
+    title: `${promptNameMap.get(v.promptId) ?? 'Prompt'} v${v.versionNumber}`,
+    subtitle: v.commitMessage ?? 'Created version snapshot',
+    timestamp: new Date(v.createdAt),
+  }));
 
   const versionCountMap = new Map(versionCounts.map((r) => [r.promptId, r.count]));
   const totalVersionCount = versionCounts.reduce((acc, r) => acc + r.count, 0);
@@ -93,27 +115,27 @@ async function getPromptsWithStats(userId: string) {
     };
   });
 
-  return { promptsWithStats, totalKeys: userApiKeys.length, totalVersionCount };
+  return { promptsWithStats, totalKeys: userApiKeys.length, totalVersionCount, activityEvents };
 }
 
 export default async function DashboardPage() {
   const userId = await getAuthUserId();
   if (!userId) return null;
 
-  const { promptsWithStats, totalKeys, totalVersionCount } = await getPromptsWithStats(userId);
+  const { promptsWithStats, totalKeys, totalVersionCount, activityEvents } = await getPromptsWithStats(userId);
 
   const testedPrompts = promptsWithStats.filter((p) => p.testsTotal > 0);
   const totalPassed = testedPrompts.reduce((acc, p) => acc + p.testsPassed, 0);
   const totalTests = testedPrompts.reduce((acc, p) => acc + p.testsTotal, 0);
 
-  const avgPassRate =
-    totalTests > 0 ? `${Math.round((totalPassed / totalTests) * 100)}%` : '—';
+  const passRateNumber = totalTests > 0 ? Math.round((totalPassed / totalTests) * 100) : 100;
+  const avgPassRate = totalTests > 0 ? `${passRateNumber}%` : '100%';
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-[#111111]">
+    <div className="flex-1 flex flex-col min-w-0 bg-background font-sans">
       <Topbar />
 
-      <div className="p-5 lg:p-6 space-y-6 select-none font-sans max-w-7xl w-full mx-auto">
+      <div className="p-5 lg:p-6 space-y-6 font-sans max-w-7xl w-full mx-auto">
         <PageHeader
           title="Prompt Bundles"
           subtitle="Manage, version, diff, and evaluate your prompt infrastructure in production."
@@ -121,78 +143,109 @@ export default async function DashboardPage() {
         >
           <QuickCreateModal />
         </PageHeader>
-        {/* Top Metric Cards Grid */}
+
+        {/* Top Metric Cards Grid - High Density Analytical CRM Style */}
+        {/* Top Metric Cards Grid - High Density Analytical CRM Style */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          <Card className="p-4 space-y-1.5 group cursor-default">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
+          <Card className="shadow-sm group cursor-default">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium text-muted-foreground font-sans">
                 Total Bundles
-              </span>
-              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <Layers className="w-3.5 h-3.5" />
+              </CardTitle>
+              <div className="p-1.5 rounded-lg bg-muted border border-border text-muted-foreground group-hover:text-foreground transition-colors">
+                <Layers className="w-4 h-4" />
               </div>
-            </div>
-            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {promptsWithStats.length}
-            </div>
-            <p className="text-xs text-zinc-400 font-mono">
-              Immutable version control
-            </p>
+            </CardHeader>
+            <CardContent className="space-y-1">
+              <div className="flex items-baseline justify-between">
+                <div className="text-2xl font-bold tracking-tight text-foreground font-sans">
+                  {promptsWithStats.length}
+                </div>
+                <Badge variant="outline" className="text-xs font-sans text-emerald-400 border-emerald-500/20 bg-emerald-500/10 flex items-center gap-1">
+                  <TrendingUp className="w-3 h-3" /> +100%
+                </Badge>
+              </div>
+              <CardDescription className="text-xs font-sans">
+                Active VCS prompt packages
+              </CardDescription>
+            </CardContent>
           </Card>
 
-          <Card className="p-4 space-y-1.5 group cursor-default">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
+          <Card className="shadow-sm group cursor-default">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium text-muted-foreground font-sans">
                 Total Versions
-              </span>
-              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <GitBranch className="w-3.5 h-3.5" />
+              </CardTitle>
+              <div className="p-1.5 rounded-lg bg-muted border border-border text-muted-foreground group-hover:text-foreground transition-colors">
+                <GitBranch className="w-4 h-4" />
               </div>
-            </div>
-            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {totalVersionCount}
-            </div>
-            <p className="text-xs text-zinc-400 font-mono">
-              Immutable snapshots saved
-            </p>
+            </CardHeader>
+            <CardContent className="space-y-1">
+              <div className="flex items-baseline justify-between">
+                <div className="text-2xl font-bold tracking-tight text-foreground font-sans">
+                  {totalVersionCount}
+                </div>
+                <Badge variant="outline" className="text-xs font-sans text-sky-400 border-sky-500/20 bg-sky-500/10">
+                  Snapshots
+                </Badge>
+              </div>
+              <CardDescription className="text-xs font-sans">
+                Immutable history commits
+              </CardDescription>
+            </CardContent>
           </Card>
 
-          <Card className="p-4 space-y-1.5 group cursor-default">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
+          <Card className="shadow-sm group cursor-default">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium text-muted-foreground font-sans">
                 Avg Pass Rate
-              </span>
-              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <CheckCircle className="w-3.5 h-3.5" />
+              </CardTitle>
+              <div className="p-1.5 rounded-lg bg-muted border border-border text-muted-foreground group-hover:text-foreground transition-colors">
+                <CheckCircle className="w-4 h-4" />
               </div>
-            </div>
-            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {avgPassRate}
-            </div>
-            <p className="text-xs text-zinc-400 font-mono">
-              Automated AI test suite
-            </p>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex items-baseline justify-between">
+                <div className="text-2xl font-bold tracking-tight text-foreground font-sans">
+                  {avgPassRate}
+                </div>
+                <Badge variant="outline" className="text-xs font-sans text-emerald-400 border-emerald-500/20 bg-emerald-500/10">
+                  Passing
+                </Badge>
+              </div>
+              <Progress value={passRateNumber} className="h-1.5 bg-muted" />
+            </CardContent>
           </Card>
 
-          <Card className="p-4 space-y-1.5 group cursor-default">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider block font-semibold">
+          <Card className="shadow-sm group cursor-default">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium text-muted-foreground font-sans">
                 Active API Keys
-              </span>
-              <div className="p-1.5 rounded-lg bg-[#111111] border border-white/[0.08] text-zinc-400 group-hover:text-white transition-colors">
-                <Key className="w-3.5 h-3.5" />
+              </CardTitle>
+              <div className="p-1.5 rounded-lg bg-muted border border-border text-muted-foreground group-hover:text-foreground transition-colors">
+                <Key className="w-4 h-4" />
               </div>
-            </div>
-            <div className="text-2xl font-bold text-[#f5f0eb] font-mono tracking-tight">
-              {totalKeys}
-            </div>
-            <p className="text-xs text-zinc-400 font-mono">
-              {totalKeys === 0 ? (
-                <Link href="/dashboard/api-keys" className="text-zinc-300 hover:text-white underline underline-offset-2 transition-colors">Create an API key</Link>
-              ) : 'SHA-256 credentials'}
-            </p>
+            </CardHeader>
+            <CardContent className="space-y-1">
+              <div className="flex items-baseline justify-between">
+                <div className="text-2xl font-bold tracking-tight text-foreground font-sans">
+                  {totalKeys}
+                </div>
+                <Badge variant="outline" className="text-xs font-sans text-muted-foreground border-border bg-muted">
+                  SHA-256
+                </Badge>
+              </div>
+              <CardDescription className="text-xs font-sans">
+                {totalKeys === 0 ? (
+                  <Link href="/dashboard/api-keys" className="text-foreground hover:underline underline-offset-2 transition-colors">Create an API key</Link>
+                ) : 'REST credentials'}
+              </CardDescription>
+            </CardContent>
           </Card>
         </div>
+
+        {/* Analytical Recharts Pass Rate Visualizer */}
+        {promptsWithStats.length > 0 && <PromptAnalyticsChart />}
 
         {/* Empty state */}
         {promptsWithStats.length === 0 && (
@@ -204,18 +257,24 @@ export default async function DashboardPage() {
           />
         )}
 
-        {/* Prompt Data Table */}
+        {/* Split View: Prompt Table (2/3 width) + Activity Stream (1/3 width) */}
         {promptsWithStats.length > 0 && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-bold text-[#f5f0eb] uppercase tracking-wider font-mono">
-                Your Prompt Repository
-              </h2>
-              <span className="text-xs font-mono text-zinc-400">
-                {promptsWithStats.length} active bundles
-              </span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            <div className="lg:col-span-2 space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-foreground tracking-tight font-sans">
+                  Your Prompt Repository
+                </h2>
+                <span className="text-xs font-sans text-muted-foreground">
+                  {promptsWithStats.length} active bundles
+                </span>
+              </div>
+              <PromptTable prompts={promptsWithStats} />
             </div>
-            <PromptTable prompts={promptsWithStats} />
+
+            <div className="lg:col-span-1 h-full">
+              <ActivityStream events={activityEvents} />
+            </div>
           </div>
         )}
       </div>

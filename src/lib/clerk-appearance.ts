@@ -8,23 +8,23 @@ export const clerkAppearance = {
   baseTheme: dark,
   elements: {
     rootBox: "w-full flex justify-center",
-    card: "bg-[#161616] border border-white/[0.08] shadow-2xl rounded-2xl p-6 font-sans",
-    headerTitle: "text-[#f5f0eb] font-bold tracking-tight text-lg",
-    headerSubtitle: "text-zinc-400 text-xs font-normal",
+    card: "bg-card border border-border shadow-sm rounded-xl p-6 font-sans text-card-foreground w-full",
+    headerTitle: "text-foreground font-bold tracking-tight text-xl font-sans",
+    headerSubtitle: "text-muted-foreground text-sm font-sans",
     formButtonPrimary:
-      "bg-[#f5f0eb] text-zinc-950 hover:bg-white font-semibold transition-all active:scale-[0.98] shadow-sm text-xs py-2.5 rounded-xl",
+      "bg-primary text-primary-foreground hover:bg-primary/90 font-medium transition-all shadow-xs text-sm py-2 px-4 rounded-md font-sans h-9 cursor-pointer",
     formFieldInput:
-      "bg-[#0e0e0e] border-white/[0.08] text-[#f5f0eb] placeholder:text-zinc-600 focus:border-white/20 rounded-xl text-xs font-mono",
-    formFieldLabel: "text-zinc-300 text-xs font-medium",
-    footerActionLink: "text-zinc-300 hover:text-white font-medium transition-colors",
-    identityPreviewText: "text-zinc-300 text-xs font-mono",
-    identityPreviewEditButton: "text-zinc-400 hover:text-zinc-200 text-xs",
-    dividerLine: "bg-white/[0.08]",
-    dividerText: "text-zinc-400 text-xs font-mono uppercase tracking-widest font-semibold",
+      "bg-transparent border border-input text-foreground placeholder:text-muted-foreground focus:border-ring rounded-md text-sm font-sans h-9 px-3",
+    formFieldLabel: "text-foreground text-sm font-medium font-sans",
+    footerActionLink: "text-foreground hover:underline font-medium transition-colors font-sans text-sm",
+    identityPreviewText: "text-foreground text-sm font-sans",
+    identityPreviewEditButton: "text-muted-foreground hover:text-foreground text-sm font-sans",
+    dividerLine: "bg-border",
+    dividerText: "text-muted-foreground text-xs font-sans uppercase font-medium",
     socialButtonsBlockButton:
-      "border-white/[0.08] bg-[#111111] text-[#f5f0eb] hover:bg-white/[0.04] transition-all rounded-xl text-xs font-medium",
-    socialButtonsBlockButtonText: "text-zinc-200 font-medium text-xs",
+      "border border-border bg-background text-foreground hover:bg-accent transition-all rounded-md text-sm font-medium font-sans h-9 px-4 cursor-pointer",
+    socialButtonsBlockButtonText: "text-foreground font-medium text-sm font-sans",
     alternativeMethodsBlockButton:
-      "border-white/[0.08] bg-[#111111] text-[#f5f0eb] hover:bg-white/[0.04] rounded-xl text-xs",
+      "border border-border bg-background text-foreground hover:bg-accent rounded-md text-sm font-sans h-9 cursor-pointer",
   },
 } as const;
