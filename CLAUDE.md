@@ -133,21 +133,29 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 **Last session date:** 2026-08-07
 
-**What we accomplished (Pill Button Purge & Font Stack Standardization):**
-- **Pill Button Purge:** Replaced all `rounded-full` pill classes on buttons, status badges, version tags, and hero badges with standard `rounded-md` shadcn corner radius across the entire website.
-- **Button Primitive Standardization:** Updated `@/components/ui/button.tsx` to `rounded-md` base radius and `font-medium` typography.
-- **Geist & JetBrains Mono Fonts:** Updated `globals.css` `@theme` font variables and applied `geistSans.className` on `<body>` in `layout.tsx`.
-- **Quality & Verification:** Confirmed 0 TypeScript errors (`npx tsc --noEmit`), 81/81 unit tests passing (`pnpm test`), and production build passing (`pnpm build`).
+**What we accomplished (Master Monorepo Redesign & Codebase Cleanup):**
+- **Deleted 6 Obsolete Files:** Purged 1,200+ lines of dead landing code (`hero-dashboard-replica.tsx`, `tour-tab.tsx`, `unified-playground.tsx`, `interactive-diff-playground.tsx`, `sandbox-workspace.tsx`, `code-tab-viewer.tsx`).
+- **Unified Navigation Shell:** Built modern Linear-style `AppSidebar` & glassmorphic 56px `Topbar` with dynamic breadcrumbs, `⌘K` command search, and "+ New Prompt" CTA.
+- **Shared UI Component Architecture:** Shared `PromptTable`, `BundleEditor`, `DiffViewer`, `TestRunner`, and `ApiKeyManager` between Landing Hero preview and real App Dashboard pages.
+- **Full Text Selection:** Removed all `select-none` wrappers across all pages.
+- **Spacious Hero & Editorial Showcase:** Removed cramped fixed heights and metric cards; rendered wide preview of the real App Dashboard and 4 full-width editorial feature showcases below.
+- **All 10 Dashboard Routes Refactored:** Refactored `/dashboard`, `/dashboard/new`, `/dashboard/prompts/[id]`, `/dashboard/prompts/[id]/edit`, `/dashboard/prompts/[id]/diff`, `/dashboard/prompts/[id]/compare`, `/dashboard/prompts/[id]/tests`, `/dashboard/api-keys`, `/dashboard/webhooks`, `/dashboard/explore` using 100% standard `shadcn/ui` primitives.
+- **Verification:** Verified 0 TypeScript errors (`npx tsc --noEmit`), 0 ESLint errors (`pnpm lint`), 88/88 Vitest tests passing (`pnpm test`), and Next.js Turbopack build passing (`pnpm build`).
+- **Git & Vercel Sync:** Committed changes (`feat: complete master monorepo redesign, codebase cleanup & unified shadcn shell`) and pushed to `main` (`kwakhare5/Git-for-Prompts`), triggering Vercel production deployment.
 
 **Immediate next task:**
-- Ready for production deployment or launch announcement (`/ship` or `/tweet-crafter`).
+- Full monorepo redesign, codebase cleanup, and Vercel cloud deployment complete & synced.
 
 **Open blockers:**
-- None. All UI button primitives, auth page redesigns, card primitives, font stacks, and component refactorings 100% complete and verified.
+- None.
 
 **Files most recently changed:**
-- `src/components/ui/button.tsx`
-- `src/components/layout/status-badge.tsx`
-- `src/app/globals.css`
-- `src/app/layout.tsx`
+- `src/components/domain/landing/hero-app-dashboard-replica.tsx`
+- `src/components/layout/app-sidebar.tsx`
+- `src/components/layout/topbar.tsx`
+- `src/app/(dashboard)/dashboard/page.tsx`
 - `CLAUDE.md`
+
+
+
+

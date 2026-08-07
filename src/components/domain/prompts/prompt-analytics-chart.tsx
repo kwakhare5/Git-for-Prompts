@@ -26,7 +26,7 @@ export function PromptAnalyticsChart() {
               7-day aggregate assertion score &amp; version commit activity
             </CardDescription>
           </div>
-          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">
+          <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-md font-semibold">
             100% Target
           </span>
         </div>

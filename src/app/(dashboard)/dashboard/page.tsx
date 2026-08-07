@@ -154,7 +154,6 @@ export default async function DashboardPage() {
         </PageHeader>
 
         {/* Top Metric Cards Grid - High Density Analytical CRM Style */}
-        {/* Top Metric Cards Grid - High Density Analytical CRM Style */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <Card className="shadow-sm group cursor-default">
             <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">

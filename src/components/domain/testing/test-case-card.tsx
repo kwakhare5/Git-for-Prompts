@@ -8,7 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { DeleteConfirmButton } from '@/components/ui/delete-confirm-button';
+import { DeleteConfirmButton } from '@/components/domain/shared/delete-confirm-button';
 import { deleteTestCase } from '@/lib/actions/tests';
 import { cn } from '@/lib/utils';
 

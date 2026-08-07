@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ForkButton } from '@/components/domain/prompts';
 import { EmptyState } from '@/components/ui/empty-state';
-import { Compass, ArrowUpRight, Terminal } from 'lucide-react';
+import { Compass, ArrowUpRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Explore Prompts · Git for Prompts',

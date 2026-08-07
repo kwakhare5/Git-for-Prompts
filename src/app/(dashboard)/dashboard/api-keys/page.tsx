@@ -3,7 +3,7 @@ import { StatusBadge } from "@/components/layout/status-badge";
 import { getAuthUserId } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { listApiKeys } from '@/lib/actions/api-keys';
-import { ApiKeysManager } from '@/components/layout/api-keys-manager';
+import { ApiKeysManager } from '@/components/domain/api-keys/api-keys-manager';
 import { Topbar } from '@/components/layout/topbar';
 import { ShieldCheck, Key, Code2 } from 'lucide-react';
 

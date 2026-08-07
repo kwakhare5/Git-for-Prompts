@@ -76,6 +76,7 @@ export default async function PromptDetailPage({
               href="/dashboard"
               className="p-2 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border/80 transition-colors shrink-0"
               title="Back to Prompts"
+              aria-label="Back to Prompts"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
