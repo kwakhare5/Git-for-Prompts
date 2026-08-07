@@ -6,7 +6,7 @@ import { versions, prompts } from '@/db/schema';
 import { createVersionSchema, restoreVersionSchema } from '@/lib/validations/version';
 import { revalidatePath } from 'next/cache';
 import { eq, desc, and, sql } from 'drizzle-orm';
-import { ZodError } from 'zod';
+import { handleActionError } from '@/lib/action-error';
 import { extractVariables, extractBundleVariables, extractContentFromBundle, type PromptBundle } from '@gfp/core';
 import { fireWebhooks } from '@/lib/webhooks';
 
@@ -136,10 +136,7 @@ export async function createVersion(input: unknown) {
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);
     return newVersion;
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
-    if (err instanceof ZodError) throw new Error(err.issues[0].message);
-    throw new Error('Failed to create version');
+    handleActionError(err, 'Failed to create version');
   }
 }
 
@@ -182,10 +179,7 @@ export async function restoreVersion(input: unknown) {
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);
     return restoredVersion;
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message.includes('not found')) throw err;
-    if (err instanceof Error && err.message.includes('access denied')) throw err;
-    if (err instanceof Error && err.message.includes('does not belong')) throw err;
-    throw new Error('Failed to restore version');
+    handleActionError(err, 'Failed to restore version');
   }
 }
+

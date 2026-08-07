@@ -84,7 +84,7 @@ export default async function ComparePage({
         <div className="h-4 w-px bg-border shrink-0" aria-hidden="true" />
         <h1 className="text-xl font-bold text-foreground">Compare</h1>
         {hasEnoughVersions && (
-          <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2 py-0.5 rounded-full font-semibold">
+          <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2 py-0.5 rounded-md font-semibold">
             {totalVersionCount > allVersions.length
               ? `latest ${allVersions.length} of ${totalVersionCount} versions`
               : `${totalVersionCount} versions`}

@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { createWebhook, deleteWebhook } from '@/lib/actions/webhooks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { DeleteConfirmButton } from '@/components/ui/delete-confirm-button';
+import { DeleteConfirmButton } from '@/components/domain/shared/delete-confirm-button';
 import { EmptyState } from '@/components/ui/empty-state';
 
 interface Webhook {

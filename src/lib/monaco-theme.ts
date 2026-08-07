@@ -48,7 +48,13 @@ export const GFP_LINE_NUMBER_OPTIONS = {
  * Register the gfp-dark theme on a Monaco instance.
  * Safe to call multiple times — Monaco handles re-registration gracefully.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function registerGfpTheme(monaco: any): void {
+import type { Monaco } from '@monaco-editor/react';
+
+/**
+ * Register the gfp-dark theme on a Monaco instance.
+ * Safe to call multiple times — Monaco handles re-registration gracefully.
+ */
+export function registerGfpTheme(monaco: Monaco): void {
   monaco.editor.defineTheme(GFP_THEME_NAME, GFP_THEME_DEFINITION);
 }
+

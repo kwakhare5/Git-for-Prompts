@@ -64,7 +64,7 @@ export async function POST(
     }
 
     // Validate bundle if provided
-    let parsedBundle = body.bundle ? validateBundle(body.bundle) : undefined;
+    const parsedBundle = body.bundle ? validateBundle(body.bundle) : undefined;
 
     // Derive content + variables from whichever source is present
     const resolvedContent = parsedBundle

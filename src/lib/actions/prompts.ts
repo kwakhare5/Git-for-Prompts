@@ -6,12 +6,17 @@ import { prompts, versions } from '@/db/schema';
 import { createPromptSchema, updatePromptSchema, deletePromptSchema } from '@/lib/validations/prompt';
 import { revalidatePath } from 'next/cache';
 import { eq, and, desc } from 'drizzle-orm';
-import { ZodError } from 'zod';
+import { handleActionError } from '@/lib/action-error';
 import { insertNextVersion } from '@/lib/actions/versions';
+
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function createPrompt(input: unknown) {
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
+
+  const { success } = await checkRateLimit(`sa_create_prompt_${userId}`);
+  if (!success) throw new Error('Rate limit exceeded. Please wait a minute before creating more prompts.');
 
   try {
     const validated = createPromptSchema.parse(input);
@@ -24,10 +29,7 @@ export async function createPrompt(input: unknown) {
     revalidatePath('/dashboard');
     return prompt;
   } catch (err) {
-    // Re-throw auth errors as-is; surface Zod validation errors; wrap everything else
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof ZodError) throw new Error(err.issues[0].message);
-    throw new Error('Failed to create prompt');
+    handleActionError(err, 'Failed to create prompt');
   }
 }
 
@@ -50,10 +52,7 @@ export async function updatePrompt(promptId: string, input: unknown) {
     revalidatePath(`/dashboard/prompts/${promptId}`);
     return updated;
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
-    if (err instanceof ZodError) throw new Error(err.issues[0].message);
-    throw new Error('Failed to update prompt');
+    handleActionError(err, 'Failed to update prompt');
   }
 }
 
@@ -74,10 +73,7 @@ export async function deletePrompt(input: unknown) {
     revalidatePath('/dashboard');
     return { success: true };
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message === 'Prompt not found or access denied') throw err;
-    if (err instanceof ZodError) throw new Error(err.issues[0].message);
-    throw new Error('Failed to delete prompt');
+    handleActionError(err, 'Failed to delete prompt');
   }
 }
 

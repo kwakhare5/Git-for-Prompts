@@ -1,28 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Spinner } from '@/components/ui/spinner';
 import { formatVersionLabel } from '@/lib/format-version-label';
-import { runComparisonForVersions } from '@/lib/actions/tests';
 import { cn } from '@/lib/utils';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type TestCase = {
-  id: string;
-  name: string;
-  inputText: string;
-  expectedCriteria: string;
-};
-
-type Version = {
-  id: string;
-  versionNumber: number;
-  commitMessage: string | null;
-};
+import { useCompareRunner, type Version, type CellStatus } from './use-compare-runner';
 
 type CompareRunnerProps = {
   promptId: string;
@@ -30,106 +14,35 @@ type CompareRunnerProps = {
   testCaseCount: number;
 };
 
-type CellStatus = 'idle' | 'running' | 'pass' | 'fail' | 'ai-error';
-
-type VersionResults = {
-  [testCaseId: string]: {
-    passed: boolean;
-    actualOutput: string;
-    reason?: string;
-  };
-};
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
 export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunnerProps) {
-  const [versionIdA, setVersionIdA] = useState(versions[0]?.id ?? '');
-  const [versionIdB, setVersionIdB] = useState(versions[1]?.id ?? '');
-  const [isRunning, setIsRunning] = useState(false);
-
-  const [testCases, setTestCases] = useState<TestCase[]>([]);
-  const [resultsA, setResultsA] = useState<VersionResults>({});
-  const [resultsB, setResultsB] = useState<VersionResults>({});
-  const [cellStatusA, setCellStatusA] = useState<Record<string, CellStatus>>({});
-  const [cellStatusB, setCellStatusB] = useState<Record<string, CellStatus>>({});
-  const [hasRun, setHasRun] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const versionA = versions.find((v) => v.id === versionIdA);
-  const versionB = versions.find((v) => v.id === versionIdB);
-
-  const sameVersion = versionIdA === versionIdB;
-  const canRun = !sameVersion && testCaseCount > 0 && !isRunning;
-
-  // ─── Run comparison ─────────────────────────────────────────────────────────
-
-  async function handleRunComparison() {
-    if (!canRun) return;
-    setIsRunning(true);
-    setHasRun(false);
-    setError(null);
-    setResultsA({});
-    setResultsB({});
-    setCellStatusA({});
-    setCellStatusB({});
-
-    try {
-      const comparison = await runComparisonForVersions({ versionIdA, versionIdB });
-
-      const newResultsA: VersionResults = {};
-      const newResultsB: VersionResults = {};
-      const newStatusA: Record<string, CellStatus> = {};
-      const newStatusB: Record<string, CellStatus> = {};
-
-      for (const r of comparison.resultsA) {
-        newResultsA[r.testCaseId] = { passed: r.passed, actualOutput: r.actualOutput, reason: r.reason };
-        const isPersisted = (r as Record<string, unknown>).persisted !== false;
-        newStatusA[r.testCaseId] = r.passed ? 'pass' : !isPersisted ? 'ai-error' : 'fail';
-      }
-      for (const r of comparison.resultsB) {
-        newResultsB[r.testCaseId] = { passed: r.passed, actualOutput: r.actualOutput, reason: r.reason };
-        const isPersisted = (r as Record<string, unknown>).persisted !== false;
-        newStatusB[r.testCaseId] = r.passed ? 'pass' : !isPersisted ? 'ai-error' : 'fail';
-      }
-
-      setTestCases(comparison.testCases);
-      setResultsA(newResultsA);
-      setResultsB(newResultsB);
-      setCellStatusA(newStatusA);
-      setCellStatusB(newStatusB);
-      setHasRun(true);
-    } catch (err) {
-      // #32: removed console.error from client component — error surfaced via setError UI state
-      const msg = err instanceof Error ? err.message : 'Comparison failed. Please try again.';
-      setError(msg);
-    } finally {
-      setIsRunning(false);
-    }
-  }
-
-  // ─── Scores ─────────────────────────────────────────────────────────────────
-
-  const scoreA = Object.values(cellStatusA).filter((s) => s === 'pass').length;
-  const scoreB = Object.values(cellStatusB).filter((s) => s === 'pass').length;
-  const total = testCases.length;
-
-  const winnerSide: 'A' | 'B' | 'tie' | null =
-    !hasRun || total === 0 ? null : scoreA > scoreB ? 'A' : scoreB > scoreA ? 'B' : 'tie';
-
-  const winnerLabel =
-    winnerSide === 'A'
-      ? `v${versionA?.versionNumber} wins`
-      : winnerSide === 'B'
-      ? `v${versionB?.versionNumber} wins`
-      : winnerSide === 'tie'
-      ? 'Tie'
-      : null;
-
-  // ─── Render ─────────────────────────────────────────────────────────────────
+  const {
+    versionIdA,
+    setVersionIdA,
+    versionIdB,
+    setVersionIdB,
+    versionA,
+    versionB,
+    sameVersion,
+    canRun,
+    isRunning,
+    hasRun,
+    error,
+    testCases,
+    resultsA,
+    resultsB,
+    cellStatusA,
+    cellStatusB,
+    scoreA,
+    scoreB,
+    total,
+    winnerSide,
+    winnerLabel,
+    handleRunComparison,
+  } = useCompareRunner(versions, testCaseCount);
 
   return (
     <div className="space-y-6 font-sans">
-      {/* ─── Selector bar ──────────────────────────────────────────────────── */}
+      {/* Selector bar */}
       <div className="flex items-end gap-4 flex-wrap font-sans">
         {/* Version A */}
         <div className="space-y-1">
@@ -191,7 +104,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         </div>
       </div>
 
-      {/* ─── Inline warnings ────────────────────────────────────────────────── */}
+      {/* Inline warnings */}
       {sameVersion && (
         <p className="text-xs text-amber-400 font-mono">⚠ Select two different versions to compare.</p>
       )}
@@ -200,7 +113,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
       )}
       {error && <p className="text-xs text-red-400 font-mono">✕ {error}</p>}
 
-      {/* ─── Running state ───────────────────────────────────────────────────── */}
+      {/* Running state */}
       {isRunning && (
         <div className="rounded-lg border border-border bg-card p-6 flex flex-col items-center gap-3">
           <Spinner size="lg" />
@@ -210,7 +123,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         </div>
       )}
 
-      {/* ─── Winner banner ───────────────────────────────────────────────────── */}
+      {/* Winner banner */}
       {hasRun && winnerLabel && (
         <div
           className={cn(
@@ -232,7 +145,6 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
             )}
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            {/* A side — version label above score */}
             <div className="text-center min-w-[3rem]">
               <div className="text-xs font-mono text-muted-foreground mb-0.5 font-semibold">
                 v{versionA?.versionNumber}
@@ -242,10 +154,8 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
               </div>
             </div>
 
-            {/* vs separator */}
             <div className="text-muted-foreground text-xs font-mono select-none font-bold">vs</div>
 
-            {/* B side — version label above score */}
             <div className="text-center min-w-[3rem]">
               <div className="text-xs font-mono text-muted-foreground mb-0.5 font-semibold">
                 v{versionB?.versionNumber}
@@ -258,7 +168,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         </div>
       )}
 
-      {/* ─── Progress bars ───────────────────────────────────────────────────── */}
+      {/* Progress bars */}
       {hasRun && total > 0 && (
         <div className="grid grid-cols-2 gap-4">
           {(['A', 'B'] as const).map((side) => {
@@ -285,10 +195,9 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         </div>
       )}
 
-      {/* ─── Results table ───────────────────────────────────────────────────── */}
+      {/* Results table */}
       {hasRun && testCases.length > 0 && (
         <div className="rounded-lg border border-border overflow-hidden bg-card">
-          {/* Header */}
           <div className="grid grid-cols-[1fr_auto_auto] border-b border-border bg-muted/40">
             <div className="px-4 py-2.5 text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">Test Case</div>
             {(['A', 'B'] as const).map((side) => {
@@ -307,7 +216,6 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
             })}
           </div>
 
-          {/* Rows */}
           <div className="divide-y divide-border">
             {testCases.map((tc) => {
               const rA = resultsA[tc.id];
@@ -333,7 +241,6 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
             })}
           </div>
 
-          {/* Totals row */}
           <div className="grid grid-cols-[1fr_auto_auto] border-t border-border bg-muted/40">
             <div className="px-4 py-2.5 text-xs text-muted-foreground font-mono uppercase font-semibold">Total</div>
             {([scoreA, scoreB] as const).map((score, i) => (
@@ -351,7 +258,7 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         </div>
       )}
 
-      {/* ─── Idle empty state ─────────────────────────────────────────────────── */}
+      {/* Idle empty state */}
       {!hasRun && !isRunning && testCaseCount > 0 && !sameVersion && (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border p-12 text-center bg-card">
           <div className="text-3xl mb-3 select-none">⚖</div>
@@ -365,8 +272,6 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
     </div>
   );
 }
-
-// ─── Badge helper ─────────────────────────────────────────────────────────────
 
 function ResultBadge({ status }: { status: CellStatus | undefined }) {
   if (!status || status === 'idle') {
