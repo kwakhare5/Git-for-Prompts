@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock, Sparkles, FileText, MessageSquare, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Clock, Sparkles, FileText, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 export function FixesSection() {

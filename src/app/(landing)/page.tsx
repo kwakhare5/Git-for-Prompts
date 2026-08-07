@@ -7,6 +7,7 @@ import { DeveloperPlatform } from '@/components/domain/landing/developer-platfor
 import { SecurityInfo } from '@/components/domain/landing/security-info';
 import { FaqAccordion } from '@/components/domain/landing/faq-accordion';
 import { Footer } from '@/components/domain/landing/footer';
+import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -23,22 +24,30 @@ export default function Home() {
       <Navbar onNavClick={handleNavClick} />
 
       {/* Main Content Flow */}
-      <main className="flex-1 flex flex-col pt-20 font-sans space-y-16">
+      <main className="flex-1 flex flex-col pt-20 font-sans space-y-12">
         {/* 1. Hero Section with Interactive Dashboard Replica Screen */}
         <Hero />
+
+        <Separator className="max-w-6xl mx-auto opacity-40" />
 
         {/* 2. Key Solutions & Architectural Pillars */}
         <div id="features">
           <FixesSection />
         </div>
 
+        <Separator className="max-w-6xl mx-auto opacity-40" />
+
         {/* 3. Developer CLI & Platform */}
         <div id="developers">
           <DeveloperPlatform />
         </div>
 
+        <Separator className="max-w-6xl mx-auto opacity-40" />
+
         {/* 4. Enterprise Security */}
         <SecurityInfo />
+
+        <Separator className="max-w-6xl mx-auto opacity-40" />
 
         {/* 5. Frequently Asked Questions */}
         <div id="faq">
@@ -51,3 +60,4 @@ export default function Home() {
     </div>
   );
 }
+

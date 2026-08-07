@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpCircle } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 
