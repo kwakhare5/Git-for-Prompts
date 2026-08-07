@@ -5,7 +5,8 @@ import { Hero } from '@/components/domain/landing/hero';
 import { FixesSection } from '@/components/domain/landing/fixes-section';
 import { VersionFeatures } from '@/components/domain/landing/version-features';
 import { VariableFeatures } from '@/components/domain/landing/variable-features';
-import { DeveloperPlatform } from '@/components/domain/landing/developer-platform';
+import { TestSuiteInfo } from '@/components/domain/landing/test-suite-info';
+import { SdkSection } from '@/components/domain/landing/sdk-section';
 import { SecurityInfo } from '@/components/domain/landing/security-info';
 import { FaqAccordion } from '@/components/domain/landing/faq-accordion';
 import { Footer } from '@/components/domain/landing/footer';
@@ -49,15 +50,23 @@ export default function Home() {
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 5. Tailark Features 4 & Code Demo 2 — Developer Platform & CLI */}
-        <div id="developers">
-          <DeveloperPlatform />
+        {/* 5. Tailark Features 4 — QA & Automated Evals */}
+        <div id="qa">
+          <TestSuiteInfo />
         </div>
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 6. Tailark Features 7 — Enterprise Security */}
+        {/* 6. Tailark Code Demo 2 — CLI & SDK Platform */}
+        <div id="developers">
+          <SdkSection />
+        </div>
+
+        <Separator className="max-w-6xl mx-auto opacity-40" />
+
+        {/* 7. Tailark Features 7 — Enterprise Security */}
         <SecurityInfo />
+
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
