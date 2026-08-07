@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { HelpCircle } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 
 const faqs = [
   {
@@ -31,12 +32,12 @@ export function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 space-y-8 select-none font-sans">
+    <section className="max-w-4xl mx-auto px-6 py-16 md:py-20 space-y-8 font-sans">
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-border bg-muted/40 text-muted-foreground font-sans text-xs uppercase tracking-wider font-semibold">
-          <HelpCircle className="h-3.5 w-3.5" /> Frequently Asked Questions
-        </div>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-foreground tracking-tight font-sans">
+        <Badge variant="outline" className="text-xs font-mono text-emerald-400 border-emerald-500/20 bg-emerald-500/10 px-3 py-0.5 rounded-md">
+          Frequently Asked Questions
+        </Badge>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight font-sans">
           Got Questions? We&apos;ve Got Answers.
         </h2>
         <p className="text-sm md:text-base text-muted-foreground font-sans">
@@ -44,7 +45,7 @@ export function FaqAccordion() {
         </p>
       </div>
 
-      <Accordion className="rounded-2xl border border-border bg-card p-6 shadow-xl font-sans">
+      <Accordion className="rounded-2xl border border-white/10 bg-card/70 backdrop-blur-md p-6 shadow-xl font-sans">
         {faqs.map((faq, idx) => (
           <AccordionItem key={idx}>
             <AccordionTrigger isOpen={openIndex === idx} onClick={() => setOpenIndex(openIndex === idx ? null : idx)}>

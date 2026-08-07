@@ -27,6 +27,7 @@ export function CommandTrigger({
       onClick={triggerCommandMenu}
       className={`h-9 px-3 justify-start gap-2 bg-card border-border text-muted-foreground hover:text-foreground font-mono group cursor-pointer ${className}`}
       title="Search commands (CTRL+K)"
+      aria-label="Search commands"
     >
       <Search className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
       <span className="text-muted-foreground font-sans text-sm">{placeholder}</span>

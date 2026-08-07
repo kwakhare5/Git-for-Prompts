@@ -1,32 +1,25 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Clock, Sparkles, ArrowRight, FileText, MessageSquare, Code2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Clock, Sparkles, FileText, MessageSquare, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
-interface FixesSectionProps {
-  onOpenSandbox: () => void;
-}
-
-export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
+export function FixesSection() {
   const [card1State, setCard1State] = useState<number>(0);
   const [card2DecayIdx, setCard2DecayIdx] = useState<number>(0);
   const [card3Step, setCard3Step] = useState<number>(0);
   const [card3Timer, setCard3Timer] = useState<string>('0m');
-  const [card4State, setCard4State] = useState<number>(0);
 
   useEffect(() => {
-    // Card 1: Regression check loop
     const c1Interval = setInterval(() => {
       setCard1State((prev) => (prev + 1) % 3);
     }, 3500);
 
-    // Card 2: Knowledge decay fade loop
     const c2Interval = setInterval(() => {
       setCard2DecayIdx((prev) => (prev + 1) % 4);
     }, 2000);
 
-    // Card 3: Slack query stopwatch loop
     const c3Interval = setInterval(() => {
       setCard3Step((prev) => {
         const next = (prev + 1) % 4;
@@ -38,225 +31,142 @@ export function FixesSection({ onOpenSandbox }: FixesSectionProps) {
       });
     }, 3000);
 
-    // Card 4: Buried crash logs loop
-    const c4Interval = setInterval(() => {
-      setCard4State((prev) => (prev + 1) % 3);
-    }, 3200);
-
     return () => {
       clearInterval(c1Interval);
       clearInterval(c2Interval);
       clearInterval(c3Interval);
-      clearInterval(c4Interval);
     };
   }, []);
 
   return (
-    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-10 select-none font-sans">
+    <section className="max-w-6xl mx-auto px-6 py-16 md:py-20 space-y-12 font-sans">
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground font-sans">
-          What we help teams fix.
+        <Badge variant="outline" className="text-xs font-mono text-emerald-400 border-emerald-500/20 bg-emerald-500/10 px-3 py-0.5 rounded-md">
+          Core Solutions & Architecture
+        </Badge>
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground font-sans">
+          Engineered to eliminate prompt chaos
         </h2>
-        <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-normal font-sans">
-          Eliminate prompt regressions, untracked changes, author chasing, and model pipeline drifts.
+        <p className="text-base text-muted-foreground leading-relaxed font-sans">
+          Say goodbye to untracked text files, silent regressions, and unversioned production prompt changes.
         </p>
       </div>
 
-      {/* 4-Card Equal 2x2 Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-        
-        {/* Card 1: Regression Test Pipeline */}
-        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
-          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-background/40 pointer-events-none" />
-          
-          <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">01 / Testing & Integrity</span>
-            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Untested Prompt Regressions</h3>
-            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
-              You edit prompt instructions to solve an edge-case, and it silently breaks three others in production.
+      {/* 4 Feature Architecture Cards using shadcn Card Component */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Card 1: Regression Prevention */}
+        <Card className="bg-card/70 border-white/10 backdrop-blur-md p-6 space-y-4 hover:border-primary/40 transition-all shadow-xl font-sans">
+          <div className="flex items-center justify-between">
+            <div className="p-2 rounded-lg bg-primary/10 text-primary">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <Badge variant="secondary" className="font-mono text-xs">
+              Immutable History
+            </Badge>
+          </div>
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-bold text-foreground font-sans">
+              Zero Silent Overwrites
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Every save creates an immutable version row protected by postgres transaction advisory locks.
+            </CardDescription>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-background border border-border font-mono text-xs space-y-2">
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>insertNextVersion()</span>
+              <span className="text-emerald-400">pg_advisory_xact_lock</span>
+            </div>
+            <div className="text-foreground font-semibold">
+              {card1State === 0 && '✓ Step 1: Read current max version (N)'}
+              {card1State === 1 && '✓ Step 2: Insert new row (N+1)'}
+              {card1State === 2 && '✓ Step 3: Update prompt parent pointer'}
+            </div>
+          </div>
+        </Card>
+
+        {/* Card 2: Knowledge Decay */}
+        <Card className="bg-card/70 border-white/10 backdrop-blur-md p-6 space-y-4 hover:border-primary/40 transition-all shadow-xl font-sans">
+          <div className="flex items-center justify-between">
+            <div className="p-2 rounded-lg bg-sky-500/10 text-sky-400">
+              <FileText className="w-5 h-5" />
+            </div>
+            <Badge variant="outline" className="font-mono text-xs text-sky-400 border-sky-500/20 bg-sky-500/10">
+              Full Bundle Schemas
+            </Badge>
+          </div>
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-bold text-foreground font-sans">
+              Full Prompt Bundle Schemas
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Version system prompt, user template, model parameters, tools, and response JSON format as one atomic unit.
+            </CardDescription>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-background border border-border font-mono text-xs space-y-1">
+            <div className="text-sky-400 font-bold">PromptBundle Schema</div>
+            <p className="text-muted-foreground text-[11px]">
+              {card2DecayIdx === 0 && '• systemPrompt: "You are an assistant..."'}
+              {card2DecayIdx === 1 && '• userTemplate: "Help user {{name}}..."'}
+              {card2DecayIdx === 2 && '• modelConfig: { provider: "groq", temp: 0.7 }'}
+              {card2DecayIdx === 3 && '• responseFormat: { type: "json_object" }'}
             </p>
           </div>
+        </Card>
 
-          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-2.5 relative font-mono text-xs z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-border pb-2 font-mono">
-              <span className="text-xs font-mono text-muted-foreground uppercase font-semibold">Assertion Tests Pipeline</span>
-              {card1State === 0 ? (
-                <span className="text-xs text-muted-foreground font-mono">Evaluating...</span>
-              ) : card1State === 1 ? (
-                <span className="text-xs text-destructive font-bold font-mono">GAPS FOUND (33%)</span>
-              ) : (
-                <span className="text-xs text-emerald-400 font-bold font-mono">ALL PASSED (100%)</span>
-              )}
+        {/* Card 3: Audit Traceability */}
+        <Card className="bg-card/70 border-white/10 backdrop-blur-md p-6 space-y-4 hover:border-primary/40 transition-all shadow-xl font-sans">
+          <div className="flex items-center justify-between">
+            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400">
+              <Clock className="w-5 h-5" />
             </div>
+            <Badge variant="outline" className="font-mono text-xs text-amber-400 border-amber-500/20 bg-amber-500/10">
+              Full Auditability
+            </Badge>
+          </div>
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-bold text-foreground font-sans">
+              Instant Diff & Rollback
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Compare any two prompt versions side-by-side with Monaco diff syntax highlighting and restore in 1 click.
+            </CardDescription>
+          </div>
 
-            <div className="space-y-2 font-mono">
-              <div className="flex items-center justify-between font-mono">
-                <span className="text-foreground font-mono">Assert: Refund offer is included</span>
-                {card1State === 0 ? (
-                  <span className="text-muted-foreground font-mono">Checking...</span>
-                ) : card1State === 1 ? (
-                  <span className="text-destructive font-semibold font-mono">❌ Failed</span>
-                ) : (
-                  <span className="text-emerald-400 font-semibold font-mono">✓ Passed</span>
-                )}
-              </div>
+          <div className="p-3.5 rounded-xl bg-background border border-border font-mono text-xs flex items-center justify-between">
+            <span className="text-muted-foreground">Restore v1 as v{card3Step + 4}</span>
+            <span className="text-amber-400 font-bold">{card3Timer} elapsed</span>
+          </div>
+        </Card>
 
-              <div className="flex items-center justify-between font-mono">
-                <span className="text-foreground font-mono">Assert: Politeness formatting</span>
-                {card1State === 0 ? (
-                  <span className="text-muted-foreground font-mono">Checking...</span>
-                ) : card1State === 1 ? (
-                  <span className="text-destructive font-semibold font-mono">❌ Failed</span>
-                ) : (
-                  <span className="text-emerald-400 font-semibold font-mono">✓ Passed</span>
-                )}
-              </div>
+        {/* Card 4: Automated Evals */}
+        <Card className="bg-card/70 border-white/10 backdrop-blur-md p-6 space-y-4 hover:border-primary/40 transition-all shadow-xl font-sans">
+          <div className="flex items-center justify-between">
+            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-
-            {card1State === 1 && (
-              <div className="absolute inset-0 bg-destructive/10 backdrop-blur-xs flex items-center justify-center p-3 animate-in fade-in duration-200">
-                <div className="bg-background border border-destructive/30 p-3 rounded-lg text-center space-y-2 shadow-xl w-[90%]">
-                  <span className="text-xs text-destructive font-bold block">⚠️ Regression detected</span>
-                  <Button variant="destructive" size="sm" className="w-full font-mono text-xs cursor-pointer font-semibold">
-                    Click to restore v2
-                  </Button>
-                </div>
-              </div>
-            )}
+            <Badge variant="outline" className="font-mono text-xs text-emerald-400 border-emerald-500/20 bg-emerald-500/10">
+              Automated Evals
+            </Badge>
           </div>
-        </div>
-
-        {/* Card 2: Fragmented Prompt Silos */}
-        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
-          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-background/40 pointer-events-none" />
-          
-          <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">02 / Versioning & Storage</span>
-            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Document Decay & Fragmentation</h3>
-            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
-              Prompts live scattered in Google Docs, Slack notes, and hardcoded in app code. Nobody knows which is active.
-            </p>
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-bold text-foreground font-sans">
+              Regression Test Suites
+            </CardTitle>
+            <CardDescription className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Run batch evaluation test cases against prompt versions and schedule cron regression runs automatically.
+            </CardDescription>
           </div>
 
-          <div className="mt-6 space-y-2.5 font-mono text-xs z-10">
-            {[
-              { icon: FileText, name: 'Google Doc: Refund Template v2', status: 'Drifted' },
-              { icon: MessageSquare, name: 'Slack: Alice draft snippet', status: 'Forgotten' },
-              { icon: Code2, name: 'src/lib/openai.ts (hardcoded string)', status: 'Untracked' },
-              { icon: FileText, name: 'Notion: production-system-prompts', status: 'Out-of-Sync' }
-            ].map((item, idx) => {
-              const ItemIcon = item.icon;
-              return (
-                <div 
-                  key={idx}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-background transition-all duration-700 font-mono"
-                  style={{ opacity: card2DecayIdx === idx ? 0.35 : 0.95 }}
-                >
-                  <div className="flex items-center gap-2.5 truncate mr-2">
-                    <ItemIcon className="w-4 h-4 text-muted-foreground shrink-0" />
-                    <span className="text-foreground font-mono truncate">{item.name}</span>
-                  </div>
-                  <span className="text-xs font-mono text-destructive bg-destructive/10 border border-destructive/20 px-2 py-0.5 rounded uppercase font-semibold shrink-0">
-                    {item.status}
-                  </span>
-                </div>
-              );
-            })}
+          <div className="p-3.5 rounded-xl bg-background border border-border font-mono text-xs flex items-center justify-between">
+            <span className="text-muted-foreground">Evaluation Suite</span>
+            <span className="text-emerald-400 font-bold flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> 100% Pass
+            </span>
           </div>
-        </div>
-
-        {/* Card 3: Chasing Prompt Authors */}
-        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
-          <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">03 / Attribution audit</span>
-            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Which Version Is Actually Live?</h3>
-            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
-              You edited the prompt last Tuesday. But which version is in production? You&apos;d need to grep git history — if it&apos;s even there.
-            </p>
-          </div>
-
-          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex items-center justify-between border-b border-border pb-2 text-muted-foreground font-semibold font-mono">
-              <span>Version Timeline</span>
-              <span className="flex items-center gap-1.5 font-mono text-muted-foreground">
-                <Clock className="h-3.5 w-3.5 font-mono" /> {card3Timer} ago
-              </span>
-            </div>
-
-            <div className="space-y-2.5 font-mono">
-              <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 0 ? 'text-foreground' : 'text-muted-foreground'}`}>v3 — &quot;be more concise&quot;</span>
-                <span className="font-mono">
-                  {card3Step === 0 ? (
-                    <span className="text-muted-foreground animate-pulse">checking...</span>
-                  ) : card3Step > 0 ? (
-                    <span className="text-muted-foreground">last Tuesday?</span>
-                  ) : (
-                    <span className="text-muted-foreground/60">pending</span>
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 1 ? 'text-foreground' : 'text-muted-foreground'}`}>v4 — added tone rules</span>
-                <span className="font-mono">
-                  {card3Step === 1 ? (
-                    <span className="text-muted-foreground animate-pulse">checking...</span>
-                  ) : card3Step > 1 ? (
-                    <span className="text-muted-foreground">maybe Wednesday?</span>
-                  ) : (
-                    <span className="text-muted-foreground/60">pending</span>
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center justify-between font-mono">
-                <span className={`font-mono transition-colors ${card3Step >= 2 ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}>v5 — live in prod</span>
-                <span className="font-mono">
-                  {card3Step === 2 ? (
-                    <span className="text-muted-foreground animate-pulse">checking...</span>
-                  ) : card3Step === 3 ? (
-                    <span className="text-emerald-400 font-bold">✓ Found it</span>
-                  ) : (
-                    <span className="text-muted-foreground/60">pending</span>
-                  )}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: Buried Failures */}
-        <div className="rounded-xl border border-border bg-card p-6 flex flex-col justify-between min-h-[320px] overflow-hidden relative group transition-all hover:border-border/80 hover:bg-accent/30 shadow-md">
-          <div className="space-y-2 z-10">
-            <span className="text-xs font-mono text-amber-400 uppercase tracking-wider font-semibold block">04 / Incident alerts</span>
-            <h3 className="text-base md:text-lg font-bold text-foreground font-sans">Silenced Error Regressions</h3>
-            <p className="text-xs md:text-sm text-muted-foreground font-sans leading-relaxed">
-              LLM format breakages and parser crashes happen, but slip past because they are buried in cloud logs.
-            </p>
-          </div>
-
-          <div className="mt-6 border border-border bg-background rounded-lg p-4 space-y-3 font-mono text-xs flex-1 flex flex-col justify-center z-10 shadow-inner">
-            <div className="flex justify-between border-b border-border pb-2 text-muted-foreground font-semibold font-mono">
-              <span>Server stdout stream</span>
-              <span className="text-muted-foreground font-mono">stdout.log</span>
-            </div>
-
-            <div className="space-y-2 font-mono">
-              <div className="flex items-center justify-between transition-all font-mono sub-item-wrap">
-                <span className={`font-mono ${card4State === 2 ? 'line-through text-muted-foreground opacity-40' : 'text-destructive font-semibold font-mono'}`}>
-                  JSON parser crash (Invalid char)
-                </span>
-                <span className="font-mono">{card4State === 2 ? '[Muted]' : '[ALERT]'}</span>
-              </div>
-              <div className="flex items-center justify-between transition-all font-mono sub-item-wrap">
-                <span className={`font-mono ${card4State >= 1 ? 'line-through text-muted-foreground opacity-40' : 'text-destructive font-semibold font-mono'}`}>
-                  Empty response (400 Bad Req)
-                </span>
-                <span className="font-mono">{card4State >= 1 ? '[Muted]' : '[ALERT]'}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        </Card>
       </div>
     </section>
   );

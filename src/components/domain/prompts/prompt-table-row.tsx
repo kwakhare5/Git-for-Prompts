@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { deletePrompt } from '@/lib/actions/prompts';
 import { StatusBadge } from "@/components/layout/status-badge";
 import { RelativeTime } from '@/components/layout/relative-time';
-import { DeleteConfirmButton } from '@/components/ui/delete-confirm-button';
+import { DeleteConfirmButton } from '@/components/domain/shared/delete-confirm-button';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Globe, Lock, Copy, Check, ExternalLink, GitCommit, Eye } from 'lucide-react';
@@ -108,6 +108,7 @@ export function PromptTableRow({ prompt, onInspect }: { prompt: PromptRow; onIns
             type="button"
             onClick={() => onInspect(prompt)}
             title="Quick Inspect"
+            aria-label="Quick inspect prompt"
             variant="outline"
             size="icon-xs"
             className="cursor-pointer"
@@ -119,6 +120,7 @@ export function PromptTableRow({ prompt, onInspect }: { prompt: PromptRow; onIns
             type="button"
             onClick={handleCopyId}
             title="Copy Prompt ID"
+            aria-label="Copy prompt ID"
             variant="outline"
             size="icon-xs"
             className="cursor-pointer"

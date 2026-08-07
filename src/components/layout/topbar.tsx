@@ -80,7 +80,7 @@ export function Topbar() {
         <CommandTrigger placeholder="Search commands..." />
 
         <Link href="/dashboard/new">
-          <Button size="sm" variant="default" className="font-semibold shadow-xs cursor-pointer">
+          <Button size="sm" variant="default" aria-label="New Prompt" className="font-semibold shadow-xs cursor-pointer">
             <Plus className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">New Prompt</span>
             <span className="sm:hidden">New</span>
@@ -88,7 +88,7 @@ export function Topbar() {
         </Link>
 
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger aria-label="Developer Account">
             <Avatar className="w-8 h-8 cursor-pointer hover:border-primary transition-colors">
               <AvatarFallback>GFP</AvatarFallback>
             </Avatar>

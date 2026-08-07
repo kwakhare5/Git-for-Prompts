@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 
-export interface VersionItem {
-  versionNumber: number;
-  content: string;
-  commitMessage: string;
+import type { Version } from '@gfp/core';
+
+export interface VersionItem extends Pick<Version, 'versionNumber' | 'content' | 'commitMessage'> {
   createdAt: string;
 }
 

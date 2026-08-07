@@ -75,7 +75,7 @@ export default async function TestsPage({
           <div className="h-4 w-px bg-border shrink-0" aria-hidden="true" />
           <h1 className="text-xl font-bold text-foreground">Test Cases</h1>
           {existingCases.length > 0 && (
-            <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2 py-0.5 rounded-full font-semibold">
+            <span className="shrink-0 font-mono text-xs bg-muted text-foreground border border-border px-2 py-0.5 rounded-md font-semibold">
               {existingCases.length} test{existingCases.length !== 1 ? 's' : ''}
             </span>
           )}
