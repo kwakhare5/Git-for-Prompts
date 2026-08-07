@@ -133,33 +133,26 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 **Last session date:** 2026-08-07
 
-**What we accomplished (Landing Page Redesign & Unified 100% shadcn Architecture):**
-- **100% Shared UI Code Parity:** Hero section sandbox frame (`HeroAppDashboardReplica`) and authenticated `/dashboard` routes render identical React component primitives (`AppSidebar`, `Topbar`, `PromptTable`, `BundleEditor`, `DiffViewer`, `TestRunner`, `ApiKeyManager`).
-- **Complete Landing Page Ground-Up Redesign:** Built 6 high-converting non-AI-slop sections using 100% `shadcn/ui` primitives (`Card`, `Badge`, `Button`, `Accordion`, `Sidebar`, `Separator`):
-  1. *Navbar* — Glassmorphic floating header with Clerk Google Auth trigger.
-  2. *Hero* — Bold headline, subtitle, Google Auth CTAs, and wide interactive dashboard sandbox centerpiece.
-  3. *FixesSection (Bento Showcase)* — 4 editorial feature cards covering Immutable Versioning, Full Prompt Bundles, Monaco Diffs, and Automated Evals.
-  4. *SdkSection (CLI Platform)* — Interactive terminal widget for `gfp` CLI commands & Wasm SQLite engine.
-  5. *SecurityInfo* — Architectural breakdown of Clerk Google auth, SHA-256 key hashing, Drizzle advisory locks, and HMAC webhooks.
-  6. *FaqAccordion & Footer* — Developer FAQ accordion and clean modern footer.
-- **Verification:** Verified 0 TypeScript errors (`npx tsc --noEmit`), 0 ESLint errors (`pnpm lint`), 88/88 Vitest tests passing (`pnpm test`), and Next.js Turbopack production build passing (`pnpm build`).
+**What we accomplished (Dedicated Terminal Component & Landing Layout Redesign):**
+- **Dedicated Terminal UI Primitive (`components/ui/terminal.tsx`):** Created official reusable `shadcn/ui` Terminal component with window controls, command prompt lines (`$`), step selector buttons (`gfp init`, `gfp add`, `gfp push`, `gfp pull`), output console, copy button, and emerald border glow.
+- **QA & Automated Evals Section (`test-suite-info.tsx`):** Built Split Hero Showcase with Natural Language Rules and Scheduled Daily Crons cards on the left, and live interactive `suite: refund_eval_matrix` widget (`100% Passed`, `2/2 Passed`, pass checks) on the right.
+- **Developer Platform & CLI Section (`sdk-section.tsx`):** Built Stacked Dual-Bento Layout embedding full-width `<Terminal />` on top, and 2-column Node.js/Python SDK snippets + Runtime REST API endpoints on the bottom.
+- **Security & Infrastructure Grid (`security-info.tsx`):** Built Horizontal Flow Pipeline grid connecting Clerk Google auth, SHA-256 API key hashing, and Postgres advisory locking.
+- **Verification & Git Deployment:** Verified 0 TypeScript errors (`npx tsc --noEmit`), 0 ESLint errors (`pnpm lint`), 88/88 Vitest tests passing (`pnpm test`), and Next.js Turbopack production build passing (`pnpm build`). Committed and pushed commit `ecfad74` to `main`.
 
 **Immediate next task:**
-- Redesign complete. Ready for new feature additions or cloud deployment.
+- Terminal component and section layout redesigns complete & pushed to GitHub. Ready for next prompt.
 
 **Open blockers:**
 - None.
 
 **Files most recently changed:**
-- `src/app/(landing)/page.tsx`
-- `src/components/domain/landing/hero.tsx`
-- `src/components/domain/landing/hero-app-dashboard-replica.tsx`
-- `src/components/domain/landing/fixes-section.tsx`
+- `src/components/ui/terminal.tsx`
+- `src/components/domain/landing/test-suite-info.tsx`
 - `src/components/domain/landing/sdk-section.tsx`
 - `src/components/domain/landing/security-info.tsx`
-- `src/components/domain/landing/faq-accordion.tsx`
-- `src/components/domain/landing/footer.tsx`
 - `CLAUDE.md`
+
 
 
 

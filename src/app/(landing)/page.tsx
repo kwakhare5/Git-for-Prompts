@@ -3,6 +3,8 @@
 import { Navbar } from '@/components/domain/landing/navbar';
 import { Hero } from '@/components/domain/landing/hero';
 import { FixesSection } from '@/components/domain/landing/fixes-section';
+import { VersionFeatures } from '@/components/domain/landing/version-features';
+import { VariableFeatures } from '@/components/domain/landing/variable-features';
 import { DeveloperPlatform } from '@/components/domain/landing/developer-platform';
 import { SecurityInfo } from '@/components/domain/landing/security-info';
 import { FaqAccordion } from '@/components/domain/landing/faq-accordion';
@@ -30,34 +32,45 @@ export default function Home() {
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 2. Key Solutions & Architectural Pillars */}
+        {/* 2. Tailark Expandable Features 1 — Core Solutions */}
         <div id="features">
           <FixesSection />
         </div>
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 3. Developer CLI & Platform */}
+        {/* 3. Tailark Expandable Features 3 — Version Control & Diffs */}
+        <VersionFeatures />
+
+        <Separator className="max-w-6xl mx-auto opacity-40" />
+
+        {/* 4. Tailark Expandable Features 6 — Variable Engine & Schemas */}
+        <VariableFeatures />
+
+        <Separator className="max-w-6xl mx-auto opacity-40" />
+
+        {/* 5. Tailark Features 4 & Code Demo 2 — Developer Platform & CLI */}
         <div id="developers">
           <DeveloperPlatform />
         </div>
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 4. Enterprise Security */}
+        {/* 6. Tailark Features 7 — Enterprise Security */}
         <SecurityInfo />
 
         <Separator className="max-w-6xl mx-auto opacity-40" />
 
-        {/* 5. Frequently Asked Questions */}
+        {/* 7. Frequently Asked Questions */}
         <div id="faq">
           <FaqAccordion />
         </div>
 
-        {/* 6. Footer */}
+        {/* 8. Tailark Footer 2 */}
         <Footer />
       </main>
     </div>
   );
 }
+
 
