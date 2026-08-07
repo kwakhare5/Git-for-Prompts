@@ -1,33 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Terminal, Copy, Check, Code2, Server } from 'lucide-react';
+import { Terminal as TerminalIcon, Copy, Check, Code2, Server } from 'lucide-react';
 import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
-const SCRIPT_STEPS = [
-  {
-    cmd: 'gfp init',
-    desc: 'Initialize zero-dependency Wasm SQLite repository',
-    output: '✓ Initialized .gfp/ local prompt database\n✓ Created schema tables: prompts, versions, test_cases',
-  },
-  {
-    cmd: 'gfp add customer-support --content "..."',
-    desc: 'Save local prompt version snapshot',
-    output: '✓ Extracted variables: {{customer_issue}}, {{order_id}}\n✓ Saved v1 snapshot · 142 chars',
-  },
-  {
-    cmd: 'gfp push customer-support',
-    desc: 'Sync local version to cloud Postgres SaaS',
-    output: '✓ Authenticated via gfp_live_...\n✓ pg_advisory_xact_lock acquired\n✓ Pushed v1 → cloud v1',
-  },
-  {
-    cmd: 'gfp pull customer-support',
-    desc: 'Pull latest team version to local SQLite',
-    output: '✓ Fetched cloud v3\n✓ Updated local .gfp/ database to v3',
-  },
-];
+import { Terminal } from '@/components/ui/terminal';
 
 const SDK_EXAMPLES = {
   typescript: `import { GitForPrompts } from '@gfp/sdk';
@@ -52,9 +30,14 @@ content = prompt.interpolate(order_id="12345")`,
 };
 
 export function SdkSection() {
-  const [activeStep, setActiveStep] = useState(0);
   const [activeSdk, setActiveSdk] = useState<'typescript' | 'python' | 'curl'>('typescript');
   const [copied, setCopied] = useState(false);
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(SDK_EXAMPLES[activeSdk]);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section id="cli" className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24 space-y-12 font-sans">
@@ -63,7 +46,7 @@ export function SdkSection() {
           variant="outline"
           className="text-xs font-mono text-emerald-400 border-emerald-500/20 bg-emerald-500/10 px-3.5 py-1 rounded-md inline-flex items-center gap-1.5 font-semibold"
         >
-          <Terminal className="w-3.5 h-3.5" /> Developer Platform & CLI
+          <TerminalIcon className="w-3.5 h-3.5" /> Developer Platform & CLI
         </Badge>
         <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground font-sans leading-tight">
           Local CLI + Runtime REST APIs
@@ -73,115 +56,90 @@ export function SdkSection() {
         </p>
       </div>
 
-      {/* Interactive Split Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-        {/* Left Side: Interactive CLI Terminal Widget */}
-        <Card className="bg-[#111111] border-white/10 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-              <span className="ml-2 text-xs font-bold text-foreground flex items-center gap-1.5">
-                <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-                gfp CLI Terminal
-              </span>
-            </div>
+      {/* Stacked Dual-Bento Layout */}
+      <div className="space-y-8 font-sans">
+        {/* Top Block (Full Width): Dedicated shadcn Terminal UI Component */}
+        <Terminal title="gfp CLI Terminal" versionBadge="v0.2.0 Wasm" />
 
-            <Badge variant="outline" className="font-mono text-[10px] text-emerald-400 border-emerald-500/20 bg-emerald-500/10">
-              v0.2.0 Wasm
-            </Badge>
-          </div>
-
-          <div className="p-5 space-y-4 flex-1 flex flex-col justify-between bg-zinc-950">
+        {/* Bottom Block (2-Column Grid): SDK & REST API Code Snippets */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch font-sans">
+          {/* Column 1: Node.js & Python SDK */}
+          <Card className="bg-[#0c0c0e] border-white/10 p-6 space-y-4 rounded-2xl shadow-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300">
             <div className="space-y-3">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {SCRIPT_STEPS.map((s, idx) => (
-                  <Button
-                    key={s.cmd}
-                    variant={activeStep === idx ? 'secondary' : 'ghost'}
-                    size="sm"
-                    onClick={() => setActiveStep(idx)}
-                    className={`h-7 px-2.5 text-[11px] font-mono cursor-pointer transition-all ${
-                      activeStep === idx ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'text-muted-foreground'
-                    }`}
-                  >
-                    Step {idx + 1}
-                  </Button>
-                ))}
-              </div>
-
-              <div className="p-4 rounded-xl bg-card border border-border space-y-2 font-mono text-xs">
-                <div className="text-foreground flex items-center gap-2 font-bold">
-                  <span className="text-emerald-400 select-none">$</span>
-                  <span>{SCRIPT_STEPS[activeStep].cmd}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Code2 className="w-4 h-4 text-sky-400" />
+                  <CardTitle className="text-sm font-bold text-foreground font-sans">
+                    SDK Client Integration
+                  </CardTitle>
                 </div>
-                <div className="text-muted-foreground text-[11px] pl-3 border-l border-emerald-500/30 whitespace-pre-line leading-relaxed">
-                  {SCRIPT_STEPS[activeStep].output}
+                <div className="flex items-center gap-1">
+                  {(['typescript', 'python'] as const).map((sdk) => (
+                    <Button
+                      key={sdk}
+                      variant={activeSdk === sdk ? 'secondary' : 'ghost'}
+                      size="sm"
+                      onClick={() => setActiveSdk(sdk)}
+                      className={`h-6 px-2 text-[10px] font-mono cursor-pointer transition-all ${
+                        activeSdk === sdk ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'text-muted-foreground'
+                      }`}
+                    >
+                      {sdk === 'typescript' ? 'Node.js' : 'Python'}
+                    </Button>
+                  ))}
                 </div>
               </div>
-            </div>
+              <CardDescription className="text-xs text-muted-foreground font-sans">
+                Fetch and interpolate prompts at runtime in production server environments.
+              </CardDescription>
 
-            <p className="text-xs text-muted-foreground font-sans pt-2 border-t border-border">
-              {SCRIPT_STEPS[activeStep].desc}
-            </p>
-          </div>
-        </Card>
-
-        {/* Right Side: Tabbed SDK Code Blocks */}
-        <Card className="bg-[#111111] border-white/10 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs flex flex-col justify-between">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
-            <div className="flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-sky-400" />
-              <span className="text-xs font-bold text-foreground font-sans">SDK & REST API Integration</span>
+              <div className="p-4 rounded-xl bg-zinc-950 border border-border font-mono text-[11px] text-sky-300 overflow-x-auto relative">
+                <pre className="leading-relaxed font-mono">{SDK_EXAMPLES[activeSdk === 'curl' ? 'typescript' : activeSdk]}</pre>
+              </div>
             </div>
 
             <Button
               size="sm"
-              variant="ghost"
-              onClick={() => {
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-              }}
-              className="h-7 px-2.5 text-[11px] text-muted-foreground hover:text-foreground cursor-pointer font-sans"
+              variant="outline"
+              onClick={handleCopyCode}
+              className="w-full text-xs font-mono gap-1.5 cursor-pointer"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />} Copy SDK Code
             </Button>
-          </div>
+          </Card>
 
-          <div className="p-5 space-y-4 flex-1 flex flex-col justify-between bg-zinc-950">
+          {/* Column 2: Runtime REST API */}
+          <Card className="bg-[#0c0c0e] border-white/10 p-6 space-y-4 rounded-2xl shadow-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300">
             <div className="space-y-3">
-              <div className="flex items-center gap-1.5">
-                {(['typescript', 'python', 'curl'] as const).map((sdk) => (
-                  <Button
-                    key={sdk}
-                    variant={activeSdk === sdk ? 'secondary' : 'ghost'}
-                    size="sm"
-                    onClick={() => setActiveSdk(sdk)}
-                    className={`h-7 px-3 text-[11px] font-mono cursor-pointer transition-all ${
-                      activeSdk === sdk ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'text-muted-foreground'
-                    }`}
-                  >
-                    {sdk === 'typescript' ? 'Node.js' : sdk === 'python' ? 'Python' : 'cURL'}
-                  </Button>
-                ))}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Server className="w-4 h-4 text-emerald-400" />
+                  <CardTitle className="text-sm font-bold text-foreground font-sans">
+                    Runtime REST Endpoint
+                  </CardTitle>
+                </div>
+                <Badge variant="outline" className="font-mono text-[10px] text-emerald-400 border-emerald-500/20 bg-emerald-500/10">
+                  GET /api/v1/prompts
+                </Badge>
               </div>
+              <CardDescription className="text-xs text-muted-foreground font-sans">
+                Fast HTTP API for zero-dependency microservices and edge workers.
+              </CardDescription>
 
-              <div className="p-4 rounded-xl bg-card border border-border font-mono text-[11px] text-muted-foreground overflow-x-auto">
-                <pre className="text-sky-300 leading-relaxed font-mono">{SDK_EXAMPLES[activeSdk]}</pre>
+              <div className="p-4 rounded-xl bg-zinc-950 border border-border font-mono text-[11px] text-emerald-300 overflow-x-auto">
+                <pre className="leading-relaxed font-mono">{SDK_EXAMPLES.curl}</pre>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-muted-foreground font-sans pt-2 border-t border-border">
-              <span className="flex items-center gap-1.5">
-                <Server className="w-3.5 h-3.5 text-emerald-400" /> O(1) SHA-256 API Key Authorization
-              </span>
-              <span className="font-mono text-[10px] text-emerald-400">GET /api/v1/prompts</span>
+            <div className="p-3 rounded-xl bg-zinc-950 border border-border flex items-center justify-between text-xs font-mono text-muted-foreground">
+              <span>Auth Header</span>
+              <span className="text-emerald-400 font-bold">Bearer gfp_live_...</span>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
     </section>
   );
 }
+
 
