@@ -1,7 +1,7 @@
 'use client';
 
-import { Shield, Key, Database, Lock } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Key, Database, Lock } from 'lucide-react';
+import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 export function SecurityInfo() {
