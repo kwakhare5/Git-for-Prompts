@@ -1,9 +1,5 @@
-import { PageHeader } from "@/components/layout/page-header";
-import { StatusBadge } from "@/components/layout/status-badge";
 import { listWebhooks } from '@/lib/actions/webhooks';
 import { WebhooksClient } from './webhooks-client';
-import { Topbar } from '@/components/layout/topbar';
-import { Webhook, Radio } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -17,28 +13,27 @@ export default async function WebhooksPage() {
   const existingWebhooks = await listWebhooks().catch(() => []);
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-background font-sans">
-      <Topbar />
+    <div className="space-y-6 font-sans">
+      <div className="border-b border-zinc-800/90 pb-5">
+        <h1 className="text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2.5">
+          <span>Webhooks Delivery</span>
+          <span className="text-xs font-sans font-normal bg-blue-500/10 text-blue-300 px-2.5 py-0.5 rounded-full border border-blue-500/20">
+            Fire-and-Forget
+          </span>
+        </h1>
+        <p className="text-xs text-zinc-400 mt-1">
+          Receive HMAC-SHA256 signed HTTP POST payloads instantly whenever a new prompt version is committed.
+        </p>
+      </div>
 
-      <div className="p-6 lg:p-8 space-y-8 font-sans max-w-7xl w-full mx-auto">
-        <PageHeader
-          title="Webhooks"
-          subtitle="Git for Prompts will fire HTTP POST payloads to your URL whenever a new prompt version is saved."
-          badge={{ label: "Event Engine", variant: "violet", icon: Webhook }}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+        <WebhooksClient webhooks={existingWebhooks} />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px] lg:items-start font-sans">
-          <WebhooksClient webhooks={existingWebhooks} />
-
-          <aside className="flex flex-col gap-4 lg:sticky lg:top-20 font-sans">
-            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl font-sans">
-              <div className="flex items-center justify-between font-mono">
-                <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
-                  <Radio className="w-4 h-4 text-muted-foreground" /> Webhook Payload
-                </h2>
-                <StatusBadge variant="sky">HMAC SHA-256</StatusBadge>
-              </div>
-              <pre className="text-xs text-foreground font-mono leading-relaxed overflow-x-auto whitespace-pre bg-background border border-border rounded-lg p-3 no-scrollbar">{`POST https://your-server.com/hook
+        <aside className="space-y-4 text-xs bg-[#161619] p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
+          <div className="space-y-2">
+            <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">Payload Structure</h2>
+            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+{`POST /your-webhook-endpoint
 Content-Type: application/json
 X-GFP-Signature: sha256=<hmac>
 X-GFP-Event: version.created
@@ -47,28 +42,10 @@ X-GFP-Event: version.created
   "event": "version.created",
   "promptId": "...",
   "versionNumber": 3
-}`}</pre>
-            </div>
-
-            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm font-sans">
-              <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">Workflow Steps</h2>
-              <ul className="flex flex-col gap-2 text-xs text-muted-foreground font-sans mt-1">
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">1</span>
-                  Register your HTTP/HTTPS endpoint below
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">2</span>
-                  Save your signing secret — shown once only
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">3</span>
-                  Every new version fires a signed POST request
-                </li>
-              </ul>
-            </div>
-          </aside>
-        </div>
+}`}
+            </pre>
+          </div>
+        </aside>
       </div>
     </div>
   );

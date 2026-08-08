@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 
 interface DeleteConfirmButtonProps {
   onDelete: () => void;
@@ -16,48 +14,42 @@ export function DeleteConfirmButton({
   onDelete,
   ariaLabel = 'Delete',
   isPending = false,
-  className,
+  className = '',
 }: DeleteConfirmButtonProps) {
   const [confirming, setConfirming] = useState(false);
 
   if (confirming) {
     return (
-      <div className={cn('flex items-center gap-1.5 font-sans', className)}>
-        <span className="text-xs text-muted-foreground font-sans">Delete?</span>
-        <Button
+      <div className={`flex items-center gap-1.5 font-sans ${className}`}>
+        <span className="text-xs text-gray-500">Delete?</span>
+        <button
           onClick={() => {
             setConfirming(false);
             onDelete();
           }}
           disabled={isPending}
-          variant="destructive"
-          size="xs"
-          className="font-sans cursor-pointer"
+          className="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700 font-medium"
         >
           {isPending ? 'Deleting…' : 'Yes'}
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() => setConfirming(false)}
           disabled={isPending}
-          variant="ghost"
-          size="xs"
-          className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+          className="px-2 py-0.5 text-xs text-gray-500 hover:text-black font-medium"
         >
           Cancel
-        </Button>
+        </button>
       </div>
     );
   }
 
   return (
-    <Button
+    <button
       onClick={() => setConfirming(true)}
       aria-label={ariaLabel}
-      variant="ghost"
-      size="icon-xs"
-      className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+      className="p-1 text-gray-400 hover:text-red-600 rounded transition-colors"
     >
       <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
-    </Button>
+    </button>
   );
 }

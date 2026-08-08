@@ -1,11 +1,7 @@
-import { PageHeader } from "@/components/layout/page-header";
-import { StatusBadge } from "@/components/layout/status-badge";
 import { getAuthUserId } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import { listApiKeys } from '@/lib/actions/api-keys';
 import { ApiKeysManager } from '@/components/domain/api-keys/api-keys-manager';
-import { Topbar } from '@/components/layout/topbar';
-import { ShieldCheck, Key, Code2 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,79 +23,42 @@ export default async function ApiKeysPage() {
   }));
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-background font-sans">
-      <Topbar />
+    <div className="space-y-6 font-sans">
+      <div className="border-b border-zinc-800/90 pb-5">
+        <h1 className="text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2.5">
+          <span>API Credentials</span>
+          <span className="text-xs font-sans font-normal bg-emerald-500/10 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+            SHA-256 Auth
+          </span>
+        </h1>
+        <p className="text-xs text-zinc-400 mt-1">
+          Generate and manage API keys for Bearer token access to fetch prompts programmatically or sync via CLI (`gfp push` / `gfp pull`).
+        </p>
+      </div>
 
-      <div className="p-6 lg:p-8 space-y-8 font-sans max-w-7xl w-full mx-auto">
-        <PageHeader
-          title="API Keys"
-          subtitle="Fetch your latest prompt versions programmatically from any backend or CI/CD pipeline. Keys are hashed with SHA-256 for instant O(1) verification."
-          badge={{ label: "Bearer Auth", variant: "sky", icon: Key }}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
+        <ApiKeysManager initialKeys={keys} />
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px] lg:items-start font-sans">
-          <ApiKeysManager initialKeys={keys} />
+        <aside className="space-y-4 text-xs bg-[#161619] p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
+          <div className="space-y-2">
+            <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">REST API Usage</h2>
+            <p className="text-[11px] text-zinc-400 font-sans">Fetch latest version at runtime:</p>
+            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+{`GET /api/v1/prompts/:id/latest
+Authorization: Bearer gfp_live_...`}
+            </pre>
+          </div>
 
-          <aside className="flex flex-col gap-4 lg:sticky lg:top-20 font-sans">
-            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-4 shadow-xl">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
-                  <Code2 className="w-4 h-4 text-muted-foreground" /> REST API Endpoint
-                </h2>
-                <StatusBadge variant="emerald">200 OK</StatusBadge>
-              </div>
+          <hr className="border-zinc-800/80" />
 
-              <div>
-                <p className="text-xs text-muted-foreground font-sans mb-2">Fetch latest prompt version:</p>
-                <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
-                  {`GET /api/v1/prompts/:promptId/latest\nAuthorization: Bearer gfp_live_...`}
-                </code>
-              </div>
-
-              <div>
-                <p className="text-xs text-muted-foreground font-sans mb-2">JSON Response:</p>
-                <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
-                  {`{\n  "promptId": "uuid",\n  "versionNumber": 3,\n  "content": "string"\n}`}
-                </code>
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-3 shadow-xl">
-              <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
-                <Code2 className="w-4 h-4 text-muted-foreground" /> Connect CLI
-              </h2>
-              <p className="text-xs text-muted-foreground font-sans">
-                After copying your key, run this in your terminal to connect the CLI to your account:
-              </p>
-              <code className="block rounded-lg border border-border bg-background p-3 font-mono text-xs text-foreground whitespace-pre overflow-x-auto">
-                {`gfp auth <your-api-key>`}
-              </code>
-              <p className="text-xs text-muted-foreground font-sans">
-                Then use <span className="font-mono text-foreground">gfp push</span> and <span className="font-mono text-foreground">gfp pull</span> to sync prompts between your terminal and this dashboard.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-border bg-card p-5 flex flex-col gap-2 shadow-sm">
-              <h2 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-muted-foreground" /> Security Standards
-              </h2>
-              <ul className="flex flex-col gap-2 text-xs text-muted-foreground font-sans mt-1">
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">·</span>
-                  Keys hashed using SHA-256 lookup index
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">·</span>
-                  Plaintext key is shown ONCE upon creation
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-muted-foreground font-bold font-mono">·</span>
-                  Instantly revokable from dashboard
-                </li>
-              </ul>
-            </div>
-          </aside>
-        </div>
+          <div className="space-y-2">
+            <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">CLI Terminal Auth</h2>
+            <p className="text-[11px] text-zinc-400 font-sans">Connect offline local CLI:</p>
+            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+{`$ gfp auth gfp_live_...`}
+            </pre>
+          </div>
+        </aside>
       </div>
     </div>
   );

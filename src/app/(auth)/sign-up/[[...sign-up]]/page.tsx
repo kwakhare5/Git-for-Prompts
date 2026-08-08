@@ -1,9 +1,5 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { clerkAppearance } from "@/lib/clerk-appearance";
 import { ArrowRight, Lock } from "lucide-react";
 
@@ -37,89 +33,79 @@ function GoogleIcon() {
 export default function SignUpPage() {
   if (!hasClerkKeys) {
     return (
-      <Card className="w-full max-w-md mx-auto shadow-xl font-sans border-border bg-card">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold tracking-tight text-foreground font-sans">
-            Create your account
-          </CardTitle>
-          <CardDescription className="text-sm text-muted-foreground font-sans">
-            Welcome! Get started with Git for Prompts local-first VCS.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4 font-sans">
-          {/* Email input field */}
-          <div className="grid gap-2 text-left">
-            <Label htmlFor="email">Work Email</Label>
-            <Input
+      <div className="w-full max-w-md mx-auto p-6 rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-2xl font-sans">
+        <div className="space-y-1.5 text-center mb-6">
+          <h1 className="text-xl font-bold text-zinc-100 font-mono">
+            Create Your Account
+          </h1>
+          <p className="text-xs text-zinc-400">
+            Get started with Git for Prompts 100% free local-first VCS.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <div className="space-y-1.5 text-left">
+            <label htmlFor="email" className="text-xs font-mono font-bold text-zinc-300 block">Work Email</label>
+            <input
               id="email"
               type="email"
               placeholder="developer@company.com"
-              className="h-9 text-sm font-sans"
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600"
             />
           </div>
 
-          {/* Password input field */}
-          <div className="grid gap-2 text-left">
-            <Label htmlFor="password">Password</Label>
-            <Input
+          <div className="space-y-1.5 text-left">
+            <label htmlFor="password" className="text-xs font-mono font-bold text-zinc-300 block">Password</label>
+            <input
               id="password"
               type="password"
-              placeholder="Create a strong password"
-              className="h-9 text-sm font-sans"
+              placeholder="Create a strong password..."
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600"
             />
           </div>
 
-          {/* Enter Workspace Primary Action */}
-          <Link href="/dashboard" className="w-full block mt-1">
-            <Button variant="default" size="default" className="w-full justify-center">
-              Create Account &amp; Enter
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
+          <Link href="/dashboard" className="w-full block">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer">
+              <span>Create Account &amp; Enter Workspace</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </Link>
 
-          <div className="relative my-2">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-border" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2.5 text-muted-foreground font-medium">Or sign up with</span>
-            </div>
+          <div className="relative my-2 text-center text-[11px] text-zinc-500 font-mono">
+            Or sign up with
           </div>
 
-          {/* Google OAuth Button */}
           <Link href="/dashboard" className="w-full block">
-            <Button variant="outline" size="default" className="w-full justify-center">
+            <button className="w-full flex items-center justify-center px-4 py-2.5 border border-zinc-700/80 rounded-xl text-xs text-zinc-200 hover:text-white bg-[#202024] hover:bg-[#28282D] font-mono font-semibold transition-all cursor-pointer">
               <GoogleIcon />
               Continue with Google
-            </Button>
+            </button>
           </Link>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-4 font-sans border-t border-border pt-4 mt-2">
-          <div className="rounded-lg border border-border bg-muted/50 p-3 text-xs text-muted-foreground font-sans leading-relaxed text-left flex items-start gap-2.5 w-full">
-            <Lock className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <strong className="text-foreground font-semibold">Local Dev Mode:</strong> Add Clerk keys to{" "}
-              <code className="font-mono text-foreground bg-background px-1.5 py-0.5 rounded border border-border">.env.local</code>{" "}
-              for live OAuth.
+
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300 flex items-start gap-2 font-mono">
+            <Lock className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
+            <div>
+              <strong>Local Dev Mode:</strong> Add Clerk keys to <code className="font-mono bg-[#121214] px-1 border border-zinc-800 rounded">.env.local</code>.
             </div>
           </div>
-          <p className="text-xs font-sans text-muted-foreground text-center">
+
+          <p className="text-xs text-zinc-400 text-center pt-2 font-sans">
             Already have an account?{" "}
-            <Link href="/sign-in" className="text-foreground hover:underline font-semibold transition-colors">
+            <Link href="/sign-in" className="text-blue-300 font-semibold hover:underline">
               Sign in
             </Link>
           </p>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
     <>
       <SignUp appearance={clerkAppearance} path="/sign-up" routing="path" />
-      <p className="text-xs font-sans text-muted-foreground mt-3 text-center">
+      <p className="text-xs font-sans text-zinc-400 mt-4 text-center">
         Already have an account?{" "}
-        <Link href="/sign-in" className="text-foreground hover:underline font-medium transition-colors">
+        <Link href="/sign-in" className="text-blue-300 hover:underline font-semibold">
           Sign in
         </Link>
       </p>
