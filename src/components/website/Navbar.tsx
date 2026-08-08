@@ -18,6 +18,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
       <div className="bg-[#161618]/90 border border-zinc-800/90 backdrop-blur-md rounded-2xl shadow-xl px-5 h-14 flex items-center justify-between transition-all">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group font-mono">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.svg"
             alt="Git for Prompts Logo"

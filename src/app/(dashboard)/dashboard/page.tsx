@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { DashboardWorkspaceView, PromptRepositoriesList } from "@/components/domain/dashboard/dashboard-workspace-view";
+import { PromptRepositoriesList } from "@/components/domain/dashboard/dashboard-workspace-view";
 import { CreateSamplePromptButton } from "@/components/domain/prompts/create-sample-prompt-button";
 
 export const dynamic = 'force-dynamic';
@@ -181,7 +181,7 @@ export default async function DashboardPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-zinc-500 select-none">$</span>
-                <code className="text-zinc-100 font-bold">npx gfp commit -m "Lower temperature to 0.2"</code>
+                <code className="text-zinc-100 font-bold">npx gfp commit -m &quot;Lower temperature to 0.2&quot;</code>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-zinc-500 select-none">$</span>

@@ -12,7 +12,7 @@ import {
   ButtonPrimary,
 } from '@/components/website/ui-tokens';
 
-export interface PromptWithStats {
+interface PromptWithStats {
   id: string;
   name: string;
   description: string | null;

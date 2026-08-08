@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
+import { GFP_THEME_NAME, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
 import type { PromptBundle } from '@gfp/core';
 
 // Monaco DiffEditor must be dynamically imported — relies on browser APIs not available during SSR.
