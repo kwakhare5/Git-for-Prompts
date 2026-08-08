@@ -15,6 +15,7 @@ export function BrandLogo({ href = '/', onClick, className }: BrandLogoProps) {
       onClick={onClick}
       className={`font-sans text-sm font-semibold text-zinc-100 hover:text-white transition-colors flex items-center gap-2.5 group select-none ${className ?? ''}`}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/logo.svg"
         alt="Git for Prompts Logo"

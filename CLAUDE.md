@@ -133,26 +133,19 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 **Last session date:** 2026-08-08
 
-**What we accomplished (Explore Route Alignment & Layout Consolidation):**
-- **Dashboard Explore Routing:** Re-routed "Explore Community" link inside `DashboardSidebar` directly to `/dashboard/explore` for perfect workspace app shell layout integration.
-- **Verification:** 0 TypeScript errors (`npx tsc --noEmit`), 88/88 Vitest tests passing (`npx vitest run`), Next.js Turbopack build succeeded in 5.7s (`npx next build` — 24 routes).
+**What we accomplished (Codebase Cleanup & Linter Optimization):**
+- **Dead Code Cleanup:** Deleted 8 unused files and pruned unused components and type exports, bringing codebase to a clean, scan-verified state.
+- **Unused Dependencies Purge:** Removed 8 unused packages and 1 dev package from `package.json`, and updated `pnpm-lock.yaml`.
+- **Linter & Hydration Fixes:** Fixed all 3 ESLint errors (unescaped quotes, setState in useEffect) and 10 linter warnings (unused imports, static SVG warnings).
+- **Verification:** All checks pass with 0 warnings/errors (typecheck, linter, 88/88 tests, Next.js build).
 
 **Immediate next task:**
-- Ready for user instructions.
+- Ready for new feature work or further improvements.
 
 **Open blockers:**
 - None.
 
 **Files most recently changed:**
-- `src/components/layout/dashboard-sidebar.tsx`
-- `walkthrough.md`
-- `CLAUDE.md`
-
-
-
-
-
-
 
 
 

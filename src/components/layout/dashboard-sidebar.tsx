@@ -53,6 +53,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
         {/* Logo & Collapse Button */}
         <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
           <Link href="/" className="flex items-center gap-2.5 min-w-0 group" title="Return to Home Page">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.svg"
               alt="Git for Prompts Logo"

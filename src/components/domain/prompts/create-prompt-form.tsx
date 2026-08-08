@@ -44,7 +44,6 @@ export function CreatePromptForm() {
           {...register("name")}
           placeholder="e.g. Customer Support AI Agent..."
           autoComplete="off"
-          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
         />
