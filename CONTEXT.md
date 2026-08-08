@@ -204,6 +204,7 @@ src/
 | 2026-08-08 | Sticky Top Bar Breadcrumbs, Home Page #1 Sidebar, & Pure Real Data | Add sticky Top Header Path Bar with interactive breadcrumbs in `(dashboard)/layout.tsx`, move "Home Page" (`/`) to position #1 in `DashboardSidebar`, and purge all mock fallback arrays |
 | 2026-08-08 | Layout Restructuring & Refinement Across All Dashboard Routes | Enforce executive metrics + sticky search overview canvas, wide Monaco studio canvas + 340px right inspector panel, and integrated edit bundle editor with model drawer & sticky commit bar |
 | 2026-08-08 | Dashboard Explore Route Alignment & Layout Consolidation | Route "Explore Community" in `DashboardSidebar` directly to `/dashboard/explore` for perfect workspace integration, leaving `/explore` for public landing visitors |
+| 2026-08-08 | Active Subnav Tabs & Timeline Version Restore Action | Make Diff and Compare tabs in `PromptSubnav` clickable even with 1 version, and add a "Restore Version" action in the timeline panel |
 
 ---
 
