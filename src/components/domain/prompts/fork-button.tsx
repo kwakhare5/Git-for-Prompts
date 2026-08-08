@@ -4,7 +4,6 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { forkPrompt } from '@/lib/actions/prompts';
 import { GitFork } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 interface ForkButtonProps {
   promptId: string;
@@ -32,23 +31,22 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
   }
 
   return (
-    <div className="flex flex-col items-start gap-1">
-      <Button
+    <div className="flex flex-col items-start gap-1 font-mono">
+      <button
         onClick={handleFork}
         disabled={isPending}
-        variant={variant === 'primary' ? 'default' : 'outline'}
-        size="sm"
+        className={`px-3.5 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all active:scale-97 cursor-pointer ${
+          variant === 'primary'
+            ? 'bg-zinc-100 text-zinc-950 hover:bg-white shadow-xs'
+            : 'border border-zinc-700/80 bg-[#202024] hover:bg-[#28282D] text-zinc-200'
+        } disabled:opacity-50`}
         aria-label={`Fork ${promptName} into your account`}
       >
-        {isPending ? (
-          <span className="w-3.5 h-3.5 border-2 border-current/40 border-t-current rounded-full animate-spin" />
-        ) : (
-          <GitFork className="h-3.5 w-3.5" />
-        )}
-        {isPending ? 'Forking…' : 'Fork'}
-      </Button>
+        <GitFork className="h-3.5 w-3.5 text-blue-400" />
+        {isPending ? 'Forking Repository…' : 'Fork Repository'}
+      </button>
       {error && (
-        <p className="text-xs text-destructive font-mono leading-tight max-w-[180px]">{error}</p>
+        <p className="text-xs text-rose-300 font-mono">{error}</p>
       )}
     </div>
   );

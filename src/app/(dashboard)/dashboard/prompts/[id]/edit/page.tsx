@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
+import { getAuthUserId } from '@/lib/auth';
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { and, eq, desc } from 'drizzle-orm';
@@ -7,16 +7,21 @@ import Link from 'next/link';
 import { PromptEditor } from '@/components/domain/prompts';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
+  const userId = await getAuthUserId();
+  if (!userId) return { title: 'Edit Prompt · Git for Prompts' };
+
   const [prompt] = await db
     .select({ name: prompts.name })
     .from(prompts)
-    .where(eq(prompts.id, id));
+    .where(and(eq(prompts.id, id), eq(prompts.ownerId, userId)));
   return { title: prompt ? `Edit — ${prompt.name}` : 'Edit Prompt' };
 }
 
@@ -26,7 +31,7 @@ export default async function EditPromptPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { userId } = await auth();
+  const userId = await getAuthUserId();
   if (!userId) return null;
 
   // Ownership check — never serve another user's data
@@ -48,26 +53,33 @@ export default async function EditPromptPage({
   const initialContent = latestVersion?.content ?? '';
 
   return (
-    <div className="p-4 sm:p-8 font-sans bg-background">
-      {/* Breadcrumb header */}
-      <div className="flex items-center gap-3 mb-6">
-        <Link
-          href={`/dashboard/prompts/${id}`}
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Back to prompt"
-        >
-          ← {prompt.name}
-        </Link>
-        <div className="h-4 w-px bg-border" aria-hidden="true" />
-        <div>
-          <h1 className="text-xl font-bold text-foreground truncate max-w-md">
-            {prompt.name}
-          </h1>
-          <p className="text-xs text-muted-foreground font-mono mt-0.5">
-            {latestVersion
-              ? `New version · based on v${latestVersion.versionNumber}`
-              : 'First version'}
-          </p>
+    <div className="space-y-6 font-sans">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-zinc-800/90 pb-5">
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/dashboard/prompts/${id}`}
+            className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors"
+            aria-label="Back to prompt"
+          >
+            ← {prompt.name}
+          </Link>
+          <div className="h-4 w-px bg-zinc-800" aria-hidden="true" />
+          <div>
+            <h1 className="text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2">
+              <span>Edit Bundle</span>
+              {latestVersion && (
+                <span className="text-xs font-mono font-bold bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded-lg">
+                  v{latestVersion.versionNumber}
+                </span>
+              )}
+            </h1>
+            <p className="text-xs text-zinc-400 font-mono mt-0.5">
+              {latestVersion
+                ? `New commit snapshot · basing on v${latestVersion.versionNumber}`
+                : 'First commit snapshot'}
+            </p>
+          </div>
         </div>
       </div>
 

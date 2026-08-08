@@ -1,7 +1,6 @@
 'use client';
 
 import type { PromptBundle } from '@gfp/core';
-import { Input } from '@/components/ui/input';
 
 const PROVIDERS = [
   { value: 'openai', label: 'OpenAI' },
@@ -32,11 +31,11 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
   const currentModels = DEFAULT_MODELS[bundle.modelConfig.provider] ?? [];
 
   return (
-    <div className="p-6 flex flex-col gap-5 font-sans" style={{ minHeight }}>
-      <div className="grid grid-cols-2 gap-4 max-w-lg font-sans">
+    <div className="p-6 flex flex-col gap-6 font-sans bg-[#161619]" style={{ minHeight }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-xl font-mono text-xs">
         {/* Provider */}
         <div className="flex flex-col gap-1.5 font-sans">
-          <label htmlFor="bundle-provider" className="text-xs font-medium text-muted-foreground font-sans">
+          <label htmlFor="bundle-provider" className="text-xs font-mono font-bold text-zinc-300">
             Provider
           </label>
           <select
@@ -48,10 +47,10 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
               const models = DEFAULT_MODELS[provider] ?? [];
               if (models.length > 0) onUpdateModelConfig('model', models[0]);
             }}
-            className="bg-card border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:border-ring transition-colors font-mono cursor-pointer"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 bg-[#121214] font-mono outline-none focus:border-zinc-600 cursor-pointer"
           >
             {PROVIDERS.map((p) => (
-              <option key={p.value} value={p.value}>
+              <option key={p.value} value={p.value} className="bg-[#161619] text-zinc-100">
                 {p.label}
               </option>
             ))}
@@ -60,17 +59,17 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
 
         {/* Model */}
         <div className="flex flex-col gap-1.5 font-sans">
-          <label htmlFor="bundle-model" className="text-xs font-medium text-muted-foreground font-sans">
-            Model
+          <label htmlFor="bundle-model" className="text-xs font-mono font-bold text-zinc-300">
+            Model Name
           </label>
-          <Input
+          <input
             id="bundle-model"
             type="text"
             value={bundle.modelConfig.model}
             onChange={(e) => onUpdateModelConfig('model', e.target.value)}
             list="bundle-model-suggestions"
-            placeholder="e.g. gpt-4o"
-            className="bg-background border-border text-foreground placeholder:text-muted-foreground font-mono text-sm"
+            placeholder="e.g. llama-3.3-70b-versatile"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-[#121214] outline-none focus:border-zinc-600"
           />
           <datalist id="bundle-model-suggestions">
             {currentModels.map((m) => (
@@ -80,10 +79,10 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
         </div>
 
         {/* Temperature */}
-        <div className="flex flex-col gap-1.5 font-sans">
-          <label htmlFor="bundle-temperature" className="text-xs font-medium text-muted-foreground flex items-center justify-between font-sans">
-            Temperature
-            <span className="font-mono text-foreground font-semibold">{bundle.modelConfig.temperature ?? 0.7}</span>
+        <div className="flex flex-col gap-2 font-sans">
+          <label htmlFor="bundle-temperature" className="text-xs font-mono font-bold text-zinc-300 flex items-center justify-between">
+            <span>Temperature</span>
+            <span className="font-mono text-blue-300 font-bold">{bundle.modelConfig.temperature ?? 0.7}</span>
           </label>
           <input
             id="bundle-temperature"
@@ -93,20 +92,20 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
             step="0.05"
             value={bundle.modelConfig.temperature ?? 0.7}
             onChange={(e) => onUpdateModelConfig('temperature', parseFloat(e.target.value))}
-            className="w-full accent-primary cursor-pointer"
+            className="w-full accent-blue-500 bg-[#121214] cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-muted-foreground font-mono font-semibold">
-            <span>0 · precise</span>
-            <span>2 · creative</span>
+          <div className="flex justify-between text-[11px] text-zinc-500 font-mono">
+            <span>0 · Deterministic</span>
+            <span>2 · Creative</span>
           </div>
         </div>
 
         {/* Max Tokens */}
         <div className="flex flex-col gap-1.5 font-sans">
-          <label htmlFor="bundle-max-tokens" className="text-xs font-medium text-muted-foreground font-sans">
-            Max Tokens
+          <label htmlFor="bundle-max-tokens" className="text-xs font-mono font-bold text-zinc-300">
+            Max Output Tokens
           </label>
-          <Input
+          <input
             id="bundle-max-tokens"
             type="number"
             min="1"
@@ -114,16 +113,16 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
             step="256"
             value={bundle.modelConfig.maxTokens ?? 1024}
             onChange={(e) => onUpdateModelConfig('maxTokens', parseInt(e.target.value, 10))}
-            className="bg-background border-border text-foreground font-mono text-sm"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-[#121214] outline-none focus:border-zinc-600"
           />
         </div>
       </div>
 
-      <div className="p-3.5 rounded-xl bg-muted/40 border border-border max-w-lg font-mono text-xs text-muted-foreground">
-        <span className="text-muted-foreground font-semibold">{bundle.modelConfig.provider}/</span>
-        <span className="text-foreground font-bold">{bundle.modelConfig.model}</span>
-        <span className="ml-3 text-muted-foreground">temp={bundle.modelConfig.temperature ?? 0.7}</span>
-        <span className="ml-2 text-muted-foreground">max_tokens={bundle.modelConfig.maxTokens ?? 1024}</span>
+      <div className="p-4 rounded-xl bg-[#121214] border border-zinc-800 font-mono text-xs text-zinc-300 max-w-xl flex items-center gap-3">
+        <span className="text-zinc-500">Config Header:</span>
+        <span className="font-bold text-blue-300">{bundle.modelConfig.provider}/{bundle.modelConfig.model}</span>
+        <span className="text-zinc-400">· temp={bundle.modelConfig.temperature ?? 0.7}</span>
+        <span className="text-zinc-400">· max_tokens={bundle.modelConfig.maxTokens ?? 1024}</span>
       </div>
     </div>
   );

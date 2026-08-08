@@ -4,12 +4,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
 import { TestCaseCard } from './test-case-card';
-import { Spinner } from '@/components/ui/spinner';
 import { createTestCase } from '@/lib/actions/tests';
 import { formatVersionLabel } from '@/lib/format-version-label';
 import { useTestRunnerState, type TestCase, type Version } from './use-test-runner-state';
@@ -81,87 +76,66 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
       {/* Controls bar */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
-          <label className="text-xs text-muted-foreground shrink-0 font-sans">Run against:</label>
+          <label className="text-xs text-zinc-400 shrink-0 font-mono font-bold">Target Version:</label>
           <select
             value={selectedVersionId}
             onChange={(e) => setSelectedVersionId(e.target.value)}
-            className="cursor-pointer rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground font-mono focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-colors"
+            className="cursor-pointer rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 font-mono focus:outline-none focus:border-zinc-600"
           >
             {versions.map((v) => (
-              <option key={v.id} value={v.id}>
+              <option key={v.id} value={v.id} className="bg-[#161619] text-zinc-100">
                 {formatVersionLabel(v)}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
+        <div className="flex items-center gap-2.5 font-mono">
+          <button
             onClick={() => setShowForm((prev) => !prev)}
-            className="cursor-pointer font-sans"
+            className="px-3.5 py-2 border border-zinc-700/80 rounded-xl text-xs text-zinc-200 hover:text-white bg-[#202024] hover:bg-[#28282D] font-bold transition-all cursor-pointer"
           >
-            {showForm ? 'Cancel' : '+ Add Test'}
-          </Button>
-          <Button
-            size="sm"
-            variant="default"
+            {showForm ? 'Cancel' : '+ Add Test Case'}
+          </button>
+          <button
             onClick={handleRunTests}
             disabled={isRunning || testCases.length === 0 || !selectedVersionId}
-            className="cursor-pointer font-sans shadow-sm"
+            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
           >
-            {isRunning ? (
-              <span className="flex items-center gap-2 font-sans">
-                <Spinner size="sm" className="border-t-primary-foreground" />
-                Running…
-              </span>
-            ) : 'Run All Tests'}
-          </Button>
+            {isRunning ? 'Running Evals…' : '▶ Run All Evals'}
+          </button>
         </div>
       </div>
 
       {/* Run error banner */}
       {runError && (
-        <div className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive font-mono">
+        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-xs text-rose-300 font-mono">
           ✕ {runError}
         </div>
       )}
 
       {/* Score summary */}
       {hasResults && (
-        <div className="rounded-lg border border-border bg-card p-4 space-y-3">
-          <div className="flex items-center justify-between font-sans">
-            <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold tabular-nums text-foreground">
+        <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-3 shadow-xl">
+          <div className="flex items-center justify-between font-mono">
+            <div className="flex items-baseline gap-2.5">
+              <span className="text-2xl font-black text-zinc-100">
                 {passedCount}/{testCases.length}
               </span>
-              <span className="text-sm text-muted-foreground font-sans">passed</span>
+              <span className="text-xs text-zinc-400 font-mono">Assertions Passed</span>
               {selectedVersion && (
-                <span className="font-mono text-xs text-muted-foreground ml-2">
+                <span className="font-mono text-xs bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded ml-2 font-bold">
                   v{selectedVersion.versionNumber}
                 </span>
               )}
             </div>
-            <span
-              className={[
-                'text-sm font-medium font-sans',
-                passedCount === testCases.length
-                  ? 'text-emerald-400'
-                  : passedCount > 0
-                  ? 'text-amber-400'
-                  : 'text-destructive',
-              ].join(' ')}
-            >
-              {passedCount === testCases.length
-                ? '✓ All passing'
-                : `${testCases.length - passedCount} failing`}
+            <span className={`text-xs font-bold ${passedCount === testCases.length ? 'text-emerald-300' : 'text-rose-400'}`}>
+              {passedCount === testCases.length ? '✓ 100% Pass Rate' : `${testCases.length - passedCount} failing assertions`}
             </span>
           </div>
-          <Progress
-            value={progressPercent}
-            className="h-2 bg-muted"
-          />
+          <div className="w-full bg-[#121214] border border-zinc-800 rounded-full h-2 overflow-hidden">
+            <div className="bg-emerald-400 h-full transition-all duration-300" style={{ width: `${progressPercent}%` }} />
+          </div>
         </div>
       )}
 
@@ -169,98 +143,90 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
       {showForm && (
         <form
           onSubmit={handleSubmit(onAddSubmit)}
-          className="rounded-lg border border-border bg-card p-4 space-y-4 font-sans"
+          className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-4 font-mono shadow-xl"
         >
-          <h3 className="text-sm font-medium text-foreground font-sans">New Test Case</h3>
+          <h3 className="text-sm font-bold text-zinc-100">Configure New Test Assertion</h3>
 
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-sans">Name</label>
-            <Input
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-300">Test Title</label>
+            <input
               {...register('name')}
-              placeholder='e.g. "Mentions refund window"'
-              className="bg-background border-border text-foreground placeholder:text-muted-foreground font-sans"
+              placeholder='e.g. "Security & Token Refund Constraint"'
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.name && (
-              <p className="text-xs text-destructive font-sans">{errors.name.message}</p>
+              <p className="text-xs text-rose-300">{errors.name.message}</p>
             )}
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-sans">Input Text</label>
-            <Textarea
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-300">User Input Text (Variables)</label>
+            <textarea
               {...register('inputText')}
-              placeholder="The user message to send to the AI…"
+              placeholder="User prompt input text..."
               rows={3}
-              className="bg-background border-border text-foreground font-mono text-sm placeholder:text-muted-foreground resize-none"
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.inputText && (
-              <p className="text-xs text-destructive font-sans">{errors.inputText.message}</p>
+              <p className="text-xs text-rose-300">{errors.inputText.message}</p>
             )}
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs text-muted-foreground font-sans">Expected Criteria</label>
-            <Textarea
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-zinc-300">Expected Evaluation Criteria</label>
+            <textarea
               {...register('expectedCriteria')}
-              placeholder={`e.g. "Must mention 30-day window and not say I don't know"`}
+              placeholder='e.g. "Response must return valid JSON with status=200"'
               rows={3}
-              className="bg-background border-border text-foreground font-mono text-sm placeholder:text-muted-foreground resize-none"
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.expectedCriteria && (
-              <p className="text-xs text-destructive font-sans">{errors.expectedCriteria.message}</p>
+              <p className="text-xs text-rose-300">{errors.expectedCriteria.message}</p>
             )}
           </div>
 
           {addError && (
-            <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive font-sans">
+            <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3.5 py-2 text-xs text-rose-300">
               ✕ {addError}
             </div>
           )}
 
-          <div className="flex justify-end gap-2 pt-1 font-sans">
-            <Button
+          <div className="flex justify-end gap-3 pt-2">
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
               onClick={() => {
                 setShowForm(false);
                 reset();
               }}
-              className="text-muted-foreground hover:text-foreground cursor-pointer font-sans"
+              className="px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
             >
               Cancel
-            </Button>
-            <Button
+            </button>
+            <button
               type="submit"
-              size="sm"
-              variant="default"
               disabled={isAdding}
-              className="cursor-pointer font-sans shadow-sm font-semibold"
+              className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold cursor-pointer transition-all"
             >
-              {isAdding ? 'Adding…' : 'Add Test Case'}
-            </Button>
+              {isAdding ? 'Adding…' : '+ Add Test Case'}
+            </button>
           </div>
         </form>
       )}
 
       {/* Test case list */}
       {testCases.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card/40 py-24 text-center font-sans">
-          <div className="font-mono text-3xl text-muted-foreground mb-3">assert()</div>
-          <h2 className="text-base font-semibold text-foreground mb-2 font-sans">
-            No test cases yet
-          </h2>
-          <p className="text-sm text-muted-foreground mb-5 max-w-xs font-sans">
-            Add test cases to validate your prompt against real inputs and expected criteria.
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 bg-[#161619]/40 py-16 text-center">
+          <div className="font-mono text-2xl text-zinc-600 mb-2 font-bold">assert()</div>
+          <h2 className="text-sm font-bold text-zinc-200 font-mono mb-1">No Test Assertions Created</h2>
+          <p className="text-xs text-zinc-400 mb-5 max-w-xs font-sans">
+            Add test cases to evaluate prompt bundles against real inputs and criteria.
           </p>
-          <Button
-            variant="outline"
-            size="sm"
+          <button
             onClick={() => setShowForm(true)}
-            className="cursor-pointer font-sans"
+            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all"
           >
-            + Add your first test
-          </Button>
+            + Add First Test Assertion
+          </button>
         </div>
       ) : (
         <div className="space-y-3">

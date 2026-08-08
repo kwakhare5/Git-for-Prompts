@@ -1,23 +1,8 @@
 'use client';
 
-/**
- * BundleEditor — tabbed editor for V2 PromptBundle format.
- *
- * Tabs:
- *   Prompt      — system prompt + user template in Monaco
- *   Model       — provider, model, temperature, max_tokens
- *   Variables   — read-only list of detected {{var}} placeholders
- *
- * Validates the bundle against @gfp/core's Zod schema on every save attempt.
- * Falls back gracefully if a field is empty.
- */
-
 import { useState, useMemo, useCallback } from 'react';
 import { validateBundle, extractBundleVariables } from '@gfp/core';
 import type { PromptBundle } from '@gfp/core';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { BundlePromptTab } from './bundle-editor/bundle-prompt-tab';
 import { BundleModelTab } from './bundle-editor/bundle-model-tab';
 import { BundleVariablesTab } from './bundle-editor/bundle-variables-tab';
@@ -25,13 +10,9 @@ import { BundleVariablesTab } from './bundle-editor/bundle-variables-tab';
 type Tab = 'prompt' | 'model' | 'variables';
 
 export interface BundleEditorProps {
-  /** Initial bundle — null means "start fresh" */
   initialBundle: PromptBundle | null;
-  /** Called when the user clicks Save with a valid bundle */
   onSave: (bundle: PromptBundle, commitMessage: string) => void;
-  /** Called when the user clicks Cancel */
   onCancel: () => void;
-  /** Pending state from parent */
   isPending?: boolean;
   height?: string;
 }
@@ -91,67 +72,60 @@ export function BundleEditor({
   const tabMinHeight = parseInt(height) * 2 + 'px';
 
   return (
-    <div className="flex flex-col gap-2 font-sans">
-      {/* Shell */}
-      <div className="rounded-xl overflow-hidden border border-border bg-card shadow-2xl font-sans">
-        {/* Tab bar + controls */}
-        <div className="flex items-center gap-0 bg-muted/40 border-b border-border px-4 font-sans">
-          {/* Tabs */}
-          <div className="flex items-center gap-1 flex-1 font-sans py-1.5">
+    <div className="flex flex-col gap-3 font-sans">
+      <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-xl overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-center justify-between bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5 gap-3 font-mono text-xs">
+          <div className="flex items-center gap-1.5">
             {(['prompt', 'model', 'variables'] as Tab[]).map((tab) => (
-              <Button
+              <button
                 key={tab}
                 id={`bundle-editor-tab-${tab}`}
                 type="button"
-                variant={activeTab === tab ? 'secondary' : 'ghost'}
-                size="sm"
                 onClick={() => setActiveTab(tab)}
-                className="h-8 px-3 text-xs font-semibold capitalize font-sans cursor-pointer"
+                className={`px-3 py-1.5 text-xs capitalize rounded-xl font-bold transition-all cursor-pointer ${
+                  activeTab === tab 
+                    ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' 
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
+                }`}
               >
                 {tab}
                 {tab === 'variables' && detectedVariables.length > 0 && (
-                  <Badge variant="outline" className="ml-1.5 font-mono text-[10px] text-sky-400 border-sky-500/20 bg-sky-500/10">
+                  <span className="ml-1.5 font-mono text-[10px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-1.5 py-0.2 rounded-md">
                     {detectedVariables.length}
-                  </Badge>
+                  </span>
                 )}
-              </Button>
+              </button>
             ))}
           </div>
 
-          {/* Commit + save */}
-          <div className="flex items-center gap-2 py-2 font-sans">
-            <Input
+          <div className="flex items-center gap-2.5 w-full sm:w-auto">
+            <input
               id="bundle-editor-commit-message"
               type="text"
-              placeholder='What changed? (e.g. "Fixed tone")'
+              placeholder='Commit message (e.g. "Lowered temperature to 0.2")'
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="w-56 h-8 text-xs bg-background border-border text-foreground placeholder:text-muted-foreground font-sans"
+              className="flex-1 sm:w-64 h-8 text-xs bg-[#1D1D22] border border-zinc-700/60 rounded-xl px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
-            <Button
+            <button
               id="bundle-editor-save-btn"
               onClick={handleSave}
               disabled={isPending}
-              variant="default"
-              size="sm"
-              className="font-sans cursor-pointer font-bold shadow-sm"
+              className="px-4 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
             >
-              {isPending ? 'Saving…' : 'Save'}
-            </Button>
-            <Button
+              {isPending ? 'Saving…' : 'Save Version'}
+            </button>
+            <button
               onClick={onCancel}
               disabled={isPending}
-              variant="ghost"
-              size="sm"
-              className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+              className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
             >
               Cancel
-            </Button>
+            </button>
           </div>
         </div>
 
-        {/* Tab content rendering */}
         {activeTab === 'prompt' && (
           <BundlePromptTab bundle={bundle} onChange={setBundle} height={height} />
         )}
@@ -163,11 +137,8 @@ export function BundleEditor({
         )}
       </div>
 
-      {/* Validation error */}
       {validationError && (
-        <p role="alert" className="text-xs text-red-400 px-1">
-          {validationError}
-        </p>
+        <p role="alert" className="text-xs text-rose-300 font-mono px-1">{validationError}</p>
       )}
     </div>
   );

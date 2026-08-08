@@ -1,11 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Spinner } from '@/components/ui/spinner';
 import { formatVersionLabel } from '@/lib/format-version-label';
-import { cn } from '@/lib/utils';
 import { useCompareRunner, type Version, type CellStatus } from './use-compare-runner';
 
 type CompareRunnerProps = {
@@ -28,8 +24,6 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
     hasRun,
     error,
     testCases,
-    resultsA,
-    resultsB,
     cellStatusA,
     cellStatusB,
     scoreA,
@@ -46,11 +40,11 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
       <div className="flex items-end gap-4 flex-wrap font-sans">
         {/* Version A */}
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground block font-sans">Version A</label>
+          <label className="text-xs text-gray-500 block font-sans">Version A</label>
           <select
             value={versionIdA}
             onChange={(e) => setVersionIdA(e.target.value)}
-            className="cursor-pointer rounded-xl border border-border bg-card px-3 py-1.5 text-sm text-foreground font-mono focus:outline-none focus:border-ring transition-colors"
+            className="cursor-pointer rounded border border-gray-300 bg-white px-3 py-1.5 text-sm text-black font-mono"
           >
             {versions.map((v) => (
               <option key={v.id} value={v.id} disabled={v.id === versionIdB}>
@@ -60,15 +54,15 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
           </select>
         </div>
 
-        <div className="text-muted-foreground pb-1.5 font-mono text-sm select-none">vs</div>
+        <div className="text-gray-500 pb-1.5 font-mono text-sm select-none">vs</div>
 
         {/* Version B */}
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground block font-sans">Version B</label>
+          <label className="text-xs text-gray-500 block font-sans">Version B</label>
           <select
             value={versionIdB}
             onChange={(e) => setVersionIdB(e.target.value)}
-            className="cursor-pointer rounded-xl border border-border bg-card px-3 py-1.5 text-sm text-foreground font-mono focus:outline-none focus:border-ring transition-colors"
+            className="cursor-pointer rounded border border-gray-300 bg-white px-3 py-1.5 text-sm text-black font-mono"
           >
             {versions.map((v) => (
               <option key={v.id} value={v.id} disabled={v.id === versionIdA}>
@@ -81,43 +75,33 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
         <div className="ml-auto flex items-center gap-3">
           <Link
             href={`/dashboard/prompts/${promptId}/tests`}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors font-sans"
+            className="text-xs text-gray-500 hover:text-black font-sans"
           >
             Manage test cases →
           </Link>
-          <Button
+          <button
             onClick={handleRunComparison}
             disabled={!canRun}
-            variant="default"
-            size="sm"
-            className="font-sans cursor-pointer shadow-sm font-bold"
+            className="px-4 py-1.5 bg-black text-white rounded text-xs font-medium hover:bg-gray-800 disabled:opacity-50"
           >
-            {isRunning ? (
-              <span className="flex items-center gap-2 font-sans">
-                <Spinner size="sm" className="border-t-primary-foreground" />
-                Running…
-              </span>
-            ) : (
-              'Run Comparison'
-            )}
-          </Button>
+            {isRunning ? 'Running…' : 'Run Comparison'}
+          </button>
         </div>
       </div>
 
       {/* Inline warnings */}
       {sameVersion && (
-        <p className="text-xs text-amber-400 font-mono">⚠ Select two different versions to compare.</p>
+        <p className="text-xs text-amber-600 font-mono">⚠ Select two different versions to compare.</p>
       )}
       {testCaseCount === 0 && (
-        <p className="text-xs text-amber-400 font-mono">⚠ Add test cases first before running a comparison.</p>
+        <p className="text-xs text-amber-600 font-mono">⚠ Add test cases first before running a comparison.</p>
       )}
-      {error && <p className="text-xs text-red-400 font-mono">✕ {error}</p>}
+      {error && <p className="text-xs text-red-600 font-mono">✕ {error}</p>}
 
       {/* Running state */}
       {isRunning && (
-        <div className="rounded-lg border border-border bg-card p-6 flex flex-col items-center gap-3">
-          <Spinner size="lg" />
-          <p className="text-sm text-muted-foreground font-mono">
+        <div className="rounded border bg-white p-6 flex flex-col items-center gap-3 text-center">
+          <p className="text-sm text-gray-500 font-mono">
             Running all test cases against both versions simultaneously…
           </p>
         </div>
@@ -125,45 +109,12 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
 
       {/* Winner banner */}
       {hasRun && winnerLabel && (
-        <div
-          className={cn(
-            'rounded-lg border p-4 flex items-center justify-between gap-4 font-sans',
-            winnerSide === 'tie'
-              ? 'border-border bg-card'
-              : 'border-emerald-500/20 bg-emerald-500/10'
-          )}
-        >
+        <div className="rounded border bg-green-50 p-4 flex items-center justify-between gap-4 font-sans">
           <div className="flex items-baseline gap-3">
-            <span className={cn('text-lg font-bold font-mono', winnerSide === 'tie' ? 'text-foreground' : 'text-emerald-400')}>
+            <span className="text-lg font-bold font-mono text-green-800">
               {winnerSide === 'tie' ? '🤝 Tie' : `🏆 ${winnerLabel}`}
             </span>
-            {winnerSide !== 'tie' && (
-              <span className="text-sm text-muted-foreground font-mono">{scoreA}/{total} vs {scoreB}/{total}</span>
-            )}
-            {winnerSide === 'tie' && (
-              <span className="text-sm text-muted-foreground font-mono">Both versions scored {scoreA}/{total}</span>
-            )}
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="text-center min-w-[3rem]">
-              <div className="text-xs font-mono text-muted-foreground mb-0.5 font-semibold">
-                v{versionA?.versionNumber}
-              </div>
-              <div className={cn('text-xl font-bold tabular-nums font-mono', winnerSide === 'A' ? 'text-emerald-400' : 'text-muted-foreground')}>
-                {scoreA}/{total}
-              </div>
-            </div>
-
-            <div className="text-muted-foreground text-xs font-mono select-none font-bold">vs</div>
-
-            <div className="text-center min-w-[3rem]">
-              <div className="text-xs font-mono text-muted-foreground mb-0.5 font-semibold">
-                v{versionB?.versionNumber}
-              </div>
-              <div className={cn('text-xl font-bold tabular-nums font-mono', winnerSide === 'B' ? 'text-emerald-400' : 'text-muted-foreground')}>
-                {scoreB}/{total}
-              </div>
-            </div>
+            <span className="text-sm text-gray-600 font-mono">{scoreA}/{total} vs {scoreB}/{total}</span>
           </div>
         </div>
       )}
@@ -174,21 +125,16 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
           {(['A', 'B'] as const).map((side) => {
             const score = side === 'A' ? scoreA : scoreB;
             const ver = side === 'A' ? versionA : versionB;
+            const pct = total > 0 ? (score / total) * 100 : 0;
             return (
-              <div
-                key={side}
-                className={cn(
-                  'rounded-lg border p-3 space-y-2',
-                  winnerSide === side
-                    ? 'border-emerald-500/20 bg-emerald-500/10'
-                    : 'border-border bg-card'
-                )}
-              >
-                <div className="flex items-center justify-between font-mono">
-                  <span className="text-xs text-muted-foreground font-semibold">v{ver?.versionNumber}</span>
-                  <span className="text-xs text-muted-foreground">{score}/{total} passed</span>
+              <div key={side} className="rounded border bg-white p-3 space-y-2">
+                <div className="flex items-center justify-between font-mono text-xs">
+                  <span className="font-semibold text-black">v{ver?.versionNumber}</span>
+                  <span className="text-gray-500">{score}/{total} passed</span>
                 </div>
-                <Progress value={total > 0 ? (score / total) * 100 : 0} className="h-1.5 bg-muted" />
+                <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-black h-full" style={{ width: `${pct}%` }} />
+                </div>
               </div>
             );
           })}
@@ -197,76 +143,29 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
 
       {/* Results table */}
       {hasRun && testCases.length > 0 && (
-        <div className="rounded-lg border border-border overflow-hidden bg-card">
-          <div className="grid grid-cols-[1fr_auto_auto] border-b border-border bg-muted/40">
-            <div className="px-4 py-2.5 text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">Test Case</div>
-            {(['A', 'B'] as const).map((side) => {
-              const ver = side === 'A' ? versionA : versionB;
-              return (
-                <div
-                  key={side}
-                  className={cn(
-                    'px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-center font-mono',
-                    winnerSide === side ? 'text-emerald-400 font-bold' : 'text-muted-foreground'
-                  )}
-                >
-                  v{ver?.versionNumber}{winnerSide === side && ' 🏆'}
-                </div>
-              );
-            })}
+        <div className="rounded border overflow-hidden bg-white">
+          <div className="grid grid-cols-[1fr_auto_auto] border-b bg-gray-50 font-mono text-xs font-semibold text-gray-600">
+            <div className="px-4 py-2.5">Test Case</div>
+            <div className="px-4 py-2.5 text-center">v{versionA?.versionNumber}</div>
+            <div className="px-4 py-2.5 text-center">v{versionB?.versionNumber}</div>
           </div>
 
-          <div className="divide-y divide-border">
-            {testCases.map((tc) => {
-              const rA = resultsA[tc.id];
-              const rB = resultsB[tc.id];
-              const diffRow = rA && rB && rA.passed !== rB.passed;
-              return (
-                <div
-                  key={tc.id}
-                  className={cn('grid grid-cols-[1fr_auto_auto] items-center', diffRow && 'bg-amber-500/10')}
-                >
-                  <div className="px-4 py-3">
-                    <div className="text-sm font-semibold text-foreground font-sans">{tc.name}</div>
-                    <div className="text-xs text-muted-foreground font-mono mt-0.5 truncate">{tc.inputText}</div>
-                  </div>
-                  <div className="px-4 py-3 flex justify-center">
-                    <ResultBadge status={cellStatusA[tc.id]} />
-                  </div>
-                  <div className="px-4 py-3 flex justify-center">
-                    <ResultBadge status={cellStatusB[tc.id]} />
-                  </div>
+          <div className="divide-y">
+            {testCases.map((tc) => (
+              <div key={tc.id} className="grid grid-cols-[1fr_auto_auto] items-center">
+                <div className="px-4 py-3">
+                  <div className="text-sm font-semibold text-black">{tc.name}</div>
+                  <div className="text-xs text-gray-500 font-mono mt-0.5 truncate">{tc.inputText}</div>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="grid grid-cols-[1fr_auto_auto] border-t border-border bg-muted/40">
-            <div className="px-4 py-2.5 text-xs text-muted-foreground font-mono uppercase font-semibold">Total</div>
-            {([scoreA, scoreB] as const).map((score, i) => (
-              <div
-                key={i}
-                className={cn(
-                  'px-4 py-2.5 text-center text-sm font-bold tabular-nums font-mono',
-                  winnerSide === (i === 0 ? 'A' : 'B') ? 'text-emerald-400' : 'text-foreground'
-                )}
-              >
-                {score}/{total}
+                <div className="px-4 py-3 flex justify-center">
+                  <ResultBadge status={cellStatusA[tc.id]} />
+                </div>
+                <div className="px-4 py-3 flex justify-center">
+                  <ResultBadge status={cellStatusB[tc.id]} />
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Idle empty state */}
-      {!hasRun && !isRunning && testCaseCount > 0 && !sameVersion && (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border p-12 text-center bg-card">
-          <div className="text-3xl mb-3 select-none">⚖</div>
-          <h2 className="text-sm font-semibold text-foreground font-sans mb-1">Ready to compare</h2>
-          <p className="text-xs text-muted-foreground max-w-xs font-sans">
-            Select two versions above and click{' '}
-            <span className="font-mono text-foreground">Run Comparison</span> to evaluate outputs.
-          </p>
         </div>
       )}
     </div>
@@ -275,27 +174,16 @@ export function CompareRunner({ promptId, versions, testCaseCount }: CompareRunn
 
 function ResultBadge({ status }: { status: CellStatus | undefined }) {
   if (!status || status === 'idle') {
-    return <span className="text-muted-foreground text-xs font-mono">—</span>;
+    return <span className="text-gray-400 text-xs font-mono">—</span>;
   }
   if (status === 'running') {
-    return <Spinner size="sm" />;
+    return <span className="text-xs font-mono">Running…</span>;
   }
   if (status === 'ai-error') {
-    return (
-      <span className="inline-flex items-center rounded px-2 py-0.5 text-xs font-mono border bg-amber-500/10 text-amber-400 border-amber-500/20 font-semibold" title="AI Error / Not Persisted">
-        ⚠️ ERR
-      </span>
-    );
+    return <span className="text-xs font-mono bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">⚠️ ERR</span>;
   }
   return (
-    <span
-      className={cn(
-        'inline-flex items-center rounded px-2 py-0.5 text-xs font-mono border font-semibold',
-        status === 'pass'
-          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-          : 'bg-destructive/10 text-destructive border-destructive/20'
-      )}
-    >
+    <span className={`text-xs font-mono px-1.5 py-0.5 rounded ${status === 'pass' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
       {status === 'pass' ? 'PASS' : 'FAIL'}
     </span>
   );

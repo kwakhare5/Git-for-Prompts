@@ -2,10 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { createWebhook, deleteWebhook } from '@/lib/actions/webhooks';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { DeleteConfirmButton } from '@/components/domain/shared/delete-confirm-button';
-import { EmptyState } from '@/components/ui/empty-state';
 
 interface Webhook {
   id: string;
@@ -67,86 +64,72 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
 
   return (
     <div className="flex flex-col gap-6 font-sans">
-      {/* New secret — shown once after creation */}
       {newSecret && (
-        <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col gap-2 shadow-sm font-sans">
-          <p className="text-sm font-semibold text-emerald-400 font-sans">Webhook created — copy your secret now</p>
-          <p className="text-xs text-emerald-400/80 font-sans">This will not be shown again.</p>
+        <div className="p-5 rounded-2xl border border-emerald-500/30 bg-[#161619] flex flex-col gap-3 font-sans shadow-xl">
+          <p className="text-sm font-bold text-emerald-300 font-mono">Webhook Created — Copy Secret Now</p>
+          <p className="text-xs text-zinc-400 font-sans">Used to verify HMAC-SHA256 headers. This secret is shown only once.</p>
           <div className="flex items-center gap-2 mt-1">
-            <code className="flex-1 text-xs font-mono text-emerald-300 bg-background border border-border rounded-lg px-3.5 py-2.5 break-all">
+            <code className="flex-1 text-xs font-mono text-zinc-200 bg-[#121214] border border-zinc-800 rounded-xl px-3 py-2 break-all">
               {newSecret}
             </code>
-            <Button
+            <button
               onClick={() => navigator.clipboard.writeText(newSecret)}
-              variant="outline"
-              size="sm"
-              className="font-mono cursor-pointer"
+              className="px-3.5 py-2 border border-zinc-700/80 rounded-xl text-xs font-mono font-bold bg-[#202024] hover:bg-[#28282D] text-zinc-200 cursor-pointer"
             >
-              Copy
-            </Button>
+              Copy Secret
+            </button>
           </div>
-          <Button
+          <button
             onClick={() => setNewSecret(null)}
-            variant="ghost"
-            size="sm"
-            className="self-end text-xs text-muted-foreground hover:text-foreground cursor-pointer font-mono"
+            className="self-end text-xs text-zinc-500 hover:text-white font-mono cursor-pointer"
           >
             Dismiss
-          </Button>
+          </button>
         </div>
       )}
 
-      {/* Create form */}
-      <div className="flex flex-col gap-4 p-6 rounded-xl bg-card border border-border shadow-sm font-sans">
-        <p className="text-base font-bold text-foreground">Register new webhook</p>
-        <Input
+      <div className="flex flex-col gap-4 p-6 rounded-2xl border border-zinc-800/90 bg-[#161619] font-sans shadow-xl">
+        <p className="text-sm font-bold text-zinc-100 font-mono">Register New Webhook Endpoint</p>
+        <input
           type="url"
-          placeholder="https://your-server.com/webhook"
+          placeholder="https://your-server.com/api/webhooks/gfp"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="font-mono text-sm"
+          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600"
         />
-        <Input
+        <input
           type="text"
-          placeholder="Label (optional)"
+          placeholder="Endpoint Label (e.g. Staging Slack Alert...)"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           maxLength={255}
-          className="font-mono text-sm"
+          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600"
         />
-        {error && <p className="text-xs text-destructive font-mono">{error}</p>}
-        <Button
+        {error && <p className="text-xs text-rose-300 font-mono">{error}</p>}
+        <button
           onClick={handleCreate}
           disabled={isPending || !url.trim()}
-          variant="default"
-          size="sm"
-          className="self-start font-sans cursor-pointer shadow-sm"
+          className="self-start px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
         >
-          {isPending ? 'Creating…' : 'Add Webhook'}
-        </Button>
+          {isPending ? 'Creating…' : '+ Add Webhook'}
+        </button>
       </div>
 
-      {/* Existing webhooks list */}
       {hooks.length === 0 ? (
-        <EmptyState
-          icon="⚓"
-          heading="No webhooks registered yet"
-          description="Register a HTTP POST endpoint above to receive instant version.created payload events."
-        />
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-[#161619]/40">
+          <p className="text-xs font-mono">No webhooks registered yet.</p>
+        </div>
       ) : (
-        <div className="rounded-xl border border-border bg-card divide-y divide-border shadow-sm font-sans">
+        <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] divide-y divide-zinc-800/60 font-sans shadow-xl overflow-hidden">
           {hooks.map((hook) => (
-            <div
-              key={hook.id}
-              className="flex items-center justify-between gap-4 px-5 py-4 first:rounded-t-xl last:rounded-b-xl hover:bg-accent/40 transition-colors"
-            >
+            <div key={hook.id} className="flex items-center justify-between gap-4 px-5 py-4">
               <div className="flex flex-col gap-1 min-w-0 font-sans">
                 {hook.label && (
-                  <span className="text-sm font-semibold text-foreground truncate">{hook.label}</span>
+                  <span className="text-xs font-bold text-zinc-100 font-mono truncate">{hook.label}</span>
                 )}
-                <span className="text-xs font-mono text-muted-foreground truncate">{hook.url}</span>
-                <span className="text-xs font-mono text-muted-foreground/70">
-                  {hook.promptId ? `Prompt-specific` : 'Global'} ·{' '}
+                <span className="text-xs font-mono text-blue-300 truncate">{hook.url}</span>
+                <span className="text-[11px] font-mono text-zinc-500">
+                  {hook.promptId ? `Prompt-specific` : 'Global Listener'} ·{' '}
                   {new Date(hook.createdAt).toLocaleDateString()}
                 </span>
               </div>

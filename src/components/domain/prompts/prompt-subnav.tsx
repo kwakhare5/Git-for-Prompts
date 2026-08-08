@@ -2,10 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { Eye, Edit3, GitCompare, Split, CheckSquare } from 'lucide-react';
-
-import { Badge } from '@/components/ui/badge';
 
 interface PromptSubnavProps {
   promptId: string;
@@ -26,7 +23,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
   ];
 
   return (
-    <nav className="flex items-center gap-1 bg-card border border-border p-1.5 rounded-xl font-mono text-xs select-none shadow-sm overflow-x-auto no-scrollbar">
+    <nav className="flex items-center gap-2 border-b border-zinc-800/90 pb-3 text-xs font-mono">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
@@ -36,7 +33,7 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
             <span
               key={tab.href}
               title="Requires at least 2 saved versions"
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-muted-foreground cursor-not-allowed text-xs font-sans opacity-50 whitespace-nowrap"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 cursor-not-allowed opacity-50 rounded-xl border border-transparent"
             >
               <Icon className="w-3.5 h-3.5" />
               {tab.label}
@@ -48,19 +45,18 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
           <Link
             key={tab.href}
             href={tab.href}
-            className={cn(
-              'flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all duration-150 ease-out text-sm font-sans font-medium cursor-pointer whitespace-nowrap active:scale-[0.98]',
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold transition-all active:scale-97 ${
               isActive
-                ? 'bg-background text-foreground border border-border font-semibold shadow-sm'
-                : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-            )}
+                ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20 shadow-xs'
+                : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
+            }`}
           >
-            <Icon className={cn('w-4 h-4', isActive ? 'text-foreground' : 'text-muted-foreground')} />
+            <Icon className="w-3.5 h-3.5" />
             <span>{tab.label}</span>
             {tab.count !== undefined && tab.count > 0 && (
-              <Badge variant="outline" className="ml-1 font-mono font-semibold">
+              <span className="ml-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-1.5 py-0.2 rounded text-[10px]">
                 {tab.count}
-              </Badge>
+              </span>
             )}
           </Link>
         );
