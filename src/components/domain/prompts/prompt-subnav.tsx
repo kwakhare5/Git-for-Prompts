@@ -10,15 +10,15 @@ interface PromptSubnavProps {
   versionCount?: number;
 }
 
-export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnavProps) {
+export function PromptSubnav({ promptId, testCount }: PromptSubnavProps) {
   const pathname = usePathname();
   const baseUrl = `/dashboard/prompts/${promptId}`;
 
   const tabs = [
     { label: 'Overview', href: baseUrl, icon: Eye, exact: true },
     { label: 'Editor', href: `${baseUrl}/edit`, icon: Edit3 },
-    { label: 'Diff', href: `${baseUrl}/diff`, icon: Split, requiresMultipleVersions: true },
-    { label: 'Compare', href: `${baseUrl}/compare`, icon: GitCompare, requiresMultipleVersions: true },
+    { label: 'Diff', href: `${baseUrl}/diff`, icon: Split },
+    { label: 'Compare', href: `${baseUrl}/compare`, icon: GitCompare },
     { label: 'Test Suite', href: `${baseUrl}/tests`, icon: CheckSquare, count: testCount },
   ];
 
@@ -27,19 +27,6 @@ export function PromptSubnav({ promptId, testCount, versionCount }: PromptSubnav
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
-
-        if (tab.requiresMultipleVersions && versionCount !== undefined && versionCount < 2) {
-          return (
-            <span
-              key={tab.href}
-              title="Requires at least 2 saved versions"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-zinc-600 cursor-not-allowed opacity-50 rounded-xl border border-transparent"
-            >
-              <Icon className="w-3.5 h-3.5" />
-              {tab.label}
-            </span>
-          );
-        }
 
         return (
           <Link
