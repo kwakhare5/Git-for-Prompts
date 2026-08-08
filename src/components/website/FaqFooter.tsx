@@ -65,6 +65,7 @@ export function FaqFooter() {
         {/* Dynamic Terminal CTA Banner */}
         <div className="bg-[#161619] text-white rounded-3xl p-10 text-center border border-zinc-800/80 shadow-2xl relative overflow-hidden font-mono">
           <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 flex items-center justify-center mx-auto mb-4">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg" />
           </div>
           <h3 className="text-3xl md:text-4xl font-bold font-serif mb-4 text-zinc-100">
@@ -88,6 +89,7 @@ export function FaqFooter() {
           
           <div className="col-span-2 space-y-3">
             <div className="flex items-center gap-2 text-zinc-100 font-bold text-base">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg shrink-0 shadow-md" />
               <span>Git for Prompts</span>
             </div>

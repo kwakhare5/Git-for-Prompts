@@ -55,28 +55,11 @@ export function PanelElevated({ children, className = "" }: { children: React.Re
   );
 }
 
-export function CodeBlockDark({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`bg-[#121214] border border-zinc-800 rounded-xl p-3 font-mono text-xs text-zinc-200 ${className}`}>
-      {children}
-    </div>
-  );
-}
-
 export function BadgeVersion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <span className={`bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
       {children}
     </span>
-  );
-}
-
-export function InputDark(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className={`bg-[#121214] border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-zinc-600 ${props.className ?? ''}`}
-    />
   );
 }
 
@@ -87,19 +70,6 @@ export function ButtonPrimary({ children, onClick, className = "", disabled = fa
       onClick={onClick}
       disabled={disabled}
       className={`bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-4 py-2 rounded-xl text-xs shadow-xs active:scale-97 transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
-
-{/* Secondary Button */}
-export function ButtonSecondary({ children, onClick, className = "", disabled = false }: { children: React.ReactNode; onClick?: () => void; className?: string; disabled?: boolean }) {
-  return (
-    <button 
-      onClick={onClick}
-      disabled={disabled}
-      className={`border border-zinc-700/80 bg-[#202024] hover:bg-[#28282D] text-zinc-200 hover:text-white font-mono font-bold px-3.5 py-2 rounded-xl text-xs active:scale-97 transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${className}`}
     >
       {children}
     </button>

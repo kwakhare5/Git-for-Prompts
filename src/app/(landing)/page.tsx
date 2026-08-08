@@ -1,6 +1,4 @@
 import React from 'react';
-import { getAuthUserId } from '@/lib/auth';
-import { Navbar } from '@/components/website/Navbar';
 import { HeroSection } from '@/components/website/HeroSection';
 import { DashboardHeroScreen } from '@/components/website/DashboardHeroScreen';
 import { BentoFeatures } from '@/components/website/BentoFeatures';
