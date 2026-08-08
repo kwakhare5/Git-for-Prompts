@@ -1,26 +1,20 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
+import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { clerkAppearance } from "@/lib/clerk-appearance";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
+import { Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-serif",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
-
-
-export const viewport: Viewport = {
-  themeColor: '#09090b',
-  colorScheme: 'dark',
-};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gitforprompts.vercel.app"),
@@ -28,71 +22,45 @@ export const metadata: Metadata = {
     default: 'Git for Prompts',
     template: '%s · Git for Prompts',
   },
-  description:
-    'Version control for AI prompts. Manage, version, diff, and test your prompts with a GitHub-inspired workflow.',
-  keywords: ['prompt engineering', 'AI prompts', 'version control', 'LLM', 'prompt management'],
-  authors: [{ name: 'Git for Prompts' }],
-  creator: 'Git for Prompts',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: "https://gitforprompts.vercel.app",
-    siteName: 'Git for Prompts',
-    title: 'Git for Prompts — Version control for AI prompts',
-    description:
-      'Manage, version, diff, and test your AI prompts with a GitHub-inspired workflow.',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Git for Prompts',
-    description: 'Version control for AI prompts.',
-    creator: '@gitforprompts',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
+  description: 'Version control for AI prompts.',
   icons: {
-    icon: "/logo.svg",
-    shortcut: "/logo.svg",
-    apple: "/logo.svg",
+    icon: '/logo.svg',
+    apple: '/logo.svg',
   },
 };
 
-import { Toaster } from "sonner";
-import { CommandMenu } from '@/components/layout/command-menu';
+import { Navbar } from "@/components/website/Navbar";
+import { auth } from "@clerk/nextjs/server";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let userId: string | null = null;
+  try {
+    const authState = await auth();
+    userId = authState.userId;
+  } catch {
+    userId = null;
+  }
+
+  const content = (
+    <>
+      <Navbar userId={userId} />
+      {children}
+      <Toaster position="bottom-right" />
+      <Analytics />
+    </>
+  );
+
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
-      style={{ colorScheme: 'dark' }}
-      suppressHydrationWarning
-    >
-      <body 
-        className={`min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-accent ${geistSans.className}`}
-        suppressHydrationWarning
-      >
+    <html lang="en" className={`${instrumentSerif.variable} ${plusJakartaSans.variable}`}>
+      <body className="min-h-screen bg-[#121214] text-zinc-100 font-sans selection:bg-blue-500/20 selection:text-blue-200">
         {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
-          <ClerkProvider appearance={clerkAppearance}>
-            <TooltipProvider>{children}</TooltipProvider>
-            <CommandMenu />
-            <Toaster position="bottom-right" theme="dark" richColors />
-            <Analytics />
-          </ClerkProvider>
+          <ClerkProvider>{content}</ClerkProvider>
         ) : (
-          <>
-            <TooltipProvider>{children}</TooltipProvider>
-            <CommandMenu />
-            <Toaster position="bottom-right" theme="dark" richColors />
-            <Analytics />
-          </>
+          content
         )}
       </body>
     </html>

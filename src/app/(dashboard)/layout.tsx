@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import { getAuthUserId } from "@/lib/auth";
-import { AppSidebar } from "@/components/layout/app-sidebar";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { db } from "@/db";
+import { prompts } from "@/db/schema";
+import { eq, desc } from "drizzle-orm";
+import { DashboardSidebar } from "@/components/layout/dashboard-sidebar";
+import { TopHeaderBar } from "@/components/layout/top-header-bar";
 
 export default async function DashboardLayout({
   children,
@@ -11,13 +14,27 @@ export default async function DashboardLayout({
   const userId = await getAuthUserId();
   if (!userId) redirect("/sign-in");
 
+  const userPrompts = await db
+    .select({
+      id: prompts.id,
+      name: prompts.name,
+    })
+    .from(prompts)
+    .where(eq(prompts.ownerId, userId))
+    .orderBy(desc(prompts.updatedAt));
+
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset className="flex flex-col min-w-0 bg-background text-foreground font-sans">
-        {children}
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="min-h-screen bg-[#121214] text-zinc-100 font-sans antialiased flex selection:bg-blue-500/20 selection:text-blue-200">
+      {/* Persistent Left Application Sidebar */}
+      <DashboardSidebar prompts={userPrompts} isDemo={false} />
+
+      {/* Main Full-Bleed Scrollable Viewport Canvas with Sticky Top Bar */}
+      <div className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
+        <TopHeaderBar />
+        <main className="flex-1 min-w-0 p-6 overflow-y-auto max-w-7xl w-full mx-auto">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }
-

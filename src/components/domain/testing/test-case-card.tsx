@@ -1,16 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import { DeleteConfirmButton } from '@/components/domain/shared/delete-confirm-button';
 import { deleteTestCase } from '@/lib/actions/tests';
-import { cn } from '@/lib/utils';
 
 type TestResult = {
   passed: boolean;
@@ -45,44 +37,30 @@ export function TestCaseCard({
   }
 
   return (
-    <div
-      className={cn(
-        'relative rounded-lg border bg-card p-4 transition-all duration-200 ease-out-emil font-sans',
-        status === 'running'
-          ? 'border-sky-500/40 animate-pulse'
-          : status === 'pass'
-          ? 'border-emerald-500/30'
-          : status === 'fail'
-          ? 'border-destructive/30'
-          : status === 'ai-error'
-          ? 'border-amber-500/40 border-dashed'
-          : 'border-border',
-        isDeleting && 'opacity-50 pointer-events-none'
-      )}
-    >
+    <div className={`relative rounded-2xl border border-zinc-800/90 bg-[#1D1D22] p-5 font-sans shadow-xl ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header row: name + status badge + delete */}
-      <div className="flex items-center justify-between gap-3 mb-3 font-sans">
-        <div className="flex items-center gap-2 min-w-0 font-sans">
-          <h3 className="text-base font-bold text-foreground truncate font-sans">{name}</h3>
+      <div className="flex items-center justify-between gap-3 mb-3.5 font-sans">
+        <div className="flex items-center gap-2.5 min-w-0 font-mono">
+          <h3 className="text-sm font-bold text-zinc-100 truncate">{name}</h3>
           {status === 'running' && (
-            <Badge variant="outline" className="border-sky-500/40 text-sky-400 text-xs shrink-0 font-mono">
+            <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
               RUNNING
-            </Badge>
+            </span>
           )}
           {status === 'pass' && (
-            <Badge className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs shrink-0 font-mono">
-              PASS
-            </Badge>
+            <span className="bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+              ✓ PASS
+            </span>
           )}
           {status === 'fail' && (
-            <Badge className="bg-destructive/15 text-destructive border border-destructive/30 text-xs shrink-0 font-mono">
-              FAIL
-            </Badge>
+            <span className="bg-rose-500/10 text-rose-300 border border-rose-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+              ✕ FAIL
+            </span>
           )}
           {status === 'ai-error' && (
-            <Badge className="bg-amber-500/15 text-amber-400 border border-amber-500/30 text-xs shrink-0 font-mono" title="AI Error / Not Persisted">
+            <span className="bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold" title="AI Error / Not Persisted">
               ⚠️ AI ERROR
-            </Badge>
+            </span>
           )}
         </div>
 
@@ -96,47 +74,44 @@ export function TestCaseCard({
       </div>
 
       {/* Input + criteria preview */}
-      <div className="space-y-2 mb-3">
-        <div>
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono font-semibold">Input</span>
-          <p className="text-sm text-foreground font-mono mt-1 line-clamp-2">{inputText}</p>
+      <div className="space-y-2.5 mb-3 font-mono text-xs">
+        <div className="bg-[#121214] p-3 rounded-xl border border-zinc-800">
+          <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold block mb-1">Input Variables</span>
+          <p className="text-xs text-zinc-200 line-clamp-2 leading-relaxed">{inputText}</p>
         </div>
-        <div>
-          <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono font-semibold">Criteria</span>
-          <p className="text-sm text-foreground font-mono mt-1 line-clamp-2">{expectedCriteria}</p>
+        <div className="bg-[#121214] p-3 rounded-xl border border-zinc-800">
+          <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold block mb-1">Assertion Criteria</span>
+          <p className="text-xs text-zinc-300 line-clamp-2 leading-relaxed">{expectedCriteria}</p>
         </div>
       </div>
 
-      {/* Expandable output — shown only after a test run */}
+      {/* Expandable output */}
       {result && (
-        <Collapsible open={isOutputOpen} onOpenChange={setIsOutputOpen}>
-          <CollapsibleTrigger
-            render={
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-full justify-between text-xs text-muted-foreground hover:text-foreground cursor-pointer font-sans"
-              />
-            }
+        <div className="mt-3 pt-2.5 border-t border-zinc-800/80 text-xs font-mono">
+          <button
+            onClick={() => setIsOutputOpen(!isOutputOpen)}
+            className="w-full flex items-center justify-between py-1 text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
           >
-            <span>{isOutputOpen ? 'Hide output' : 'Show output'}</span>
-            <span className="font-mono text-xs">{isOutputOpen ? '▲' : '▼'}</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-2 space-y-2 font-sans">
-            {result.reason && (
-              <div className="rounded-xl bg-background border border-border px-3 py-2">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono font-semibold">Reason</span>
-                <p className="text-sm text-foreground mt-1 font-sans">{result.reason}</p>
+            <span>{isOutputOpen ? 'Hide actual AI output' : 'Show actual AI output'}</span>
+            <span>{isOutputOpen ? '▲' : '▼'}</span>
+          </button>
+          {isOutputOpen && (
+            <div className="mt-2 space-y-2">
+              {result.reason && (
+                <div className="rounded-xl bg-[#121214] border border-zinc-800 p-3">
+                  <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Evaluation Reason</span>
+                  <p className="text-xs mt-1 text-zinc-300 leading-relaxed">{result.reason}</p>
+                </div>
+              )}
+              <div className="rounded-xl bg-[#121214] border border-zinc-800 p-3 max-h-64 overflow-y-auto">
+                <span className="text-[10px] font-mono font-bold text-blue-300 uppercase tracking-wider">Generated AI Response</span>
+                <pre className="text-xs font-mono mt-1 whitespace-pre-wrap break-words text-zinc-200 leading-relaxed">
+                  {result.actualOutput}
+                </pre>
               </div>
-            )}
-            <div className="rounded-xl bg-background border border-border px-3 py-2 max-h-64 overflow-y-auto">
-              <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono font-semibold">AI Output</span>
-              <pre className="text-sm text-foreground font-mono mt-1 whitespace-pre-wrap break-words">
-                {result.actualOutput}
-              </pre>
             </div>
-          </CollapsibleContent>
-        </Collapsible>
+          )}
+        </div>
       )}
     </div>
   );

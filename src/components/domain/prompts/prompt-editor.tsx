@@ -8,19 +8,13 @@ import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib
 import { extractVariables, createBundleFromLegacy } from '@gfp/core';
 import { BundleEditor } from './bundle-editor';
 import type { PromptBundle } from '@gfp/core';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
-// Monaco must be dynamically imported — it relies on browser APIs not available during SSR
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
   loading: () => (
-    // #18: use height prop via CSS var rather than hardcoded 500px
     <div
-      className="flex items-center justify-center rounded-b-lg bg-zinc-950 text-sm text-zinc-600 font-mono"
+      className="flex items-center justify-center rounded-b bg-gray-50 text-sm text-gray-500 font-mono"
       style={{ minHeight: '200px' }}
     >
       Loading editor…
@@ -31,7 +25,6 @@ const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
 interface PromptEditorProps {
   promptId: string;
   initialContent: string;
-  /** V2: initial bundle (null = this is a V1 prompt) */
   initialBundle?: PromptBundle | null;
   readOnly?: boolean;
   height?: string;
@@ -54,10 +47,8 @@ export function PromptEditor({
   const [copied, setCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  // Track whether the editor has unsaved changes
   const isDirty = !readOnly && content !== initialContent;
 
-  // Warn the user before closing/refreshing the tab with unsaved changes
   useEffect(() => {
     if (readOnly) return;
     const handler = (e: BeforeUnloadEvent) => {
@@ -74,7 +65,6 @@ export function PromptEditor({
   const tokenEstimate = Math.ceil(charCount / 4);
   const detectedVariables = useMemo(() => extractVariables(content), [content]);
 
-  // ── V1 Save ─────────────────────────────────────────────────────────────────
   function handleSaveV1() {
     setError(null);
     startTransition(async () => {
@@ -91,7 +81,6 @@ export function PromptEditor({
     });
   }
 
-  // ── V2 Save ─────────────────────────────────────────────────────────────────
   function handleSaveV2(bundle: PromptBundle, msg: string) {
     setError(null);
     startTransition(async () => {
@@ -108,28 +97,21 @@ export function PromptEditor({
     });
   }
 
-  // ── Mode switch: V1 → V2: pre-fill bundle from current content ─────────────
   const defaultBundleForUpgrade = useMemo<PromptBundle>(
     () => createBundleFromLegacy(content),
     [content]
   );
 
-  // Theme registration is centralized in src/lib/monaco-theme.ts
   const handleEditorWillMount = registerGfpTheme;
 
-  // ── Read-only mode ───────────────────────────────────────────────────────────
   if (readOnly) {
     return (
       <div className="flex flex-col gap-2 font-sans">
-        <div className="rounded-xl overflow-hidden border border-border flex flex-col bg-card shadow-2xl font-sans">
-          <div className="flex items-center gap-3 bg-muted/40 border-b border-border px-4 py-2.5 font-sans">
-            <div className="flex flex-col min-w-0 mr-auto font-sans">
-              <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">prompt.txt</span>
-            </div>
-            <div className="flex items-center gap-2 font-sans">
-              <Button
-                variant="ghost"
-                size="sm"
+        <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-[#161619] shadow-xl">
+          <div className="flex items-center gap-3 bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5 text-xs font-mono">
+            <span className="text-zinc-300 font-bold mr-auto">prompt.bundle</span>
+            <div className="flex items-center gap-2">
+              <button
                 onClick={async () => {
                   try {
                     await navigator.clipboard.writeText(content);
@@ -148,22 +130,12 @@ export function PromptEditor({
                     setTimeout(() => setCopied(false), 2000);
                   }
                 }}
-                className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+                className="text-xs text-blue-300 hover:text-blue-200 font-mono font-bold cursor-pointer"
                 aria-label="Copy prompt to clipboard"
               >
-                {copied ? (
-                  <>
-                    <span className="text-emerald-400">✓</span>
-                    <span className="text-emerald-400 font-sans">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <span aria-hidden="true">⧉</span>
-                    Copy
-                  </>
-                )}
-              </Button>
-              <Badge variant="outline" className="text-xs font-mono text-muted-foreground">read-only</Badge>
+                {copied ? '✓ Copied' : 'Copy Text'}
+              </button>
+              <span className="text-[10px] font-mono font-bold text-zinc-400 bg-[#202024] border border-zinc-700/60 px-2 py-0.5 rounded">read-only</span>
             </div>
           </div>
           <div role="region" aria-label="Prompt content (read-only)">
@@ -197,32 +169,25 @@ export function PromptEditor({
     );
   }
 
-  // ── V2 mode — delegate entirely to BundleEditor ───────────────────────────
   if (mode === 'v2') {
     return (
       <div className="flex flex-col gap-2 font-sans">
-        {/* Mode toggle */}
-        <div className="flex items-center gap-2 px-1 font-sans">
-          <span className="text-xs text-muted-foreground font-sans">Editor mode:</span>
-          <Button
+        <div className="flex items-center gap-2 text-xs font-mono mb-1">
+          <span className="text-zinc-400">Editor mode:</span>
+          <button
             id="editor-mode-v1"
-            variant="ghost"
-            size="xs"
             onClick={() => setMode('v1')}
-            className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+            className="px-2.5 py-1 text-zinc-400 hover:text-zinc-200 cursor-pointer"
           >
-            V1 · Text
-          </Button>
-          <Button
+            Raw Text
+          </button>
+          <button
             id="editor-mode-v2"
-            variant="secondary"
-            size="xs"
             onClick={() => setMode('v2')}
-            className="text-xs font-sans cursor-pointer font-bold"
+            className="px-2.5 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/20 font-bold rounded-lg cursor-pointer"
           >
-            V2 · Bundle
-          </Button>
-          <span className="text-xs text-muted-foreground font-sans">· V2 stores system prompt + model config + variables</span>
+            Bundle Editor
+          </button>
         </div>
 
         <BundleEditor
@@ -234,61 +199,53 @@ export function PromptEditor({
         />
 
         {error && (
-          <p role="alert" className="text-xs text-destructive px-1 font-mono">{error}</p>
+          <p role="alert" className="text-xs text-rose-300 px-1 font-mono">{error}</p>
         )}
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 font-sans">
-
-      {/* Editor shell */}
-      <div className="rounded-xl overflow-hidden border border-border flex flex-col bg-card shadow-2xl font-sans">
-        {/* Header bar */}
-        <div className="flex items-center gap-3 bg-muted/40 border-b border-border px-4 py-2.5 font-sans">
-          <div className="flex flex-col min-w-0 mr-auto font-sans">
-            <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider font-semibold">prompt.txt</span>
+    <div className="flex flex-col gap-3 font-sans">
+      <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-[#161619] shadow-xl">
+        <div className="flex items-center gap-3 bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5">
+          <div className="flex flex-col min-w-0 mr-auto font-mono">
+            <span className="text-xs text-zinc-200 font-bold">prompt.bundle</span>
             {isDirty && (
-              <span className="text-xs font-medium text-amber-400 animate-pulse font-sans">Unsaved Changes</span>
+              <span className="text-[10px] text-amber-300">Unsaved Changes</span>
             )}
           </div>
 
-          <div className="flex items-center gap-3 flex-1 max-w-xl font-sans">
-            <Input
+          <div className="flex items-center gap-3 flex-1 max-w-xl font-mono">
+            <input
               id="commit-message"
               type="text"
-              placeholder='What did you change? (e.g. "Improved tone")'
+              placeholder='Commit message (e.g. "Lowered temperature to 0.2")'
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="flex-1 h-8 text-xs bg-background border-border text-foreground placeholder:text-muted-foreground font-sans"
+              className="flex-1 h-8 text-xs bg-[#1D1D22] border border-zinc-700/60 rounded-lg px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
-            <div className="flex items-center gap-2 shrink-0 font-sans">
-              <Button
+            <div className="flex items-center gap-2 shrink-0">
+              <button
                 id="save-version-btn"
                 onClick={handleSaveV1}
                 disabled={isPending || !content.trim()}
-                variant="default"
-                size="sm"
-                className="font-sans cursor-pointer font-bold shadow-sm"
+                className="px-3.5 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
               >
-                {isPending ? 'Saving…' : 'Save'}
-              </Button>
-              <Button
+                {isPending ? 'Saving…' : 'Save Version'}
+              </button>
+              <button
                 onClick={() => router.back()}
                 disabled={isPending}
-                variant="ghost"
-                size="sm"
-                className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+                className="px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
               >
                 Cancel
-              </Button>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Monaco editor */}
         <div role="region" aria-label="Prompt content editor">
           <MonacoEditor
             height={height}
@@ -318,29 +275,19 @@ export function PromptEditor({
         </div>
       </div>
 
-      {/* Footer — Stats & Variables */}
-      <div className="flex flex-col gap-1.5 px-1 font-sans">
-        <div className="flex items-center justify-between font-sans">
-          <div className="text-xs text-muted-foreground font-mono tabular-nums uppercase tracking-tight font-semibold">
-            {charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens
-          </div>
-          {error && (
-            <p role="alert" className="text-xs text-destructive font-medium font-mono">{error}</p>
-          )}
+      <div className="flex flex-col gap-1.5 px-1 font-mono">
+        <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
+          <span>{charCount.toLocaleString()} chars · ≈{tokenEstimate.toLocaleString()} tokens</span>
+          {error && <p role="alert" className="text-xs text-rose-300 font-mono">{error}</p>}
         </div>
 
-        {/* Variable chips */}
         {detectedVariables.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5 font-sans">
-            <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider shrink-0 font-semibold">Variables:</span>
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <span className="text-zinc-400 font-mono">Extracted Variables:</span>
             {detectedVariables.map((v) => (
-              <Badge
-                key={v}
-                variant="outline"
-                className="font-mono text-xs text-sky-400 border-sky-500/20 bg-sky-500/10"
-              >
+              <span key={v} className="font-mono text-xs bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded-lg font-bold">
                 {'{{'}{v}{'}}'}
-              </Badge>
+              </span>
             ))}
           </div>
         )}

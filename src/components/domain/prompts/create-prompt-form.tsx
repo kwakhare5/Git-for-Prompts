@@ -7,9 +7,6 @@ import { useTransition } from "react";
 import Link from "next/link";
 import { createPromptSchema, type CreatePromptInput } from "@/lib/validations/prompt";
 import { createPrompt } from "@/lib/actions/prompts";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 
 export function CreatePromptForm() {
   const router = useRouter();
@@ -39,58 +36,69 @@ export function CreatePromptForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 font-sans">
       {/* Name */}
       <div className="space-y-1.5">
-        <label htmlFor="name" className="block text-sm font-medium text-foreground">
-          Name <span className="text-destructive">*</span>
+        <label htmlFor="name" className="block text-xs font-mono font-bold text-zinc-200">
+          Repository Name <span className="text-rose-400">*</span>
         </label>
-        <Input
+        <input
           id="name"
           {...register("name")}
-          placeholder="e.g. Customer Support Agent…"
+          placeholder="e.g. Customer Support AI Agent..."
           autoComplete="off"
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
+          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
         />
         {errors.name && (
-          <p className="text-xs text-destructive">{errors.name.message}</p>
+          <p className="text-xs text-rose-300 font-mono">{errors.name.message}</p>
         )}
       </div>
 
       {/* Description */}
       <div className="space-y-1.5">
-        <label htmlFor="description" className="block text-sm font-medium text-foreground">
+        <label htmlFor="description" className="block text-xs font-mono font-bold text-zinc-200">
           Description
-          <span className="ml-1.5 text-xs text-muted-foreground">(optional)</span>
+          <span className="ml-1.5 text-[11px] text-zinc-500 font-normal">(optional)</span>
         </label>
-        <Textarea
+        <textarea
           id="description"
           {...register("description")}
-          placeholder="What does this prompt do?…"
+          placeholder="Purpose and business context of this prompt bundle..."
           autoComplete="off"
           rows={3}
+          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
         />
         {errors.description && (
-          <p className="text-xs text-destructive">{errors.description.message}</p>
+          <p className="text-xs text-rose-300 font-mono">{errors.description.message}</p>
         )}
+      </div>
+
+      {/* Engine Default Pill */}
+      <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3 text-xs text-blue-300 flex items-center justify-between font-mono">
+        <span>Initial Engine Preset:</span>
+        <span className="font-bold bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+          groq/llama-3.3-70b-versatile
+        </span>
       </div>
 
       {/* Root error */}
       {errors.root && (
-        <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+        <p className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300 font-mono">
           {errors.root.message}
         </p>
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-3 pt-1">
-        <Button
+      <div className="flex items-center gap-3 pt-2 font-mono">
+        <button
           type="submit"
           disabled={isPending}
+          className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
         >
-          {isPending ? "Creating…" : "Create Prompt"}
-        </Button>
+          {isPending ? "Creating Repository…" : "+ Initialize Prompt Repository"}
+        </button>
         <Link
           href="/dashboard"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
         >
           Cancel
         </Link>

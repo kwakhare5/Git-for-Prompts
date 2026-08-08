@@ -4,7 +4,6 @@ import { useTransition, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { restoreVersion } from '@/lib/actions/versions';
 import { RelativeTime } from '@/components/layout/relative-time';
-import { cn } from '@/lib/utils';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
 import type { PromptBundle } from '@gfp/core';
@@ -15,12 +14,8 @@ interface VersionHistoryProps {
   promptId: string;
   versions: Version[];
   activeVersionId?: string;
-  /** When provided, version switching is handled client-side (instant) instead of via URL navigation */
   onVersionSelect?: (versionId: string) => void;
 }
-
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 export function VersionHistory({
   promptId,
@@ -53,12 +48,8 @@ export function VersionHistory({
 
   if (versions.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center px-4 font-sans">
-        <div className="font-mono text-3xl text-muted-foreground mb-3">v0</div>
-        <p className="text-sm text-muted-foreground font-sans">No versions yet.</p>
-        <p className="text-xs text-muted-foreground mt-1 font-sans">
-          Save your first version to start tracking history.
-        </p>
+      <div className="py-8 text-center text-gray-500 font-sans">
+        <p className="text-sm">No versions yet.</p>
       </div>
     );
   }
@@ -66,10 +57,7 @@ export function VersionHistory({
   return (
     <div className="flex flex-col gap-2 font-sans">
       {error && (
-        <p
-          role="alert"
-          className="text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-xl px-3 py-2 mb-1 font-mono"
-        >
+        <p role="alert" className="text-xs text-red-600 bg-red-50 border border-red-200 rounded p-2">
           {error}
         </p>
       )}
@@ -82,98 +70,67 @@ export function VersionHistory({
         return (
           <div
             key={v.id}
-            className={cn(
-              'group relative rounded-xl border transition-all duration-150 font-sans',
-              isActive
-                ? 'border-border bg-accent/80 shadow-sm'
-                : 'border-border/60 bg-card hover:border-border hover:bg-accent/40',
-              isPending && 'opacity-60 pointer-events-none'
-            )}
+            className={`rounded-xl border p-3.5 font-sans transition-all ${
+              isActive 
+                ? 'bg-[#1D1D22] border-blue-500/40 shadow-sm' 
+                : 'bg-[#121214] border-zinc-800/80 hover:border-zinc-700/80'
+            }`}
           >
-            {/* Version card */}
-            <Button
-              type="button"
-              variant="ghost"
+            <div
               onClick={() => onVersionSelect?.(v.id)}
-              className="flex items-start gap-3 px-4 py-3 h-auto w-full text-left cursor-pointer font-sans justify-start rounded-xl"
-              aria-label={`Preview version ${v.versionNumber}`}
-              aria-current={isActive ? 'true' : undefined}
+              className="cursor-pointer space-y-1.5"
             >
-              {/* Version badge */}
-              <Badge variant="outline" className="font-mono text-xs shrink-0 mt-0.5">
-                v{v.versionNumber}
-              </Badge>
-
-              {/* Commit info */}
-              <div className="min-w-0 flex-1 font-sans">
-                <p className="text-sm font-semibold text-foreground truncate">
-                  {v.commitMessage ? (
-                    v.commitMessage
-                  ) : (
-                    <span className="italic text-muted-foreground font-normal">No commit message</span>
-                  )}
-                </p>
-                <div className="flex items-center gap-2 mt-1 flex-wrap font-mono text-xs">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs font-bold bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded-md">
+                  v{v.versionNumber}
+                </span>
+                <span className="text-[11px] font-mono text-zinc-500">
                   <RelativeTime date={v.createdAt} />
-                  {isLatest && (
-                    <Badge variant="outline" className="text-[10px] text-emerald-400 border-emerald-500/20 bg-emerald-500/10">
-                      HEAD
-                    </Badge>
-                  )}
-                  {isActive && !isLatest && (
-                    <Badge variant="outline" className="text-[10px] text-sky-400 border-sky-500/20 bg-sky-500/10">
-                      previewing
-                    </Badge>
-                  )}
-                  {v.bundle && (() => {
-                    const bundle = v.bundle as unknown as PromptBundle;
-                    const label = `${bundle.modelConfig?.provider ?? ''}/${bundle.modelConfig?.model ?? ''}`;
-                    return label !== '/' ? (
-                      <span className="text-[11px] font-mono text-muted-foreground bg-muted border border-border px-2 py-0.5 rounded">
-                        {label}
-                      </span>
-                    ) : null;
-                  })()}
-                </div>
+                </span>
               </div>
-            </Button>
+              <p className="text-xs font-semibold text-zinc-100 truncate">
+                {v.commitMessage || <span className="text-zinc-500 italic font-normal">No commit message</span>}
+              </p>
+              {v.bundle && (() => {
+                const bundle = v.bundle as unknown as PromptBundle;
+                const label = `${bundle.modelConfig?.provider ?? ''}/${bundle.modelConfig?.model ?? ''}`;
+                return label !== '/' ? (
+                  <span className="text-[10px] font-mono text-zinc-400 bg-[#202024] border border-zinc-700/60 px-2 py-0.5 rounded inline-block">
+                    {label}
+                  </span>
+                ) : null;
+              })()}
+            </div>
 
-            {/* Restore button */}
             {!isLatest && (
-              <div className="px-4 pb-3 flex items-center gap-2 border-t border-border/40 pt-2.5 mt-1">
+              <div className="mt-2.5 pt-2 border-t border-zinc-800/60 flex items-center justify-between text-xs font-mono">
                 {isConfirming ? (
                   <>
-                    <span className="text-xs text-muted-foreground font-sans">
-                      Restore v{v.versionNumber}?
-                    </span>
-                    <Button
-                      onClick={() => handleRestore(v.id)}
-                      disabled={isPending}
-                      variant="default"
-                      size="xs"
-                      className="font-sans cursor-pointer"
-                    >
-                      {isPending ? 'Restoring…' : 'Confirm'}
-                    </Button>
-                    <Button
-                      onClick={() => setConfirmRestoreId(null)}
-                      disabled={isPending}
-                      variant="ghost"
-                      size="xs"
-                      className="font-sans cursor-pointer"
-                    >
-                      Cancel
-                    </Button>
+                    <span className="text-zinc-400 text-[11px]">Restore v{v.versionNumber}?</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleRestore(v.id)}
+                        disabled={isPending}
+                        className="px-2.5 py-1 bg-zinc-100 hover:bg-white text-zinc-950 rounded-md text-[11px] font-bold cursor-pointer"
+                      >
+                        {isPending ? 'Restoring…' : 'Confirm'}
+                      </button>
+                      <button
+                        onClick={() => setConfirmRestoreId(null)}
+                        disabled={isPending}
+                        className="px-2 py-1 text-zinc-400 hover:text-zinc-200 text-[11px] cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </>
                 ) : (
-                  <Button
+                  <button
                     onClick={() => handleRestore(v.id)}
-                    variant="outline"
-                    size="xs"
-                    className="text-xs text-muted-foreground hover:text-foreground font-sans cursor-pointer"
+                    className="text-[11px] text-zinc-400 hover:text-blue-300 transition-colors cursor-pointer"
                   >
                     Restore this version
-                  </Button>
+                  </button>
                 )}
               </div>
             )}
