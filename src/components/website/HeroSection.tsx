@@ -36,7 +36,7 @@ export function HeroSection() {
       </div>
 
       {/* Micro Text */}
-      <p className="text-xs text-zinc-500 font-mono tracking-wide">
+      <p className="text-xs text-zinc-400 font-mono tracking-wide">
         open-source • local offline sqlite • postgres advisory locking
       </p>
 

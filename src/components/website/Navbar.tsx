@@ -39,16 +39,16 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/explore" className="hover:text-zinc-100 transition-colors cursor-pointer text-zinc-200">
+          <Link href="/explore" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer text-zinc-200">
             Explore
           </Link>
-          <Link href="/dashboard" className="hover:text-zinc-100 transition-colors cursor-pointer">
+          <Link href="/dashboard" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
             Dashboard
           </Link>
-          <Link href="/dashboard/api-keys" className="hover:text-zinc-100 transition-colors cursor-pointer">
+          <Link href="/dashboard/api-keys" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
             API Keys
           </Link>
-          <Link href="/dashboard/webhooks" className="hover:text-zinc-100 transition-colors cursor-pointer">
+          <Link href="/dashboard/webhooks" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
             Webhooks
           </Link>
         </nav>
