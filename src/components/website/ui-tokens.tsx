@@ -89,12 +89,12 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
   return (
     <button
       onClick={handleCopy}
-      className="bg-[#18181B] hover:bg-zinc-900 text-zinc-200 border border-zinc-800 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-all duration-150 active:scale-97 cursor-pointer group"
+      className="bg-[#141416] hover:bg-[#1A1A1E] text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-all duration-150 active:scale-97 cursor-pointer group hover:border-emerald-500/30"
     >
-      <TerminalIcon className="w-3.5 h-3.5 text-zinc-100" />
-      <span className="text-zinc-300 font-medium">$ {command}</span>
-      <div className="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 group-hover:text-white flex items-center justify-center ml-1 transition-colors">
-        {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-300" /> : <CopyIcon className="w-3 h-3" />}
+      <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
+      <span className="text-emerald-400 font-mono font-bold tracking-tight">$ {command}</span>
+      <div className="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center ml-1 transition-colors">
+        {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3 h-3" />}
       </div>
     </button>
   );

@@ -133,11 +133,11 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 **Last session date:** 2026-08-09
 
-**What we accomplished (Copywriting & Navigation Overhaul):**
-- **Explicit Back Navigation:** Renamed `← {prompt.name}` to **`← Back to Studio ({prompt.name})`** across all prompt sub-pages (`edit`, `diff`, `compare`, `tests`).
-- **Hero & Engine Copy:** Updated landing page headline to *"Git for your AI prompt bundles"*, subtitle to specific developer benefits, and CTA button to *"Open Cloud Dashboard →"*.
-- **Dashboard Table Action Verbs:** Standardized prompt table actions to explicit verbs: `Open Studio`, `Edit Bundle`, `View Diff`, `Run Evals`.
-- **Verification:** All checks pass (0 type errors, 0 ESLint errors, 88/88 Vitest tests).
+**What we accomplished (Crisp Pure Monochrome White & Silver Palette Migration):**
+- **Accent Color Overhaul:** Converted all electric blue accents across 13 components/pages to a high-contrast **Crisp Pure Monochrome White & Silver** palette (`bg-zinc-100/10 text-zinc-100 border-zinc-700/80`) matching the dark charcoal (`#121214`/`#161619`) background theme.
+- **Components Updated:** Landing badges, hero kickers, stat counters, active sidebar items, header branch pills, prompt subnav tabs, version history badges, and auth badges.
+- **Git Sync:** Committed (`6c95282`) and pushed to GitHub main branch.
+- **Verification:** All checks pass (0 type errors, 0 ESLint errors/warnings, 88/88 Vitest tests).
 
 **Immediate next task:**
 - Ready for next user instruction or feature task.
@@ -146,14 +146,17 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 - None.
 
 **Files most recently changed:**
-- `src/app/(dashboard)/dashboard/prompts/[id]/edit/page.tsx`
-- `src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx`
-- `src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx`
-- `src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx`
+- `src/components/website/ui-tokens.tsx`
 - `src/components/website/HeroSection.tsx`
 - `src/components/website/EngineShowcase.tsx`
+- `src/components/website/BentoFeatures.tsx`
+- `src/components/layout/dashboard-sidebar.tsx`
+- `src/components/layout/top-header-bar.tsx`
 - `src/components/domain/dashboard/dashboard-workspace-view.tsx`
+- `src/components/domain/prompts/prompt-subnav.tsx`
+- `src/components/domain/prompts/version-history.tsx`
 - `CLAUDE.md`
+
 
 
 

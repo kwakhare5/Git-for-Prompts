@@ -19,43 +19,43 @@ export function EngineShowcase() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
           
-          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-zinc-700 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-zinc-100 flex items-center justify-center font-mono font-bold mb-4 text-base">
+          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-emerald-500/30 hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
               01
             </div>
             <h3 className="text-xl font-bold text-zinc-100 mb-2 font-mono">Immutable Append-Only Snapshots</h3>
             <p className="text-zinc-400 text-sm leading-relaxed font-sans">
-              Every save creates a new Version row guarded by Postgres & SQLite transaction locks (`insertNextVersion`). Never overwrite history.
+              Every save creates a new Version row guarded by <code className="text-emerald-300 bg-[#121214] px-1 py-0.5 rounded border border-zinc-800 font-mono text-xs">insertNextVersion</code> transaction locks. Never overwrite history.
             </p>
           </div>
 
-          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-zinc-700 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-emerald-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
+          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-teal-500/30 hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
               02
             </div>
             <h3 className="text-xl font-bold text-zinc-100 mb-2 font-mono">Local-First Wasm Engine</h3>
             <p className="text-zinc-400 text-sm leading-relaxed font-sans">
-              `packages/cli` runs completely offline with Wasm SQLite (`sql.js`). Zero native dependencies, works cross-platform instantly.
+              <code className="text-teal-300 bg-[#121214] px-1 py-0.5 rounded border border-zinc-800 font-mono text-xs">packages/cli</code> runs completely offline with Wasm SQLite (<code className="text-teal-300">sql.js</code>). Zero native dependencies.
             </p>
           </div>
 
-          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-zinc-700 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-amber-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
+          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-amber-500/30 hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
               03
             </div>
             <h3 className="text-xl font-bold text-zinc-100 mb-2 font-mono">Atomic Prompt Bundle Spec</h3>
             <p className="text-zinc-400 text-sm leading-relaxed font-sans">
-              Store system prompt, user template, model parameters (provider, model, temp, topP, maxTokens), tools, and Zod output schemas together.
+              Store system prompt, template, parameters (model, temp, topP), tools, and <code className="text-amber-300 bg-[#121214] px-1 py-0.5 rounded border border-zinc-800 font-mono text-xs">Zod</code> output schemas together.
             </p>
           </div>
 
-          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-zinc-700 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-rose-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
+          <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-violet-500/30 hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
               04
             </div>
             <h3 className="text-xl font-bold text-zinc-100 mb-2 font-mono">Secure Cloud Sync</h3>
             <p className="text-zinc-400 text-sm leading-relaxed font-sans">
-              Authenticate via SHA-256 hashed API keys (`gfp_live_*`). Fire-and-forget webhooks notify your team on every `version.created`.
+              Authenticate via SHA-256 hashed API keys (<code className="text-violet-300 bg-[#121214] px-1 py-0.5 rounded border border-zinc-800 font-mono text-xs">gfp_live_*</code>). Webhooks notify team on every save.
             </p>
           </div>
 

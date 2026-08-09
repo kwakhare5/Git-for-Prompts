@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GithubIcon } from './ui-tokens';
+
 
 export function Navbar({ userId }: { userId?: string | null }) {
   const pathname = usePathname();
@@ -59,9 +59,9 @@ export function Navbar({ userId }: { userId?: string | null }) {
             href="https://github.com/kwakhare5/Git-for-Prompts"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-9 px-3.5 rounded-xl border border-zinc-700/80 hover:border-zinc-600 text-zinc-200 hover:text-white bg-[#202024] shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-semibold"
+            className="h-9 px-3.5 rounded-xl border border-amber-500/30 text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold"
           >
-            <GithubIcon className="w-3.5 h-3.5 text-zinc-300" />
+            <span className="text-amber-400 font-extrabold text-xs">★</span>
             <span className="hidden sm:inline">Star on GitHub</span>
             <span className="sm:hidden">GitHub</span>
           </a>
