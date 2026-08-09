@@ -69,7 +69,7 @@ export function ButtonPrimary({ children, onClick, className = "", disabled = fa
     <button 
       onClick={onClick}
       disabled={disabled}
-      className={`bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-4 py-2 rounded-xl text-xs shadow-xs active:scale-97 transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${className}`}
+      className={`bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-4 py-2 rounded-xl text-xs shadow-xs active:scale-97 transition-[transform,background-color,border-color] duration-150 cubic-bezier(0.23,1,0.32,1) flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${className}`}
     >
       {children}
     </button>
@@ -89,7 +89,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
   return (
     <button
       onClick={handleCopy}
-      className="bg-[#141416] hover:bg-[#1A1A1E] text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-all duration-150 active:scale-97 cursor-pointer group hover:border-emerald-500/30"
+      className="bg-[#141416] hover:bg-[#1A1A1E] text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-[transform,border-color,background-color] duration-150 cubic-bezier(0.23,1,0.32,1) active:scale-97 cursor-pointer group hover:border-emerald-500/30"
     >
       <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
       <span className="text-emerald-400 font-mono font-bold tracking-tight">$ {command}</span>
@@ -121,10 +121,10 @@ export function Tooltip({ text, children, position = "right" }: { text: string; 
   const [visible, setVisible] = useState(false);
 
   const positionStyles = {
-    top: "-top-8 left-1/2 -translate-x-1/2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2.5",
-    bottom: "-bottom-8 left-1/2 -translate-x-1/2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2.5",
+    top: "-top-8 left-1/2 -translate-x-1/2 origin-bottom",
+    right: "left-full top-1/2 -translate-y-1/2 ml-2.5 origin-left",
+    bottom: "-bottom-8 left-1/2 -translate-x-1/2 origin-top",
+    left: "right-full top-1/2 -translate-y-1/2 mr-2.5 origin-right",
   };
 
   return (
@@ -134,11 +134,13 @@ export function Tooltip({ text, children, position = "right" }: { text: string; 
       onMouseLeave={() => setVisible(false)}
     >
       {children}
-      {visible && (
-        <div className={`absolute z-50 px-2.5 py-1 rounded-lg bg-[#202024] border border-zinc-700/80 text-zinc-100 font-mono text-[11px] font-medium shadow-xl whitespace-nowrap pointer-events-none transition-opacity duration-150 ${positionStyles[position]}`}>
-          {text}
-        </div>
-      )}
+      <div
+        className={`absolute z-50 px-2.5 py-1 rounded-lg bg-[#202024] border border-zinc-700/80 text-zinc-100 font-mono text-[11px] font-medium shadow-xl whitespace-nowrap pointer-events-none transition-all duration-150 ease-out ${
+          positionStyles[position]
+        } ${visible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
+      >
+        {text}
+      </div>
     </div>
   );
 }
