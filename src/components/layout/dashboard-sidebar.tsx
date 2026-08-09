@@ -92,11 +92,11 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-semibold ${
                   isActive
-                    ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20'
+                    ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 shadow-xs'
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
                 } ${isCollapsed ? 'justify-center' : ''}`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-300' : 'text-zinc-400'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-zinc-100' : 'text-zinc-400'}`} />
                 {!isCollapsed && <span>{item.label}</span>}
               </Link>
             );
@@ -119,7 +119,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                 <FolderGit2 className="w-3 h-3 text-zinc-400" />
                 Repositories ({prompts.length})
               </span>
-              <Link href="/dashboard/new" className="text-blue-300 hover:underline text-[10px] lowercase">
+              <Link href="/dashboard/new" className="text-zinc-300 hover:underline text-[10px] lowercase">
                 +new
               </Link>
             </div>
@@ -130,7 +130,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                   <div>No repositories yet</div>
                   <Link
                     href="/dashboard/new"
-                    className="inline-block text-blue-300 hover:underline text-[10px] font-bold"
+                    className="inline-block text-zinc-300 hover:underline text-[10px] font-bold"
                   >
                     + Create Repository
                   </Link>
@@ -162,9 +162,9 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
         {/* CLI Quickstart Box */}
         {!isCollapsed && (
           <div className="p-3 rounded-xl bg-[#121214] border border-zinc-800 font-mono text-[11px] text-zinc-400 space-y-1">
-            <div className="flex items-center justify-between text-blue-300 font-bold text-[10px]">
+            <div className="flex items-center justify-between text-zinc-200 font-bold text-[10px]">
               <span className="flex items-center gap-1">
-                <Terminal className="w-3 h-3 text-blue-300" /> CLI Tool
+                <Terminal className="w-3 h-3 text-zinc-300" /> CLI Tool
               </span>
               <span className="text-[9px] bg-zinc-800 px-1 rounded text-zinc-400">Offline</span>
             </div>
@@ -178,7 +178,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
             {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
               <UserButton />
             ) : (
-              <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-300 border border-blue-500/20 font-bold text-xs flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 font-bold text-xs flex items-center justify-center shrink-0">
                 DEV
               </div>
             )}

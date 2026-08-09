@@ -205,6 +205,14 @@ src/
 | 2026-08-08 | Layout Restructuring & Refinement Across All Dashboard Routes | Enforce executive metrics + sticky search overview canvas, wide Monaco studio canvas + 340px right inspector panel, and integrated edit bundle editor with model drawer & sticky commit bar |
 | 2026-08-08 | Dashboard Explore Route Alignment & Layout Consolidation | Route "Explore Community" in `DashboardSidebar` directly to `/dashboard/explore` for perfect workspace integration, leaving `/explore` for public landing visitors |
 | 2026-08-08 | Active Subnav Tabs & Timeline Version Restore Action | Make Diff and Compare tabs in `PromptSubnav` clickable even with 1 version, and add a "Restore Version" action in the timeline panel |
+| 2026-08-09 | Navbar Get Started Action Route | Route unauthenticated 'Get Started' button in Navbar to /sign-in page where user can log in via Google SSO or email, redirecting to /dashboard |
+| 2026-08-09 | Auth Canvas & Sign-In Copy Redesign | Update AuthLayout header with official /logo.svg & badge; standardize Sign-In card copy to 'Sign in to Git for Prompts / Local-first prompt package manager for AI engineering'; position Google SSO at top |
+| 2026-08-09 | Dedicated Auth Canvas & Hide Floating Navbar | Hide floating Navbar on /sign-in and /sign-up; update email input label to 'Email' with 'developer@example.com' placeholder; add '← Back to Home' link |
+| 2026-08-09 | Single-Card Auth UI Redesign & Website Color Alignment | Redesign sign-in/sign-up cards to spacious max-w-md single container (rounded-3xl, bg-[#161619], border-zinc-800) with top logo header inside card, matching website dark charcoal & electric blue color system |
+
+
+
+
 
 ---
 
