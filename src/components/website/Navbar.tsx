@@ -3,13 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GithubIcon } from './ui-tokens';
+
 
 export function Navbar({ userId }: { userId?: string | null }) {
   const pathname = usePathname();
 
-  // Hide landing floating navbar when inside the full-screen dashboard app
-  if (pathname?.startsWith('/dashboard')) {
+  // Hide landing floating navbar when inside the full-screen dashboard app or auth pages
+  if (
+    pathname?.startsWith('/dashboard') ||
+    pathname?.startsWith('/sign-in') ||
+    pathname?.startsWith('/sign-up')
+  ) {
     return null;
   }
 
@@ -35,7 +39,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/explore" className="hover:text-zinc-100 transition-colors cursor-pointer text-blue-300">
+          <Link href="/explore" className="hover:text-zinc-100 transition-colors cursor-pointer text-zinc-200">
             Explore
           </Link>
           <Link href="/dashboard" className="hover:text-zinc-100 transition-colors cursor-pointer">
@@ -55,9 +59,9 @@ export function Navbar({ userId }: { userId?: string | null }) {
             href="https://github.com/kwakhare5/Git-for-Prompts"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-9 px-3.5 rounded-xl border border-zinc-700/80 hover:border-zinc-600 text-zinc-200 hover:text-white bg-[#202024] shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-semibold"
+            className="h-9 px-3.5 rounded-xl border border-amber-500/30 text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold"
           >
-            <GithubIcon className="w-3.5 h-3.5 text-zinc-300" />
+            <span className="text-amber-400 font-extrabold text-xs">★</span>
             <span className="hidden sm:inline">Star on GitHub</span>
             <span className="sm:hidden">GitHub</span>
           </a>
@@ -71,7 +75,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
             </Link>
           ) : (
             <Link
-              href="/dashboard"
+              href="/sign-in"
               className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs transition-all active:scale-97 flex items-center justify-center"
             >
               Get Started
