@@ -39,7 +39,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/explore" className="hover:text-zinc-100 transition-colors cursor-pointer text-blue-300">
+          <Link href="/explore" className="hover:text-zinc-100 transition-colors cursor-pointer text-zinc-200">
             Explore
           </Link>
           <Link href="/dashboard" className="hover:text-zinc-100 transition-colors cursor-pointer">

@@ -57,7 +57,7 @@ export function PanelElevated({ children, className = "" }: { children: React.Re
 
 export function BadgeVersion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
+    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
       {children}
     </span>
   );
@@ -91,7 +91,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
       onClick={handleCopy}
       className="bg-[#18181B] hover:bg-zinc-900 text-zinc-200 border border-zinc-800 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-all duration-150 active:scale-97 cursor-pointer group"
     >
-      <TerminalIcon className="w-3.5 h-3.5 text-blue-300" />
+      <TerminalIcon className="w-3.5 h-3.5 text-zinc-100" />
       <span className="text-zinc-300 font-medium">$ {command}</span>
       <div className="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 group-hover:text-white flex items-center justify-center ml-1 transition-colors">
         {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-300" /> : <CopyIcon className="w-3 h-3" />}
@@ -103,7 +103,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
 {/* Muted Pastel Badge Kicker */}
 export function BadgePastel({ children, variant = "blue", className = "" }: { children: React.ReactNode; variant?: "blue" | "green" | "yellow" | "rose"; className?: string }) {
   const variantStyles = {
-    blue: "bg-blue-500/10 border-blue-500/20 text-blue-300",
+    blue: "bg-zinc-100/10 border-zinc-700/80 text-zinc-100",
     green: "bg-emerald-500/10 border-emerald-500/20 text-emerald-300",
     yellow: "bg-amber-500/10 border-amber-500/20 text-amber-300",
     rose: "bg-rose-500/10 border-rose-500/20 text-rose-300",

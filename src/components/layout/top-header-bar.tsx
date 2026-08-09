@@ -59,7 +59,7 @@ export function TopHeaderBar() {
       {/* Environment & VCS Branch Pills */}
       <div className="flex items-center gap-3 shrink-0 font-mono text-[11px]">
         <span className="flex items-center gap-1 bg-[#121214] border border-zinc-800 px-2.5 py-1 rounded-lg text-zinc-300">
-          <GitBranch className="w-3 h-3 text-blue-300" />
+          <GitBranch className="w-3 h-3 text-zinc-100" />
           <span className="font-bold text-zinc-200">main</span>
         </span>
 

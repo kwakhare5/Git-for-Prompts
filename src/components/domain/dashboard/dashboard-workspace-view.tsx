@@ -161,7 +161,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                     {prompt.description || '—'}
                   </td>
                   <td className="p-4 font-mono">
-                    <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded text-[11px] font-bold">
+                    <span className="bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-2 py-0.5 rounded text-[11px] font-bold">
                       v{prompt.versionCount}
                     </span>
                   </td>
@@ -188,7 +188,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                   <td className="p-4 pr-5 text-right space-x-3 font-mono text-[11px]">
                     <Link
                       href={`/dashboard/prompts/${prompt.id}`}
-                      className="text-blue-300 hover:text-blue-200 font-bold transition-colors"
+                      className="text-zinc-100 hover:text-white font-bold transition-colors"
                     >
                       Open Studio
                     </Link>
@@ -232,7 +232,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                   >
                     {prompt.name}
                   </Link>
-                  <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 px-2 py-0.5 rounded text-[11px] font-bold shrink-0">
+                  <span className="bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-2 py-0.5 rounded text-[11px] font-bold shrink-0">
                     v{prompt.versionCount}
                   </span>
                 </div>
@@ -388,7 +388,7 @@ export function DashboardWorkspaceView({
           <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">
             Workspace Tools
           </div>
-          <div className="flex items-center gap-2 text-blue-300 bg-blue-500/10 border border-blue-500/20 px-3 py-2 rounded-xl font-bold">
+          <div className="flex items-center gap-2 text-zinc-100 bg-zinc-100/10 border border-zinc-700/80 px-3 py-2 rounded-xl font-bold">
             <span>⚡ Bundle Editor</span>
           </div>
           <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
@@ -431,19 +431,19 @@ export function DashboardWorkspaceView({
         <div className="flex items-center gap-6 border-b border-zinc-800/90 text-xs font-mono pb-2.5">
           <button
             onClick={() => setActiveTab('editor')}
-            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'editor' ? 'text-blue-300 border-b-2 border-blue-300' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'editor' ? 'text-zinc-100 border-b-2 border-zinc-100' : 'text-zinc-400 hover:text-zinc-200'}`}
           >
             Bundle Editor
           </button>
           <button
             onClick={() => setActiveTab('diff')}
-            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'diff' ? 'text-blue-300 border-b-2 border-blue-300' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'diff' ? 'text-zinc-100 border-b-2 border-zinc-100' : 'text-zinc-400 hover:text-zinc-200'}`}
           >
             Diff Viewer (v2 → v3)
           </button>
           <button
             onClick={() => setActiveTab('evals')}
-            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'evals' ? 'text-blue-300 border-b-2 border-blue-300' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`pb-2.5 -mb-2.5 font-bold cursor-pointer transition-colors ${activeTab === 'evals' ? 'text-zinc-100 border-b-2 border-zinc-100' : 'text-zinc-400 hover:text-zinc-200'}`}
           >
             Local Evals (100% pass)
           </button>

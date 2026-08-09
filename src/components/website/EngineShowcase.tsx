@@ -8,7 +8,7 @@ export function EngineShowcase() {
       {/* 4-Grid Engine Section */}
       <section id="features" className="px-6 max-w-6xl mx-auto mb-28">
         <div className="text-center max-w-3xl mx-auto mb-16 font-sans">
-          <span className="text-xs font-mono font-bold tracking-widest text-blue-300 uppercase block mb-3">THE GFP ENGINE</span>
+          <span className="text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-3">THE GFP ENGINE</span>
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 font-serif mb-4">
             Built for software engineers, not prompt guessers
           </h2>
@@ -20,7 +20,7 @@ export function EngineShowcase() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
           
           <div className="bg-[#161619] p-8 rounded-2xl border border-zinc-800/80 shadow-2xs hover:border-zinc-700 hover:shadow-md transition-all">
-            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-blue-300 flex items-center justify-center font-mono font-bold mb-4 text-base">
+            <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 text-zinc-100 flex items-center justify-center font-mono font-bold mb-4 text-base">
               01
             </div>
             <h3 className="text-xl font-bold text-zinc-100 mb-2 font-mono">Immutable Append-Only Snapshots</h3>

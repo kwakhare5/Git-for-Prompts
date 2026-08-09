@@ -49,7 +49,7 @@ export default function SignInPage() {
               <span className="font-bold text-lg tracking-tight text-zinc-100">
                 Git for Prompts
               </span>
-              <span className="text-[10px] font-bold bg-blue-500/10 text-blue-300 px-2 py-0.5 rounded-md border border-blue-500/20">
+              <span className="text-[10px] font-bold bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-700/80">
                 LOCAL-FIRST VCS
               </span>
             </div>

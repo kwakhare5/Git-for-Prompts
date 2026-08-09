@@ -2,17 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { CliCopyButton, BadgePastel } from './ui-tokens';
+import { CliCopyButton } from './ui-tokens';
 
 export function HeroSection() {
   return (
     <section className="pt-16 pb-8 px-6 max-w-4xl mx-auto text-center">
       
       {/* Kicker Badge */}
-      <BadgePastel variant="blue" className="mb-6 font-mono">
-        <span className="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>
+      <div className="inline-flex items-center gap-2 mb-6 font-mono text-xs font-bold bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-3 py-1 rounded-full shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-zinc-100 animate-pulse"></span>
         100% OPEN SOURCE PROMPT VERSION CONTROL
-      </BadgePastel>
+      </div>
 
       {/* Hero Title */}
       <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-100 leading-[1.08] mb-6 font-serif">

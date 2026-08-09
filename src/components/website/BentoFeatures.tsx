@@ -55,7 +55,7 @@ export function BentoFeatures() {
       <section className="border-y border-zinc-800/80 bg-[#161619] py-14 px-6 mb-28">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
-            <div className="text-4xl md:text-5xl font-black tracking-tight text-blue-300 font-mono mb-1">100%</div>
+            <div className="text-4xl md:text-5xl font-black tracking-tight text-zinc-100 font-mono mb-1">100%</div>
             <div className="text-xs font-medium text-zinc-400 font-sans">Offline & Local First</div>
           </div>
           <div>
@@ -87,9 +87,9 @@ export function BentoFeatures() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          <div className="bg-[#161619] p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-blue-400/40 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-200">
+          <div className="bg-[#161619] p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-zinc-700 hover:shadow-lg transition-all duration-200">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#1D1D22] text-blue-300 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[#1D1D22] text-zinc-100 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
                 01
               </div>
               <h3 className="font-bold text-zinc-100 text-lg mb-2 font-mono">gfp init</h3>
@@ -97,7 +97,7 @@ export function BentoFeatures() {
                 Initialize zero-dependency Wasm SQLite engine locally in your repo.
               </p>
             </div>
-            <span className="text-xs font-mono font-bold text-blue-300 flex items-center gap-1">
+            <span className="text-xs font-mono font-bold text-zinc-300 flex items-center gap-1">
               Local DB Setup →
             </span>
           </div>
