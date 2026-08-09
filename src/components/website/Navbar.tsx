@@ -8,8 +8,12 @@ import { GithubIcon } from './ui-tokens';
 export function Navbar({ userId }: { userId?: string | null }) {
   const pathname = usePathname();
 
-  // Hide landing floating navbar when inside the full-screen dashboard app
-  if (pathname?.startsWith('/dashboard')) {
+  // Hide landing floating navbar when inside the full-screen dashboard app or auth pages
+  if (
+    pathname?.startsWith('/dashboard') ||
+    pathname?.startsWith('/sign-in') ||
+    pathname?.startsWith('/sign-up')
+  ) {
     return null;
   }
 
@@ -71,7 +75,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
             </Link>
           ) : (
             <Link
-              href="/dashboard"
+              href="/sign-in"
               className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs transition-all active:scale-97 flex items-center justify-center"
             >
               Get Started

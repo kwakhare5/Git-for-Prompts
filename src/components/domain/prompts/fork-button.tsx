@@ -25,7 +25,12 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
         const forked = await forkPrompt(promptId);
         router.push(`/dashboard/prompts/${forked.id}`);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Fork failed');
+        const msg = err instanceof Error ? err.message : 'Fork failed';
+        if (msg === 'Unauthorized') {
+          router.push('/sign-in');
+        } else {
+          setError(msg);
+        }
       }
     });
   }

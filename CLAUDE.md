@@ -131,21 +131,33 @@ Every prompt save = INSERT new row. Never UPDATE. Read latest via `orderBy(desc(
 
 ## 7. SESSION RESUME
 
-**Last session date:** 2026-08-08
+**Last session date:** 2026-08-09
 
-**What we accomplished (Codebase Cleanup & Linter Optimization):**
-- **Dead Code Cleanup:** Deleted 8 unused files and pruned unused components and type exports, bringing codebase to a clean, scan-verified state.
-- **Unused Dependencies Purge:** Removed 8 unused packages and 1 dev package from `package.json`, and updated `pnpm-lock.yaml`.
-- **Linter & Hydration Fixes:** Fixed all 3 ESLint errors (unescaped quotes, setState in useEffect) and 10 linter warnings (unused imports, static SVG warnings).
-- **Verification:** All checks pass with 0 warnings/errors (typecheck, linter, 88/88 tests, Next.js build).
+**What we accomplished (Copywriting & Navigation Overhaul):**
+- **Explicit Back Navigation:** Renamed `← {prompt.name}` to **`← Back to Studio ({prompt.name})`** across all prompt sub-pages (`edit`, `diff`, `compare`, `tests`).
+- **Hero & Engine Copy:** Updated landing page headline to *"Git for your AI prompt bundles"*, subtitle to specific developer benefits, and CTA button to *"Open Cloud Dashboard →"*.
+- **Dashboard Table Action Verbs:** Standardized prompt table actions to explicit verbs: `Open Studio`, `Edit Bundle`, `View Diff`, `Run Evals`.
+- **Verification:** All checks pass (0 type errors, 0 ESLint errors, 88/88 Vitest tests).
 
 **Immediate next task:**
-- Ready for new feature work or further improvements.
+- Ready for next user instruction or feature task.
 
 **Open blockers:**
 - None.
 
 **Files most recently changed:**
+- `src/app/(dashboard)/dashboard/prompts/[id]/edit/page.tsx`
+- `src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx`
+- `src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx`
+- `src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx`
+- `src/components/website/HeroSection.tsx`
+- `src/components/website/EngineShowcase.tsx`
+- `src/components/domain/dashboard/dashboard-workspace-view.tsx`
+- `CLAUDE.md`
+
+
+
+
 
 
 

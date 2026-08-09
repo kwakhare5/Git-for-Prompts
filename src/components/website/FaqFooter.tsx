@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { GithubIcon } from './ui-tokens';
 
 export function FaqFooter() {
@@ -74,12 +75,12 @@ export function FaqFooter() {
           <p className="text-zinc-400 text-xs max-w-md mx-auto mb-8 font-sans">
             Run `$ npx gfp init` inside any repository. Immutable history, offline SQLite, zero setup.
           </p>
-          <a 
-            href="#cli"
+          <Link 
+            href="/sign-in"
             className="inline-block bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-6 py-3 rounded-xl active:scale-97 transition-all cursor-pointer"
           >
             Get Started Free →
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -104,20 +105,20 @@ export function FaqFooter() {
           <div>
             <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">CORE ARCHITECTURE</h5>
             <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">packages/core</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">packages/cli</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Next.js Cloud App</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Bundle Zod Spec</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/core" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/core</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/cli" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/cli</a></li>
+              <li><Link href="/explore" className="hover:text-zinc-200 transition-colors">Public Explore Gallery</Link></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Bundle Zod Spec</a></li>
             </ul>
           </div>
 
           <div>
             <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">DOCUMENTATION</h5>
             <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">CLI Commands</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Wasm SQLite Engine</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Eval Runner</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Webhooks API</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">CLI Commands</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Wasm SQLite Engine</a></li>
+              <li><Link href="/dashboard/api-keys" className="hover:text-zinc-200 transition-colors">API Keys API</Link></li>
+              <li><Link href="/dashboard/webhooks" className="hover:text-zinc-200 transition-colors">Webhooks API</Link></li>
             </ul>
           </div>
 
@@ -128,8 +129,8 @@ export function FaqFooter() {
                 <GithubIcon className="w-3.5 h-3.5" />
                 <a href="https://github.com/kwakhare5/Git-for-Prompts" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">GitHub Repository</a>
               </li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Contribute</a></li>
-              <li><a href="#" className="hover:text-zinc-200 transition-colors">Security Policy</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Contribute</a></li>
+              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Security & License</a></li>
             </ul>
           </div>
 

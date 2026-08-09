@@ -66,9 +66,10 @@ export default async function TestsPage({
         <div className="flex items-center gap-3 min-w-0 font-mono">
           <Link
             href={`/dashboard/prompts/${id}`}
-            className="text-xs font-bold text-zinc-400 hover:text-zinc-100 transition-colors shrink-0"
+            className="text-xs font-bold text-zinc-400 hover:text-zinc-100 transition-colors shrink-0 flex items-center gap-1"
           >
-            ← {prompt.name}
+            <span>←</span>
+            <span>Back to Studio ({prompt.name})</span>
           </Link>
           <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
           <h1 className="text-xl font-bold text-zinc-100">Test Suite & Evals</h1>

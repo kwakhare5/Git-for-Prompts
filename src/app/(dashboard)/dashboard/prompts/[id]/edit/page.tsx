@@ -59,10 +59,11 @@ export default async function EditPromptPage({
         <div className="flex items-center gap-3">
           <Link
             href={`/dashboard/prompts/${id}`}
-            className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors"
-            aria-label="Back to prompt"
+            className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors flex items-center gap-1"
+            aria-label="Back to Studio"
           >
-            ← {prompt.name}
+            <span>←</span>
+            <span>Back to Studio ({prompt.name})</span>
           </Link>
           <div className="h-4 w-px bg-zinc-800" aria-hidden="true" />
           <div>

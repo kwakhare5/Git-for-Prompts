@@ -190,25 +190,25 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                       href={`/dashboard/prompts/${prompt.id}`}
                       className="text-blue-300 hover:text-blue-200 font-bold transition-colors"
                     >
-                      Studio
+                      Open Studio
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/edit`}
                       className="text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
-                      Edit
+                      Edit Bundle
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/diff`}
                       className="text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
-                      Diff
+                      View Diff
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/tests`}
                       className="text-emerald-300 hover:text-emerald-200 transition-colors"
                     >
-                      Evals
+                      Run Evals
                     </Link>
                   </td>
                 </tr>
@@ -391,13 +391,13 @@ export function DashboardWorkspaceView({
           <div className="flex items-center gap-2 text-blue-300 bg-blue-500/10 border border-blue-500/20 px-3 py-2 rounded-xl font-bold">
             <span>⚡ Bundle Editor</span>
           </div>
-          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '#'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
             <span>📜 Commit History</span>
           </Link>
-          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/tests` : '#'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/tests` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
             <span>🧪 Test Suite & Evals</span>
           </Link>
-          <Link href={!isDemo ? '/dashboard/api-keys' : '#'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+          <Link href={!isDemo ? '/dashboard/api-keys' : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
             <span>🔑 API Key Credentials</span>
           </Link>
         </div>

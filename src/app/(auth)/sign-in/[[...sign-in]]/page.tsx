@@ -33,32 +33,66 @@ function GoogleIcon() {
 export default function SignInPage() {
   if (!hasClerkKeys) {
     return (
-      <div className="w-full max-w-md mx-auto p-6 rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-2xl font-sans">
-        <div className="space-y-1.5 text-center mb-6">
-          <h1 className="text-xl font-bold text-zinc-100 font-mono">
-            Sign in to Git for Prompts
-          </h1>
-          <p className="text-xs text-zinc-400">
-            Enter your credentials to access your prompt bundles.
-          </p>
+      <div className="w-full max-w-md mx-auto p-8 rounded-3xl border border-zinc-800/90 bg-[#161619] shadow-2xl font-sans space-y-6">
+        {/* Embedded Logo Header */}
+        <div className="flex flex-col items-center text-center space-y-3 font-mono">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.svg"
+              alt="Git for Prompts Logo"
+              width={36}
+              height={36}
+              className="w-9 h-9 rounded-xl shrink-0 shadow-md group-hover:scale-105 transition-transform"
+            />
+            <div className="flex items-center gap-2 font-mono">
+              <span className="font-bold text-lg tracking-tight text-zinc-100">
+                Git for Prompts
+              </span>
+              <span className="text-[10px] font-bold bg-blue-500/10 text-blue-300 px-2 py-0.5 rounded-md border border-blue-500/20">
+                LOCAL-FIRST VCS
+              </span>
+            </div>
+          </Link>
+          <div className="space-y-1 pt-1">
+            <h1 className="text-xl font-bold text-zinc-100 font-mono tracking-tight">
+              Sign in to Git for Prompts
+            </h1>
+            <p className="text-xs text-zinc-400 font-sans max-w-xs mx-auto leading-relaxed">
+              Local-first prompt package manager for AI engineering.
+            </p>
+          </div>
         </div>
 
         <div className="space-y-4">
+          <Link href="/dashboard" className="w-full block">
+            <button className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+              <GoogleIcon />
+              Continue with Google
+            </button>
+          </Link>
+
+          <div className="relative my-2 text-center text-[11px] text-zinc-500 font-mono flex items-center gap-3">
+            <div className="h-px bg-zinc-800 flex-1" />
+            <span>Or email</span>
+            <div className="h-px bg-zinc-800 flex-1" />
+          </div>
+
           <div className="space-y-1.5 text-left">
-            <label htmlFor="email" className="text-xs font-mono font-bold text-zinc-300 block">Work Email</label>
+            <label htmlFor="email" className="text-xs font-mono font-bold text-zinc-300 block">Email</label>
             <input
               id="email"
               type="email"
-              placeholder="developer@company.com"
+              placeholder="developer@example.com"
               defaultValue="developer@gitforprompts.com"
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600"
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
             />
           </div>
 
           <div className="space-y-1.5 text-left">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-xs font-mono font-bold text-zinc-300 block">Password</label>
-              <span className="text-xs text-zinc-500 hover:text-zinc-300 cursor-pointer">
+              <span className="text-xs text-zinc-500 hover:text-zinc-300 cursor-pointer font-mono">
                 Forgot password?
               </span>
             </div>
@@ -66,25 +100,14 @@ export default function SignInPage() {
               id="password"
               type="password"
               defaultValue="••••••••••••"
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600"
+              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
             />
           </div>
 
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#202024] hover:bg-[#28282D] text-zinc-100 border border-zinc-700/80 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
               <span>Enter Workspace</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </Link>
-
-          <div className="relative my-2 text-center text-[11px] text-zinc-500 font-mono">
-            Or continue with
-          </div>
-
-          <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center px-4 py-2.5 border border-zinc-700/80 rounded-xl text-xs text-zinc-200 hover:text-white bg-[#202024] hover:bg-[#28282D] font-mono font-semibold transition-all cursor-pointer">
-              <GoogleIcon />
-              Continue with Google
+              <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>
           </Link>
 
