@@ -9,7 +9,7 @@ export function HeroSection() {
     <section className="pt-16 pb-8 px-6 max-w-4xl mx-auto text-center">
       
       {/* Kicker Badge */}
-      <div className="inline-flex items-center gap-2 mb-6 font-mono text-xs font-bold bg-zinc-800/40 text-zinc-300 border border-zinc-700/50 px-3.5 py-1 rounded-full shadow-xs">
+      <div className="inline-flex items-center gap-2 mb-6 font-mono text-xs font-bold bg-zinc-800/40 text-zinc-300 border border-zinc-800/50 px-3.5 py-1 rounded-full shadow-xs">
         <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-pulse"></span>
         100% OPEN SOURCE PROMPT VERSION CONTROL
       </div>

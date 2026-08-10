@@ -49,7 +49,7 @@ export function CardDark({ children, className = "" }: { children: React.ReactNo
 
 export function PanelElevated({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-bg-panel border border-zinc-700/80 rounded-xl p-4 ${className}`}>
+    <div className={`bg-bg-panel border border-zinc-800 rounded-xl p-4 ${className}`}>
       {children}
     </div>
   );
@@ -57,7 +57,7 @@ export function PanelElevated({ children, className = "" }: { children: React.Re
 
 export function BadgeVersion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
+    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
       {children}
     </span>
   );
@@ -103,7 +103,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
 {/* Muted Pastel Badge Kicker */}
 export function BadgePastel({ children, variant = "blue", className = "" }: { children: React.ReactNode; variant?: "blue" | "green" | "yellow" | "rose"; className?: string }) {
   const variantStyles = {
-    blue: "bg-zinc-100/10 border-zinc-700/80 text-zinc-100",
+    blue: "bg-zinc-100/10 border-zinc-800 text-zinc-100",
     green: "bg-emerald-500/10 border-emerald-500/20 text-emerald-300",
     yellow: "bg-amber-500/10 border-amber-500/20 text-amber-300",
     rose: "bg-rose-500/10 border-rose-500/20 text-rose-300",
@@ -135,7 +135,7 @@ export function Tooltip({ text, children, position = "right" }: { text: string; 
     >
       {children}
       <div
-        className={`absolute z-50 px-2.5 py-1 rounded-lg bg-[#202024] border border-zinc-700/80 text-zinc-100 font-mono text-[11px] font-medium shadow-xl whitespace-nowrap pointer-events-none transition-all duration-150 ease-out ${
+        className={`absolute z-50 px-2.5 py-1 rounded-lg bg-bg-panel border border-zinc-800 text-zinc-100 font-mono text-[11px] font-medium shadow-xl whitespace-nowrap pointer-events-none transition-all duration-150 ease-out ${
           positionStyles[position]
         } ${visible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
       >

@@ -135,7 +135,7 @@ export function PromptEditor({
               >
                 {copied ? '✓ Copied' : 'Copy Text'}
               </button>
-              <span className="text-[10px] font-mono font-bold text-zinc-400 bg-[#202024] border border-zinc-700/60 px-2 py-0.5 rounded">read-only</span>
+              <span className="text-[10px] font-mono font-bold text-zinc-400 bg-bg-panel border border-zinc-800/60 px-2 py-0.5 rounded">read-only</span>
             </div>
           </div>
           <div role="region" aria-label="Prompt content (read-only)">
@@ -224,7 +224,7 @@ export function PromptEditor({
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="flex-1 h-8 text-xs bg-bg-panel border border-zinc-700/60 rounded-lg px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
+              className="flex-1 h-8 text-xs bg-bg-panel border border-zinc-800/60 rounded-lg px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
             <div className="flex items-center gap-2 shrink-0">
               <button

@@ -114,7 +114,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
             <button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="px-3.5 py-2 border border-zinc-700/80 rounded-xl text-xs font-mono font-bold bg-[#202024] hover:bg-[#28282D] text-zinc-200 flex items-center gap-1.5 active:scale-97 transition-all cursor-pointer"
+              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-zinc-700 text-zinc-200 flex items-center gap-1.5 active:scale-97 transition-all cursor-pointer"
             >
               {copied ? <Check className="h-3.5 w-3.5 text-emerald-300" /> : <Copy className="h-3.5 w-3.5 text-zinc-400" />}
               {copied ? 'Copied' : 'Copy Key'}

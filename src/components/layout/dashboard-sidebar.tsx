@@ -73,7 +73,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-7 h-7 rounded-lg bg-[#202024] hover:bg-[#28282D] border border-zinc-700/80 text-zinc-400 hover:text-zinc-100 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+            className="w-7 h-7 rounded-lg bg-bg-panel hover:bg-zinc-700 border border-zinc-800 text-zinc-400 hover:text-zinc-100 flex items-center justify-center transition-colors cursor-pointer shrink-0"
             title={isCollapsed ? 'Expand Sidebar (⌘B)' : 'Collapse Sidebar (⌘B)'}
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4 text-blue-300" /> : <ChevronLeft className="w-4 h-4" />}
@@ -92,7 +92,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-semibold ${
                   isActive
-                    ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 shadow-xs'
+                    ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-800 shadow-xs'
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
                 } ${isCollapsed ? 'justify-center' : ''}`}
               >
@@ -178,7 +178,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
             {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
               <UserButton />
             ) : (
-              <div className="w-7 h-7 rounded-lg bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 font-bold text-xs flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-zinc-100/10 text-zinc-100 border border-zinc-800 font-bold text-xs flex items-center justify-center shrink-0">
                 DEV
               </div>
             )}

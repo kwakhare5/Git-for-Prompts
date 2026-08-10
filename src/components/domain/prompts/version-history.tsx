@@ -73,7 +73,7 @@ export function VersionHistory({
             className={`rounded-xl border p-3.5 font-sans transition-all ${
               isActive 
                 ? 'bg-bg-panel border-zinc-600 shadow-sm' 
-                : 'bg-bg-page border-zinc-800/80 hover:border-zinc-700/80'
+                : 'bg-bg-page border-zinc-800/80 hover:border-zinc-800'
             }`}
           >
             <div
@@ -81,7 +81,7 @@ export function VersionHistory({
               className="cursor-pointer space-y-1.5"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-bold bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 px-2 py-0.5 rounded-md">
+                <span className="font-mono text-xs font-bold bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded-md">
                   v{v.versionNumber}
                 </span>
                 <span className="text-[11px] font-mono text-zinc-500">
@@ -95,7 +95,7 @@ export function VersionHistory({
                 const bundle = v.bundle as unknown as PromptBundle;
                 const label = `${bundle.modelConfig?.provider ?? ''}/${bundle.modelConfig?.model ?? ''}`;
                 return label !== '/' ? (
-                  <span className="text-[10px] font-mono text-zinc-400 bg-[#202024] border border-zinc-700/60 px-2 py-0.5 rounded inline-block">
+                  <span className="text-[10px] font-mono text-zinc-400 bg-bg-panel border border-zinc-800/60 px-2 py-0.5 rounded inline-block">
                     {label}
                   </span>
                 ) : null;

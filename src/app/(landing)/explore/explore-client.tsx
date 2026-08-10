@@ -55,7 +55,7 @@ export function ExploreClient({ publicPrompts }: { publicPrompts: PublicPrompt[]
           {filtered.map((prompt) => (
             <div
               key={prompt.id}
-              className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-4 shadow-xl flex flex-col justify-between hover:border-zinc-700/80 transition-all group"
+              className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-4 shadow-xl flex flex-col justify-between hover:border-zinc-800 transition-all group"
             >
               <div className="space-y-3 font-mono">
                 <div className="flex items-start justify-between gap-3">
@@ -81,7 +81,7 @@ export function ExploreClient({ publicPrompts }: { publicPrompts: PublicPrompt[]
 
                 {/* Model & Evals Pills */}
                 <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
-                  <span className="bg-[#202024] text-zinc-300 border border-zinc-700/60 px-2.5 py-1 rounded-lg">
+                  <span className="bg-bg-panel text-zinc-300 border border-zinc-800/60 px-2.5 py-1 rounded-lg">
                     ⚡ {prompt.modelConfig.provider ?? 'groq'}/{prompt.modelConfig.model ?? 'llama-3.3-70b'}
                   </span>
                   {prompt.testsTotal > 0 && (

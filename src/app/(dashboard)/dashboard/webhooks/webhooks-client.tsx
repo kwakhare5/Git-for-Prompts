@@ -74,7 +74,7 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
             </code>
             <button
               onClick={() => navigator.clipboard.writeText(newSecret)}
-              className="px-3.5 py-2 border border-zinc-700/80 rounded-xl text-xs font-mono font-bold bg-[#202024] hover:bg-[#28282D] text-zinc-200 cursor-pointer"
+              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-zinc-700 text-zinc-200 cursor-pointer"
             >
               Copy Secret
             </button>
