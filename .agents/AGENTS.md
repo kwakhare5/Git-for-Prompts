@@ -109,18 +109,25 @@ _AI appends here after every VERIFY failure. Never repeat these._
 
 _AI fills at END of every session. Read at START of next session._
 
-**Last session date:** [YYYY-MM-DD]
+**Last session date:** 2026-08-10
 
 **What we built / changed:**
-
-- [New session]
+- **Spotify-style Neutral Dark Theme**: Migrated CSS variables to a warm-neutral, zero-color-cast dark theme (Page background: `#121212`, Level 1 Cards: `#1c1c1c`, Level 2 Panels: `#282828`, Borders: `#333333`), completely avoiding pitch black and cool/bluish-slate tones.
+- **Bento Symmetry**: Restructured the Bento comparison grid in `BentoFeatures.tsx` to style both "WITHOUT GFP" and "WITH GFP" as symmetrical card panels with corresponding red/green borders, solving layout imbalances.
+- **Mockup Contrast Refinements**: Applied elevated `bg-bg-panel` backgrounds inside Mockups (Terminal diff, step indicator circles, logo wrapper, and prompt studio evaluation rows) for clean contrast.
+- **Badge Refinements**: Styled the kicker badge and GitHub Star link in the navbar to be a subtle monochrome/zinc style.
 
 **Immediate next task:**
-[What to pick up next]
+- Ready for next user instructions.
 
 **Open blockers:**
-[None]
+- None.
 
 **Files most recently changed:**
-
-- [None]
+- `src/app/globals.css`
+- `src/components/website/BentoFeatures.tsx`
+- `src/components/website/EngineShowcase.tsx`
+- `src/components/website/PromptStudioShowcase.tsx`
+- `src/components/website/FaqFooter.tsx`
+- `src/components/website/Navbar.tsx`
+- `src/components/website/HeroSection.tsx`
