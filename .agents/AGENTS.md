@@ -113,6 +113,7 @@ _AI fills at END of every session. Read at START of next session._
 
 **What we built / changed:**
 - **Spotify-style Neutral Dark Theme**: Migrated CSS variables to a warm-neutral, zero-color-cast dark theme (Page background: `#121212`, Level 1 Cards: `#1c1c1c`, Level 2 Panels: `#282828`, Borders: `#333333`), completely avoiding pitch black and cool/bluish-slate tones.
+- **Button & Component Color Harmonization**: Identified and purged legacy hardcoded bluish-slate backgrounds (`bg-[#202024]` and hover state `hover:bg-[#28282D]`) on buttons, inputs, select selectors, and toggle buttons across 18 files. Harmonized secondary buttons, input containers, sidebars, and workspace tables to use neutral `bg-bg-panel` and `hover:bg-zinc-700` colors.
 - **Bento Symmetry**: Restructured the Bento comparison grid in `BentoFeatures.tsx` to style both "WITHOUT GFP" and "WITH GFP" as symmetrical card panels with corresponding red/green borders, solving layout imbalances.
 - **Mockup Contrast Refinements**: Applied elevated `bg-bg-panel` backgrounds inside Mockups (Terminal diff, step indicator circles, logo wrapper, and prompt studio evaluation rows) for clean contrast.
 - **Badge Refinements**: Styled the kicker badge and GitHub Star link in the navbar to be a subtle monochrome/zinc style.
