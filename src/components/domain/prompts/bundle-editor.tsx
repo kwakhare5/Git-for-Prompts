@@ -73,8 +73,8 @@ export function BundleEditor({
 
   return (
     <div className="flex flex-col gap-3 font-sans">
-      <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-xl overflow-hidden">
-        <div className="flex flex-col sm:flex-row items-center justify-between bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5 gap-3 font-mono text-xs">
+      <div className="rounded-2xl border border-zinc-800/90 bg-bg-card shadow-xl overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-center justify-between bg-bg-page border-b border-zinc-800/90 px-4 py-2.5 gap-3 font-mono text-xs">
           <div className="flex items-center gap-1.5">
             {(['prompt', 'model', 'variables'] as Tab[]).map((tab) => (
               <button
@@ -85,7 +85,7 @@ export function BundleEditor({
                 className={`px-3 py-1.5 text-xs capitalize rounded-xl font-bold transition-all cursor-pointer ${
                   activeTab === tab 
                     ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' 
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
                 }`}
               >
                 {tab}
@@ -106,7 +106,7 @@ export function BundleEditor({
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="flex-1 sm:w-64 h-8 text-xs bg-[#1D1D22] border border-zinc-700/60 rounded-xl px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
+              className="flex-1 sm:w-64 h-8 text-xs bg-bg-panel border border-zinc-700/60 rounded-xl px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
             <button
               id="bundle-editor-save-btn"

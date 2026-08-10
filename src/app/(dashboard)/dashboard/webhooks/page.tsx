@@ -29,10 +29,10 @@ export default async function WebhooksPage() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
         <WebhooksClient webhooks={existingWebhooks} />
 
-        <aside className="space-y-4 text-xs bg-[#161619] p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
+        <aside className="space-y-4 text-xs bg-bg-card p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
           <div className="space-y-2">
             <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">Payload Structure</h2>
-            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+            <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
 {`POST /your-webhook-endpoint
 Content-Type: application/json
 X-GFP-Signature: sha256=<hmac>

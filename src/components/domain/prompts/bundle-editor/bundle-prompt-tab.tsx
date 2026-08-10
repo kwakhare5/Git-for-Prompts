@@ -24,10 +24,10 @@ interface BundlePromptTabProps {
 
 export function BundlePromptTab({ bundle, onChange, height = '340px' }: BundlePromptTabProps) {
   return (
-    <div className="flex flex-col divide-y divide-zinc-800/90 font-sans bg-[#161619]">
+    <div className="flex flex-col divide-y divide-zinc-800/90 font-sans bg-bg-card">
       {/* System prompt */}
       <div>
-        <div className="flex items-center gap-2.5 px-4 py-2.5 bg-[#1D1D22] border-b border-zinc-800/90 font-mono">
+        <div className="flex items-center gap-2.5 px-4 py-2.5 bg-bg-panel border-b border-zinc-800/90 font-mono">
           <span className="text-xs font-bold uppercase tracking-wider text-zinc-100">System Prompt</span>
           <span className="text-[11px] text-zinc-400 font-sans">· Sets AI persona, behavior & core rules</span>
         </div>
@@ -63,7 +63,7 @@ export function BundlePromptTab({ bundle, onChange, height = '340px' }: BundlePr
 
       {/* User template */}
       <div>
-        <div className="flex items-center gap-2.5 px-4 py-2.5 bg-[#1D1D22] border-b border-zinc-800/90 font-mono">
+        <div className="flex items-center gap-2.5 px-4 py-2.5 bg-bg-panel border-b border-zinc-800/90 font-mono">
           <span className="text-xs font-bold uppercase tracking-wider text-zinc-100">User Template</span>
           <span className="text-[11px] text-blue-300 font-mono font-semibold">· Supports {'{{variable}}'} interpolation</span>
         </div>

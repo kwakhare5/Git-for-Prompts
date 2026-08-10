@@ -31,7 +31,7 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
   const currentModels = DEFAULT_MODELS[bundle.modelConfig.provider] ?? [];
 
   return (
-    <div className="p-6 flex flex-col gap-6 font-sans bg-[#161619]" style={{ minHeight }}>
+    <div className="p-6 flex flex-col gap-6 font-sans bg-bg-card" style={{ minHeight }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-xl font-mono text-xs">
         {/* Provider */}
         <div className="flex flex-col gap-1.5 font-sans">
@@ -47,10 +47,10 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
               const models = DEFAULT_MODELS[provider] ?? [];
               if (models.length > 0) onUpdateModelConfig('model', models[0]);
             }}
-            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 bg-[#121214] font-mono outline-none focus:border-zinc-600 cursor-pointer"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 bg-bg-page font-mono outline-none focus:border-zinc-600 cursor-pointer"
           >
             {PROVIDERS.map((p) => (
-              <option key={p.value} value={p.value} className="bg-[#161619] text-zinc-100">
+              <option key={p.value} value={p.value} className="bg-bg-card text-zinc-100">
                 {p.label}
               </option>
             ))}
@@ -69,7 +69,7 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
             onChange={(e) => onUpdateModelConfig('model', e.target.value)}
             list="bundle-model-suggestions"
             placeholder="e.g. llama-3.3-70b-versatile"
-            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-[#121214] outline-none focus:border-zinc-600"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-bg-page outline-none focus:border-zinc-600"
           />
           <datalist id="bundle-model-suggestions">
             {currentModels.map((m) => (
@@ -92,7 +92,7 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
             step="0.05"
             value={bundle.modelConfig.temperature ?? 0.7}
             onChange={(e) => onUpdateModelConfig('temperature', parseFloat(e.target.value))}
-            className="w-full accent-blue-500 bg-[#121214] cursor-pointer"
+            className="w-full accent-blue-500 bg-bg-page cursor-pointer"
           />
           <div className="flex justify-between text-[11px] text-zinc-500 font-mono">
             <span>0 · Deterministic</span>
@@ -113,12 +113,12 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
             step="256"
             value={bundle.modelConfig.maxTokens ?? 1024}
             onChange={(e) => onUpdateModelConfig('maxTokens', parseInt(e.target.value, 10))}
-            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-[#121214] outline-none focus:border-zinc-600"
+            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-mono text-zinc-100 bg-bg-page outline-none focus:border-zinc-600"
           />
         </div>
       </div>
 
-      <div className="p-4 rounded-xl bg-[#121214] border border-zinc-800 font-mono text-xs text-zinc-300 max-w-xl flex items-center gap-3">
+      <div className="p-4 rounded-xl bg-bg-page border border-zinc-800 font-mono text-xs text-zinc-300 max-w-xl flex items-center gap-3">
         <span className="text-zinc-500">Config Header:</span>
         <span className="font-bold text-blue-300">{bundle.modelConfig.provider}/{bundle.modelConfig.model}</span>
         <span className="text-zinc-400">· temp={bundle.modelConfig.temperature ?? 0.7}</span>

@@ -56,7 +56,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${plusJakartaSans.variable}`}>
-      <body className="min-h-screen bg-[#121214] text-zinc-100 font-sans selection:bg-zinc-100/20 selection:text-zinc-100">
+      <body className="min-h-screen bg-bg-page text-zinc-100 font-sans selection:bg-zinc-100/20 selection:text-zinc-100">
         {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
           <ClerkProvider>{content}</ClerkProvider>
         ) : (

@@ -52,7 +52,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
   return (
     <div className="space-y-4 font-sans">
       {/* Search, Filter, and View Mode Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 bg-[#161619] border border-zinc-800/90 rounded-2xl shadow-xl">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 bg-bg-card border border-zinc-800/90 rounded-2xl shadow-xl">
         {/* Search input */}
         <div className="relative flex-1 font-mono">
           <input
@@ -60,7 +60,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             placeholder="Search prompt repositories by name or description..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#121214] border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
+            className="w-full bg-bg-page border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
           />
           {searchQuery && (
             <button
@@ -74,7 +74,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
 
         {/* Visibility filters & View toggle */}
         <div className="flex items-center gap-2 shrink-0 font-mono text-xs">
-          <div className="flex items-center bg-[#121214] p-1 rounded-xl border border-zinc-800">
+          <div className="flex items-center bg-bg-page p-1 rounded-xl border border-zinc-800">
             <button
               onClick={() => setVisibilityFilter('all')}
               className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
@@ -108,7 +108,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
           </div>
 
           {/* View mode toggle */}
-          <div className="flex items-center bg-[#121214] p-1 rounded-xl border border-zinc-800">
+          <div className="flex items-center bg-bg-page p-1 rounded-xl border border-zinc-800">
             <button
               onClick={() => setViewMode('table')}
               title="Table View"
@@ -133,13 +133,13 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
 
       {/* Filtered list content */}
       {filteredPrompts.length === 0 ? (
-        <div className="p-8 text-center border border-zinc-800/90 rounded-2xl bg-[#161619] text-zinc-400 font-mono text-xs shadow-xl">
+        <div className="p-8 text-center border border-zinc-800/90 rounded-2xl bg-bg-card text-zinc-400 font-mono text-xs shadow-xl">
           No prompt repositories found matching your filter criteria.
         </div>
       ) : viewMode === 'table' ? (
-        <div className="border border-zinc-800/90 rounded-2xl bg-[#161619] overflow-hidden shadow-xl">
+        <div className="border border-zinc-800/90 rounded-2xl bg-bg-card overflow-hidden shadow-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#1D1D22] border-b border-zinc-800/90 text-zinc-400 font-mono font-bold uppercase tracking-wider text-[10px]">
+            <thead className="bg-bg-panel border-b border-zinc-800/90 text-zinc-400 font-mono font-bold uppercase tracking-wider text-[10px]">
               <tr>
                 <th className="p-4 pl-5">Prompt Name</th>
                 <th className="p-4">Description</th>
@@ -151,7 +151,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             </thead>
             <tbody className="divide-y divide-zinc-800/60 font-sans">
               {filteredPrompts.map((prompt) => (
-                <tr key={prompt.id} className="hover:bg-[#1D1D22]/60 transition-colors">
+                <tr key={prompt.id} className="hover:bg-bg-panel/60 transition-colors">
                   <td className="p-4 pl-5 font-semibold text-zinc-100 font-mono">
                     <Link href={`/dashboard/prompts/${prompt.id}`} className="hover:text-blue-300 transition-colors">
                       {prompt.name}
@@ -222,7 +222,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
           {filteredPrompts.map((prompt) => (
             <div
               key={prompt.id}
-              className="bg-[#161619] border border-zinc-800/90 p-5 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 hover:border-zinc-700/80 transition-all"
+              className="bg-bg-card border border-zinc-800/90 p-5 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 hover:border-zinc-700/80 transition-all"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2 font-mono">
@@ -318,15 +318,15 @@ export function DashboardWorkspaceView({
 
   const workspaceContent = (
     <div className={`grid grid-cols-1 lg:grid-cols-12 text-xs ${isFullScreen ? 'min-h-[calc(100vh-140px)]' : 'min-h-[620px]'}`}>
-      <div className="lg:col-span-3 bg-[#161619] border-r border-zinc-800/90 p-4 space-y-6">
+      <div className="lg:col-span-3 bg-bg-card border-r border-zinc-800/90 p-4 space-y-6">
         <div className="relative font-mono">
           <input
             type="text"
             readOnly={isDemo}
             placeholder="Search prompts..."
-            className="w-full bg-[#121214] border border-zinc-800 rounded-xl px-3.5 py-2 text-zinc-200 text-xs font-mono focus:outline-none placeholder:text-zinc-500 shadow-inner"
+            className="w-full bg-bg-page border border-zinc-800 rounded-xl px-3.5 py-2 text-zinc-200 text-xs font-mono focus:outline-none placeholder:text-zinc-500 shadow-inner"
           />
-          <span className="absolute right-2.5 top-2 text-[10px] font-mono text-zinc-500 bg-[#1D1D22] px-1.5 py-0.5 rounded border border-zinc-800">⌘K</span>
+          <span className="absolute right-2.5 top-2 text-[10px] font-mono text-zinc-500 bg-bg-panel px-1.5 py-0.5 rounded border border-zinc-800">⌘K</span>
         </div>
 
         <div>
@@ -347,8 +347,8 @@ export function DashboardWorkspaceView({
                   onClick={() => setSelectedPromptId(dp.id)}
                   className={`p-2.5 rounded-xl font-medium flex items-center justify-between border cursor-pointer transition-all ${
                     selectedPromptId === dp.id
-                      ? 'bg-[#1D1D22] text-white border-zinc-700/80 shadow-xs'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1D1D22]/60 border-transparent'
+                      ? 'bg-bg-panel text-white border-zinc-700/80 shadow-xs'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-bg-panel/60 border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -359,7 +359,7 @@ export function DashboardWorkspaceView({
                 </div>
               ))
             ) : prompts.length === 0 ? (
-              <div className="p-4 bg-[#121214] rounded-xl border border-zinc-800 text-zinc-500 text-center font-mono">
+              <div className="p-4 bg-bg-page rounded-xl border border-zinc-800 text-zinc-500 text-center font-mono">
                 No repositories yet.
               </div>
             ) : (
@@ -369,8 +369,8 @@ export function DashboardWorkspaceView({
                   onClick={() => setSelectedPromptId(p.id)}
                   className={`p-2.5 rounded-xl font-medium flex items-center justify-between border cursor-pointer transition-all ${
                     selectedPromptId === p.id
-                      ? 'bg-[#1D1D22] text-white border-zinc-700/80 shadow-xs'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#1D1D22]/60 border-transparent'
+                      ? 'bg-bg-panel text-white border-zinc-700/80 shadow-xs'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-bg-panel/60 border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2 min-w-0">
@@ -403,7 +403,7 @@ export function DashboardWorkspaceView({
         </div>
       </div>
 
-      <div className="lg:col-span-6 p-6 space-y-5 bg-[#121214]">
+      <div className="lg:col-span-6 p-6 space-y-5 bg-bg-page">
         <div className="flex items-center justify-between pb-4 border-b border-zinc-800/90">
           <div>
             <h3 className="text-lg font-bold text-zinc-100 font-mono flex items-center gap-2.5">
@@ -459,7 +459,7 @@ export function DashboardWorkspaceView({
                 readOnly={isDemo}
                 rows={4}
                 defaultValue="You are an expert senior code reviewer. Analyze the code snippet for security bugs, performance bottlenecks, and style flaws. Return valid JSON adhering strictly to the schema."
-                className="w-full bg-[#161619] border border-zinc-800 rounded-xl p-3.5 text-zinc-200 text-xs leading-relaxed focus:outline-none font-mono"
+                className="w-full bg-bg-card border border-zinc-800 rounded-xl p-3.5 text-zinc-200 text-xs leading-relaxed focus:outline-none font-mono"
               />
             </div>
 
@@ -468,7 +468,7 @@ export function DashboardWorkspaceView({
                 <span>User Template (Extracted Variables)</span>
                 <span className="text-[9px] text-blue-300 font-mono">Click variable tag to copy</span>
               </label>
-              <div className="bg-[#161619] border border-zinc-800 rounded-xl p-3.5 text-zinc-200 text-xs leading-relaxed">
+              <div className="bg-bg-card border border-zinc-800 rounded-xl p-3.5 text-zinc-200 text-xs leading-relaxed">
                 <p className="text-zinc-400">Review the following code submission:</p>
                 <div className="flex items-center gap-2 mt-2">
                   <button
@@ -492,17 +492,17 @@ export function DashboardWorkspaceView({
               </div>
             </div>
 
-            <div className="p-4 bg-[#161619] rounded-xl border border-zinc-800 text-xs grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-4 bg-bg-card rounded-xl border border-zinc-800 text-xs grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
                 <span className="text-zinc-500 text-[10px] block uppercase tracking-wider mb-1 font-mono">Provider</span>
-                <select className="bg-[#121214] border border-zinc-800 rounded-lg px-2 py-1 text-zinc-100 font-mono text-xs w-full outline-none">
+                <select className="bg-bg-page border border-zinc-800 rounded-lg px-2 py-1 text-zinc-100 font-mono text-xs w-full outline-none">
                   <option value="groq">groq</option>
                   <option value="openrouter">openrouter</option>
                 </select>
               </div>
               <div>
                 <span className="text-zinc-500 text-[10px] block uppercase tracking-wider mb-1 font-mono">Model</span>
-                <select className="bg-[#121214] border border-zinc-800 rounded-lg px-2 py-1 text-blue-300 font-bold font-mono text-xs w-full outline-none">
+                <select className="bg-bg-page border border-zinc-800 rounded-lg px-2 py-1 text-blue-300 font-bold font-mono text-xs w-full outline-none">
                   <option value="llama-3.3-70b-versatile">llama-3.3-70b</option>
                   <option value="mixtral-8x7b-32768">mixtral-8x7b</option>
                 </select>
@@ -537,7 +537,7 @@ export function DashboardWorkspaceView({
               <span className="text-emerald-300 font-bold">+12 insertions, -4 deletions</span>
             </div>
 
-            <div className="p-4 bg-[#161619] rounded-xl border border-zinc-800 text-xs leading-relaxed overflow-x-auto space-y-1.5">
+            <div className="p-4 bg-bg-card rounded-xl border border-zinc-800 text-xs leading-relaxed overflow-x-auto space-y-1.5">
               <div className="text-rose-300 bg-rose-500/10 p-2 rounded-lg border border-rose-500/20">
                 - temperature: 0.7
               </div>
@@ -556,7 +556,7 @@ export function DashboardWorkspaceView({
 
         {activeTab === 'evals' && (
           <div className="space-y-3 font-mono">
-            <div className="p-4 bg-[#161619] rounded-xl border border-zinc-800 text-xs space-y-3">
+            <div className="p-4 bg-bg-card rounded-xl border border-zinc-800 text-xs space-y-3">
               <div className="flex items-center justify-between text-emerald-300 font-bold">
                 <span>✓ test-case-security-pass</span>
                 <span className="bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded">100% match</span>
@@ -570,13 +570,13 @@ export function DashboardWorkspaceView({
         )}
       </div>
 
-      <div className="lg:col-span-3 bg-[#161619] border-l border-zinc-800/90 p-4 space-y-5">
+      <div className="lg:col-span-3 bg-bg-card border-l border-zinc-800/90 p-4 space-y-5">
         <div>
           <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-3">
             Commit Snapshots (Immutable)
           </div>
           <div className="space-y-2 font-mono">
-            <div className="p-2.5 rounded-xl bg-[#1D1D22] border border-blue-500/40 text-zinc-100 text-xs shadow-xs">
+            <div className="p-2.5 rounded-xl bg-bg-panel border border-blue-500/40 text-zinc-100 text-xs shadow-xs">
               <div className="flex justify-between font-bold">
                 <span className="text-blue-300">Version 3</span>
                 <span className="text-[10px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.2 rounded">Current</span>
@@ -584,7 +584,7 @@ export function DashboardWorkspaceView({
               <p className="text-[10px] text-zinc-400 mt-1 font-sans">Added Zod JSON response format</p>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-[#121214] border border-zinc-800 text-zinc-400 text-xs">
+            <div className="p-2.5 rounded-xl bg-bg-page border border-zinc-800 text-zinc-400 text-xs">
               <div className="flex justify-between font-bold text-zinc-300">
                 <span>Version 2</span>
                 <span className="text-[10px] text-zinc-500">2 hrs ago</span>
@@ -592,7 +592,7 @@ export function DashboardWorkspaceView({
               <p className="text-[10px] text-zinc-500 mt-1 font-sans">Lowered temperature to 0.2</p>
             </div>
 
-            <div className="p-2.5 rounded-xl bg-[#121214] border border-zinc-800 text-zinc-400 text-xs">
+            <div className="p-2.5 rounded-xl bg-bg-page border border-zinc-800 text-zinc-400 text-xs">
               <div className="flex justify-between font-bold text-zinc-300">
                 <span>Version 1</span>
                 <span className="text-[10px] text-zinc-500">Yesterday</span>
@@ -606,7 +606,7 @@ export function DashboardWorkspaceView({
           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">
             Deploy Bearer Key
           </span>
-          <div className="p-2.5 bg-[#121214] rounded-xl border border-zinc-800 text-[11px] text-zinc-300 flex items-center justify-between">
+          <div className="p-2.5 bg-bg-page rounded-xl border border-zinc-800 text-[11px] text-zinc-300 flex items-center justify-between">
             <span className="font-bold text-zinc-200">gfp_live_9f8a...</span>
             <button
               onClick={() => {
@@ -626,15 +626,15 @@ export function DashboardWorkspaceView({
 
   if (isFullScreen) {
     return (
-      <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-2xl overflow-hidden font-sans">
-        <div className="bg-[#121214] text-zinc-300 px-5 py-3 flex items-center justify-between text-xs font-mono border-b border-zinc-800/90">
+      <div className="rounded-2xl border border-zinc-800/90 bg-bg-card shadow-2xl overflow-hidden font-sans">
+        <div className="bg-bg-page text-zinc-300 px-5 py-3 flex items-center justify-between text-xs font-mono border-b border-zinc-800/90">
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">
               <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
               <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-[#1D1D22] border border-zinc-700/60 text-zinc-200">
+            <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-bg-panel border border-zinc-700/60 text-zinc-200">
               <TerminalIcon className="w-3.5 h-3.5 text-blue-300" />
               <span>Workspace Studio · Git for Prompts</span>
             </div>
@@ -648,7 +648,7 @@ export function DashboardWorkspaceView({
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[10px] bg-[#1D1D22] text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-700/60 font-mono">
+            <span className="text-[10px] bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-700/60 font-mono">
               gfp-cli
             </span>
           </div>
@@ -661,14 +661,14 @@ export function DashboardWorkspaceView({
 
   return (
     <CardDark className="shadow-2xl font-sans text-xs">
-      <div className="bg-[#121214] text-zinc-300 px-4 py-3 flex items-center justify-between text-xs font-mono border-b border-zinc-800/90">
+      <div className="bg-bg-page text-zinc-300 px-4 py-3 flex items-center justify-between text-xs font-mono border-b border-zinc-800/90">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
             <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
             <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
             <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-[#1D1D22] border border-zinc-700/60 text-zinc-200">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-xl bg-bg-panel border border-zinc-700/60 text-zinc-200">
             <TerminalIcon className="w-3.5 h-3.5 text-blue-300" />
             <span>kwakhare5 / Git-for-Prompts</span>
           </div>
@@ -682,7 +682,7 @@ export function DashboardWorkspaceView({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] bg-[#1D1D22] text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-700/60 font-mono">
+          <span className="text-[10px] bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-700/60 font-mono">
             gfp-cli
           </span>
         </div>

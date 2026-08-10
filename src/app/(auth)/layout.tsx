@@ -6,7 +6,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-[#121214] text-zinc-100 px-4 font-sans selection:bg-blue-500/20 selection:text-blue-200">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-bg-page text-zinc-100 px-4 font-sans selection:bg-blue-500/20 selection:text-blue-200">
       {/* Glow Ambient Blur */}
       <div className="pointer-events-none absolute w-[450px] h-[450px] bg-blue-500/5 rounded-full blur-3xl -z-0" />
 

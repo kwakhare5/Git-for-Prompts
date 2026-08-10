@@ -24,7 +24,7 @@ export default async function DashboardLayout({
     .orderBy(desc(prompts.updatedAt));
 
   return (
-    <div className="min-h-screen bg-[#121214] text-zinc-100 font-sans antialiased flex selection:bg-blue-500/20 selection:text-blue-200">
+    <div className="min-h-screen bg-bg-page text-zinc-100 font-sans antialiased flex selection:bg-blue-500/20 selection:text-blue-200">
       {/* Persistent Left Application Sidebar */}
       <DashboardSidebar prompts={userPrompts} isDemo={false} />
 

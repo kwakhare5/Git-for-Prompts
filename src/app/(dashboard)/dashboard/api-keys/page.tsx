@@ -39,11 +39,11 @@ export default async function ApiKeysPage() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start">
         <ApiKeysManager initialKeys={keys} />
 
-        <aside className="space-y-4 text-xs bg-[#161619] p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
+        <aside className="space-y-4 text-xs bg-bg-card p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
           <div className="space-y-2">
             <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">REST API Usage</h2>
             <p className="text-[11px] text-zinc-400 font-sans">Fetch latest version at runtime:</p>
-            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+            <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
 {`GET /api/v1/prompts/:id/latest
 Authorization: Bearer gfp_live_...`}
             </pre>
@@ -54,7 +54,7 @@ Authorization: Bearer gfp_live_...`}
           <div className="space-y-2">
             <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">CLI Terminal Auth</h2>
             <p className="text-[11px] text-zinc-400 font-sans">Connect offline local CLI:</p>
-            <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
+            <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
 {`$ gfp auth gfp_live_...`}
             </pre>
           </div>

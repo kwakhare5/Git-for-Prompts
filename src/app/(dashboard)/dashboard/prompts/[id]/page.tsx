@@ -104,7 +104,7 @@ export default async function PromptDetailPage({
           isPublic={prompt.isPublic}
         />
       ) : (
-        <div className="p-12 text-center border border-zinc-800/90 rounded-2xl bg-[#161619] space-y-4">
+        <div className="p-12 text-center border border-zinc-800/90 rounded-2xl bg-bg-card space-y-4">
           <p className="text-xs text-zinc-400 font-mono">No versions created yet for this prompt bundle.</p>
           <Link
             href={`/dashboard/prompts/${id}/edit`}

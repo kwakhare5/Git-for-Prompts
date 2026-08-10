@@ -62,7 +62,7 @@ export function PromptDetailClient({
         )}
       </div>
 
-      <div className="flex flex-col gap-4 font-sans bg-[#161619] p-5 border border-zinc-800/90 rounded-2xl shadow-xl">
+      <div className="flex flex-col gap-4 font-sans bg-bg-card p-5 border border-zinc-800/90 rounded-2xl shadow-xl">
         {/* Version Timeline Section */}
         <div className="space-y-3">
           <div className="flex items-center justify-between font-sans">
@@ -93,19 +93,19 @@ export function PromptDetailClient({
               Active Snapshot Specs
             </h3>
             <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div className="bg-[#121214] p-2 rounded-lg border border-zinc-800">
+              <div className="bg-bg-page p-2 rounded-lg border border-zinc-800">
                 <span className="text-zinc-500 block text-[9px]">Provider</span>
                 <span className="text-zinc-200 font-bold">{modelConfig.provider ?? 'groq'}</span>
               </div>
-              <div className="bg-[#121214] p-2 rounded-lg border border-zinc-800">
+              <div className="bg-bg-page p-2 rounded-lg border border-zinc-800">
                 <span className="text-zinc-500 block text-[9px]">Model</span>
                 <span className="text-blue-300 font-bold truncate block">{modelConfig.model ?? 'llama-3.3-70b'}</span>
               </div>
-              <div className="bg-[#121214] p-2 rounded-lg border border-zinc-800">
+              <div className="bg-bg-page p-2 rounded-lg border border-zinc-800">
                 <span className="text-zinc-500 block text-[9px]">Temperature</span>
                 <span className="text-emerald-300 font-bold">{modelConfig.temperature ?? 0.7}</span>
               </div>
-              <div className="bg-[#121214] p-2 rounded-lg border border-zinc-800">
+              <div className="bg-bg-page p-2 rounded-lg border border-zinc-800">
                 <span className="text-zinc-500 block text-[9px]">Max Tokens</span>
                 <span className="text-zinc-200 font-bold">{modelConfig.maxTokens ?? 1024}</span>
               </div>
@@ -131,7 +131,7 @@ export function PromptDetailClient({
               <span>{copiedCurl ? 'Copied' : 'Copy'}</span>
             </button>
           </div>
-          <pre className="bg-[#121214] p-3 border border-zinc-800 rounded-xl text-zinc-300 text-[10px] leading-relaxed overflow-x-auto">
+          <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-300 text-[10px] leading-relaxed overflow-x-auto">
             {curlSnippet}
           </pre>
         </div>
