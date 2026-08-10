@@ -59,7 +59,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
             href="https://github.com/kwakhare5/Git-for-Prompts"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-9 px-3.5 rounded-xl border border-zinc-800 text-zinc-300 bg-zinc-900/50 hover:bg-zinc-800/80 hover:text-zinc-100 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold group"
+            className="h-9 px-3.5 rounded-xl border border-border-subtle text-zinc-300 bg-bg-card/60 hover:bg-bg-panel hover:text-zinc-100 hover:border-zinc-700/80 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold group"
           >
             <span className="text-zinc-400 group-hover:text-zinc-200 font-extrabold text-xs">★</span>
             <span className="hidden sm:inline">Star on GitHub</span>
