@@ -41,12 +41,12 @@ export function ExploreClient({ publicPrompts }: { publicPrompts: PublicPrompt[]
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search prompts, models, or keywords..."
-          className="w-full rounded-xl border border-zinc-800 bg-[#161619] pl-10 pr-4 py-2.5 text-xs text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-zinc-600 shadow-xl"
+          className="w-full rounded-xl border border-zinc-800 bg-bg-card pl-10 pr-4 py-2.5 text-xs text-zinc-100 placeholder:text-zinc-500 outline-none focus:border-zinc-600 shadow-xl"
         />
       </div>
 
       {filtered.length === 0 ? (
-        <div className="p-12 text-center border border-zinc-800/90 rounded-2xl bg-[#161619] space-y-3 font-mono">
+        <div className="p-12 text-center border border-zinc-800/90 rounded-2xl bg-bg-card space-y-3 font-mono">
           <p className="text-sm font-bold text-zinc-200">No public prompts match your search</p>
           <p className="text-xs text-zinc-500">Try searching for a different keyword or model provider.</p>
         </div>
@@ -55,7 +55,7 @@ export function ExploreClient({ publicPrompts }: { publicPrompts: PublicPrompt[]
           {filtered.map((prompt) => (
             <div
               key={prompt.id}
-              className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-4 shadow-xl flex flex-col justify-between hover:border-zinc-700/80 transition-all group"
+              className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-4 shadow-xl flex flex-col justify-between hover:border-zinc-700/80 transition-all group"
             >
               <div className="space-y-3 font-mono">
                 <div className="flex items-start justify-between gap-3">
@@ -92,11 +92,11 @@ export function ExploreClient({ publicPrompts }: { publicPrompts: PublicPrompt[]
                 </div>
 
                 {/* Content snippet preview */}
-                <div className="rounded-xl border border-zinc-800 bg-[#121214] p-3 text-[11px] font-mono text-zinc-300 max-h-28 overflow-hidden relative">
+                <div className="rounded-xl border border-zinc-800 bg-bg-page p-3 text-[11px] font-mono text-zinc-300 max-h-28 overflow-hidden relative">
                   <pre className="whitespace-pre-wrap break-words leading-relaxed text-zinc-400">
                     {prompt.latestVersionContent || '// No prompt content'}
                   </pre>
-                  <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#121214] to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#09090b] to-transparent pointer-events-none" />
                 </div>
               </div>
             </div>

@@ -35,7 +35,7 @@ export function PromptSubnav({ promptId, testCount }: PromptSubnavProps) {
             className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold transition-all active:scale-97 ${
               isActive
                 ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 shadow-xs'
-                : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
+                : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
             }`}
           >
             <Icon className="w-3.5 h-3.5" />

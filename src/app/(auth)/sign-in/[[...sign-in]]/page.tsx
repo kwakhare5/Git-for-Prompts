@@ -33,7 +33,7 @@ function GoogleIcon() {
 export default function SignInPage() {
   if (!hasClerkKeys) {
     return (
-      <div className="w-full max-w-md mx-auto p-8 rounded-3xl border border-zinc-800/90 bg-[#161619] shadow-2xl font-sans space-y-6">
+      <div className="w-full max-w-md mx-auto p-8 rounded-3xl border border-zinc-800/90 bg-bg-card shadow-2xl font-sans space-y-6">
         {/* Embedded Logo Header */}
         <div className="flex flex-col items-center text-center space-y-3 font-mono">
           <Link href="/" className="flex items-center gap-2.5 group">
@@ -85,7 +85,7 @@ export default function SignInPage() {
               type="email"
               placeholder="developer@example.com"
               defaultValue="developer@gitforprompts.com"
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
+              className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
             />
           </div>
 
@@ -100,7 +100,7 @@ export default function SignInPage() {
               id="password"
               type="password"
               defaultValue="••••••••••••"
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
+              className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2.5 text-xs text-zinc-100 outline-none font-mono focus:border-zinc-600 shadow-inner"
             />
           </div>
 
@@ -114,7 +114,7 @@ export default function SignInPage() {
           <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300 flex items-start gap-2 font-mono">
             <Lock className="w-3.5 h-3.5 text-amber-300 shrink-0 mt-0.5" />
             <div>
-              <strong>Local Dev Mode:</strong> Add Clerk keys to <code className="font-mono bg-[#121214] px-1 border border-zinc-800 rounded">.env.local</code>.
+              <strong>Local Dev Mode:</strong> Add Clerk keys to <code className="font-mono bg-bg-page px-1 border border-zinc-800 rounded">.env.local</code>.
             </div>
           </div>
 

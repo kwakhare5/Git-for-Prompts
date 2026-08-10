@@ -6,7 +6,7 @@ import { TerminalIcon, CheckIcon } from './ui-tokens';
 export function PromptStudioShowcase() {
   return (
     <section className="px-6 max-w-6xl mx-auto mb-28">
-      <div className="bg-[#161619] rounded-3xl border border-zinc-800/80 p-8 md:p-12 shadow-xl text-zinc-100">
+      <div className="bg-bg-card/40 backdrop-blur-md rounded-3xl border border-zinc-800/80 p-8 md:p-12 shadow-xl text-zinc-100">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Left Content */}
@@ -46,10 +46,10 @@ export function PromptStudioShowcase() {
           </div>
 
           {/* Right Dashboard Mockup */}
-          <div className="lg:col-span-7 bg-[#1D1D22] p-4 rounded-2xl border border-zinc-800 shadow-inner">
-            <div className="bg-[#121214] rounded-xl border border-zinc-800 overflow-hidden text-xs font-mono">
+          <div className="lg:col-span-7 bg-bg-card/60 p-4 rounded-2xl border border-border-subtle shadow-inner">
+            <div className="bg-bg-page/80 rounded-xl border border-border-subtle overflow-hidden text-xs font-mono">
               {/* Header */}
-              <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between font-bold text-zinc-200">
+              <div className="px-4 py-3 border-b border-border-subtle flex items-center justify-between font-bold text-zinc-200">
                 <div className="flex items-center gap-2">
                   <TerminalIcon className="w-4 h-4 text-emerald-300" />
                   <span>gfp run test-suite --all</span>
@@ -61,7 +61,7 @@ export function PromptStudioShowcase() {
 
               {/* Test Cases Table */}
               <div className="p-4 space-y-3">
-                <div className="p-3 rounded-lg bg-[#19191E] border border-zinc-800 flex items-center justify-between">
+                <div className="p-3 rounded-lg bg-bg-panel/40 border border-border-subtle/80 flex items-center justify-between">
                   <div>
                     <div className="font-bold text-zinc-100 flex items-center gap-2">
                       <span className="text-emerald-300">✓</span>
@@ -72,7 +72,7 @@ export function PromptStudioShowcase() {
                   <span className="text-[10px] text-zinc-500">12ms</span>
                 </div>
 
-                <div className="p-3 rounded-lg bg-[#19191E] border border-zinc-800 flex items-center justify-between">
+                <div className="p-3 rounded-lg bg-bg-panel/40 border border-border-subtle/80 flex items-center justify-between">
                   <div>
                     <div className="font-bold text-zinc-100 flex items-center gap-2">
                       <span className="text-emerald-300">✓</span>
@@ -83,7 +83,7 @@ export function PromptStudioShowcase() {
                   <span className="text-[10px] text-zinc-500">18ms</span>
                 </div>
 
-                <div className="p-3 rounded-lg bg-[#19191E] border border-zinc-800 flex items-center justify-between">
+                <div className="p-3 rounded-lg bg-bg-panel/40 border border-border-subtle/80 flex items-center justify-between">
                   <div>
                     <div className="font-bold text-zinc-100 flex items-center gap-2">
                       <span className="text-emerald-300">✓</span>

@@ -22,7 +22,7 @@ export default function NewPromptPage() {
         </p>
       </div>
 
-      <div className="max-w-2xl bg-[#161619] p-6 border border-zinc-800/90 rounded-2xl shadow-xl">
+      <div className="max-w-2xl bg-bg-card p-6 border border-zinc-800/90 rounded-2xl shadow-xl">
         <CreatePromptForm />
       </div>
     </div>

@@ -124,19 +124,19 @@ export default async function DashboardPage() {
 
       {/* Metric summary bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-[#161619] p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Prompts</div>
           <div className="text-2xl font-black text-zinc-100 font-mono">{promptsWithStats.length}</div>
         </div>
-        <div className="bg-[#161619] p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Versions</div>
           <div className="text-2xl font-black text-blue-300 font-mono">{totalVersionCount}</div>
         </div>
-        <div className="bg-[#161619] p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Avg Pass Rate</div>
           <div className="text-2xl font-black text-emerald-300 font-mono">{avgPassRate}</div>
         </div>
-        <div className="bg-[#161619] p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">API Credentials</div>
           <div className="text-2xl font-black text-amber-300 font-mono">{totalKeys}</div>
         </div>
@@ -144,7 +144,7 @@ export default async function DashboardPage() {
 
       {/* Prompts table or empty onboarding state */}
       {promptsWithStats.length === 0 ? (
-        <div className="p-8 sm:p-10 border border-zinc-800/90 rounded-2xl bg-[#161619] space-y-6 shadow-xl font-sans">
+        <div className="p-8 sm:p-10 border border-zinc-800/90 rounded-2xl bg-bg-card space-y-6 shadow-xl font-sans">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-zinc-800/80">
             <div className="text-center sm:text-left space-y-1">
               <h3 className="text-lg font-bold text-zinc-100 font-mono">No Prompt Repositories Found</h3>
@@ -164,12 +164,12 @@ export default async function DashboardPage() {
           </div>
 
           {/* CLI Terminal Onboarding Box */}
-          <div className="rounded-xl border border-zinc-800 bg-[#121214] p-5 font-mono space-y-3">
+          <div className="rounded-xl border border-zinc-800 bg-bg-page p-5 font-mono space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-blue-300 flex items-center gap-2">
                 <span>CLI Quickstart (Local-First VCS)</span>
               </span>
-              <span className="text-[10px] text-zinc-500 bg-[#1D1D22] border border-zinc-800 px-2 py-0.5 rounded">
+              <span className="text-[10px] text-zinc-500 bg-bg-panel border border-zinc-800 px-2 py-0.5 rounded">
                 100% Offline SQLite Wasm
               </span>
             </div>

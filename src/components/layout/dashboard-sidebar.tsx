@@ -44,7 +44,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
 
   return (
     <aside
-      className={`bg-[#161619] border-r border-zinc-800/90 flex flex-col justify-between transition-all duration-300 select-none z-40 ${
+      className={`bg-bg-card border-r border-zinc-800/90 flex flex-col justify-between transition-all duration-300 select-none z-40 ${
         isCollapsed ? 'w-16' : 'w-64'
       }`}
     >
@@ -93,7 +93,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-semibold ${
                   isActive
                     ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-700/80 shadow-xs'
-                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22]'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
                 } ${isCollapsed ? 'justify-center' : ''}`}
               >
                 <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-zinc-100' : 'text-zinc-400'}`} />
@@ -126,7 +126,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
 
             <div className="space-y-1 max-h-48 overflow-y-auto pr-1 font-mono text-xs">
               {prompts.length === 0 ? (
-                <div className="p-3 bg-[#121214] rounded-xl border border-zinc-800/90 text-zinc-500 text-[11px] text-center space-y-1.5 font-mono">
+                <div className="p-3 bg-bg-page rounded-xl border border-zinc-800/90 text-zinc-500 text-[11px] text-center space-y-1.5 font-mono">
                   <div>No repositories yet</div>
                   <Link
                     href="/dashboard/new"
@@ -140,7 +140,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                   <Link
                     key={p.id}
                     href={`/dashboard/prompts/${p.id}`}
-                    className="p-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-[#1D1D22] flex items-center justify-between transition-colors border border-transparent hover:border-zinc-800"
+                    className="p-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel flex items-center justify-between transition-colors border border-transparent hover:border-zinc-800"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="w-2 h-2 rounded-full bg-emerald-300 shrink-0"></span>
@@ -161,7 +161,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
       <div className="p-4 border-t border-zinc-800/90 space-y-3">
         {/* CLI Quickstart Box */}
         {!isCollapsed && (
-          <div className="p-3 rounded-xl bg-[#121214] border border-zinc-800 font-mono text-[11px] text-zinc-400 space-y-1">
+          <div className="p-3 rounded-xl bg-bg-page border border-zinc-800 font-mono text-[11px] text-zinc-400 space-y-1">
             <div className="flex items-center justify-between text-zinc-200 font-bold text-[10px]">
               <span className="flex items-center gap-1">
                 <Terminal className="w-3 h-3 text-zinc-300" /> CLI Tool

@@ -91,7 +91,7 @@ export default async function ComparePage({
       </div>
 
       {!hasEnoughVersions ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-[#161619]">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">Need at least 2 commit snapshots</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Create another version of this prompt bundle to compare outputs in parallel.</p>
           <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
@@ -99,7 +99,7 @@ export default async function ComparePage({
           </Link>
         </div>
       ) : testCaseCount === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-[#161619]">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">No test cases created yet</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Add test cases with input variables to run side-by-side output comparisons.</p>
           <Link href={`/dashboard/prompts/${id}/tests`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
@@ -107,7 +107,7 @@ export default async function ComparePage({
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-xl overflow-hidden p-6">
+        <div className="rounded-2xl border border-zinc-800/90 bg-bg-card shadow-xl overflow-hidden p-6">
           <CompareRunner
             promptId={id}
             versions={allVersions}

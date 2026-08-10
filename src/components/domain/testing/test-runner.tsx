@@ -80,10 +80,10 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
           <select
             value={selectedVersionId}
             onChange={(e) => setSelectedVersionId(e.target.value)}
-            className="cursor-pointer rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 font-mono focus:outline-none focus:border-zinc-600"
+            className="cursor-pointer rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 font-mono focus:outline-none focus:border-zinc-600"
           >
             {versions.map((v) => (
-              <option key={v.id} value={v.id} className="bg-[#161619] text-zinc-100">
+              <option key={v.id} value={v.id} className="bg-bg-card text-zinc-100">
                 {formatVersionLabel(v)}
               </option>
             ))}
@@ -116,7 +116,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
 
       {/* Score summary */}
       {hasResults && (
-        <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-3 shadow-xl">
+        <div className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-3 shadow-xl">
           <div className="flex items-center justify-between font-mono">
             <div className="flex items-baseline gap-2.5">
               <span className="text-2xl font-black text-zinc-100">
@@ -133,7 +133,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
               {passedCount === testCases.length ? '✓ 100% Pass Rate' : `${testCases.length - passedCount} failing assertions`}
             </span>
           </div>
-          <div className="w-full bg-[#121214] border border-zinc-800 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-bg-page border border-zinc-800 rounded-full h-2 overflow-hidden">
             <div className="bg-emerald-400 h-full transition-all duration-300" style={{ width: `${progressPercent}%` }} />
           </div>
         </div>
@@ -143,7 +143,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
       {showForm && (
         <form
           onSubmit={handleSubmit(onAddSubmit)}
-          className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-4 font-mono shadow-xl"
+          className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-4 font-mono shadow-xl"
         >
           <h3 className="text-sm font-bold text-zinc-100">Configure New Test Assertion</h3>
 
@@ -152,7 +152,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
             <input
               {...register('name')}
               placeholder='e.g. "Security & Token Refund Constraint"'
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
+              className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.name && (
               <p className="text-xs text-rose-300">{errors.name.message}</p>
@@ -165,7 +165,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
               {...register('inputText')}
               placeholder="User prompt input text..."
               rows={3}
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
+              className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.inputText && (
               <p className="text-xs text-rose-300">{errors.inputText.message}</p>
@@ -178,7 +178,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
               {...register('expectedCriteria')}
               placeholder='e.g. "Response must return valid JSON with status=200"'
               rows={3}
-              className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
+              className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 outline-none focus:border-zinc-600"
             />
             {errors.expectedCriteria && (
               <p className="text-xs text-rose-300">{errors.expectedCriteria.message}</p>
@@ -215,7 +215,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
 
       {/* Test case list */}
       {testCases.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 bg-[#161619]/40 py-16 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 bg-bg-card/40 py-16 text-center">
           <div className="font-mono text-2xl text-zinc-600 mb-2 font-bold">assert()</div>
           <h2 className="text-sm font-bold text-zinc-200 font-mono mb-1">No Test Assertions Created</h2>
           <p className="text-xs text-zinc-400 mb-5 max-w-xs font-sans">

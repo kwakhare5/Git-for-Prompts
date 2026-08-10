@@ -72,8 +72,8 @@ export function VersionHistory({
             key={v.id}
             className={`rounded-xl border p-3.5 font-sans transition-all ${
               isActive 
-                ? 'bg-[#1D1D22] border-zinc-600 shadow-sm' 
-                : 'bg-[#121214] border-zinc-800/80 hover:border-zinc-700/80'
+                ? 'bg-bg-panel border-zinc-600 shadow-sm' 
+                : 'bg-bg-page border-zinc-800/80 hover:border-zinc-700/80'
             }`}
           >
             <div

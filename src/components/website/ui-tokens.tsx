@@ -41,7 +41,7 @@ export function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function CardDark({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-[#161619] border border-zinc-800/90 rounded-2xl shadow-xl overflow-hidden ${className}`}>
+    <div className={`bg-bg-card border border-zinc-800/90 rounded-2xl shadow-xl overflow-hidden ${className}`}>
       {children}
     </div>
   );
@@ -49,7 +49,7 @@ export function CardDark({ children, className = "" }: { children: React.ReactNo
 
 export function PanelElevated({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-[#1D1D22] border border-zinc-700/80 rounded-xl p-4 ${className}`}>
+    <div className={`bg-bg-panel border border-zinc-700/80 rounded-xl p-4 ${className}`}>
       {children}
     </div>
   );
@@ -89,7 +89,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
   return (
     <button
       onClick={handleCopy}
-      className="bg-[#141416] hover:bg-[#1A1A1E] text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-[transform,border-color,background-color] duration-150 cubic-bezier(0.23,1,0.32,1) active:scale-97 cursor-pointer group hover:border-emerald-500/30"
+      className="bg-[#141416] hover:bg-bg-panel text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-[transform,border-color,background-color] duration-150 cubic-bezier(0.23,1,0.32,1) active:scale-97 cursor-pointer group hover:border-emerald-500/30"
     >
       <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
       <span className="text-emerald-400 font-mono font-bold tracking-tight">$ {command}</span>

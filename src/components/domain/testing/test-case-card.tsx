@@ -37,7 +37,7 @@ export function TestCaseCard({
   }
 
   return (
-    <div className={`relative rounded-2xl border border-zinc-800/90 bg-[#1D1D22] p-5 font-sans shadow-xl ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
+    <div className={`relative rounded-2xl border border-zinc-800/90 bg-bg-panel p-5 font-sans shadow-xl ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header row: name + status badge + delete */}
       <div className="flex items-center justify-between gap-3 mb-3.5 font-sans">
         <div className="flex items-center gap-2.5 min-w-0 font-mono">
@@ -75,11 +75,11 @@ export function TestCaseCard({
 
       {/* Input + criteria preview */}
       <div className="space-y-2.5 mb-3 font-mono text-xs">
-        <div className="bg-[#121214] p-3 rounded-xl border border-zinc-800">
+        <div className="bg-bg-page p-3 rounded-xl border border-zinc-800">
           <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold block mb-1">Input Variables</span>
           <p className="text-xs text-zinc-200 line-clamp-2 leading-relaxed">{inputText}</p>
         </div>
-        <div className="bg-[#121214] p-3 rounded-xl border border-zinc-800">
+        <div className="bg-bg-page p-3 rounded-xl border border-zinc-800">
           <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold block mb-1">Assertion Criteria</span>
           <p className="text-xs text-zinc-300 line-clamp-2 leading-relaxed">{expectedCriteria}</p>
         </div>
@@ -98,12 +98,12 @@ export function TestCaseCard({
           {isOutputOpen && (
             <div className="mt-2 space-y-2">
               {result.reason && (
-                <div className="rounded-xl bg-[#121214] border border-zinc-800 p-3">
+                <div className="rounded-xl bg-bg-page border border-zinc-800 p-3">
                   <span className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider">Evaluation Reason</span>
                   <p className="text-xs mt-1 text-zinc-300 leading-relaxed">{result.reason}</p>
                 </div>
               )}
-              <div className="rounded-xl bg-[#121214] border border-zinc-800 p-3 max-h-64 overflow-y-auto">
+              <div className="rounded-xl bg-bg-page border border-zinc-800 p-3 max-h-64 overflow-y-auto">
                 <span className="text-[10px] font-mono font-bold text-blue-300 uppercase tracking-wider">Generated AI Response</span>
                 <pre className="text-xs font-mono mt-1 whitespace-pre-wrap break-words text-zinc-200 leading-relaxed">
                   {result.actualOutput}
