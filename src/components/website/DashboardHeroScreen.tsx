@@ -14,7 +14,7 @@ export function DashboardHeroScreen() {
               <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
             </div>
-            <div className="px-3 py-1 rounded-xl bg-bg-panel border border-zinc-700/60 text-zinc-200 text-[11px]">
+            <div className="px-3 py-1 rounded-xl bg-bg-panel border border-zinc-800/60 text-zinc-200 text-[11px]">
               https://gitforprompts.com/dashboard (Demo Workspace)
             </div>
           </div>

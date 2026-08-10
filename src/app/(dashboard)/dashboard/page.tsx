@@ -108,7 +108,7 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2.5">
             <span>Prompt Repositories</span>
-            <span className="text-xs font-sans font-normal bg-[#202024] text-zinc-400 px-2.5 py-0.5 rounded-full border border-zinc-700/60">
+            <span className="text-xs font-sans font-normal bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-full border border-zinc-800/60">
               Local & Cloud Synced
             </span>
           </h1>

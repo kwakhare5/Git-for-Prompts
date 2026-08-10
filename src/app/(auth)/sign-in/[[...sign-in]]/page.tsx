@@ -49,7 +49,7 @@ export default function SignInPage() {
               <span className="font-bold text-lg tracking-tight text-zinc-100">
                 Git for Prompts
               </span>
-              <span className="text-[10px] font-bold bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-700/80">
+              <span className="text-[10px] font-bold bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-800">
                 LOCAL-FIRST VCS
               </span>
             </div>
@@ -105,7 +105,7 @@ export default function SignInPage() {
           </div>
 
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#202024] hover:bg-[#28282D] text-zinc-100 border border-zinc-700/80 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-bg-panel hover:bg-zinc-700 text-zinc-100 border border-zinc-800 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
               <span>Enter Workspace</span>
               <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>

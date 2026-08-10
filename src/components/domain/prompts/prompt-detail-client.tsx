@@ -148,7 +148,7 @@ export function PromptDetailClient({
               })
             }
             disabled={toggling}
-            className="w-full flex items-center justify-between border border-zinc-700/80 bg-[#202024] hover:bg-[#28282D] px-3.5 py-2.5 rounded-xl text-xs text-zinc-200 transition-all active:scale-97 cursor-pointer"
+            className="w-full flex items-center justify-between border border-zinc-800 bg-bg-panel hover:bg-zinc-700 px-3.5 py-2.5 rounded-xl text-xs text-zinc-200 transition-all active:scale-97 cursor-pointer"
             aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
           >
             <span className="flex items-center gap-1.5 font-semibold">
