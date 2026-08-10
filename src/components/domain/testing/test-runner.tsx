@@ -93,7 +93,7 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
         <div className="flex items-center gap-2.5 font-mono">
           <button
             onClick={() => setShowForm((prev) => !prev)}
-            className="px-3.5 py-2 border border-zinc-700/80 rounded-xl text-xs text-zinc-200 hover:text-white bg-[#202024] hover:bg-[#28282D] font-bold transition-all cursor-pointer"
+            className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs text-zinc-200 hover:text-white bg-bg-panel hover:bg-zinc-700 font-bold transition-all cursor-pointer"
           >
             {showForm ? 'Cancel' : '+ Add Test Case'}
           </button>

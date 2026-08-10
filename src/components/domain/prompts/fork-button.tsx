@@ -43,7 +43,7 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
         className={`px-3.5 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all active:scale-97 cursor-pointer ${
           variant === 'primary'
             ? 'bg-zinc-100 text-zinc-950 hover:bg-white shadow-xs'
-            : 'border border-zinc-700/80 bg-[#202024] hover:bg-[#28282D] text-zinc-200'
+            : 'border border-zinc-800 bg-bg-panel hover:bg-zinc-700 text-zinc-200'
         } disabled:opacity-50`}
         aria-label={`Fork ${promptName} into your account`}
       >
