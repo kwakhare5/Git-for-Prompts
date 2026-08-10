@@ -72,9 +72,9 @@ export function CreatePromptForm() {
       </div>
 
       {/* Engine Default Pill */}
-      <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-3 text-xs text-blue-300 flex items-center justify-between font-mono">
+      <div className="rounded-xl border border-border-subtle bg-bg-page/60 p-3 text-xs text-zinc-300 flex items-center justify-between font-mono">
         <span>Initial Engine Preset:</span>
-        <span className="font-bold bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+        <span className="font-bold bg-emerald-500/10 text-emerald-300 px-2.5 py-0.5 rounded border border-emerald-500/20">
           groq/llama-3.3-70b-versatile
         </span>
       </div>
