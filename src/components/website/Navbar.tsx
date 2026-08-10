@@ -19,7 +19,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
   return (
     <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 my-3 font-sans">
-      <div className="bg-[#161618]/90 border border-zinc-800/90 backdrop-blur-md rounded-2xl shadow-xl px-5 h-14 flex items-center justify-between transition-all">
+      <div className="bg-bg-card/90 border border-zinc-800/90 backdrop-blur-md rounded-2xl shadow-xl px-5 h-14 flex items-center justify-between transition-all">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group font-mono">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -59,9 +59,9 @@ export function Navbar({ userId }: { userId?: string | null }) {
             href="https://github.com/kwakhare5/Git-for-Prompts"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-9 px-3.5 rounded-xl border border-amber-500/30 text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold"
+            className="h-9 px-3.5 rounded-xl border border-zinc-800 text-zinc-300 bg-zinc-900/50 hover:bg-zinc-800/80 hover:text-zinc-100 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold group"
           >
-            <span className="text-amber-400 font-extrabold text-xs">★</span>
+            <span className="text-zinc-400 group-hover:text-zinc-200 font-extrabold text-xs">★</span>
             <span className="hidden sm:inline">Star on GitHub</span>
             <span className="sm:hidden">GitHub</span>
           </a>

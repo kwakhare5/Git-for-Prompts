@@ -5,7 +5,7 @@ import { Compass, Home } from 'lucide-react';
 export default function NotFound() {
   return (
     <div className="flex items-center justify-center min-h-[70vh] p-6 font-sans select-none">
-      <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-2xl flex flex-col items-center text-center space-y-6">
+      <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/90 bg-bg-card shadow-2xl flex flex-col items-center text-center space-y-6">
         <BrandLogo />
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 text-xs font-mono font-bold">

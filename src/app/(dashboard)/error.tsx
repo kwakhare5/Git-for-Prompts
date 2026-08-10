@@ -18,7 +18,7 @@ export default function DashboardError({
 
   return (
     <div className="flex items-center justify-center min-h-[70vh] p-6 font-sans">
-      <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-2xl flex flex-col items-center text-center space-y-6">
+      <div className="w-full max-w-md p-8 rounded-2xl border border-zinc-800/90 bg-bg-card shadow-2xl flex flex-col items-center text-center space-y-6">
         <BrandLogo />
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20 text-xs font-mono font-bold">
@@ -36,7 +36,7 @@ export default function DashboardError({
         </div>
 
         {error.digest && (
-          <div className="w-full p-3 rounded-xl bg-[#121214] border border-zinc-800 font-mono text-xs text-rose-300 truncate">
+          <div className="w-full p-3 rounded-xl bg-bg-page border border-zinc-800 font-mono text-xs text-rose-300 truncate">
             Digest: {error.digest}
           </div>
         )}
@@ -52,7 +52,7 @@ export default function DashboardError({
           </button>
           <Link
             href="/dashboard"
-            className="p-2.5 border border-zinc-800 bg-[#121214] hover:bg-[#1D1D22] text-zinc-300 hover:text-white rounded-xl transition-all"
+            className="p-2.5 border border-zinc-800 bg-bg-page hover:bg-bg-panel text-zinc-300 hover:text-white rounded-xl transition-all"
             title="Return to Workspace"
           >
             <Home className="w-4 h-4" />

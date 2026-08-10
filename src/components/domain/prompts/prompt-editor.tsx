@@ -107,8 +107,8 @@ export function PromptEditor({
   if (readOnly) {
     return (
       <div className="flex flex-col gap-2 font-sans">
-        <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-[#161619] shadow-xl">
-          <div className="flex items-center gap-3 bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5 text-xs font-mono">
+        <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-bg-card shadow-xl">
+          <div className="flex items-center gap-3 bg-bg-page border-b border-zinc-800/90 px-4 py-2.5 text-xs font-mono">
             <span className="text-zinc-300 font-bold mr-auto">prompt.bundle</span>
             <div className="flex items-center gap-2">
               <button
@@ -207,8 +207,8 @@ export function PromptEditor({
 
   return (
     <div className="flex flex-col gap-3 font-sans">
-      <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-[#161619] shadow-xl">
-        <div className="flex items-center gap-3 bg-[#121214] border-b border-zinc-800/90 px-4 py-2.5">
+      <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-bg-card shadow-xl">
+        <div className="flex items-center gap-3 bg-bg-page border-b border-zinc-800/90 px-4 py-2.5">
           <div className="flex flex-col min-w-0 mr-auto font-mono">
             <span className="text-xs text-zinc-200 font-bold">prompt.bundle</span>
             {isDirty && (
@@ -224,7 +224,7 @@ export function PromptEditor({
               value={commitMessage}
               onChange={(e) => setCommitMessage(e.target.value)}
               maxLength={500}
-              className="flex-1 h-8 text-xs bg-[#1D1D22] border border-zinc-700/60 rounded-lg px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
+              className="flex-1 h-8 text-xs bg-bg-panel border border-zinc-700/60 rounded-lg px-3 text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
             <div className="flex items-center gap-2 shrink-0">
               <button

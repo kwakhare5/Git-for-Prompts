@@ -86,7 +86,7 @@ export default async function ExplorePage() {
   const publicPrompts = await getPublicPrompts();
 
   return (
-    <div className="min-h-screen bg-[#121214] text-zinc-100 font-sans selection:bg-blue-500/20 selection:text-blue-200">
+    <div className="min-h-screen bg-bg-page text-zinc-100 font-sans selection:bg-blue-500/20 selection:text-blue-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-8">
         {/* Header */}
         <div className="border-b border-zinc-800/90 pb-6 space-y-2">

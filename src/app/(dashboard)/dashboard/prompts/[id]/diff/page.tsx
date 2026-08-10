@@ -74,7 +74,7 @@ export default async function DiffPage({
           <h1 className="text-xl font-bold font-mono text-zinc-100">{prompt.name} Diff</h1>
         </div>
 
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-[#161619]">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">Need at least 2 commit snapshots</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Create another version of this prompt bundle to view Monaco side-by-side diffs.</p>
           <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
@@ -160,7 +160,7 @@ export default async function DiffPage({
       </div>
 
       {/* Diff editor */}
-      <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-xl overflow-hidden p-2">
+      <div className="rounded-2xl border border-zinc-800/90 bg-bg-card shadow-xl overflow-hidden p-2">
         <DiffViewer
           originalContent={fromVersion.content}
           modifiedContent={toVersion.content}

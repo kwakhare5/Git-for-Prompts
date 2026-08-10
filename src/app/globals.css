@@ -5,19 +5,29 @@
   --font-sans: var(--font-sans), 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-mono: var(--font-mono), 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-  --color-charcoal-page: #121214;
-  --color-charcoal-card: #161619;
-  --color-charcoal-panel: #1D1D22;
-  --color-charcoal-border: #26262C;
+  --color-bg-page: var(--bg-page);
+  --color-bg-card: var(--bg-card);
+  --color-bg-panel: var(--bg-panel);
+  --color-border-subtle: var(--border-subtle);
+  
+  --color-accent-highlight: var(--accent-highlight);
+  --color-accent-highlight-hover: var(--accent-highlight-hover);
 }
 
 :root {
-  --background: #121214;
+  --bg-page: #121212;
+  --bg-card: #1c1c1c;
+  --bg-panel: #282828;
+  --border-subtle: #333333;
+  --border-hover: #444444;
+  
+  --accent-highlight: #059669;
+  --accent-highlight-hover: #047857;
+
+  --background: var(--bg-page);
   --foreground: #F4F4F5;
-  --surface-card: #161619;
-  --surface-panel: #1D1D22;
-  --border-subtle: #26262C;
-  --border-hover: #3F3F46;
+  --surface-card: var(--bg-card);
+  --surface-panel: var(--bg-panel);
   
   /* Muted Pastel Tokens */
   --pastel-blue: #93C5FD;
@@ -35,19 +45,19 @@ body {
 
 /* Custom Design System Utility Classes */
 .bg-charcoal-page {
-  background-color: #121214;
+  background-color: var(--bg-page);
 }
 
 .bg-charcoal-card {
-  background-color: #161619;
+  background-color: var(--bg-card);
 }
 
 .bg-charcoal-panel {
-  background-color: #1D1D22;
+  background-color: var(--bg-panel);
 }
 
 .border-charcoal {
-  border-color: rgba(38, 38, 44, 0.9);
+  border-color: var(--border-subtle);
 }
 
 /* Custom Thin Dark Scrollbars */

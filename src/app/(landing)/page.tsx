@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   return (
-    <div className="min-h-screen bg-[#121214] text-zinc-100 font-sans antialiased selection:bg-blue-500/20 selection:text-blue-200">
+    <div className="min-h-screen bg-bg-page text-zinc-100 font-sans antialiased selection:bg-blue-500/20 selection:text-blue-200">
       <HeroSection />
       <DashboardHeroScreen />
       <BentoFeatures />

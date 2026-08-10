@@ -48,7 +48,7 @@ export function FaqFooter() {
             <div 
               key={idx}
               onClick={() => toggleFaq(idx)}
-              className="bg-[#161619] rounded-xl border border-zinc-800/80 p-4 cursor-pointer hover:border-zinc-700 transition-colors"
+              className="bg-bg-card/40 backdrop-blur-md rounded-xl border border-zinc-800/80 p-4 cursor-pointer hover:border-zinc-700 transition-colors"
             >
               <div className="flex items-center justify-between text-xs font-bold text-zinc-100">
                 <span className="font-mono">{faq.q}</span>
@@ -64,8 +64,8 @@ export function FaqFooter() {
         </div>
 
         {/* Dynamic Terminal CTA Banner */}
-        <div className="bg-[#161619] text-white rounded-3xl p-10 text-center border border-zinc-800/80 shadow-2xl relative overflow-hidden font-mono">
-          <div className="w-10 h-10 rounded-xl bg-[#1D1D22] border border-zinc-800 flex items-center justify-center mx-auto mb-4">
+        <div className="bg-bg-card/40 backdrop-blur-md text-white rounded-3xl p-10 text-center border border-zinc-800/80 shadow-2xl relative overflow-hidden font-mono">
+          <div className="w-10 h-10 rounded-xl bg-black/50 border border-zinc-800 flex items-center justify-center mx-auto mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg" />
           </div>
@@ -85,7 +85,7 @@ export function FaqFooter() {
       </section>
 
       {/* Full Dark Developer Footer */}
-      <footer className="bg-[#121214] text-zinc-400 py-16 px-6 text-xs font-mono border-t border-zinc-800/80">
+      <footer className="bg-bg-page text-zinc-400 py-16 px-6 text-xs font-mono border-t border-zinc-800/80">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           
           <div className="col-span-2 space-y-3">

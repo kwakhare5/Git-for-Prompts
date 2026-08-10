@@ -56,13 +56,13 @@ export default async function DashboardExplorePage() {
       </div>
 
       {publicPrompts.length === 0 ? (
-        <div className="p-8 text-center border border-zinc-800/90 rounded-2xl bg-[#161619] text-zinc-400 font-mono text-xs shadow-xl">
+        <div className="p-8 text-center border border-zinc-800/90 rounded-2xl bg-bg-card text-zinc-400 font-mono text-xs shadow-xl">
           No public prompt repositories published yet.
         </div>
       ) : (
-        <div className="border border-zinc-800/90 rounded-2xl bg-[#161619] overflow-hidden shadow-xl">
+        <div className="border border-zinc-800/90 rounded-2xl bg-bg-card overflow-hidden shadow-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#1D1D22] border-b border-zinc-800/90 text-zinc-400 font-mono font-bold uppercase tracking-wider text-[10px]">
+            <thead className="bg-bg-panel border-b border-zinc-800/90 text-zinc-400 font-mono font-bold uppercase tracking-wider text-[10px]">
               <tr>
                 <th className="p-4 pl-5">Prompt Name</th>
                 <th className="p-4">Description</th>
@@ -74,7 +74,7 @@ export default async function DashboardExplorePage() {
               {publicPrompts.map((prompt) => {
                 const versionNum = prompt.currentVersionId ? versionMap.get(prompt.currentVersionId) : 1;
                 return (
-                  <tr key={prompt.id} className="hover:bg-[#1D1D22]/60 transition-colors">
+                  <tr key={prompt.id} className="hover:bg-bg-panel/60 transition-colors">
                     <td className="p-4 pl-5 font-semibold text-zinc-100 font-mono">
                       <Link href={`/dashboard/prompts/${prompt.id}`} className="hover:text-blue-300 transition-colors">
                         {prompt.name}

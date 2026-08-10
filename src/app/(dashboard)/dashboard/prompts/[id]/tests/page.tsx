@@ -82,7 +82,7 @@ export default async function TestsPage({
       </div>
 
       {!hasVersions ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-[#161619]">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">No version snapshots to test</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Create a version snapshot of your prompt bundle before adding test assertions.</p>
           <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
@@ -90,7 +90,7 @@ export default async function TestsPage({
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] shadow-xl overflow-hidden p-6">
+        <div className="rounded-2xl border border-zinc-800/90 bg-bg-card shadow-xl overflow-hidden p-6">
           <TestRunner
             promptId={id}
             versions={allVersions}

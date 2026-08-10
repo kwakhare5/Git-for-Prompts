@@ -45,7 +45,7 @@ export function CreatePromptForm() {
           placeholder="e.g. Customer Support AI Agent..."
           autoComplete="off"
           autoFocus
-          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
+          className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
         />
         {errors.name && (
           <p className="text-xs text-rose-300 font-mono">{errors.name.message}</p>
@@ -64,7 +64,7 @@ export function CreatePromptForm() {
           placeholder="Purpose and business context of this prompt bundle..."
           autoComplete="off"
           rows={3}
-          className="w-full rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
+          className="w-full rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 outline-none font-mono focus:border-zinc-600"
         />
         {errors.description && (
           <p className="text-xs text-rose-300 font-mono">{errors.description.message}</p>

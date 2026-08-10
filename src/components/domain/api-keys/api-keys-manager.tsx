@@ -87,7 +87,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
   return (
     <div className="space-y-6 font-sans">
       {newKey && (
-        <div className="rounded-2xl border border-emerald-500/30 bg-[#161619] p-5 space-y-3 shadow-xl">
+        <div className="rounded-2xl border border-emerald-500/30 bg-bg-card p-5 space-y-3 shadow-xl">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm font-bold text-emerald-300 font-mono flex items-center gap-2">
@@ -108,7 +108,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
           </div>
 
           <div className="flex items-center gap-2">
-            <code className="flex-1 rounded-xl border border-zinc-800 bg-[#121214] px-3 py-2 font-mono text-xs text-zinc-200 break-all select-all">
+            <code className="flex-1 rounded-xl border border-zinc-800 bg-bg-page px-3 py-2 font-mono text-xs text-zinc-200 break-all select-all">
               {newKey}
             </code>
             <button
@@ -121,7 +121,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
             </button>
           </div>
 
-          <div className="rounded-xl border border-zinc-800 bg-[#121214] p-3 font-mono">
+          <div className="rounded-xl border border-zinc-800 bg-bg-page p-3 font-mono">
             <p className="text-[10px] text-zinc-500 mb-1 font-bold uppercase tracking-wider">Example Bearer Header Usage</p>
             <code className="font-mono text-xs text-zinc-300 break-all leading-relaxed">
               {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
@@ -137,7 +137,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
       )}
 
       {/* Generate Key Card */}
-      <div className="rounded-2xl border border-zinc-800/90 bg-[#161619] p-5 space-y-4 shadow-xl">
+      <div className="rounded-2xl border border-zinc-800/90 bg-bg-card p-5 space-y-4 shadow-xl">
         <div>
           <h2 className="text-sm font-bold text-zinc-100 font-mono">Generate New API Key</h2>
           <p className="text-xs text-zinc-400 mt-0.5">
@@ -154,7 +154,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
             placeholder="e.g. CLI Production Worker..."
             maxLength={255}
-            className="flex-1 rounded-xl border border-zinc-800 bg-[#121214] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 font-mono"
+            className="flex-1 rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600 font-mono"
           />
           <button
             id="generate-api-key-btn"
@@ -179,17 +179,17 @@ export function ApiKeysManager({ initialKeys }: Props) {
         </div>
 
         {keys.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-[#161619]/40">
+          <div className="rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-bg-card/40">
             <p className="text-xs font-mono">No API keys created yet.</p>
           </div>
         ) : (
-          <div className="divide-y divide-zinc-800/60 rounded-2xl border border-zinc-800/90 bg-[#161619] overflow-hidden shadow-xl">
+          <div className="divide-y divide-zinc-800/60 rounded-2xl border border-zinc-800/90 bg-bg-card overflow-hidden shadow-xl">
             {keys.map((key) => (
               <div key={key.id} className="flex items-center justify-between gap-4 px-5 py-3.5 text-xs">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2.5">
                     <span className="font-semibold text-zinc-100 font-mono">{key.name}</span>
-                    <code className="rounded bg-[#121214] border border-zinc-800 px-2 py-0.5 font-mono text-[11px] text-zinc-400">
+                    <code className="rounded bg-bg-page border border-zinc-800 px-2 py-0.5 font-mono text-[11px] text-zinc-400">
                       {key.keyPrefix}••••••••
                     </code>
                   </div>

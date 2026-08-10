@@ -22,10 +22,10 @@ export function BentoFeatures() {
         </p>
 
         {/* Dark Bento Graphic */}
-        <div className="bg-[#161619] rounded-3xl p-10 border border-zinc-800/80 shadow-2xl relative overflow-hidden text-left hover:border-zinc-700 transition-colors">
+        <div className="bg-bg-card/40 backdrop-blur-md rounded-3xl p-10 border border-zinc-800/80 shadow-2xl relative overflow-hidden text-left hover:border-zinc-700 transition-colors">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             
-            <div className="space-y-4">
+            <div className="space-y-4 p-5 bg-bg-panel/30 rounded-2xl border border-rose-500/20 hover:border-rose-500/30 transition-colors">
               <div className="inline-block bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
                 WITHOUT GFP (FRAGILE)
               </div>
@@ -35,7 +35,7 @@ export function BentoFeatures() {
               </p>
             </div>
 
-            <div className="space-y-4 p-5 bg-[#1D1D22] rounded-2xl border border-emerald-500/30">
+            <div className="space-y-4 p-5 bg-bg-panel/50 rounded-2xl border border-emerald-500/30 hover:border-emerald-500/40 transition-colors">
               <div className="inline-block bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
                 WITH GFP (IMMUTABLE)
               </div>
@@ -52,7 +52,7 @@ export function BentoFeatures() {
       </section>
 
       {/* Stats Counter Bar */}
-      <section className="border-y border-zinc-800/80 bg-[#161619] py-14 px-6 mb-28">
+      <section className="border-y border-zinc-800/80 bg-bg-card py-14 px-6 mb-28">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-4xl md:text-5xl font-black tracking-tight text-zinc-100 font-mono mb-1">100%</div>
@@ -87,9 +87,9 @@ export function BentoFeatures() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          <div className="bg-[#161619] p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-zinc-700 hover:shadow-lg transition-all duration-200">
+          <div className="bg-bg-card/40 backdrop-blur-md p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-zinc-700 hover:shadow-lg transition-all duration-200">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#1D1D22] text-zinc-100 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
+              <div className="w-10 h-10 rounded-xl bg-bg-panel/60 text-zinc-100 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
                 01
               </div>
               <h3 className="font-bold text-zinc-100 text-lg mb-2 font-mono">gfp init</h3>
@@ -102,9 +102,9 @@ export function BentoFeatures() {
             </span>
           </div>
 
-          <div className="bg-[#161619] p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-emerald-400/40 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-200">
+          <div className="bg-bg-card/40 backdrop-blur-md p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-emerald-400/40 hover:shadow-lg hover:shadow-emerald-500/5 transition-all duration-200">
             <div>
-              <div className="w-10 h-10 rounded-xl bg-[#1D1D22] text-emerald-300 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
+              <div className="w-10 h-10 rounded-xl bg-bg-panel/60 text-emerald-300 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
                 02
               </div>
               <h3 className="font-bold text-zinc-100 text-lg mb-2 font-mono">gfp run & eval</h3>
@@ -117,9 +117,9 @@ export function BentoFeatures() {
             </span>
           </div>
 
-          <div className="bg-[#161619] p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-amber-400/40 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-200">
+          <div className="bg-bg-card/40 backdrop-blur-md p-6 rounded-2xl border border-zinc-800/80 shadow-2xs flex flex-col justify-between hover:border-amber-400/40 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-200">
             <div>
-              <div className="w-10 h-10 rounded-full bg-[#1D1D22] text-amber-300 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
+              <div className="w-10 h-10 rounded-full bg-bg-panel/60 text-amber-300 border border-zinc-800 font-mono font-bold flex items-center justify-center text-sm mb-4">
                 03
               </div>
               <h3 className="font-bold text-zinc-100 text-lg mb-2 font-mono">gfp push</h3>
