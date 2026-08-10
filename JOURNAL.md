@@ -14,6 +14,16 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [Brand Component Theme Harmonization] 2026-08-10
+* **Commit**: `13a580e`
+* **Shipped**: 
+  - Refactored the CLI Copy button (`$ npx gfp init`) from hardcoded pitch black/bluish background (`bg-[#141416]`) to theme-variable elevation (`bg-bg-card/85` with `border-border-subtle`).
+  - Harmonized the Navbar GitHub Star link ("Star on GitHub") to use variables-based outlines (`bg-bg-card/60 hover:bg-bg-panel border border-border-subtle`) instead of legacy dark gray overrides.
+  - Refactored the blue pastel badge kicking variant to align with the core warm-neutral theme colors (`bg-bg-panel/40 border border-border-subtle/80 text-zinc-300`).
+* **Hurdles**: Identifying remaining hardcoded black/bluish elements inside reusable website tokens to prevent style inconsistencies.
+* **Metrics**: MRR: $0 | Users: 0 | Emails: 42
+* **Vibe**: 🛠️ - Visual inconsistencies resolved. Brand buttons now match the neutral dark theme perfectly!
+
 ### [Bluish-Slate Color Purge & Button/Component Harmonization] 2026-08-10
 * **Commit**: `5b2d6ea`
 * **Shipped**: 
