@@ -112,6 +112,7 @@ _AI fills at END of every session. Read at START of next session._
 **Last session date:** 2026-08-10
 
 **What we built / changed:**
+- **Codebase Cleanup & Performance Optimizations**: Safely purged empty directories (`src/config`, `src/hooks`) and heavy root image (`sendr-3.jpg`). Configured Next.js `optimizePackageImports` for `lucide-react` and `removeConsole` for production builds to maximize compiler and runtime performance.
 - **Create Page Layout Alignment**: Refactored `new/page.tsx` and `CreatePromptForm` to align with standard dashboard templates. Implemented unified flex-based back bar headers, guide sidebar layouts, and replaced blue indicators with emerald green/zinc highlights.
 - **Transparent Logo**: Updated `public/logo.svg` to remove legacy background fill and border outline rectangles, allowing the white vector path branding to render natively on the page.
 - **Vercel-style Pure Black Theme**: Migrated CSS variables to a sleek, high-contrast, pure neutral black theme (Page background: `#0a0a0a` (Vercel-style obsidian), Level 1 Cards: `#141414`, Level 2 Panels: `#1e1e1e`, Borders: `#2a2a2a`, Border Hover: `#3a3a3a`), completely avoiding washed-out gray tones and bluish tints.
@@ -128,6 +129,7 @@ _AI fills at END of every session. Read at START of next session._
 - None.
 
 **Files most recently changed:**
+- `next.config.ts`
 - `src/app/(dashboard)/dashboard/new/page.tsx`
 - `src/components/domain/prompts/create-prompt-form.tsx`
 - `public/logo.svg`
