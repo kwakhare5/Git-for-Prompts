@@ -14,6 +14,15 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [Transparent Brand Logo Refactoring] 2026-08-10
+* **Commit**: `717e0a3`
+* **Shipped**: 
+  - Refactored `public/logo.svg` to make it cleanly transparent. Removed the solid dark container background (`<rect fill="#111111" rx="8" ...>`) and outline path definitions.
+  - Allowed the vector git-graph brand icon to sit naturally on page and card backgrounds across the landing page, dashboard, sidebar, and login screens.
+* **Hurdles**: Centering vector layouts inside standard 32x32 viewports after container removals.
+* **Metrics**: MRR: $0 | Users: 0 | Emails: 42
+* **Vibe**: 🎨 - Clean transparent logo loaded everywhere!
+
 ### [Vercel-Style Pure Black Theme Migration] 2026-08-10
 * **Commit**: `0bf5158`
 * **Shipped**: 

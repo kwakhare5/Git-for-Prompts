@@ -112,6 +112,7 @@ _AI fills at END of every session. Read at START of next session._
 **Last session date:** 2026-08-10
 
 **What we built / changed:**
+- **Transparent Logo**: Updated `public/logo.svg` to remove legacy background fill and border outline rectangles, allowing the white vector path branding to render natively on the page.
 - **Vercel-style Pure Black Theme**: Migrated CSS variables to a sleek, high-contrast, pure neutral black theme (Page background: `#0a0a0a` (Vercel-style obsidian), Level 1 Cards: `#141414`, Level 2 Panels: `#1e1e1e`, Borders: `#2a2a2a`, Border Hover: `#3a3a3a`), completely avoiding washed-out gray tones and bluish tints.
 - **Button & Component Color Harmonization**: Identified and purged legacy hardcoded bluish-slate backgrounds (`bg-[#202024]` and hover state `hover:bg-[#28282D]`) on buttons, inputs, select selectors, and toggle buttons across 18 files. Harmonized secondary buttons, input containers, sidebars, and workspace tables to use neutral `bg-bg-panel` and `hover:bg-zinc-700` colors.
 - **Brand Buttons Harmonization**: Refactored the CLI Copy button (`$ npx gfp init` in `ui-tokens.tsx`) from hardcoded bluish-black to `bg-bg-card/85` with `border-border-subtle`, harmonized the GitHub Star link in `Navbar.tsx` to use outlined theme variables, and aligned the blue kicker badge styles with the warm-neutral variables.
@@ -126,6 +127,7 @@ _AI fills at END of every session. Read at START of next session._
 - None.
 
 **Files most recently changed:**
+- `public/logo.svg`
 - `src/app/globals.css`
 - `src/components/website/BentoFeatures.tsx`
 - `src/components/website/EngineShowcase.tsx`
