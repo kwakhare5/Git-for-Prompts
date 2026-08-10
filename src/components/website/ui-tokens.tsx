@@ -89,11 +89,11 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
   return (
     <button
       onClick={handleCopy}
-      className="bg-[#141416] hover:bg-bg-panel text-zinc-200 border border-zinc-800/90 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-[transform,border-color,background-color] duration-150 cubic-bezier(0.23,1,0.32,1) active:scale-97 cursor-pointer group hover:border-emerald-500/30"
+      className="bg-bg-card/85 hover:bg-bg-panel text-zinc-200 border border-border-subtle font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-inner transition-[transform,border-color,background-color] duration-150 cubic-bezier(0.23,1,0.32,1) active:scale-97 cursor-pointer group hover:border-zinc-700/80"
     >
       <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
       <span className="text-emerald-400 font-mono font-bold tracking-tight">$ {command}</span>
-      <div className="w-6 h-6 rounded-full bg-zinc-800 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center ml-1 transition-colors">
+      <div className="w-6 h-6 rounded-full bg-bg-page/60 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center ml-1 transition-colors">
         {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400" /> : <CopyIcon className="w-3 h-3" />}
       </div>
     </button>
@@ -103,7 +103,7 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
 {/* Muted Pastel Badge Kicker */}
 export function BadgePastel({ children, variant = "blue", className = "" }: { children: React.ReactNode; variant?: "blue" | "green" | "yellow" | "rose"; className?: string }) {
   const variantStyles = {
-    blue: "bg-zinc-100/10 border-zinc-800 text-zinc-100",
+    blue: "bg-bg-panel/40 border border-border-subtle/80 text-zinc-300",
     green: "bg-emerald-500/10 border-emerald-500/20 text-emerald-300",
     yellow: "bg-amber-500/10 border-amber-500/20 text-amber-300",
     rose: "bg-rose-500/10 border-rose-500/20 text-rose-300",
