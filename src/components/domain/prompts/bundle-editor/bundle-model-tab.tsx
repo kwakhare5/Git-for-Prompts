@@ -1,6 +1,7 @@
 'use client';
 
 import type { PromptBundle } from '@gfp/core';
+import { ChevronDown } from 'lucide-react';
 
 const PROVIDERS = [
   { value: 'openai', label: 'OpenAI' },
@@ -13,9 +14,9 @@ const PROVIDERS = [
 const DEFAULT_MODELS: Record<string, string[]> = {
   openai: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'],
   groq: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768'],
-  openrouter: ['meta-llama/llama-3.3-70b-instruct', 'google/gemini-flash-1.5', 'anthropic/claude-3.5-sonnet'],
-  anthropic: ['claude-sonnet-4-5', 'claude-3-5-haiku-20241022', 'claude-opus-4-5'],
-  ollama: ['llama3', 'mistral', 'phi3'],
+  openrouter: ['meta-llama/llama-3.3-70b-instruct', 'anthropic/claude-3.5-sonnet'],
+  anthropic: ['claude-3-5-sonnet-latest', 'claude-3-haiku-20240307'],
+  ollama: ['llama3.2', 'mistral', 'qwen2.5-coder'],
 };
 
 interface BundleModelTabProps {
@@ -38,23 +39,26 @@ export function BundleModelTab({ bundle, onUpdateModelConfig, minHeight = '680px
           <label htmlFor="bundle-provider" className="text-xs font-mono font-bold text-zinc-300">
             Provider
           </label>
-          <select
-            id="bundle-provider"
-            value={bundle.modelConfig.provider}
-            onChange={(e) => {
-              const provider = e.target.value;
-              onUpdateModelConfig('provider', provider);
-              const models = DEFAULT_MODELS[provider] ?? [];
-              if (models.length > 0) onUpdateModelConfig('model', models[0]);
-            }}
-            className="border border-zinc-800 rounded-xl px-3.5 py-2 text-xs text-zinc-100 bg-bg-page font-mono outline-none focus:border-zinc-600 cursor-pointer"
-          >
-            {PROVIDERS.map((p) => (
-              <option key={p.value} value={p.value} className="bg-bg-card text-zinc-100">
-                {p.label}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id="bundle-provider"
+              value={bundle.modelConfig.provider}
+              onChange={(e) => {
+                const provider = e.target.value;
+                onUpdateModelConfig('provider', provider);
+                const models = DEFAULT_MODELS[provider] ?? [];
+                if (models.length > 0) onUpdateModelConfig('model', models[0]);
+              }}
+              className="w-full appearance-none border border-zinc-800 rounded-xl pl-3.5 pr-8 py-2 text-xs text-zinc-100 bg-bg-page font-mono outline-none focus:border-zinc-600 cursor-pointer transition-colors [color-scheme:dark]"
+            >
+              {PROVIDERS.map((p) => (
+                <option key={p.value} value={p.value} className="bg-bg-page text-zinc-100 font-mono">
+                  {p.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" />
+          </div>
         </div>
 
         {/* Model */}

@@ -62,20 +62,19 @@ export default async function TestsPage({
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-between border-b border-zinc-800/90 pb-5 gap-3 flex-wrap">
-        <div className="flex items-center gap-3 min-w-0 font-mono">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-zinc-800/90 pb-5 gap-3">
+        <div className="space-y-2 font-mono">
           <Link
             href={`/dashboard/prompts/${id}`}
-            className="text-xs font-bold text-zinc-400 hover:text-zinc-100 transition-colors shrink-0 flex items-center gap-1"
+            className="text-xs font-bold text-zinc-400 hover:text-zinc-100 transition-colors flex items-center gap-1 w-fit"
           >
             <span>←</span>
             <span>Back to Studio ({prompt.name})</span>
           </Link>
-          <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
-          <h1 className="text-xl font-bold text-zinc-100">Test Suite & Evals</h1>
+          <h1 className="text-2xl font-bold text-zinc-100">Test Suite & Evals</h1>
         </div>
         {existingCases.length > 0 && (
-          <span className="shrink-0 font-mono text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-lg font-bold">
+          <span className="shrink-0 font-mono text-xs bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-lg font-bold w-fit">
             {existingCases.length} assertion{existingCases.length !== 1 ? 's' : ''} configured
           </span>
         )}
@@ -85,7 +84,7 @@ export default async function TestsPage({
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">No version snapshots to test</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Create a version snapshot of your prompt bundle before adding test assertions.</p>
-          <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
+          <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl btn-interactive">
             + Create First Version
           </Link>
         </div>

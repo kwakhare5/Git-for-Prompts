@@ -20,30 +20,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { apiKeys } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, or, isNull, lt } from 'drizzle-orm';
 import { createHash } from 'crypto';
 
 export type AuthenticatedKey = {
   ownerId: string;
   keyId: string;
+  scopes: string[];
 };
 
 /**
- * Authenticate a Bearer API key from the Authorization header.
- *
- * Returns `{ ownerId, keyId }` on success.
- * Returns a `NextResponse` (401) on any failure — the caller should
- * `return` it immediately.
- *
- * Does NOT update `lastUsedAt` — callers fire that as a void side-effect
- * after the real work is done, keeping the hot path clean.
+ * Authenticates a Bearer API key from the Authorization header.
+ * Checks revocation, expiration, and optional required scope.
+ * Returns `{ ownerId, keyId, scopes }` on success or `NextResponse` (401/403) on failure.
  */
 export async function authenticateApiKey(
-  req: NextRequest
+  req: NextRequest,
+  requiredScope?: string
 ): Promise<AuthenticatedKey | NextResponse> {
-  // 1. Extract Bearer token
   const authHeader = req.headers.get('Authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
+  
+  // 1. Strict header format validation & size cap (max 512 bytes to prevent DOS)
+  if (!authHeader || authHeader.length > 512 || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json(
       { error: 'Missing or invalid Authorization header. Use: Authorization: Bearer <your-key>' },
       { status: 401 }
@@ -52,26 +50,82 @@ export async function authenticateApiKey(
 
   const token = authHeader.slice(7).trim();
 
-  // 2. Validate key format (fast reject — no DB round-trip)
-  if (!token.startsWith('gfp_live_')) {
-    return NextResponse.json({ error: 'Invalid API key format' }, { status: 401 });
+  // 2. Validate key format & length
+  if (!token.startsWith('gfp_live_') || token.length < 20 || token.length > 256) {
+    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
   }
 
-  // 3. SHA-256 hash for O(1) indexed lookup.
-  //    128-bit entropy keys make collision attacks infeasible.
-  //    SHA-256 is both the lookup key and the verification — no bcrypt needed.
+  // 3. SHA-256 hash for O(1) indexed lookup
   const lookupHash = createHash('sha256').update(token).digest('hex');
 
-  // 4. Look up the key
+  // 4. Look up key from database
   const [candidateKey] = await db
-    .select({ id: apiKeys.id, ownerId: apiKeys.ownerId })
+    .select({
+      id: apiKeys.id,
+      ownerId: apiKeys.ownerId,
+      scopes: apiKeys.scopes,
+      revokedAt: apiKeys.revokedAt,
+      expiresAt: apiKeys.expiresAt,
+      lastUsedAt: apiKeys.lastUsedAt,
+    })
     .from(apiKeys)
     .where(eq(apiKeys.keyLookupHash, lookupHash))
     .limit(1);
 
   if (!candidateKey) {
-    return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
+    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
   }
 
-  return { ownerId: candidateKey.ownerId, keyId: candidateKey.id };
+  // 5. Check revocation (generic 401 failure to prevent status leakage)
+  if (candidateKey.revokedAt !== null) {
+    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+  }
+
+  // 6. Check expiration (generic 401 failure)
+  if (candidateKey.expiresAt !== null && new Date(candidateKey.expiresAt) <= new Date()) {
+    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+  }
+
+  // 7. Check scope permission if required (with backward compatibility fallback)
+  const activeScopes = candidateKey.scopes && candidateKey.scopes.length > 0
+    ? candidateKey.scopes
+    : ['prompts:read', 'prompts:write', 'versions:write'];
+
+  if (requiredScope && !activeScopes.includes(requiredScope)) {
+    return NextResponse.json(
+      { error: `API key lacks required scope '${requiredScope}'` },
+      { status: 403 }
+    );
+  }
+
+  // 8. Schedule throttled lastUsedAt update (non-blocking)
+  touchApiKeyLastUsed(candidateKey.id, candidateKey.lastUsedAt).catch((err) =>
+    console.error('[api-auth] Throttled lastUsedAt update failed:', err)
+  );
+
+  return {
+    ownerId: candidateKey.ownerId,
+    keyId: candidateKey.id,
+    scopes: activeScopes,
+  };
+}
+
+/**
+ * Throttled lastUsedAt update.
+ * Updates the database only if lastUsedAt is null or older than 10 minutes.
+ * Prevents DB write-amplification on API hot paths.
+ */
+export async function touchApiKeyLastUsed(keyId: string, currentLastUsed: Date | null): Promise<void> {
+  const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+  if (!currentLastUsed || new Date(currentLastUsed) < tenMinutesAgo) {
+    await db
+      .update(apiKeys)
+      .set({ lastUsedAt: new Date() })
+      .where(
+        and(
+          eq(apiKeys.id, keyId),
+          or(isNull(apiKeys.lastUsedAt), lt(apiKeys.lastUsedAt, tenMinutesAgo))
+        )
+      );
+  }
 }

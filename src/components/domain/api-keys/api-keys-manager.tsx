@@ -1,9 +1,13 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useSyncExternalStore, useTransition } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { generateApiKey, deleteApiKey } from '@/lib/actions/api-keys';
 import { Check, X, Copy } from 'lucide-react';
+
+const emptySubscribe = () => () => {};
+const getOrigin = () => window.location.origin;
+const getSSROrigin = () => '';
 
 interface ApiKeyRow {
   id: string;
@@ -26,6 +30,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [confirmRevokeId, setConfirmRevokeId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const origin = useSyncExternalStore(emptySubscribe, getOrigin, getSSROrigin);
 
   function handleGenerate() {
     if (!name.trim()) return;
@@ -114,9 +119,9 @@ export function ApiKeysManager({ initialKeys }: Props) {
             <button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-zinc-700 text-zinc-200 flex items-center gap-1.5 active:scale-97 transition-all cursor-pointer"
+              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-zinc-700 text-zinc-200 flex items-center gap-1.5 btn-interactive"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-emerald-300" /> : <Copy className="h-3.5 w-3.5 text-zinc-400" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-300 icon-pop" /> : <Copy className="h-3.5 w-3.5 text-zinc-400" />}
               {copied ? 'Copied' : 'Copy Key'}
             </button>
           </div>
@@ -124,7 +129,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
           <div className="rounded-xl border border-zinc-800 bg-bg-page p-3 font-mono">
             <p className="text-[10px] text-zinc-500 mb-1 font-bold uppercase tracking-wider">Example Bearer Header Usage</p>
             <code className="font-mono text-xs text-zinc-300 break-all leading-relaxed">
-              {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
+              {`curl -H "Authorization: Bearer ${newKey}" \\\n  ${origin}/api/v1/prompts/YOUR_PROMPT_ID/latest`}
             </code>
           </div>
         </div>
@@ -160,7 +165,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
             id="generate-api-key-btn"
             onClick={handleGenerate}
             disabled={isPending || !name.trim()}
-            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive disabled:opacity-50"
           >
             {isPending ? 'Generating…' : '+ Generate Key'}
           </button>
@@ -179,7 +184,7 @@ export function ApiKeysManager({ initialKeys }: Props) {
         </div>
 
         {keys.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-bg-card/40">
+          <div className="rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-bg-card">
             <p className="text-xs font-mono">No API keys created yet.</p>
           </div>
         ) : (

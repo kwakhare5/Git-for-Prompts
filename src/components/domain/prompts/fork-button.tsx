@@ -40,7 +40,7 @@ export function ForkButton({ promptId, promptName, variant = 'primary' }: ForkBu
       <button
         onClick={handleFork}
         disabled={isPending}
-        className={`px-3.5 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all active:scale-97 cursor-pointer ${
+        className={`px-3.5 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5 btn-interactive ${
           variant === 'primary'
             ? 'bg-zinc-100 text-zinc-950 hover:bg-white shadow-xs'
             : 'border border-zinc-800 bg-bg-panel hover:bg-zinc-700 text-zinc-200'

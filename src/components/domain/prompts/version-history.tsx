@@ -70,10 +70,10 @@ export function VersionHistory({
         return (
           <div
             key={v.id}
-            className={`rounded-xl border p-3.5 font-sans transition-all ${
+            className={`rounded-xl border p-3.5 font-sans card-interactive ${
               isActive 
                 ? 'bg-bg-panel border-zinc-600 shadow-sm' 
-                : 'bg-bg-page border-zinc-800/80 hover:border-zinc-800'
+                : 'bg-bg-page border-zinc-800/80 hover:border-zinc-700'
             }`}
           >
             <div
@@ -81,10 +81,10 @@ export function VersionHistory({
               className="cursor-pointer space-y-1.5"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-bold bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded-md">
+                <span className="font-mono text-xs font-bold bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded-md tabular-nums">
                   v{v.versionNumber}
                 </span>
-                <span className="text-[11px] font-mono text-zinc-500">
+                <span className="text-[11px] font-mono text-zinc-500 tabular-nums">
                   <RelativeTime date={v.createdAt} />
                 </span>
               </div>
@@ -111,14 +111,14 @@ export function VersionHistory({
                       <button
                         onClick={() => handleRestore(v.id)}
                         disabled={isPending}
-                        className="px-2.5 py-1 bg-zinc-100 hover:bg-white text-zinc-950 rounded-md text-[11px] font-bold cursor-pointer"
+                        className="px-2.5 py-1 bg-zinc-100 hover:bg-white text-zinc-950 rounded-md text-[11px] font-bold btn-interactive"
                       >
                         {isPending ? 'Restoring…' : 'Confirm'}
                       </button>
                       <button
                         onClick={() => setConfirmRestoreId(null)}
                         disabled={isPending}
-                        className="px-2 py-1 text-zinc-400 hover:text-zinc-200 text-[11px] cursor-pointer"
+                        className="px-2 py-1 text-zinc-400 hover:text-zinc-200 text-[11px] tab-interactive"
                       >
                         Cancel
                       </button>
@@ -127,7 +127,7 @@ export function VersionHistory({
                 ) : (
                   <button
                     onClick={() => handleRestore(v.id)}
-                    className="text-[11px] text-zinc-400 hover:text-blue-300 transition-colors cursor-pointer"
+                    className="text-[11px] text-zinc-400 hover:text-blue-300 tab-interactive"
                   >
                     Restore this version
                   </button>

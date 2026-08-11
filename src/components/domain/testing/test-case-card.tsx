@@ -37,7 +37,7 @@ export function TestCaseCard({
   }
 
   return (
-    <div className={`relative rounded-2xl border border-zinc-800/90 bg-bg-panel p-5 font-sans shadow-xl ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
+    <div className={`relative rounded-2xl border border-zinc-800/90 bg-bg-card p-5 font-sans shadow-xl card-interactive ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Header row: name + status badge + delete */}
       <div className="flex items-center justify-between gap-3 mb-3.5 font-sans">
         <div className="flex items-center gap-2.5 min-w-0 font-mono">
@@ -90,7 +90,7 @@ export function TestCaseCard({
         <div className="mt-3 pt-2.5 border-t border-zinc-800/80 text-xs font-mono">
           <button
             onClick={() => setIsOutputOpen(!isOutputOpen)}
-            className="w-full flex items-center justify-between py-1 text-zinc-400 hover:text-zinc-100 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-between py-1 text-zinc-400 hover:text-zinc-100 tab-interactive"
           >
             <span>{isOutputOpen ? 'Hide actual AI output' : 'Show actual AI output'}</span>
             <span>{isOutputOpen ? '▲' : '▼'}</span>

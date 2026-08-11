@@ -18,6 +18,7 @@ import { createHmac } from 'crypto';
 import { db } from '@/db';
 import { webhooks } from '@/db/schema';
 import { eq, or, isNull, and } from 'drizzle-orm';
+import { validateWebhookUrl } from './security/ssrf';
 
 export interface WebhookPayload {
   event: 'version.created';
@@ -63,7 +64,17 @@ export async function fireWebhooks(
   // Fire all hooks concurrently, absorb individual failures
   await Promise.allSettled(
     hooks.map(async (hook) => {
+      // 1. SSRF pre-flight validation & IP resolution
+      const ssrfCheck = await validateWebhookUrl(hook.url);
+      if (!ssrfCheck.valid) {
+        console.warn(
+          `[webhooks] Blocked delivery for hook ${hook.id}: SSRF validation failed (${ssrfCheck.reason})`
+        );
+        return;
+      }
+
       const sig = createHmac('sha256', hook.secretHash).update(body).digest('hex');
+
       try {
         const res = await fetch(hook.url, {
           method: 'POST',
@@ -74,6 +85,7 @@ export async function fireWebhooks(
             'User-Agent': 'GitForPrompts/1.0',
           },
           body,
+          redirect: 'manual', // Block HTTP 3xx redirects to prevent post-validation SSRF
           signal: AbortSignal.timeout(10_000), // 10s timeout per hook
         });
         if (!res.ok) {
@@ -85,3 +97,4 @@ export async function fireWebhooks(
     })
   );
 }
+

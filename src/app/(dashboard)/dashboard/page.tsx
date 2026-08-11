@@ -116,7 +116,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/dashboard/new"
-          className="h-9 px-4 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs transition-all active:scale-97 flex items-center justify-center gap-1.5"
+          className="h-9 px-4 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive flex items-center justify-center gap-1.5"
         >
           <span>+ Create New Prompt</span>
         </Link>
@@ -124,19 +124,19 @@ export default async function DashboardPage() {
 
       {/* Metric summary bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Prompts</div>
           <div className="text-2xl font-black text-zinc-100 font-mono">{promptsWithStats.length}</div>
         </div>
-        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Versions</div>
           <div className="text-2xl font-black text-blue-300 font-mono">{totalVersionCount}</div>
         </div>
-        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">Avg Pass Rate</div>
           <div className="text-2xl font-black text-emerald-300 font-mono">{avgPassRate}</div>
         </div>
-        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+        <div className="bg-bg-card p-4 rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
           <div className="text-[11px] font-mono font-bold text-zinc-500 uppercase tracking-wider mb-1">API Credentials</div>
           <div className="text-2xl font-black text-amber-300 font-mono">{totalKeys}</div>
         </div>
@@ -156,7 +156,7 @@ export default async function DashboardPage() {
               <CreateSamplePromptButton />
               <Link
                 href="/dashboard/new"
-                className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all shrink-0 cursor-pointer"
+                className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive shrink-0"
               >
                 + Create Blank Bundle
               </Link>

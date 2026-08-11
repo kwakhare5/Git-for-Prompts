@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { apiKeys, prompts } from '@/db/schema';
+import { prompts } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { authenticateApiKey } from '@/lib/api-auth';
@@ -36,12 +36,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const authResult = await authenticateApiKey(req);
+    const authResult = await authenticateApiKey(req, 'prompts:read');
     if (authResult instanceof NextResponse) return authResult;
-    const { ownerId, keyId } = authResult;
-
-    // Touch lastUsedAt — fire-and-forget
-    void db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, keyId)).execute();
+    const { ownerId } = authResult;
 
     const name = req.nextUrl.searchParams.get('name');
     if (!name) {
@@ -100,12 +97,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const authResult = await authenticateApiKey(req);
+    const authResult = await authenticateApiKey(req, 'prompts:write');
     if (authResult instanceof NextResponse) return authResult;
-    const { ownerId, keyId } = authResult;
-
-    // Touch lastUsedAt — fire-and-forget
-    void db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, keyId)).execute();
+    const { ownerId } = authResult;
 
     let body: z.infer<typeof createPromptBodySchema>;
     try {

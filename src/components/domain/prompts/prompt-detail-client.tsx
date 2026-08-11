@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useSyncExternalStore, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { PromptEditor } from './prompt-editor';
 import { VersionHistory } from './version-history';
@@ -8,6 +8,10 @@ import { togglePromptVisibility, deletePrompt } from '@/lib/actions/prompts';
 import { Globe, Lock, Copy, Check, Trash2, Code } from 'lucide-react';
 import type { InferSelectModel } from 'drizzle-orm';
 import type { versions } from '@/db/schema';
+
+const emptySubscribe = () => () => {};
+const getOrigin = () => window.location.origin;
+const getSSROrigin = () => '';
 
 type Version = InferSelectModel<typeof versions>;
 
@@ -33,11 +37,12 @@ export function PromptDetailClient({
   const [deleting, startDelete] = useTransition();
   const [showSuccess, setShowSuccess] = useState(false);
   const [copiedCurl, setCopiedCurl] = useState(false);
+  const origin = useSyncExternalStore(emptySubscribe, getOrigin, getSSROrigin);
 
   const activeVersion = versions.find((v) => v.id === selectedId) ?? versions[0];
   const modelConfig = (activeVersion?.bundle as { modelConfig?: { provider?: string; model?: string; temperature?: number; maxTokens?: number } })?.modelConfig;
 
-  const curlSnippet = `curl -X GET "${typeof window !== 'undefined' ? window.location.origin : ''}/api/v1/prompts/${promptId}/latest" \\
+  const curlSnippet = `curl -X GET "${origin}/api/v1/prompts/${promptId}/latest" \\
   -H "Authorization: Bearer gfp_live_YOUR_KEY"`;
 
   function handleDelete() {
@@ -148,7 +153,7 @@ export function PromptDetailClient({
               })
             }
             disabled={toggling}
-            className="w-full flex items-center justify-between border border-zinc-800 bg-bg-panel hover:bg-zinc-700 px-3.5 py-2.5 rounded-xl text-xs text-zinc-200 transition-all active:scale-97 cursor-pointer"
+            className="w-full flex items-center justify-between border border-zinc-800 bg-bg-panel hover:bg-zinc-700 px-3.5 py-2.5 rounded-xl text-xs text-zinc-200 btn-interactive"
             aria-label={isPublic ? 'Make this prompt private' : 'Make this prompt public'}
           >
             <span className="flex items-center gap-1.5 font-semibold">
@@ -167,7 +172,7 @@ export function PromptDetailClient({
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="w-full flex items-center justify-center gap-2 border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 px-3.5 py-2 rounded-xl text-xs text-rose-300 font-bold transition-all active:scale-97 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 px-3.5 py-2 rounded-xl text-xs text-rose-300 font-bold btn-interactive"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>{deleting ? 'Deleting…' : 'Delete Repository'}</span>

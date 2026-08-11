@@ -90,7 +90,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-semibold ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl tab-interactive font-semibold ${
                   isActive
                     ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-800 shadow-xs'
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
@@ -119,7 +119,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                 <FolderGit2 className="w-3 h-3 text-zinc-400" />
                 Repositories ({prompts.length})
               </span>
-              <Link href="/dashboard/new" className="text-zinc-300 hover:underline text-[10px] lowercase">
+              <Link href="/dashboard/new" className="text-zinc-300 hover:underline text-[10px] lowercase tab-interactive">
                 +new
               </Link>
             </div>
@@ -130,7 +130,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                   <div>No repositories yet</div>
                   <Link
                     href="/dashboard/new"
-                    className="inline-block text-zinc-300 hover:underline text-[10px] font-bold"
+                    className="inline-block text-zinc-300 hover:underline text-[10px] font-bold tab-interactive"
                   >
                     + Create Repository
                   </Link>
@@ -140,7 +140,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                   <Link
                     key={p.id}
                     href={`/dashboard/prompts/${p.id}`}
-                    className="p-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel flex items-center justify-between transition-colors border border-transparent hover:border-zinc-800"
+                    className="p-2 rounded-xl text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel flex items-center justify-between tab-interactive border border-transparent hover:border-zinc-800"
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="w-2 h-2 rounded-full bg-emerald-300 shrink-0"></span>

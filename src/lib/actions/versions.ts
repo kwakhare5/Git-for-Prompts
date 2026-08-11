@@ -170,6 +170,7 @@ export async function restoreVersion(input: unknown) {
       insertNextVersion(tx, {
         promptId: validated.promptId,
         content: versionToRestore.content,
+        bundle: (versionToRestore.bundle as PromptBundle) ?? undefined,
         commitMessage: `Restored from v${versionToRestore.versionNumber}`,
         createdBy: userId,
       })

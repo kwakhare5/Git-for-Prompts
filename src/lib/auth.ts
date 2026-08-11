@@ -24,20 +24,26 @@ export async function getAuthUserId(): Promise<string | null> {
     return clerkUserId;
   }
 
+  // Production environments MUST fail closed — no local auth fallback allowed in production
+  if (process.env.NODE_ENV === 'production') {
+    return null;
+  }
+
   // If Vitest/Jest test environment explicitly mocked auth() to return { userId: null },
   // respect that explicit null (e.g. testing unauthenticated access).
   if (process.env.NODE_ENV === 'test' && authCalledSuccessfully) {
     return null;
   }
 
-  // If Clerk keys are not configured in local dev, fall back to 'user_local_dev'
+  // Local development only: if Clerk keys are absent, fallback to 'user_local_dev'
   const hasClerkKeys = Boolean(
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY
   );
 
-  if (!hasClerkKeys) {
+  if (process.env.NODE_ENV === 'development' && !hasClerkKeys) {
     return 'user_local_dev';
   }
 
   return null;
 }
+
