@@ -6,11 +6,13 @@ import { CliCopyButton } from './ui-tokens';
 
 export function HeroSection() {
   return (
-    <section className="pt-16 pb-8 px-6 max-w-4xl mx-auto text-center">
-      
+    <section className="pt-16 pb-8 px-6 max-w-4xl mx-auto text-center relative">
+      {/* Top Ambient Glow Lighting */}
+      <div className="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(16,185,129,0.1),rgba(255,255,255,0))] pointer-events-none -z-10" />
+
       {/* Kicker Badge */}
-      <div className="inline-flex items-center gap-2 mb-6 font-mono text-xs font-bold bg-zinc-800/40 text-zinc-300 border border-zinc-800/50 px-3.5 py-1 rounded-full shadow-xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 animate-pulse"></span>
+      <div className="inline-flex items-center gap-2 mb-6 font-mono text-xs font-bold bg-bg-card text-zinc-300 border border-zinc-800 px-3.5 py-1 rounded-full shadow-xl">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
         100% OPEN SOURCE PROMPT VERSION CONTROL
       </div>
 
@@ -29,7 +31,7 @@ export function HeroSection() {
         <CliCopyButton command="npx gfp init" />
         <Link 
           href="/sign-in"
-          className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-6 py-2.5 rounded-xl shadow-xs transition-all duration-150 active:scale-97 flex items-center justify-center gap-2 text-xs cursor-pointer h-10"
+          className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-6 py-2.5 rounded-xl shadow-xs btn-interactive flex items-center justify-center gap-2 text-xs min-h-[44px]"
         >
           <span>Open Cloud Dashboard →</span>
         </Link>

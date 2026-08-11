@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { GFP_THEME_NAME, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
+import { GFP_THEME_NAME, GFP_LINE_NUMBER_OPTIONS, registerGfpTheme } from '@/lib/monaco-theme';
 import type { PromptBundle } from '@gfp/core';
 
 // Monaco DiffEditor must be dynamically imported — relies on browser APIs not available during SSR.
@@ -13,7 +13,7 @@ const MonacoDiffEditor = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="flex items-center justify-center bg-zinc-950 text-sm text-zinc-600 font-mono"
+        className="flex items-center justify-center bg-bg-page text-xs text-zinc-500 font-mono"
         style={{ height: '500px' }}
       >
         Loading diff…
@@ -104,47 +104,47 @@ export function DiffViewer({
   const noChanges = stats !== null && stats.added === 0 && stats.removed === 0;
 
   return (
-    <div className="flex flex-col font-sans">
+    <div className="flex flex-col font-sans border border-zinc-800/90 rounded-2xl overflow-hidden bg-bg-card shadow-xl">
       {/* Bundle structural diff header — only when both versions are V2 */}
       {showBundleHeader && (
-        <div className="flex items-start gap-4 rounded-t-lg border border-b-0 border-border bg-muted/40 px-4 py-2.5">
-          <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground font-semibold shrink-0 mt-0.5">Bundle</span>
+        <div className="flex items-start gap-4 border-b border-zinc-800/90 bg-bg-page px-4 py-2.5">
+          <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold shrink-0 mt-0.5">Bundle</span>
           <div className="flex flex-wrap gap-3 text-xs font-mono">
             {modelChanged ? (
               <span>
-                <span className="text-destructive">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
-                <span className="text-muted-foreground mx-1.5">→</span>
+                <span className="text-rose-400">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+                <span className="text-zinc-500 mx-1.5">→</span>
                 <span className="text-emerald-400">{modifiedBundle.modelConfig.provider}/{modifiedBundle.modelConfig.model}</span>
               </span>
             ) : (
-              <span className="text-muted-foreground">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
+              <span className="text-zinc-400">{originalBundle.modelConfig.provider}/{originalBundle.modelConfig.model}</span>
             )}
             {tempChanged && (
-              <span className="text-muted-foreground">
-                temp <span className="text-destructive">{originalBundle.modelConfig.temperature}</span>
-                <span className="text-muted-foreground mx-1">→</span>
+              <span className="text-zinc-400">
+                temp <span className="text-rose-400">{originalBundle.modelConfig.temperature}</span>
+                <span className="text-zinc-500 mx-1">→</span>
                 <span className="text-emerald-400">{modifiedBundle.modelConfig.temperature}</span>
               </span>
             )}
             {!modelChanged && !tempChanged && (
-              <span className="text-muted-foreground">Model config unchanged</span>
+              <span className="text-zinc-500">Model config unchanged</span>
             )}
           </div>
         </div>
       )}
       {/* Stats bar — only shown once Monaco has computed the diff */}
-      <div className={`flex items-center gap-4 border border-b-0 border-border bg-muted/30 px-4 py-2 min-h-[36px] ${showBundleHeader ? '' : 'rounded-t-lg'}`}>
+      <div className="flex items-center gap-4 border-b border-zinc-800/90 bg-bg-page px-4 py-2 min-h-[36px]">
         {stats === null ? (
-          <span className="text-xs font-mono text-muted-foreground animate-pulse">Computing diff…</span>
+          <span className="text-xs font-mono text-zinc-500 animate-pulse">Computing diff…</span>
         ) : noChanges ? (
-          <span className="text-xs font-mono text-muted-foreground">Identical — no changes between these versions</span>
+          <span className="text-xs font-mono text-zinc-400">Identical — no changes between these versions</span>
         ) : (
           <>
             <span className="text-xs font-mono text-emerald-400 tabular-nums">
               +{stats.added} {stats.added === 1 ? 'line' : 'lines'} added
             </span>
-            <span className="text-xs text-muted-foreground" aria-hidden="true">·</span>
-            <span className="text-xs font-mono text-destructive tabular-nums">
+            <span className="text-xs text-zinc-600" aria-hidden="true">·</span>
+            <span className="text-xs font-mono text-rose-400 tabular-nums">
               −{stats.removed} {stats.removed === 1 ? 'line' : 'lines'} removed
             </span>
           </>
@@ -152,25 +152,26 @@ export function DiffViewer({
       </div>
 
       {/* Column labels — version number + commit message above each panel */}
-      <div className="grid grid-cols-2 divide-x divide-border border border-b-0 border-border">
-        <div className="px-4 py-2 bg-muted/50">
-          <span className="text-xs font-mono text-muted-foreground truncate block" title={originalLabel}>
+      <div className="grid grid-cols-2 divide-x divide-zinc-800/90 border-b border-zinc-800/90 bg-bg-page">
+        <div className="px-4 py-2">
+          <span className="text-xs font-mono text-zinc-300 truncate block font-bold" title={originalLabel}>
             {originalLabel}
           </span>
         </div>
-        <div className="px-4 py-2 bg-muted/50">
-          <span className="text-xs font-mono text-muted-foreground truncate block" title={modifiedLabel}>
+        <div className="px-4 py-2">
+          <span className="text-xs font-mono text-zinc-300 truncate block font-bold" title={modifiedLabel}>
             {modifiedLabel}
           </span>
         </div>
       </div>
 
       {/* Monaco DiffEditor */}
-      <div className="rounded-b-lg overflow-hidden border border-border">
+      <div className="overflow-hidden bg-bg-page">
         <MonacoDiffEditor
           height={height}
           language="plaintext"
           theme={GFP_THEME_NAME}
+          beforeMount={registerGfpTheme}
           original={originalContent}
           modified={modifiedContent}
           onMount={(editor) => handleMount(editor as unknown as StandaloneDiffEditor)}

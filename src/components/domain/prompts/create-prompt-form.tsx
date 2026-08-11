@@ -72,7 +72,7 @@ export function CreatePromptForm() {
       </div>
 
       {/* Engine Default Pill */}
-      <div className="rounded-xl border border-border-subtle bg-bg-page/60 p-3 text-xs text-zinc-300 flex items-center justify-between font-mono">
+      <div className="rounded-xl border border-zinc-800 bg-bg-page p-3 text-xs text-zinc-300 flex items-center justify-between font-mono">
         <span>Initial Engine Preset:</span>
         <span className="font-bold bg-emerald-500/10 text-emerald-300 px-2.5 py-0.5 rounded border border-emerald-500/20">
           groq/llama-3.3-70b-versatile
@@ -91,13 +91,13 @@ export function CreatePromptForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+          className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs btn-interactive disabled:opacity-50"
         >
           {isPending ? "Creating Repository…" : "+ Initialize Prompt Repository"}
         </button>
         <Link
           href="/dashboard"
-          className="px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
+          className="px-3 py-2 text-xs text-zinc-400 hover:text-zinc-200 tab-interactive"
         >
           Cancel
         </Link>

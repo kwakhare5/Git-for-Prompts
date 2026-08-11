@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import {
   CopyIcon,
   CheckIcon,
@@ -77,7 +78,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
           <div className="flex items-center bg-bg-page p-1 rounded-xl border border-zinc-800">
             <button
               onClick={() => setVisibilityFilter('all')}
-              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-bold tab-interactive ${
                 visibilityFilter === 'all'
                   ? 'bg-bg-panel text-zinc-100 shadow-xs'
                   : 'text-zinc-400 hover:text-zinc-200'
@@ -87,7 +88,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             </button>
             <button
               onClick={() => setVisibilityFilter('public')}
-              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-bold tab-interactive ${
                 visibilityFilter === 'public'
                   ? 'bg-emerald-500/20 text-emerald-300 shadow-xs'
                   : 'text-zinc-400 hover:text-zinc-200'
@@ -97,7 +98,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             </button>
             <button
               onClick={() => setVisibilityFilter('private')}
-              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-bold tab-interactive ${
                 visibilityFilter === 'private'
                   ? 'bg-bg-panel text-zinc-200 shadow-xs'
                   : 'text-zinc-400 hover:text-zinc-200'
@@ -112,7 +113,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             <button
               onClick={() => setViewMode('table')}
               title="Table View"
-              className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold tab-interactive ${
                 viewMode === 'table' ? 'bg-bg-panel text-zinc-100 shadow-xs' : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -121,7 +122,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
             <button
               onClick={() => setViewMode('grid')}
               title="Grid View"
-              className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg font-bold tab-interactive ${
                 viewMode === 'grid' ? 'bg-bg-panel text-zinc-100 shadow-xs' : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -133,8 +134,50 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
 
       {/* Filtered list content */}
       {filteredPrompts.length === 0 ? (
-        <div className="p-8 text-center border border-zinc-800/90 rounded-2xl bg-bg-card text-zinc-400 font-mono text-xs shadow-xl">
-          No prompt repositories found matching your filter criteria.
+        <div className="p-10 text-center border border-zinc-800/90 rounded-2xl bg-bg-card text-zinc-400 font-mono text-xs shadow-xl space-y-6">
+          {prompts.length === 0 ? (
+            <div className="space-y-6 max-w-lg mx-auto">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xl font-bold">
+                git
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="text-base font-bold text-zinc-100 font-mono">Welcome to Git for Prompts</h3>
+                <p className="text-xs text-zinc-400 font-sans">
+                  Version control, evaluate, and A/B test your AI prompt templates with immutable commit history.
+                </p>
+              </div>
+
+              {/* 1-2-3 Workflow steps */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left font-mono">
+                <div className="p-3 rounded-xl border border-zinc-800 bg-bg-page space-y-1 card-interactive">
+                  <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Step 1</span>
+                  <div className="text-xs font-bold text-zinc-200">Create Prompt</div>
+                  <p className="text-[11px] text-zinc-500 font-sans">Draft prompt templates & placeholders.</p>
+                </div>
+                <div className="p-3 rounded-xl border border-zinc-800 bg-bg-page space-y-1 card-interactive">
+                  <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Step 2</span>
+                  <div className="text-xs font-bold text-zinc-200">Save Version</div>
+                  <p className="text-[11px] text-zinc-500 font-sans">Commit immutable v1, v2 snapshots.</p>
+                </div>
+                <div className="p-3 rounded-xl border border-zinc-800 bg-bg-page space-y-1 card-interactive">
+                  <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Step 3</span>
+                  <div className="text-xs font-bold text-zinc-200">Test & Compare</div>
+                  <p className="text-[11px] text-zinc-500 font-sans">Evaluate versions side-by-side with AI.</p>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <Link
+                  href="/dashboard/new"
+                  className="inline-flex items-center gap-2 h-10 px-5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive"
+                >
+                  <span>+ Create Your First Prompt</span>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <p>No prompt repositories found matching your filter criteria.</p>
+          )}
         </div>
       ) : viewMode === 'table' ? (
         <div className="border border-zinc-800/90 rounded-2xl bg-bg-card overflow-hidden shadow-xl">
@@ -153,7 +196,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
               {filteredPrompts.map((prompt) => (
                 <tr key={prompt.id} className="hover:bg-bg-panel/60 transition-colors">
                   <td className="p-4 pl-5 font-semibold text-zinc-100 font-mono">
-                    <Link href={`/dashboard/prompts/${prompt.id}`} className="hover:text-blue-300 transition-colors">
+                    <Link href={`/dashboard/prompts/${prompt.id}`} className="hover:text-blue-300 tab-interactive">
                       {prompt.name}
                     </Link>
                   </td>
@@ -161,13 +204,13 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                     {prompt.description || '—'}
                   </td>
                   <td className="p-4 font-mono">
-                    <span className="bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-bold">
+                    <span className="bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-bold tabular-nums">
                       v{prompt.versionCount}
                     </span>
                   </td>
                   <td className="p-4 font-mono">
                     {prompt.testsTotal > 0 ? (
-                      <span className="text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded text-[11px]">
+                      <span className="text-emerald-300 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded text-[11px] tabular-nums">
                         {prompt.testsPassed}/{prompt.testsTotal} ({Math.round((prompt.testsPassed / prompt.testsTotal) * 100)}%)
                       </span>
                     ) : (
@@ -188,25 +231,25 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
                   <td className="p-4 pr-5 text-right space-x-3 font-mono text-[11px]">
                     <Link
                       href={`/dashboard/prompts/${prompt.id}`}
-                      className="text-zinc-100 hover:text-white font-bold transition-colors"
+                      className="text-zinc-100 hover:text-white font-bold tab-interactive"
                     >
                       Open Studio
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/edit`}
-                      className="text-zinc-400 hover:text-zinc-200 transition-colors"
+                      className="text-zinc-400 hover:text-zinc-200 tab-interactive"
                     >
                       Edit Bundle
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/diff`}
-                      className="text-zinc-400 hover:text-zinc-200 transition-colors"
+                      className="text-zinc-400 hover:text-zinc-200 tab-interactive"
                     >
                       View Diff
                     </Link>
                     <Link
                       href={`/dashboard/prompts/${prompt.id}/tests`}
-                      className="text-emerald-300 hover:text-emerald-200 transition-colors"
+                      className="text-emerald-300 hover:text-emerald-200 tab-interactive font-bold"
                     >
                       Run Evals
                     </Link>
@@ -222,13 +265,13 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
           {filteredPrompts.map((prompt) => (
             <div
               key={prompt.id}
-              className="bg-bg-card border border-zinc-800/90 p-5 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 hover:border-zinc-800 transition-all"
+              className="bg-bg-card border border-zinc-800/90 p-5 rounded-2xl shadow-xl flex flex-col justify-between space-y-4 card-interactive hover:border-zinc-700"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between gap-2 font-mono">
                   <Link
                     href={`/dashboard/prompts/${prompt.id}`}
-                    className="text-sm font-bold text-zinc-100 hover:text-blue-300 transition-colors truncate"
+                    className="text-sm font-bold text-zinc-100 hover:text-blue-300 tab-interactive truncate"
                   >
                     {prompt.name}
                   </Link>
@@ -263,7 +306,7 @@ export function PromptRepositoriesList({ prompts }: PromptRepositoriesListProps)
 
                 <Link
                   href={`/dashboard/prompts/${prompt.id}`}
-                  className="px-3 py-1 bg-zinc-100 hover:bg-white text-zinc-950 rounded-lg text-xs font-bold active:scale-97 transition-all cursor-pointer"
+                  className="px-3 py-1 bg-zinc-100 hover:bg-white text-zinc-950 rounded-lg text-xs font-bold btn-interactive"
                 >
                   Open Studio →
                 </Link>
@@ -473,7 +516,7 @@ export function DashboardWorkspaceView({
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() => navigator.clipboard.writeText("{{codeSnippet}}")}
-                    className="text-blue-300 font-bold bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 transition-all cursor-pointer active:scale-95"
+                    className="text-blue-300 font-bold bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 tab-interactive"
                     title="Click to copy {{codeSnippet}}"
                   >
                     <span>{"{{codeSnippet}}"}</span>
@@ -482,7 +525,7 @@ export function DashboardWorkspaceView({
 
                   <button
                     onClick={() => navigator.clipboard.writeText("{{language}}")}
-                    className="text-blue-300 font-bold bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 transition-all cursor-pointer active:scale-95"
+                    className="text-blue-300 font-bold bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2.5 py-1 rounded-lg inline-flex items-center gap-1.5 tab-interactive"
                     title="Click to copy {{language}}"
                   >
                     <span>{"{{language}}"}</span>
@@ -495,17 +538,23 @@ export function DashboardWorkspaceView({
             <div className="p-4 bg-bg-card rounded-xl border border-zinc-800 text-xs grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
                 <span className="text-zinc-500 text-[10px] block uppercase tracking-wider mb-1 font-mono">Provider</span>
-                <select className="bg-bg-page border border-zinc-800 rounded-lg px-2 py-1 text-zinc-100 font-mono text-xs w-full outline-none">
-                  <option value="groq">groq</option>
-                  <option value="openrouter">openrouter</option>
-                </select>
+                <div className="relative">
+                  <select className="appearance-none bg-bg-page border border-zinc-800 rounded-lg pl-2 pr-7 py-1 text-zinc-100 font-mono text-xs w-full outline-none cursor-pointer [color-scheme:dark]">
+                    <option value="groq">groq</option>
+                    <option value="openrouter">openrouter</option>
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" />
+                </div>
               </div>
               <div>
                 <span className="text-zinc-500 text-[10px] block uppercase tracking-wider mb-1 font-mono">Model</span>
-                <select className="bg-bg-page border border-zinc-800 rounded-lg px-2 py-1 text-blue-300 font-bold font-mono text-xs w-full outline-none">
-                  <option value="llama-3.3-70b-versatile">llama-3.3-70b</option>
-                  <option value="mixtral-8x7b-32768">mixtral-8x7b</option>
-                </select>
+                <div className="relative">
+                  <select className="appearance-none bg-bg-page border border-zinc-800 rounded-lg pl-2 pr-7 py-1 text-blue-300 font-bold font-mono text-xs w-full outline-none cursor-pointer [color-scheme:dark]">
+                    <option value="llama-3.3-70b-versatile">llama-3.3-70b</option>
+                    <option value="mixtral-8x7b-32768">mixtral-8x7b</option>
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" />
+                </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1 font-mono text-[10px]">

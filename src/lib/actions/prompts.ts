@@ -116,10 +116,26 @@ export async function forkPrompt(sourcePromptId: string) {
 
   if (!source) throw new Error('Prompt not found or not public');
 
+  // Resolve collision-free prompt name for user
+  const baseName = `${source.name} (fork)`;
+  let finalName = baseName;
+  let counter = 1;
+
+  while (counter < 100) {
+    const [existing] = await db
+      .select({ id: prompts.id })
+      .from(prompts)
+      .where(and(eq(prompts.ownerId, userId), eq(prompts.name, finalName)));
+
+    if (!existing) break;
+    finalName = `${baseName} (Copy ${counter})`;
+    counter++;
+  }
+
   const [forked] = await db
     .insert(prompts)
     .values({
-      name: `${source.name} (fork)`,
+      name: finalName,
       description: source.description,
       ownerId: userId,
       isPublic: false,

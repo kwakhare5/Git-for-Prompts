@@ -12,40 +12,68 @@
 
 // ─── In-process fallback (dev / no Redis) ────────────────────────────────────
 
-const inProcessCounts = new Map<string, { count: number; resetAt: number }>();
-const IN_PROCESS_LIMIT = 60;
+export const inProcessCounts = new Map<string, { count: number; resetAt: number }>();
+export const MAP_CLEANUP_THRESHOLD = 500;
 const IN_PROCESS_WINDOW_MS = 60_000; // 1 minute
 
-function inProcessRateLimit(key: string): { success: boolean; remaining: number } {
+export function cleanupExpiredInProcessEntries(now: number = Date.now()): number {
+  let cleaned = 0;
+  for (const [k, record] of inProcessCounts.entries()) {
+    if (record.resetAt <= now) {
+      inProcessCounts.delete(k);
+      cleaned++;
+    }
+  }
+  return cleaned;
+}
+
+function inProcessRateLimit(key: string, limit: number): { success: boolean; remaining: number } {
   const now = Date.now();
+
+  // Bounded deterministic sweep when size exceeds threshold
+  if (inProcessCounts.size >= MAP_CLEANUP_THRESHOLD) {
+    cleanupExpiredInProcessEntries(now);
+  }
+
   const record = inProcessCounts.get(key);
 
-  if (!record || record.resetAt < now) {
+  if (!record || record.resetAt <= now) {
     inProcessCounts.set(key, { count: 1, resetAt: now + IN_PROCESS_WINDOW_MS });
-    return { success: true, remaining: IN_PROCESS_LIMIT - 1 };
+    return { success: true, remaining: limit - 1 };
   }
 
   record.count++;
-  const remaining = Math.max(0, IN_PROCESS_LIMIT - record.count);
-  return { success: record.count <= IN_PROCESS_LIMIT, remaining };
+  const remaining = Math.max(0, limit - record.count);
+  return { success: record.count <= limit, remaining };
 }
 
-// ─── Upstash singleton (lazy-initialized on first use) ───────────────────────
-// Modules are re-used across requests in the same Node.js process, so creating
-// Ratelimit once saves ~1-2ms of object allocation overhead per request.
+// ─── Upstash singletons (lazy-initialized on first use) ──────────────────────
 
-let _ratelimit: import('@upstash/ratelimit').Ratelimit | null = null;
+let _standardRatelimit: import('@upstash/ratelimit').Ratelimit | null = null;
+let _expensiveRatelimit: import('@upstash/ratelimit').Ratelimit | null = null;
 
-async function getUpstashRatelimit(): Promise<import('@upstash/ratelimit').Ratelimit> {
-  if (_ratelimit) return _ratelimit;
+async function getStandardRatelimit(): Promise<import('@upstash/ratelimit').Ratelimit> {
+  if (_standardRatelimit) return _standardRatelimit;
   const { Ratelimit } = await import('@upstash/ratelimit');
   const { Redis } = await import('@upstash/redis');
-  _ratelimit = new Ratelimit({
+  _standardRatelimit = new Ratelimit({
     redis: Redis.fromEnv(),
     limiter: Ratelimit.slidingWindow(60, '1 m'),
-    prefix: 'gfp_rl',
+    prefix: 'gfp_rl_std',
   });
-  return _ratelimit;
+  return _standardRatelimit;
+}
+
+async function getExpensiveRatelimit(): Promise<import('@upstash/ratelimit').Ratelimit> {
+  if (_expensiveRatelimit) return _expensiveRatelimit;
+  const { Ratelimit } = await import('@upstash/ratelimit');
+  const { Redis } = await import('@upstash/redis');
+  _expensiveRatelimit = new Ratelimit({
+    redis: Redis.fromEnv(),
+    limiter: Ratelimit.slidingWindow(20, '1 m'),
+    prefix: 'gfp_rl_exp',
+  });
+  return _expensiveRatelimit;
 }
 
 // ─── Public interface ─────────────────────────────────────────────────────────
@@ -56,22 +84,31 @@ export interface RateLimitResult {
 }
 
 /**
- * Check rate limit for a given key (usually IP or userId).
- * Limit: 60 requests per minute.
+ * Check rate limit for a given key.
+ * - Standard operations: 60 requests/minute
+ * - Expensive operations (`expensive:...` prefix): 20 requests/minute
  */
 export async function checkRateLimit(key: string): Promise<RateLimitResult> {
+  const isExpensive = key.startsWith('expensive:');
+  const maxLimit = isExpensive ? 20 : 60;
+
   // Use Upstash when both env vars are present
   if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
     try {
-      const ratelimit = await getUpstashRatelimit();
+      const ratelimit = isExpensive
+        ? await getExpensiveRatelimit()
+        : await getStandardRatelimit();
       const result = await ratelimit.limit(key);
       return { success: result.success, remaining: result.remaining };
     } catch (err) {
-      // If Upstash fails, degrade gracefully to in-process fallback
-      console.warn('[RateLimit] Upstash unavailable, falling back to in-process:', err);
+      console.warn('[RateLimit] Upstash Redis unavailable:', err);
+      // Expensive operations fail closed on Redis outage
+      if (isExpensive) {
+        return { success: false, remaining: 0 };
+      }
     }
   }
 
-  // In-process fallback
-  return inProcessRateLimit(key);
+  // In-process fallback for cheap reads / dev / CI
+  return inProcessRateLimit(key, maxLimit);
 }

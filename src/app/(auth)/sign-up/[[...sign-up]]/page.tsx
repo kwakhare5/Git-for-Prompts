@@ -66,7 +66,7 @@ export default function SignUpPage() {
 
         <div className="space-y-4">
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+            <button className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive h-11">
               <GoogleIcon />
               Continue with Google
             </button>
@@ -99,7 +99,7 @@ export default function SignUpPage() {
           </div>
 
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-bg-panel hover:bg-zinc-700 text-zinc-100 border border-zinc-800 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-bg-panel hover:bg-zinc-700 text-zinc-100 border border-zinc-800 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive h-11">
               <span>Create Account &amp; Enter Workspace</span>
               <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>

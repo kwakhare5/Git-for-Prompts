@@ -61,7 +61,7 @@ export function CreateSamplePromptButton() {
     <button
       onClick={handleCreateSample}
       disabled={isPending}
-      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all shrink-0 cursor-pointer disabled:opacity-50"
+      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive shrink-0 disabled:opacity-50"
     >
       <Zap className="w-4 h-4 text-blue-300" />
       <span>{isPending ? 'Initializing Sample Bundle…' : 'Initialize Starter Bundle'}</span>

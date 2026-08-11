@@ -45,14 +45,14 @@ export default function DashboardError({
           <button
             type="button"
             onClick={reset}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl font-bold active:scale-97 transition-all cursor-pointer shadow-xs"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl font-bold btn-interactive shadow-xs"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Try Again
           </button>
           <Link
             href="/dashboard"
-            className="p-2.5 border border-zinc-800 bg-bg-page hover:bg-bg-panel text-zinc-300 hover:text-white rounded-xl transition-all"
+            className="p-2.5 border border-zinc-800 bg-bg-page hover:bg-bg-panel text-zinc-300 hover:text-white rounded-xl tab-interactive"
             title="Return to Workspace"
           >
             <Home className="w-4 h-4" />

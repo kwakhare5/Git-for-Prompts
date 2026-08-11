@@ -39,7 +39,7 @@ export function FaqFooter() {
       {/* FAQ Accordion */}
       <section id="docs" className="px-6 max-w-4xl mx-auto mb-28">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-zinc-100 font-serif mb-2">Developer FAQ</h2>
+          <h2 className="text-3xl font-bold text-zinc-100 font-serif mb-2 [text-wrap:balance]">Developer FAQ</h2>
           <p className="text-xs font-mono text-zinc-500">Everything you need to know about Git for Prompts.</p>
         </div>
 
@@ -48,14 +48,16 @@ export function FaqFooter() {
             <div 
               key={idx}
               onClick={() => toggleFaq(idx)}
-              className="bg-bg-card/40 backdrop-blur-md rounded-xl border border-zinc-800/80 p-4 cursor-pointer hover:border-zinc-700 transition-colors"
+              className="bg-bg-card rounded-xl border border-zinc-800/90 p-4 tab-interactive hover:border-zinc-700 shadow-xl overflow-hidden"
             >
               <div className="flex items-center justify-between text-xs font-bold text-zinc-100">
                 <span className="font-mono">{faq.q}</span>
-                <span className="text-zinc-500 font-mono">{openFaq === idx ? '−' : '+'}</span>
+                <span className={`text-zinc-500 font-mono transition-transform duration-200 ${openFaq === idx ? 'rotate-180 text-emerald-400' : ''}`}>
+                  {openFaq === idx ? '−' : '+'}
+                </span>
               </div>
               {openFaq === idx && (
-                <p className="mt-3 text-xs text-zinc-400 leading-relaxed border-t border-zinc-800 pt-3 font-sans">
+                <p className="mt-3 text-xs text-zinc-400 leading-relaxed border-t border-zinc-800 pt-3 font-sans transition-opacity duration-200 opacity-100">
                   {faq.a}
                 </p>
               )}
@@ -64,12 +66,12 @@ export function FaqFooter() {
         </div>
 
         {/* Dynamic Terminal CTA Banner */}
-        <div className="bg-bg-card/40 backdrop-blur-md text-white rounded-3xl p-10 text-center border border-zinc-800/80 shadow-2xl relative overflow-hidden font-mono">
+        <div className="bg-bg-card text-white rounded-3xl p-10 text-center border border-zinc-800/90 shadow-2xl relative overflow-hidden font-mono">
           <div className="w-10 h-10 rounded-xl bg-black/50 border border-zinc-800 flex items-center justify-center mx-auto mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg" />
           </div>
-          <h3 className="text-3xl md:text-4xl font-bold font-serif mb-4 text-zinc-100">
+          <h3 className="text-3xl md:text-4xl font-bold font-serif mb-4 text-zinc-100 [text-wrap:balance]">
             Start versioning your prompts locally in seconds
           </h3>
           <p className="text-zinc-400 text-xs max-w-md mx-auto mb-8 font-sans">
@@ -77,7 +79,7 @@ export function FaqFooter() {
           </p>
           <Link 
             href="/sign-in"
-            className="inline-block bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-6 py-3 rounded-xl active:scale-97 transition-all cursor-pointer"
+            className="inline-block bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-6 py-3 rounded-xl btn-interactive"
           >
             Get Started Free →
           </Link>

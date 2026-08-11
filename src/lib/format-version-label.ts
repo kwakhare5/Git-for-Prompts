@@ -11,7 +11,13 @@ export function formatVersionLabel(
   v: { versionNumber: number; commitMessage: string | null | undefined },
   separator = '—'
 ): string {
-  return v.commitMessage
-    ? `v${v.versionNumber} ${separator} ${v.commitMessage}`
-    : `v${v.versionNumber}`;
+  if (!v.commitMessage) {
+    return `v${v.versionNumber}`;
+  }
+
+  // Strip redundant leading "v{versionNumber} -", "v{versionNumber} ·", "v{versionNumber} —", or "v{versionNumber} "
+  const prefixRegex = new RegExp(`^v${v.versionNumber}\\s*[-·—:]?\\s*`, 'i');
+  const cleanMessage = v.commitMessage.replace(prefixRegex, '').trim();
+
+  return cleanMessage ? `v${v.versionNumber} ${separator} ${cleanMessage}` : `v${v.versionNumber}`;
 }

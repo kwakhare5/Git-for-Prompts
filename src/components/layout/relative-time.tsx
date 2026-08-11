@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 
 function getRelativeTimeString(date: Date | string): string {
   const diff = Date.now() - new Date(date).getTime();
@@ -14,19 +14,17 @@ function getRelativeTimeString(date: Date | string): string {
   return 'just now';
 }
 
+const emptySubscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
+
 /**
  * Renders a relative timestamp (e.g. "3d ago", "just now").
  * Computes formatting on the client post-mount to guarantee zero React 19 hydration mismatches.
  */
 export function RelativeTime({ date, className }: { date: Date | string; className?: string }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  const label = mounted ? getRelativeTimeString(date) : '...';
+  const isClient = useSyncExternalStore(emptySubscribe, getSnapshot, getServerSnapshot);
+  const label = isClient ? getRelativeTimeString(date) : '...';
 
   return (
     <span className={className ?? 'text-zinc-600 tabular-nums text-xs font-mono'}>

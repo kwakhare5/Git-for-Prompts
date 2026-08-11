@@ -24,7 +24,7 @@ export default function NotFound() {
 
         <Link
           href="/dashboard"
-          className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs active:scale-97 transition-all cursor-pointer shadow-xs"
+          className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive"
         >
           <Home className="w-4 h-4 text-zinc-950" />
           Return to Workspace

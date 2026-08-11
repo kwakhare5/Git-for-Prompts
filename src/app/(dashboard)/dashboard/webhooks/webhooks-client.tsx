@@ -109,14 +109,14 @@ export function WebhooksClient({ webhooks: initialWebhooks }: WebhooksClientProp
         <button
           onClick={handleCreate}
           disabled={isPending || !url.trim()}
-          className="self-start px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+          className="self-start px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive disabled:opacity-50"
         >
           {isPending ? 'Creating…' : '+ Add Webhook'}
         </button>
       </div>
 
       {hooks.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-bg-card/40">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-10 text-center text-zinc-500 bg-bg-card font-sans shadow-xl">
           <p className="text-xs font-mono">No webhooks registered yet.</p>
         </div>
       ) : (

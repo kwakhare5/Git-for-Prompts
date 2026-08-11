@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { TestCaseCard } from './test-case-card';
 import { createTestCase } from '@/lib/actions/tests';
 import { formatVersionLabel } from '@/lib/format-version-label';
+import { ChevronDown } from 'lucide-react';
 import { useTestRunnerState, type TestCase, type Version } from './use-test-runner-state';
 
 type TestRunnerProps = {
@@ -77,30 +78,33 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-3">
           <label className="text-xs text-zinc-400 shrink-0 font-mono font-bold">Target Version:</label>
-          <select
-            value={selectedVersionId}
-            onChange={(e) => setSelectedVersionId(e.target.value)}
-            className="cursor-pointer rounded-xl border border-zinc-800 bg-bg-page px-3.5 py-2 text-xs text-zinc-100 font-mono focus:outline-none focus:border-zinc-600"
-          >
-            {versions.map((v) => (
-              <option key={v.id} value={v.id} className="bg-bg-card text-zinc-100">
-                {formatVersionLabel(v)}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedVersionId}
+              onChange={(e) => setSelectedVersionId(e.target.value)}
+              className="cursor-pointer appearance-none rounded-xl border border-zinc-800 bg-bg-page pl-3.5 pr-8 py-2 text-xs text-zinc-100 font-mono focus:outline-none focus:border-zinc-600 transition-colors [color-scheme:dark]"
+            >
+              {versions.map((v) => (
+                <option key={v.id} value={v.id} className="bg-bg-page text-zinc-100 font-mono">
+                  {formatVersionLabel(v)}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" />
+          </div>
         </div>
 
         <div className="flex items-center gap-2.5 font-mono">
           <button
             onClick={() => setShowForm((prev) => !prev)}
-            className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs text-zinc-200 hover:text-white bg-bg-panel hover:bg-zinc-700 font-bold transition-all cursor-pointer"
+            className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs text-zinc-200 hover:text-white bg-bg-panel hover:bg-zinc-700 font-bold btn-interactive"
           >
             {showForm ? 'Cancel' : '+ Add Test Case'}
           </button>
           <button
             onClick={handleRunTests}
             disabled={isRunning || testCases.length === 0 || !selectedVersionId}
-            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs btn-interactive disabled:opacity-50"
           >
             {isRunning ? 'Running Evals…' : '▶ Run All Evals'}
           </button>
@@ -215,15 +219,19 @@ export function TestRunner({ promptId, versions, initialTestCases }: TestRunnerP
 
       {/* Test case list */}
       {testCases.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 bg-bg-card/40 py-16 text-center">
-          <div className="font-mono text-2xl text-zinc-600 mb-2 font-bold">assert()</div>
-          <h2 className="text-sm font-bold text-zinc-200 font-mono mb-1">No Test Assertions Created</h2>
-          <p className="text-xs text-zinc-400 mb-5 max-w-xs font-sans">
-            Add test cases to evaluate prompt bundles against real inputs and criteria.
-          </p>
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 bg-bg-card py-12 px-6 text-center space-y-4">
+          <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-mono font-bold text-sm">
+            eval
+          </div>
+          <div className="space-y-1 max-w-sm">
+            <h3 className="text-sm font-bold text-zinc-200 font-mono">No Test Assertions Defined</h3>
+            <p className="text-xs text-zinc-400 font-sans leading-relaxed">
+              Add example user inputs and expected criteria so Git for Prompts can automatically evaluate future prompt versions and catch regressions.
+            </p>
+          </div>
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all"
+            className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive"
           >
             + Add First Test Assertion
           </button>

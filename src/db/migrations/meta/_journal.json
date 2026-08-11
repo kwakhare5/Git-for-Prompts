@@ -36,6 +36,20 @@
       "when": 1753334400000,
       "tag": "0004_audit_fixes",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1786432321031,
+      "tag": "0005_kind_prowler",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1786432695379,
+      "tag": "0006_tranquil_princess_powerful",
+      "breakpoints": true
     }
   ]
 }

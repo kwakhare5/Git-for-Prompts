@@ -15,11 +15,11 @@ export function PromptSubnav({ promptId, testCount }: PromptSubnavProps) {
   const baseUrl = `/dashboard/prompts/${promptId}`;
 
   const tabs = [
-    { label: 'Overview', href: baseUrl, icon: Eye, exact: true },
-    { label: 'Editor', href: `${baseUrl}/edit`, icon: Edit3 },
-    { label: 'Diff', href: `${baseUrl}/diff`, icon: Split },
-    { label: 'Compare', href: `${baseUrl}/compare`, icon: GitCompare },
-    { label: 'Test Suite', href: `${baseUrl}/tests`, icon: CheckSquare, count: testCount },
+    { label: '1. Overview', href: baseUrl, icon: Eye, exact: true },
+    { label: '2. Editor', href: `${baseUrl}/edit`, icon: Edit3 },
+    { label: '3. Diff', href: `${baseUrl}/diff`, icon: Split },
+    { label: '4. Compare', href: `${baseUrl}/compare`, icon: GitCompare },
+    { label: '5. Test Suite', href: `${baseUrl}/tests`, icon: CheckSquare, count: testCount },
   ];
 
   return (
@@ -32,7 +32,7 @@ export function PromptSubnav({ promptId, testCount }: PromptSubnavProps) {
           <Link
             key={tab.href}
             href={tab.href}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold transition-all active:scale-97 ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold tab-interactive ${
               isActive
                 ? 'bg-zinc-100/10 text-zinc-100 border border-zinc-800 shadow-xs'
                 : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
