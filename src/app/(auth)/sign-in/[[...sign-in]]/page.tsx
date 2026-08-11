@@ -66,7 +66,7 @@ export default function SignInPage() {
 
         <div className="space-y-4">
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+            <button className="w-full flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive h-11">
               <GoogleIcon />
               Continue with Google
             </button>
@@ -92,7 +92,7 @@ export default function SignInPage() {
           <div className="space-y-1.5 text-left">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-xs font-mono font-bold text-zinc-300 block">Password</label>
-              <span className="text-xs text-zinc-500 hover:text-zinc-300 cursor-pointer font-mono">
+              <span className="text-xs text-zinc-500 hover:text-zinc-300 tab-interactive font-mono">
                 Forgot password?
               </span>
             </div>
@@ -105,7 +105,7 @@ export default function SignInPage() {
           </div>
 
           <Link href="/dashboard" className="w-full block">
-            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-bg-panel hover:bg-zinc-700 text-zinc-100 border border-zinc-800 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all cursor-pointer h-11">
+            <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-bg-panel hover:bg-zinc-700 text-zinc-100 border border-zinc-800 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive h-11">
               <span>Enter Workspace</span>
               <ArrowRight className="w-4 h-4 text-zinc-400" />
             </button>

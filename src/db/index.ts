@@ -8,9 +8,9 @@ const globalForDb = globalThis as unknown as { _pgClient: ReturnType<typeof post
 const client =
   globalForDb._pgClient ??
   postgres(process.env.DATABASE_URL!, {
-    max: 10,
+    max: process.env.DB_MAX_CONNECTIONS ? parseInt(process.env.DB_MAX_CONNECTIONS, 10) : 20,
     idle_timeout: 20,
-    connect_timeout: 10,
+    connect_timeout: 30,
   });
 
 if (process.env.NODE_ENV !== 'production') globalForDb._pgClient = client;

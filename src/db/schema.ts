@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, boolean, integer, timestamp, jsonb, index, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, boolean, integer, timestamp, jsonb, index, uniqueIndex, foreignKey } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import type { PromptBundle } from '@gfp/core';
 
@@ -13,7 +13,7 @@ export const prompts = pgTable(
     description: text('description'),
     ownerId: varchar('owner_id', { length: 255 }).notNull(), // Clerk userId
     isPublic: boolean('is_public').default(false).notNull(),
-    currentVersionId: uuid('current_version_id'), // FK to versions (set after first version)
+    currentVersionId: uuid('current_version_id'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
     // Scheduled regression tests
@@ -23,6 +23,7 @@ export const prompts = pgTable(
   (t) => [
     index('prompts_owner_id_idx').on(t.ownerId),
     index('prompts_is_public_idx').on(t.isPublic), // for the /explore public gallery query
+    uniqueIndex('prompts_owner_name_unique').on(t.ownerId, t.name), // Enforce unique prompt names per owner
   ]
 );
 
@@ -49,6 +50,13 @@ export const versions = pgTable(
     uniqueIndex('versions_prompt_version_unique').on(t.promptId, t.versionNumber),
   ]
 );
+
+// Explicit database-level circular FK: prompts.currentVersionId -> versions.id
+export const promptsCurrentVersionFk = foreignKey({
+  columns: [prompts.currentVersionId],
+  foreignColumns: [versions.id],
+  name: 'prompts_current_version_id_fk',
+}).onDelete('set null');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // test_cases — what a prompt must do. Used to score versions.
@@ -107,6 +115,9 @@ export const apiKeys = pgTable(
     keyHash: varchar('key_hash', { length: 255 }).default('sha256_only').notNull(),  // SHA-256 legacy placeholder — bcrypt eliminated
     keyLookupHash: varchar('key_lookup_hash', { length: 64 }).notNull(), // SHA-256 for O(1) lookup
     keyPrefix: varchar('key_prefix', { length: 10 }).notNull(), // "gfp_live_" prefix for display
+    scopes: text('scopes').array().default(['prompts:read', 'prompts:write', 'versions:write']).notNull(), // Permission scopes
+    revokedAt: timestamp('revoked_at'), // Soft-revocation timestamp (null = active)
+    expiresAt: timestamp('expires_at'), // Optional expiration timestamp (null = no expiration)
     lastUsedAt: timestamp('last_used_at'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },

@@ -14,7 +14,7 @@ const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
   loading: () => (
     <div
-      className="flex items-center justify-center rounded-b bg-gray-50 text-sm text-gray-500 font-mono"
+      className="flex items-center justify-center rounded-2xl bg-bg-page text-xs text-zinc-400 font-mono skeleton border border-zinc-800/90"
       style={{ minHeight: '200px' }}
     >
       Loading editor…
@@ -65,15 +65,11 @@ export function PromptEditor({
   const tokenEstimate = Math.ceil(charCount / 4);
   const detectedVariables = useMemo(() => extractVariables(content), [content]);
 
-  function handleSaveV1() {
+  function executeSaveVersion(params: Parameters<typeof createVersion>[0]) {
     setError(null);
     startTransition(async () => {
       try {
-        await createVersion({
-          promptId,
-          content,
-          commitMessage: commitMessage.trim() || undefined,
-        });
+        await createVersion(params);
         router.push(`/dashboard/prompts/${promptId}`);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to save version');
@@ -81,19 +77,19 @@ export function PromptEditor({
     });
   }
 
+  function handleSaveV1() {
+    executeSaveVersion({
+      promptId,
+      content,
+      commitMessage: commitMessage.trim() || undefined,
+    });
+  }
+
   function handleSaveV2(bundle: PromptBundle, msg: string) {
-    setError(null);
-    startTransition(async () => {
-      try {
-        await createVersion({
-          promptId,
-          bundle,
-          commitMessage: msg || undefined,
-        });
-        router.push(`/dashboard/prompts/${promptId}`);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to save version');
-      }
+    executeSaveVersion({
+      promptId,
+      bundle,
+      commitMessage: msg.trim() || undefined,
     });
   }
 
@@ -130,7 +126,7 @@ export function PromptEditor({
                     setTimeout(() => setCopied(false), 2000);
                   }
                 }}
-                className="text-xs text-blue-300 hover:text-blue-200 font-mono font-bold cursor-pointer"
+                className="text-xs text-blue-300 hover:text-blue-200 font-mono font-bold tab-interactive"
                 aria-label="Copy prompt to clipboard"
               >
                 {copied ? '✓ Copied' : 'Copy Text'}
@@ -177,14 +173,14 @@ export function PromptEditor({
           <button
             id="editor-mode-v1"
             onClick={() => setMode('v1')}
-            className="px-2.5 py-1 text-zinc-400 hover:text-zinc-200 cursor-pointer"
+            className="px-2.5 py-1 text-zinc-400 hover:text-zinc-200 tab-interactive"
           >
             Raw Text
           </button>
           <button
             id="editor-mode-v2"
             onClick={() => setMode('v2')}
-            className="px-2.5 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/20 font-bold rounded-lg cursor-pointer"
+            className="px-2.5 py-1 bg-blue-500/10 text-blue-300 border border-blue-500/20 font-bold rounded-lg tab-interactive"
           >
             Bundle Editor
           </button>
@@ -231,14 +227,14 @@ export function PromptEditor({
                 id="save-version-btn"
                 onClick={handleSaveV1}
                 disabled={isPending || !content.trim()}
-                className="px-3.5 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+                className="px-3.5 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive disabled:opacity-50"
               >
                 {isPending ? 'Saving…' : 'Save Version'}
               </button>
               <button
                 onClick={() => router.back()}
                 disabled={isPending}
-                className="px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
+                className="px-3 py-1 text-xs text-zinc-400 hover:text-zinc-200 tab-interactive"
               >
                 Cancel
               </button>

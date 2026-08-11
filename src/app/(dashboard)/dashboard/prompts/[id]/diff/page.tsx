@@ -77,7 +77,7 @@ export default async function DiffPage({
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800/90 py-16 text-center text-zinc-400 font-mono bg-bg-card">
           <h2 className="text-sm font-bold text-zinc-200 mb-1">Need at least 2 commit snapshots</h2>
           <p className="text-xs text-zinc-500 mb-5 font-sans">Create another version of this prompt bundle to view Monaco side-by-side diffs.</p>
-          <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl active:scale-97 transition-all cursor-pointer">
+          <Link href={`/dashboard/prompts/${id}/edit`} className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold rounded-xl btn-interactive">
             + Create New Version
           </Link>
         </div>
@@ -131,19 +131,18 @@ export default async function DiffPage({
   return (
     <div className="space-y-6 font-sans">
       {/* Page header */}
-      <div className="flex items-center justify-between border-b border-zinc-800/90 pb-5 gap-4 flex-wrap">
-        <div className="flex items-center gap-3 min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-zinc-800/90 pb-5 gap-4">
+        <div className="space-y-2 font-mono">
           <Link
             href={`/dashboard/prompts/${id}`}
-            className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors shrink-0 flex items-center gap-1"
+            className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors flex items-center gap-1 w-fit"
             aria-label="Back to Studio"
           >
             <span>←</span>
             <span>Back to Studio ({prompt.name})</span>
           </Link>
-          <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
-          <div className="min-w-0 font-mono">
-            <h1 className="text-xl font-bold text-zinc-100 truncate">{prompt.name} Diff</h1>
+          <div>
+            <h1 className="text-2xl font-bold text-zinc-100 truncate font-mono">{prompt.name} Diff</h1>
             <p className="text-xs text-blue-300 font-semibold mt-0.5">
               Comparing snapshot v{fromVersion.versionNumber} → v{toVersion.versionNumber}
             </p>

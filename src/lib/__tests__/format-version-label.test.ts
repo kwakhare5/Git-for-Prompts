@@ -18,4 +18,9 @@ describe('formatVersionLabel', () => {
     expect(formatVersionLabel(version1)).toBe('v1');
     expect(formatVersionLabel(version2)).toBe('v2');
   });
+
+  it('strips redundant leading version number prefixes from commit messages', () => {
+    const version = { versionNumber: 2, commitMessage: 'v2 - Updated tone and refund instructions' };
+    expect(formatVersionLabel(version, '·')).toBe('v2 · Updated tone and refund instructions');
+  });
 });

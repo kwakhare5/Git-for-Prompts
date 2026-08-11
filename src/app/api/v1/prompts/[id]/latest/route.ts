@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { apiKeys, prompts, versions } from '@/db/schema';
+import { prompts, versions } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { interpolateVariables } from '@gfp/core';
@@ -39,10 +39,10 @@ export async function GET(
       );
     }
 
-    // 1. Authenticate API key — all auth logic in api-auth.ts
-    const authResult = await authenticateApiKey(req);
+    // 1. Authenticate API key with required scope
+    const authResult = await authenticateApiKey(req, 'prompts:read');
     if (authResult instanceof NextResponse) return authResult;
-    const { ownerId, keyId } = authResult;
+    const { ownerId } = authResult;
 
     const { id: promptId } = await params;
 
@@ -54,9 +54,6 @@ export async function GET(
         .orderBy(desc(versions.versionNumber))
         .limit(1),
     ]);
-
-    // 3. Update lastUsedAt — fire-and-forget
-    void db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, keyId)).execute();
 
     // 4. Resolve the prompt — must exist and belong to this key's owner
     if (!prompt || prompt.ownerId !== ownerId) {

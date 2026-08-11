@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Only dashboard routes require Clerk session auth.
 // - /api/v1/** handles its own auth via API key (Bearer token + SHA-256)
@@ -17,9 +17,13 @@ export default hasClerkKeys
         await auth.protect();
       }
     })
-  : function middleware() {
+  : function middleware(req: NextRequest) {
+      if (process.env.NODE_ENV === 'production' && isProtected(req)) {
+        return new NextResponse('Unauthorized', { status: 401 });
+      }
       return NextResponse.next();
     };
+
 
 export const config = {
   matcher: [

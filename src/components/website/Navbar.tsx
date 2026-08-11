@@ -19,7 +19,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
   return (
     <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 my-3 font-sans">
-      <div className="bg-bg-card/90 border border-zinc-800/90 backdrop-blur-md rounded-2xl shadow-xl px-5 h-14 flex items-center justify-between transition-all">
+      <div className="bg-bg-card border border-zinc-800/90 rounded-2xl shadow-2xl px-5 h-14 flex items-center justify-between transition-all">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group font-mono">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -39,16 +39,16 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/explore" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer text-zinc-200">
+          <Link href="/explore" className="hover:text-zinc-100 tab-interactive text-zinc-200">
             Explore
           </Link>
-          <Link href="/dashboard" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
+          <Link href="/dashboard" className="hover:text-zinc-100 tab-interactive">
             Dashboard
           </Link>
-          <Link href="/dashboard/api-keys" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
+          <Link href="/dashboard/api-keys" className="hover:text-zinc-100 tab-interactive">
             API Keys
           </Link>
-          <Link href="/dashboard/webhooks" className="hover:text-zinc-100 transition-transform active:scale-97 cursor-pointer">
+          <Link href="/dashboard/webhooks" className="hover:text-zinc-100 tab-interactive">
             Webhooks
           </Link>
         </nav>
@@ -59,7 +59,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
             href="https://github.com/kwakhare5/Git-for-Prompts"
             target="_blank"
             rel="noopener noreferrer"
-            className="h-9 px-3.5 rounded-xl border border-border-subtle text-zinc-300 bg-bg-card/60 hover:bg-bg-panel hover:text-zinc-100 hover:border-zinc-700/80 shadow-xs transition-all active:scale-97 cursor-pointer flex items-center gap-2 font-mono text-[11px] font-bold group"
+            className="h-9 px-3.5 rounded-xl border border-zinc-800 text-zinc-300 bg-bg-card hover:bg-bg-panel hover:text-zinc-100 hover:border-zinc-700 shadow-xs btn-interactive flex items-center gap-2 font-mono text-[11px] font-bold group"
           >
             <span className="text-zinc-400 group-hover:text-zinc-200 font-extrabold text-xs">★</span>
             <span className="hidden sm:inline">Star on GitHub</span>
@@ -69,14 +69,14 @@ export function Navbar({ userId }: { userId?: string | null }) {
           {userId ? (
             <Link
               href="/dashboard"
-              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs transition-all active:scale-97 flex items-center justify-center"
+              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center"
             >
               Open Workspace
             </Link>
           ) : (
             <Link
               href="/sign-in"
-              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs transition-all active:scale-97 flex items-center justify-center"
+              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center"
             >
               Get Started
             </Link>

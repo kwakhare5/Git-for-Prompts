@@ -81,7 +81,7 @@ export default async function PromptDetailPage({
         <Link
           href={`/dashboard/prompts/${id}/edit`}
           id="new-version-btn"
-          className="h-9 px-4 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer"
+          className="h-9 px-4 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive flex items-center justify-center gap-1.5 shrink-0"
         >
           <span>+ Save New Version</span>
         </Link>
@@ -108,7 +108,7 @@ export default async function PromptDetailPage({
           <p className="text-xs text-zinc-400 font-mono">No versions created yet for this prompt bundle.</p>
           <Link
             href={`/dashboard/prompts/${id}/edit`}
-            className="inline-flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs active:scale-97 transition-all"
+            className="inline-flex items-center justify-center px-4 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive"
           >
             + Create First Version
           </Link>

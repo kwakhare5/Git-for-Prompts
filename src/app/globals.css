@@ -15,6 +15,7 @@
 }
 
 :root {
+  color-scheme: dark;
   --bg-page: #0a0a0a;
   --bg-card: #141414;
   --bg-panel: #1e1e1e;
@@ -35,6 +36,9 @@
   --pastel-red: #FCA5A5;
   --pastel-yellow: #FDE047;
   --pastel-purple: #C084FC;
+  /* Motion Tokens (Emil Kowalski Design Eng) */
+  --ease-out-custom: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 body {
@@ -60,6 +64,54 @@ body {
   border-color: var(--border-subtle);
 }
 
+/* Master Interactive Motion Utilities */
+.btn-interactive {
+  cursor: pointer;
+  transition: transform 150ms var(--ease-out-custom), background-color 150ms var(--ease-out-custom), border-color 150ms var(--ease-out-custom), box-shadow 150ms var(--ease-out-custom);
+}
+
+.btn-interactive:active {
+  transform: scale(0.97);
+}
+
+.card-interactive {
+  transition: transform 200ms var(--ease-out-custom), border-color 200ms var(--ease-out-custom), box-shadow 200ms var(--ease-out-custom);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover {
+    transform: translateY(-2px);
+    border-color: #3f3f46;
+  }
+}
+
+.tab-interactive {
+  cursor: pointer;
+  transition: transform 150ms var(--ease-out-custom), background-color 150ms var(--ease-out-custom), color 150ms var(--ease-out-custom), border-color 150ms var(--ease-out-custom);
+}
+
+.tab-interactive:active {
+  transform: scale(0.97);
+}
+
+.icon-pop {
+  transition: transform 150ms var(--ease-spring);
+}
+
+.icon-pop:active {
+  transform: scale(1.18);
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .btn-interactive,
+  .card-interactive,
+  .tab-interactive,
+  .icon-pop {
+    transform: none !important;
+  }
+}
+
 /* Custom Thin Dark Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
@@ -78,4 +130,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #3F3F46;
 }
+
+/* Global Skeleton Shimmer Primitive */
+.skeleton {
+  background-color: #141414;
+  border: 1px solid rgba(39, 39, 42, 0.8);
+  border-radius: 0.75rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 

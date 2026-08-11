@@ -33,7 +33,7 @@ export function TopHeaderBar() {
   ];
 
   return (
-    <header className="h-12 border-b border-zinc-800/90 bg-bg-card/80 backdrop-blur-md px-6 flex items-center justify-between text-xs font-mono text-zinc-400 select-none z-30 sticky top-0">
+    <header className="h-12 border-b border-zinc-800/90 bg-bg-card px-6 flex items-center justify-between text-xs font-mono text-zinc-400 select-none z-30 sticky top-0">
       {/* Breadcrumb Path Trail */}
       <nav className="flex items-center gap-1.5 min-w-0 overflow-x-auto font-mono">
         {breadcrumbs.map((crumb, idx) => {
@@ -43,7 +43,7 @@ export function TopHeaderBar() {
               {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />}
               <Link
                 href={crumb.href}
-                className={`transition-colors font-semibold truncate max-w-[140px] ${
+                className={`tab-interactive font-semibold truncate max-w-[140px] ${
                   isLast
                     ? 'text-zinc-100 font-bold pointer-events-none'
                     : 'text-zinc-400 hover:text-zinc-200'

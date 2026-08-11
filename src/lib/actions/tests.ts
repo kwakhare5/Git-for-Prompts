@@ -95,7 +95,7 @@ export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcom
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
-  const limit = await checkRateLimit(userId);
+  const limit = await checkRateLimit(`expensive:${userId}`);
   if (!limit.success) throw new Error('Rate limit exceeded. Please wait before running more tests.');
 
   try {
@@ -186,7 +186,7 @@ export async function runComparisonForVersions(input: unknown): Promise<{
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
-  const limit = await checkRateLimit(userId);
+  const limit = await checkRateLimit(`expensive:${userId}`);
   if (!limit.success) throw new Error('Rate limit exceeded. Please wait before running comparisons.');
 
   try {

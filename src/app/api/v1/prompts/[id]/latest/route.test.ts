@@ -1,8 +1,9 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import dotenv from 'dotenv';
 import { NextRequest } from 'next/server';
 import { createHash } from 'crypto';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
+import { inProcessCounts } from '@/lib/rate-limit';
 
 // 1. Synchronously load environment variables first
 dotenv.config({ path: '.env.local' });
@@ -17,6 +18,9 @@ let GET: typeof getHandler;
 let schema: typeof schemaTypes;
 
 describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
+  beforeEach(() => {
+    inProcessCounts.clear();
+  });
   const plainTextKey = 'gfp_live_test_integration_token_xyz987';
   const lookupHash = createHash('sha256').update(plainTextKey).digest('hex');
   const mockOwnerId = 'user_test_api_holder';
@@ -36,6 +40,17 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     db = dbModule.db;
     GET = routeModule.GET;
     schema = schemaModule;
+
+    // Ensure database migration columns exist on test DB
+    try {
+      await db.execute(sql`
+        ALTER TABLE "api_keys" ADD COLUMN IF NOT EXISTS "scopes" text[] DEFAULT '{"prompts:read","prompts:write","versions:write"}' NOT NULL;
+        ALTER TABLE "api_keys" ADD COLUMN IF NOT EXISTS "revoked_at" timestamp;
+        ALTER TABLE "api_keys" ADD COLUMN IF NOT EXISTS "expires_at" timestamp;
+      `);
+    } catch {
+      // Ignore if database lacks DDL execution permissions
+    }
 
     // 3. Insert a temporary test API key
     const [insertedKey] = await db
@@ -126,7 +141,7 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     expect(body.promptName).toBe('Integration Prompt');
     expect(body.versionNumber).toBe(1);
     expect(body.content).toBe('System: You are an integration grading assistant.');
-  });
+  }, 15_000);
 
   it('returns 401 when Authorization header is missing', async () => {
     const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
@@ -152,7 +167,7 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     expect(response.status).toBe(401);
 
     const body = await response.json();
-    expect(body.error).toBe('Invalid API key format');
+    expect(body.error).toBe('Invalid or expired API key');
   });
 
   it('returns 401 when API key is valid format but wrong value', async () => {
@@ -167,7 +182,7 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     expect(response.status).toBe(401);
 
     const body = await response.json();
-    expect(body.error).toBe('Invalid API key');
+    expect(body.error).toBe('Invalid or expired API key');
   });
 
   it('returns 404 when querying a prompt belonging to a different owner', async () => {

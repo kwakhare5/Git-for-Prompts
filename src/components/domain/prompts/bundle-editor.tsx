@@ -82,7 +82,7 @@ export function BundleEditor({
                 id={`bundle-editor-tab-${tab}`}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`px-3 py-1.5 text-xs capitalize rounded-xl font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 text-xs capitalize rounded-xl font-bold tab-interactive ${
                   activeTab === tab 
                     ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' 
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
@@ -112,14 +112,14 @@ export function BundleEditor({
               id="bundle-editor-save-btn"
               onClick={handleSave}
               disabled={isPending}
-              className="px-4 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs active:scale-97 transition-all disabled:opacity-50 cursor-pointer"
+              className="px-4 py-1.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-bold shadow-xs btn-interactive disabled:opacity-50"
             >
               {isPending ? 'Saving…' : 'Save Version'}
             </button>
             <button
               onClick={onCancel}
               disabled={isPending}
-              className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 cursor-pointer"
+              className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200 tab-interactive"
             >
               Cancel
             </button>

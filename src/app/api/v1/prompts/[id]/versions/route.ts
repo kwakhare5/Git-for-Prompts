@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
-import { apiKeys, prompts, versions } from '@/db/schema';
+import { prompts, versions } from '@/db/schema';
 import { eq, sql, desc } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { fireWebhooks } from '@/lib/webhooks';
@@ -48,10 +48,27 @@ export async function POST(
       );
     }
 
-    // Auth — all auth logic lives in api-auth.ts
-    const authResult = await authenticateApiKey(req);
+    // 1. Authenticate API key with required scope
+    const authResult = await authenticateApiKey(req, 'versions:write');
     if (authResult instanceof NextResponse) return authResult;
     const { ownerId, keyId } = authResult;
+
+    // 2. Layered Rate Limit — Key-specific limit for expensive version creation (20 req/min/key)
+    try {
+      const { success } = await checkRateLimit(`expensive:${keyId}`);
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Expensive operations rate limit exceeded. Max 20 version creations per minute.' },
+          { status: 429, headers: { 'Retry-After': '60' } }
+        );
+      }
+    } catch (err) {
+      console.error('[POST /versions] Rate limiter failed (expensive operation fail-closed):', err);
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Retry-After': '60' } }
+      );
+    }
 
     const { id: promptId } = await params;
 
@@ -74,11 +91,11 @@ export async function POST(
       ? extractBundleVariables(parsedBundle)
       : extractVariables(resolvedContent);
 
-    // Look up prompt and touch lastUsedAt in parallel
-    const [[prompt]] = await Promise.all([
-      db.select().from(prompts).where(eq(prompts.id, promptId)),
-      db.update(apiKeys).set({ lastUsedAt: new Date() }).where(eq(apiKeys.id, keyId)).execute(),
-    ]);
+    // Look up prompt
+    const [prompt] = await db
+      .select()
+      .from(prompts)
+      .where(eq(prompts.id, promptId));
 
     if (!prompt || prompt.ownerId !== ownerId) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
