@@ -19,17 +19,17 @@ export default async function Image() {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#0a0a0a",
-          gap: "36px",
+          gap: "48px",
           fontFamily: "sans-serif",
           color: "#f4f4f5",
-          padding: "40px",
+          padding: "60px",
         }}
       >
-        {/* Top Squircle Logo Tile */}
+        {/* Top Squircle Logo Badge Tile */}
         <div
           style={{
-            width: "84px",
-            height: "84px",
+            width: "88px",
+            height: "88px",
             borderRadius: "24px",
             backgroundColor: "#141414",
             border: "1.5px solid #2a2a2a",
@@ -39,12 +39,12 @@ export default async function Image() {
             boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.5)",
           }}
         >
-          <svg width="44" height="44" viewBox="0 0 32 32">
+          <svg width="58" height="58" viewBox="0 0 32 32">
             <g
               transform="translate(4, 4)"
               fill="none"
               stroke="#ffffff"
-              strokeWidth="2.2"
+              strokeWidth="2.3"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -57,7 +57,7 @@ export default async function Image() {
           </svg>
         </div>
 
-        {/* Center Main Title */}
+        {/* Title: Git for Prompts in Bold Sans-Serif */}
         <h1
           style={{
             fontSize: "76px",
@@ -68,10 +68,10 @@ export default async function Image() {
             lineHeight: 1.0,
           }}
         >
-          gitforprompts.com
+          Git for Prompts
         </h1>
 
-        {/* Bottom Command Pill */}
+        {/* Bottom Hero Command Pill ($ npx gfp init) */}
         <div
           style={{
             display: "flex",
@@ -80,30 +80,34 @@ export default async function Image() {
             backgroundColor: "#141414",
             borderRadius: "9999px",
             border: "1.5px solid #2a2a2a",
-            padding: "16px 36px",
+            padding: "18px 40px",
             boxShadow: "0 12px 30px -10px rgba(0, 0, 0, 0.6)",
           }}
         >
+          {/* Terminal Icon */}
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#34d399"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="4 17 10 11 4 5" />
+            <line x1="12" y1="19" x2="20" y2="19" />
+          </svg>
           <span
             style={{
-              color: "#60a5fa",
-              fontWeight: 800,
+              color: "#34d399",
               fontFamily: "monospace",
               fontSize: "24px",
+              fontWeight: 700,
+              letterSpacing: "-0.3px",
             }}
           >
-            $
-          </span>
-          <span
-            style={{
-              color: "#f4f4f5",
-              fontFamily: "monospace",
-              fontSize: "22px",
-              fontWeight: 500,
-              letterSpacing: "-0.2px",
-            }}
-          >
-            npx gfp init
+            $ npx gfp init
           </span>
         </div>
       </div>
