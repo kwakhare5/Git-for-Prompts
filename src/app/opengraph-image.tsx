@@ -16,118 +16,95 @@ export default async function Image() {
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          backgroundColor: "#09090b",
-          backgroundImage:
-            "radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15), transparent 70%), radial-gradient(circle at 90% 90%, rgba(24, 24, 27, 0.8), transparent 50%)",
-          padding: "60px 80px",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#0a0a0a",
+          gap: "36px",
           fontFamily: "sans-serif",
           color: "#f4f4f5",
-          border: "1px solid #27272a",
+          padding: "40px",
         }}
       >
-        {/* Top Header Badge */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <div
-            style={{
-              width: "48px",
-              height: "48px",
-              borderRadius: "12px",
-              backgroundColor: "#18181b",
-              border: "1px solid #3f3f46",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="32" height="32" viewBox="0 0 32 32">
-              <g transform="translate(4, 4)" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="18" r="3"/>
-                <circle cx="6" cy="6" r="3"/>
-                <circle cx="18" cy="6" r="3"/>
-                <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9"/>
-                <path d="M12 15V9"/>
-              </g>
-            </svg>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "24px", fontWeight: "bold", letterSpacing: "-0.5px" }}>
-              Git for Prompts
-            </span>
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                backgroundColor: "rgba(255, 255, 255, 0.08)",
-                color: "#a1a1aa",
-                padding: "4px 10px",
-                borderRadius: "6px",
-                border: "1px solid #27272a",
-                letterSpacing: "0.5px",
-              }}
+        {/* Top Squircle Logo Tile */}
+        <div
+          style={{
+            width: "84px",
+            height: "84px",
+            borderRadius: "24px",
+            backgroundColor: "#141414",
+            border: "1.5px solid #2a2a2a",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <svg width="44" height="44" viewBox="0 0 32 32">
+            <g
+              transform="translate(4, 4)"
+              fill="none"
+              stroke="#ffffff"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              LOCAL-FIRST VCS
-            </span>
-          </div>
+              <circle cx="12" cy="18" r="3" />
+              <circle cx="6" cy="6" r="3" />
+              <circle cx="18" cy="6" r="3" />
+              <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9" />
+              <path d="M12 15V9" />
+            </g>
+          </svg>
         </div>
 
-        {/* Center Headline */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "900px" }}>
-          <h1
-            style={{
-              fontSize: "56px",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-1.5px",
-              margin: 0,
-              color: "#ffffff",
-            }}
-          >
-            Treat your prompts like production code.
-          </h1>
-          <p
-            style={{
-              fontSize: "24px",
-              color: "#a1a1aa",
-              margin: 0,
-              lineHeight: 1.4,
-            }}
-          >
-            Local-first prompt package manager &amp; version control for AI engineering.
-          </p>
-        </div>
+        {/* Center Main Title */}
+        <h1
+          style={{
+            fontSize: "76px",
+            fontWeight: 800,
+            letterSpacing: "-2.5px",
+            margin: 0,
+            color: "#ffffff",
+            lineHeight: 1.0,
+          }}
+        >
+          gitforprompts.com
+        </h1>
 
-        {/* Bottom Mock Terminal Snippet */}
+        {/* Bottom Command Pill */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-            backgroundColor: "#18181b",
-            borderRadius: "14px",
-            border: "1px solid #27272a",
-            padding: "16px 24px",
+            gap: "14px",
+            backgroundColor: "#141414",
+            borderRadius: "9999px",
+            border: "1.5px solid #2a2a2a",
+            padding: "16px 36px",
+            boxShadow: "0 12px 30px -10px rgba(0, 0, 0, 0.6)",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", fontFamily: "monospace" }}>
-            <span style={{ color: "#60a5fa", fontWeight: "bold" }}>$</span>
-            <span style={{ color: "#f4f4f5", fontSize: "18px" }}>gfp push prompt.v2.md --commit &quot;feat: optimize output format&quot;</span>
-          </div>
-          <div
+          <span
             style={{
-              fontSize: "14px",
-              color: "#34d399",
-              fontWeight: 600,
-              backgroundColor: "rgba(52, 211, 153, 0.1)",
-              padding: "6px 12px",
-              borderRadius: "8px",
-              border: "1px solid rgba(52, 211, 153, 0.2)",
+              color: "#60a5fa",
+              fontWeight: 800,
+              fontFamily: "monospace",
+              fontSize: "24px",
             }}
           >
-            v2.1.0 • Live
-          </div>
+            $
+          </span>
+          <span
+            style={{
+              color: "#f4f4f5",
+              fontFamily: "monospace",
+              fontSize: "22px",
+              fontWeight: 500,
+              letterSpacing: "-0.2px",
+            }}
+          >
+            npx gfp init
+          </span>
         </div>
       </div>
     ),
