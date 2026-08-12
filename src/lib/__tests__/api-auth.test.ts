@@ -71,7 +71,7 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
     });
   });
 
-  it('provides backward compatibility for legacy keys with empty or null scopes', async () => {
+  it('rejects legacy keys with empty scopes instead of granting implicit full access', async () => {
     const req = new NextRequest('https://example.com/api/v1/prompts/123/latest', {
       headers: { Authorization: `Bearer ${validToken}` },
     });
@@ -83,7 +83,7 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
             {
               id: 'key_legacy',
               ownerId: 'user_legacy',
-              scopes: [], // Empty legacy scope array
+              scopes: [],
               revokedAt: null,
               expiresAt: null,
               lastUsedAt: null,
@@ -94,9 +94,8 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
     } as unknown as ReturnType<typeof db.select>);
 
     const res = await authenticateApiKey(req, 'prompts:read');
-    expect(res).not.toHaveProperty('status');
-    expect(res).toHaveProperty('ownerId', 'user_legacy');
-    expect((res as { scopes: string[] }).scopes).toEqual(['prompts:read', 'prompts:write', 'versions:write']);
+    expect(res).toHaveProperty('status', 403);
+    expect(db.update).not.toHaveBeenCalled();
   });
 
   it('rejects key missing the required scope', async () => {
@@ -111,7 +110,7 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
             {
               id: 'key_1',
               ownerId: 'user_123',
-              scopes: ['prompts:read'], // Lacks versions:write
+              scopes: ['prompts:read'],
               revokedAt: null,
               expiresAt: null,
               lastUsedAt: null,
@@ -138,7 +137,7 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
               id: 'key_1',
               ownerId: 'user_123',
               scopes: ['prompts:read'],
-              revokedAt: new Date(Date.now() - 3600_000), // Revoked 1h ago
+              revokedAt: new Date(Date.now() - 3600_000),
               expiresAt: null,
               lastUsedAt: null,
             },
@@ -166,7 +165,7 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
               ownerId: 'user_123',
               scopes: ['prompts:read'],
               revokedAt: null,
-              expiresAt: new Date(Date.now() - 1000), // Expired 1s ago
+              expiresAt: new Date(Date.now() - 1000),
               lastUsedAt: null,
             },
           ]),
@@ -184,12 +183,10 @@ describe('Stage 2G — API Key Authentication, Scope Compatibility & Usage Track
 
     vi.mocked(db.update).mockClear();
 
-    // 1. Recently updated 2 minutes ago -> should NOT trigger DB update
     const recentDate = new Date(Date.now() - 2 * 60 * 1000);
     await touchApiKeyLastUsed(keyId, recentDate);
     expect(db.update).not.toHaveBeenCalled();
 
-    // 2. Updated 15 minutes ago -> SHOULD trigger DB update
     const oldDate = new Date(Date.now() - 15 * 60 * 1000);
     vi.mocked(db.update).mockReturnValue({
       set: vi.fn().mockReturnValue({
