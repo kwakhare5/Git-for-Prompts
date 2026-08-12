@@ -19,13 +19,53 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://gitforprompts.vercel.app"),
   title: {
-    default: 'Git for Prompts',
-    template: '%s · Git for Prompts',
+    default: "Git for Prompts · Local-First Prompt Version Control",
+    template: "%s · Git for Prompts",
   },
-  description: 'Version control for AI prompts.',
+  description: "Local-first prompt package manager and version control for AI engineering. Treat your prompts like production code.",
+  keywords: [
+    "Git for Prompts",
+    "Prompt Engineering",
+    "Prompt Version Control",
+    "AI Engineering",
+    "LLM Prompts",
+    "Local-First VCS",
+  ],
+  authors: [{ name: "Git for Prompts Team" }],
+  creator: "Git for Prompts",
+  publisher: "Git for Prompts",
   icons: {
-    icon: '/logo.svg',
-    apple: '/logo.svg',
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+  },
+  alternates: {
+    canonical: "https://gitforprompts.vercel.app",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://gitforprompts.vercel.app",
+    siteName: "Git for Prompts",
+    title: "Git for Prompts · Local-First Prompt Version Control",
+    description: "Local-first prompt package manager and version control for AI engineering. Treat your prompts like production code.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Git for Prompts — Local-First VCS for AI Prompts",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Git for Prompts · Local-First Prompt Version Control",
+    description: "Local-first prompt package manager and version control for AI engineering. Treat your prompts like production code.",
+    images: ["/opengraph-image"],
+    creator: "@gitforprompts",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
   },
 };
 

@@ -41,7 +41,7 @@ export function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function CardDark({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-bg-card border border-zinc-800/90 rounded-2xl shadow-xl overflow-hidden card-interactive ${className}`}>
+    <div className={`bg-bg-card border border-zinc-800/90 rounded-2xl shadow-2xl overflow-hidden card-interactive antialiased ${className}`}>
       {children}
     </div>
   );
@@ -49,7 +49,7 @@ export function CardDark({ children, className = "" }: { children: React.ReactNo
 
 export function PanelElevated({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-bg-panel border border-zinc-800 rounded-xl p-4 ${className}`}>
+    <div className={`bg-bg-panel border border-zinc-800/80 rounded-xl p-4 shadow-sm antialiased ${className}`}>
       {children}
     </div>
   );
@@ -57,7 +57,7 @@ export function PanelElevated({ children, className = "" }: { children: React.Re
 
 export function BadgeVersion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-mono font-bold ${className}`}>
+    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-mono font-bold tabular-nums tracking-tight ${className}`}>
       {children}
     </span>
   );
@@ -69,7 +69,7 @@ export function ButtonPrimary({ children, onClick, className = "", disabled = fa
     <button 
       onClick={onClick}
       disabled={disabled}
-      className={`bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-4 py-2 rounded-xl text-xs shadow-xs btn-interactive flex items-center justify-center gap-2 disabled:opacity-50 ${className}`}
+      className={`bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-4 py-2 rounded-xl text-xs shadow-sm active:scale-[0.96] transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 flex items-center justify-center gap-2 disabled:opacity-50 ${className}`}
     >
       {children}
     </button>
@@ -89,11 +89,11 @@ export function CliCopyButton({ command = "npx gfp init" }: { command?: string }
   return (
     <button
       onClick={handleCopy}
-      className="bg-bg-card hover:bg-bg-panel text-zinc-200 border border-zinc-800 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-xl btn-interactive group hover:border-zinc-700"
+      className="bg-bg-card hover:bg-bg-panel text-zinc-200 border border-zinc-800 font-mono text-xs px-4 py-2.5 rounded-full flex items-center gap-3 shadow-xl active:scale-[0.96] transition-all duration-150 ease-out group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 cursor-pointer"
     >
-      <TerminalIcon className="w-3.5 h-3.5 text-emerald-400" />
+      <TerminalIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
       <span className="text-emerald-400 font-mono font-bold tracking-tight">$ {command}</span>
-      <div className="w-6 h-6 rounded-full bg-bg-page/60 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center ml-1 transition-colors">
+      <div className="w-6 h-6 rounded-full bg-bg-page/60 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center ml-1 transition-colors shrink-0">
         {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400 icon-pop" /> : <CopyIcon className="w-3 h-3" />}
       </div>
     </button>
