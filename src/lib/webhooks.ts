@@ -1,19 +1,4 @@
-/**
- * Webhook delivery — fires a signed POST to all registered webhook URLs
- * for a given (ownerId, promptId) pair.
- *
- * Signing: HMAC-SHA256 of the raw JSON body, keyed off SHA-256(secret).
- * The raw secret is returned once on registration to the user; the server stores
- * SHA-256(secret) (`secretHash`) to sign payloads without retaining plaintext secrets.
- *
- * Header: X-GFP-Signature: sha256=<hex-digest>
- * (same convention as GitHub and Stripe — widely understood by CI systems)
- *
- * Fire-and-forget: this function never throws or awaits delivery confirmation.
- * Webhook delivery failures are logged but never surface to the user who
- * triggered the version save.
- */
-
+import { request } from 'node:https';
 import { createHmac } from 'crypto';
 import { db } from '@/db';
 import { webhooks } from '@/db/schema';
@@ -31,16 +16,65 @@ export interface WebhookPayload {
   createdAt: Date;
 }
 
+const WEBHOOK_TIMEOUT_MS = 10_000;
+const USER_AGENT = 'GitForPrompts/1.0';
+
+async function deliverWebhook(
+  url: string,
+  body: string,
+  signature: string,
+  resolvedIp: string,
+): Promise<void> {
+  const parsed = new URL(url);
+
+  await new Promise<void>((resolve, reject) => {
+    const req = request(
+      {
+        protocol: 'https:',
+        hostname: parsed.hostname,
+        port: 443,
+        path: `${parsed.pathname}${parsed.search}`,
+        method: 'POST',
+        servername: parsed.hostname,
+        lookup: (_hostname, _options, callback) => {
+          const family = resolvedIp.includes(':') ? 6 : 4;
+          callback(null, resolvedIp, family);
+        },
+        headers: {
+          Host: parsed.host,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+          'X-GFP-Signature': `sha256=${signature}`,
+          'X-GFP-Event': 'version.created',
+          'User-Agent': USER_AGENT,
+        },
+      },
+      (res) => {
+        res.resume();
+        if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+          resolve();
+        } else {
+          reject(new Error(`Webhook returned HTTP ${res.statusCode ?? 'unknown'}`));
+        }
+      },
+    );
+
+    req.setTimeout(WEBHOOK_TIMEOUT_MS, () => {
+      req.destroy(new Error('Webhook request timed out'));
+    });
+    req.once('error', reject);
+    req.end(body);
+  });
+}
+
 /**
  * Fire all matching webhooks for a version save.
- * Matches hooks where promptId = this prompt OR promptId IS NULL (global).
- * Non-blocking — call with `void fireWebhooks(...)`.
+ * Delivery is non-blocking for the caller and each hook is isolated from the others.
  */
 export async function fireWebhooks(
   ownerId: string,
-  payload: WebhookPayload
+  payload: WebhookPayload,
 ): Promise<void> {
-  // Find all hooks for this user that match this prompt or are global
   let hooks: { id: string; url: string; secretHash: string }[];
   try {
     hooks = await db
@@ -49,8 +83,8 @@ export async function fireWebhooks(
       .where(
         and(
           eq(webhooks.ownerId, ownerId),
-          or(eq(webhooks.promptId, payload.promptId), isNull(webhooks.promptId))
-        )
+          or(eq(webhooks.promptId, payload.promptId), isNull(webhooks.promptId)),
+        ),
       );
   } catch (err) {
     console.error('[webhooks] Failed to query webhooks:', err);
@@ -61,14 +95,12 @@ export async function fireWebhooks(
 
   const body = JSON.stringify(payload);
 
-  // Fire all hooks concurrently, absorb individual failures
   await Promise.allSettled(
     hooks.map(async (hook) => {
-      // 1. SSRF pre-flight validation & IP resolution
       const ssrfCheck = await validateWebhookUrl(hook.url);
-      if (!ssrfCheck.valid) {
+      if (!ssrfCheck.valid || !ssrfCheck.resolvedIps?.[0]) {
         console.warn(
-          `[webhooks] Blocked delivery for hook ${hook.id}: SSRF validation failed (${ssrfCheck.reason})`
+          `[webhooks] Blocked delivery for hook ${hook.id}: SSRF validation failed (${ssrfCheck.reason ?? 'unknown reason'})`,
         );
         return;
       }
@@ -76,25 +108,13 @@ export async function fireWebhooks(
       const sig = createHmac('sha256', hook.secretHash).update(body).digest('hex');
 
       try {
-        const res = await fetch(hook.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-GFP-Signature': `sha256=${sig}`,
-            'X-GFP-Event': payload.event,
-            'User-Agent': 'GitForPrompts/1.0',
-          },
-          body,
-          redirect: 'manual', // Block HTTP 3xx redirects to prevent post-validation SSRF
-          signal: AbortSignal.timeout(10_000), // 10s timeout per hook
-        });
-        if (!res.ok) {
-          console.warn(`[webhooks] Hook ${hook.id} returned ${res.status}`);
-        }
+        // Use the already-validated address as the socket lookup result. This avoids
+        // resolving the hostname a second time and closes the DNS-rebinding window
+        // between validation and the actual connection.
+        await deliverWebhook(hook.url, body, sig, ssrfCheck.resolvedIps[0]);
       } catch (err) {
         console.error(`[webhooks] Delivery failed for hook ${hook.id}:`, err);
       }
-    })
+    }),
   );
 }
-
