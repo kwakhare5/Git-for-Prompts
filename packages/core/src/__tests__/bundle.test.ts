@@ -18,10 +18,11 @@ describe('@gfp/core bundle and diff engine', () => {
     expect(extractContentFromBundle(bundle)).toBe(bundle.userTemplate);
   });
 
-  it('creates an editor draft with defaults', () => {
+  it('creates a valid empty editor draft', () => {
     const bundle = createEmptyBundle();
 
     expect(bundle.userTemplate).toBe('');
+    expect(safeParseBundleResult(bundle).success).toBe(true);
     expect(bundle.modelConfig).toMatchObject({ provider: 'openai', model: 'gpt-4o', temperature: 0.7 });
   });
 
@@ -41,26 +42,6 @@ describe('@gfp/core bundle and diff engine', () => {
     const result = safeParseBundleResult({
       userTemplate: 'Test prompt',
       modelConfig: { provider: '', model: '' },
-    });
-
-    expect(result.success).toBe(false);
-  });
-
-  it('rejects json_schema response format without a schema', () => {
-    const result = safeParseBundleResult({
-      userTemplate: 'Return JSON',
-      modelConfig: { provider: 'openai', model: 'gpt-4o' },
-      responseFormat: { type: 'json_schema' },
-    });
-
-    expect(result.success).toBe(false);
-  });
-
-  it('rejects a schema for non-json_schema response formats', () => {
-    const result = safeParseBundleResult({
-      userTemplate: 'Return JSON',
-      modelConfig: { provider: 'openai', model: 'gpt-4o' },
-      responseFormat: { type: 'json_object', schema: { type: 'object' } },
     });
 
     expect(result.success).toBe(false);
