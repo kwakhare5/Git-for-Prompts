@@ -35,7 +35,7 @@ describe('@gfp/core evaluation engine', () => {
     expect(peak).toBeLessThanOrEqual(2);
   });
 
-  it('builds a user message without duplicating the prompt as a system message', async () => {
+  it('preserves legacy execution semantics when no system prompt is configured', async () => {
     const provider: AIProvider = { chat: vi.fn().mockResolvedValue('answer') };
     const bundle = createBundleFromLegacy('Answer using this context.');
 
@@ -45,7 +45,26 @@ describe('@gfp/core evaluation engine', () => {
     });
 
     expect(vi.mocked(provider.chat).mock.calls[0][0]).toEqual([
-      { role: 'user', content: 'Answer using this context.\n\nWhat is 2+2?' },
+      { role: 'system', content: 'Answer using this context.' },
+      { role: 'user', content: 'What is 2+2?' },
+    ]);
+  });
+
+  it('preserves the system prompt and appends the template to the user message', async () => {
+    const provider: AIProvider = { chat: vi.fn().mockResolvedValue('answer') };
+    const bundle = {
+      ...createBundleFromLegacy('Use concise language.'),
+      systemPrompt: 'You are a technical assistant.',
+    };
+
+    await runSingleTestCase(provider, bundle, {
+      inputText: 'Explain HTTP.',
+      expectedCriteria: 'Must mention requests and responses',
+    });
+
+    expect(vi.mocked(provider.chat).mock.calls[0][0]).toEqual([
+      { role: 'system', content: 'You are a technical assistant.' },
+      { role: 'user', content: 'Use concise language.\n\nExplain HTTP.' },
     ]);
   });
 
