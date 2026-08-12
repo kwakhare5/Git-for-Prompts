@@ -8,7 +8,7 @@ export function DashboardHeroScreen() {
   const [activeMobileTab, setActiveMobileTab] = useState<'sidebar' | 'workspace'>('workspace');
 
   return (
-    <section className="px-3 sm:px-6 md:px-8 max-w-7xl mx-auto mt-4 sm:mt-6 mb-16 sm:mb-24 font-sans">
+    <section className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto mt-4 sm:mt-6 mb-16 sm:mb-24 font-sans">
       <div className="bg-bg-card rounded-2xl border border-zinc-800/90 shadow-2xl overflow-hidden">
         
         {/* Browser Top Window Bar */}

@@ -19,7 +19,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
   }
 
   return (
-    <header className="sticky top-4 z-50 max-w-6xl mx-auto px-3 sm:px-6 my-3 font-sans">
+    <header className="sticky top-4 z-50 max-w-6xl mx-auto px-4 sm:px-6 my-3 font-sans">
       <div className="bg-bg-card border border-zinc-800/90 rounded-2xl shadow-2xl px-4 sm:px-5 h-14 flex items-center justify-between transition-all">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group font-mono shrink-0">
