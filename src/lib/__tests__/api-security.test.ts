@@ -1,7 +1,4 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET as getLatestRoute } from '@/app/api/v1/prompts/[id]/latest/route';
-import { NextRequest } from 'next/server';
-import { db } from '@/db';
 
 vi.mock('@/db', () => ({
   db: {
@@ -16,6 +13,14 @@ vi.mock('@/lib/api-auth', () => ({
   authenticateApiKey: vi.fn(),
 }));
 
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: vi.fn().mockResolvedValue({ success: true, remaining: 59 }),
+  inProcessCounts: new Map(),
+}));
+
+import { GET as getLatestRoute } from '@/app/api/v1/prompts/[id]/latest/route';
+import { NextRequest } from 'next/server';
+import { db } from '@/db';
 import { authenticateApiKey } from '@/lib/api-auth';
 import { inProcessCounts } from '@/lib/rate-limit';
 
