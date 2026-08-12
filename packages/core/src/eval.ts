@@ -28,7 +28,6 @@ export type EvalAttempt =
   | { ok: true; testCaseId: string; result: { passed: boolean; actualOutput: string; reason: string } }
   | { ok: false; testCaseId: string; message: string };
 
-/** Extract the first complete JSON object, respecting strings and escapes. */
 export function extractJson(text: string): unknown {
   const start = text.indexOf('{');
   if (start === -1) throw new SyntaxError('No JSON object found in response');
@@ -73,8 +72,8 @@ export async function runWithConcurrency<T>(
   tasks: (() => Promise<T>)[],
   limit: number = DEFAULT_CONCURRENCY
 ): Promise<T[]> {
-  if (!Number.isInteger(limit) || limit < 1) {
-    throw new RangeError('Concurrency limit must be a positive integer');
+  if (!Number.isSafeInteger(limit) || limit < 1) {
+    throw new RangeError('Concurrency limit must be a positive safe integer');
   }
   if (tasks.length === 0) return [];
 
@@ -100,15 +99,15 @@ function buildMessages(bundle: PromptBundle, userInput: string): ChatMessage[] {
 
   if (bundle.systemPrompt) {
     messages.push({ role: 'system', content: bundle.systemPrompt });
+    messages.push({
+      role: 'user',
+      content: bundle.userTemplate ? `${bundle.userTemplate}\n\n${userInput}` : userInput,
+    });
+    return messages;
   }
 
-  messages.push({
-    role: 'user',
-    content: bundle.userTemplate
-      ? `${bundle.userTemplate}\n\n${userInput}`
-      : userInput,
-  });
-
+  messages.push({ role: 'system', content: bundle.userTemplate });
+  messages.push({ role: 'user', content: userInput });
   return messages;
 }
 
@@ -120,7 +119,6 @@ async function executePrompt(
   return provider.chat(buildMessages(bundle, userInput), {
     model: bundle.modelConfig.model,
     temperature: bundle.modelConfig.temperature,
-    jsonMode: bundle.responseFormat?.type === 'json_object' || bundle.responseFormat?.type === 'json_schema',
   });
 }
 
@@ -143,7 +141,8 @@ async function evaluateOutput(
     '"""',
     '',
     'Does the actual output satisfy the criteria?',
-    'Respond ONLY with valid JSON: {"passed": true, "reason": "Brief reason"}',
+    'Respond ONLY with valid JSON in this exact format, no markdown, no explanation:',
+    '{"passed": true, "reason": "Brief reason why it passed or failed"}',
   ].join('\n');
 
   const response = await provider.chat([{ role: 'user', content: evaluationPrompt }], {
