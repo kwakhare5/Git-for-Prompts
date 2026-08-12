@@ -338,30 +338,111 @@ export function DashboardWorkspaceView({
   prompts = [],
   isFullScreen = false,
 }: DashboardWorkspaceViewProps) {
+  const [activeView, setActiveView] = useState<'list' | 'detail'>('list');
   const [activeTab, setActiveTab] = useState<'editor' | 'diff' | 'evals'>('editor');
   const [copiedKey, setCopiedKey] = useState(false);
   const [tempValue, setTempValue] = useState(0.2);
-  const [selectedPromptId, setSelectedPromptId] = useState<string>(
-    prompts.length > 0 ? prompts[0].id : 'demo-1'
-  );
+  const [selectedPromptId, setSelectedPromptId] = useState<string>('demo-1');
 
-  const demoPrompts = [
-    { id: 'demo-1', name: 'code-reviewer-v3', version: 'v3', desc: 'Automated code review & static analysis prompt bundle.' },
-    { id: 'demo-2', name: 'customer-support-v2', version: 'v2', desc: 'Customer ticket classification and auto-reply.' },
-    { id: 'demo-3', name: 'json-extractor', version: 'v1', desc: 'Structured JSON data extraction from unformatted text.' },
+  const demoPrompts: PromptWithStats[] = [
+    {
+      id: 'demo-1',
+      name: 'security-audit-v2',
+      description: 'Automated vulnerability scanning and CWE classification for Node & Python apps.',
+      versionCount: 3,
+      testsPassed: 12,
+      testsTotal: 12,
+      isPublic: true,
+      updatedAt: new Date().toISOString(),
+    },
+    {
+      id: 'demo-2',
+      name: 'rag-knowledge-assistant',
+      description: 'Grounding system prompt with semantic search vector citations and Zod JSON output.',
+      versionCount: 5,
+      testsPassed: 23,
+      testsTotal: 24,
+      isPublic: true,
+      updatedAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+    },
+    {
+      id: 'demo-3',
+      name: 'code-reviewer-pro',
+      description: 'Strict TypeScript and Rust code review agent with security audit rules.',
+      versionCount: 4,
+      testsPassed: 18,
+      testsTotal: 18,
+      isPublic: false,
+      updatedAt: new Date(Date.now() - 3600000 * 24).toISOString(),
+    },
   ];
 
-  const activePromptName = isDemo
-    ? (demoPrompts.find((p) => p.id === selectedPromptId)?.name ?? 'code-reviewer-v3')
-    : (prompts.find((p) => p.id === selectedPromptId)?.name ?? (prompts[0]?.name || 'my-first-prompt'));
+  const activePromptName = demoPrompts.find((p) => p.id === selectedPromptId)?.name ?? 'security-audit-v2';
+  const activePromptDesc = demoPrompts.find((p) => p.id === selectedPromptId)?.description ?? 'Version-controlled prompt bundle.';
 
-  const activePromptDesc = isDemo
-    ? (demoPrompts.find((p) => p.id === selectedPromptId)?.desc ?? 'Automated code review & static analysis prompt bundle.')
-    : (prompts.find((p) => p.id === selectedPromptId)?.description || 'Version-controlled prompt bundle.');
+  // If in demo mode and activeView is list, render the EXACT Dashboard Overview Page UI
+  if (isDemo && activeView === 'list') {
+    return (
+      <div className="p-4 sm:p-6 space-y-6 font-sans bg-bg-page min-h-[560px]">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-zinc-800/90 pb-4">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2.5">
+              <span>Prompt Repositories</span>
+              <span className="text-xs font-sans font-normal bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-full border border-zinc-800/60">
+                Local &amp; Cloud Synced
+              </span>
+            </h1>
+            <p className="text-xs text-zinc-400 mt-1">Manage, version, diff, and evaluate atomic prompt bundles.</p>
+          </div>
+          <Link
+            href="/sign-in"
+            className="h-9 px-4 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive flex items-center justify-center gap-1.5 shrink-0"
+          >
+            <span>+ Create New Prompt</span>
+          </Link>
+        </div>
+
+        {/* 4 Metric Summary Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 font-mono">
+          <div className="bg-bg-card p-3.5 sm:p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+            <div className="text-[10px] sm:text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Prompts</div>
+            <div className="text-xl sm:text-2xl font-black text-zinc-100">3</div>
+          </div>
+          <div className="bg-bg-card p-3.5 sm:p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+            <div className="text-[10px] sm:text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Total Versions</div>
+            <div className="text-xl sm:text-2xl font-black text-blue-300">12</div>
+          </div>
+          <div className="bg-bg-card p-3.5 sm:p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+            <div className="text-[10px] sm:text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Avg Pass Rate</div>
+            <div className="text-xl sm:text-2xl font-black text-emerald-300">98%</div>
+          </div>
+          <div className="bg-bg-card p-3.5 sm:p-4 rounded-2xl border border-zinc-800/90 shadow-xl">
+            <div className="text-[10px] sm:text-[11px] font-bold text-zinc-500 uppercase tracking-wider mb-1">API Credentials</div>
+            <div className="text-xl sm:text-2xl font-black text-amber-300">2</div>
+          </div>
+        </div>
+
+        {/* Interactive Repositories List Table */}
+        <div className="space-y-4 font-sans">
+          <PromptRepositoriesList prompts={demoPrompts} />
+        </div>
+      </div>
+    );
+  }
 
   const workspaceContent = (
     <div className={`grid grid-cols-1 lg:grid-cols-12 text-xs ${isFullScreen ? 'min-h-[calc(100vh-140px)]' : 'min-h-[620px]'}`}>
       <div className="lg:col-span-3 bg-bg-card border-r border-zinc-800/90 p-4 space-y-6">
+        {isDemo && (
+          <button
+            onClick={() => setActiveView('list')}
+            className="w-full py-2 px-3 rounded-xl border border-zinc-800 bg-bg-page hover:bg-zinc-800/60 text-zinc-300 text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-colors"
+          >
+            <span>← Back to Repositories</span>
+          </button>
+        )}
+
         <div className="relative font-mono">
           <input
             type="text"
@@ -387,7 +468,10 @@ export function DashboardWorkspaceView({
               demoPrompts.map((dp) => (
                 <div
                   key={dp.id}
-                  onClick={() => setSelectedPromptId(dp.id)}
+                  onClick={() => {
+                    setSelectedPromptId(dp.id);
+                    setActiveView('detail');
+                  }}
                   className={`p-2.5 rounded-xl font-medium flex items-center justify-between border cursor-pointer transition-all ${
                     selectedPromptId === dp.id
                       ? 'bg-bg-panel text-white border-zinc-800 shadow-xs'
@@ -398,7 +482,7 @@ export function DashboardWorkspaceView({
                     <span className={`w-2 h-2 rounded-full ${selectedPromptId === dp.id ? 'bg-emerald-300' : 'bg-zinc-600'}`}></span>
                     <span className="font-mono text-xs font-bold">{dp.name}</span>
                   </div>
-                  <BadgeVersion>{dp.version}</BadgeVersion>
+                  <BadgeVersion>{`v${dp.versionCount}`}</BadgeVersion>
                 </div>
               ))
             ) : prompts.length === 0 ? (
@@ -432,16 +516,16 @@ export function DashboardWorkspaceView({
             Workspace Tools
           </div>
           <div className="flex items-center gap-2 text-zinc-100 bg-zinc-100/10 border border-zinc-800 px-3 py-2 rounded-xl font-bold">
-            <span>⚡ Bundle Editor</span>
+            <span>Bundle Editor</span>
           </div>
           <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>📜 Commit History</span>
+            <span>Commit History</span>
           </Link>
           <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/tests` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>🧪 Test Suite & Evals</span>
+            <span>Test Suite &amp; Evals</span>
           </Link>
           <Link href={!isDemo ? '/dashboard/api-keys' : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>🔑 API Key Credentials</span>
+            <span>API Key Credentials</span>
           </Link>
         </div>
       </div>
