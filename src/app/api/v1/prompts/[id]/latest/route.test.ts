@@ -5,14 +5,12 @@ import { createHash } from 'crypto';
 import { eq, sql } from 'drizzle-orm';
 import { inProcessCounts } from '@/lib/rate-limit';
 
-// 1. Synchronously load environment variables first
 dotenv.config({ path: '.env.local' });
 
 import type { db as dbInstance } from '@/db';
 import type * as schemaTypes from '@/db/schema';
 import type { GET as getHandler } from './route';
 
-// We define variables for the dynamically imported modules
 let db: typeof dbInstance;
 let GET: typeof getHandler;
 let schema: typeof schemaTypes;
@@ -21,7 +19,9 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
   beforeEach(() => {
     inProcessCounts.clear();
   });
-  const plainTextKey = 'gfp_live_test_integration_token_xyz987';
+
+  // authenticateApiKey only accepts the production token shape: gfp_live_ + 32 lowercase hex chars.
+  const plainTextKey = 'gfp_live_0123456789abcdef0123456789abcdef';
   const lookupHash = createHash('sha256').update(plainTextKey).digest('hex');
   const mockOwnerId = 'user_test_api_holder';
   const otherOwnerId = 'user_test_other_holder';
@@ -32,7 +32,6 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
   let otherPromptId: string;
 
   beforeAll(async () => {
-    // 2. Import modules dynamically now that env is populated
     const dbModule = await import('@/db');
     const routeModule = await import('./route');
     const schemaModule = await import('@/db/schema');
@@ -41,7 +40,6 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     GET = routeModule.GET;
     schema = schemaModule;
 
-    // Ensure database migration columns exist on test DB
     try {
       await db.execute(sql`
         ALTER TABLE "api_keys" ADD COLUMN IF NOT EXISTS "scopes" text[] DEFAULT '{"prompts:read","prompts:write","versions:write"}' NOT NULL;
@@ -49,10 +47,9 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
         ALTER TABLE "api_keys" ADD COLUMN IF NOT EXISTS "expires_at" timestamp;
       `);
     } catch {
-      // Ignore if database lacks DDL execution permissions
+      // Ignore if database lacks DDL execution permissions.
     }
 
-    // 3. Insert a temporary test API key
     const [insertedKey] = await db
       .insert(schema.apiKeys)
       .values({
@@ -65,7 +62,6 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
       .returning();
     testApiKeyId = insertedKey.id;
 
-    // 4. Insert a prompt owned by our test API key holder
     const [insertedPrompt] = await db
       .insert(schema.prompts)
       .values({
@@ -76,7 +72,6 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
       .returning();
     testPromptId = insertedPrompt.id;
 
-    // 5. Insert a version for that prompt
     const [insertedVersion] = await db
       .insert(schema.versions)
       .values({
@@ -89,13 +84,11 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
       .returning();
     testVersionId = insertedVersion.id;
 
-    // Link prompt to latest version
     await db
       .update(schema.prompts)
       .set({ currentVersionId: testVersionId })
       .where(eq(schema.prompts.id, testPromptId));
 
-    // 6. Insert another prompt owned by someone else
     const [otherPrompt] = await db
       .insert(schema.prompts)
       .values({
@@ -108,7 +101,6 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
   });
 
   afterAll(async () => {
-    // Clean up temporary rows from database using dynamic db connection
     if (db && schema) {
       if (testVersionId) {
         await db.delete(schema.versions).where(eq(schema.versions.id, testVersionId));
@@ -174,7 +166,7 @@ describe('GET /api/v1/prompts/[id]/latest Route Handler', () => {
     const req = new NextRequest(`http://localhost:3000/api/v1/prompts/${testPromptId}/latest`, {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer gfp_live_incorrect_token_key',
+        Authorization: 'Bearer gfp_live_ffffffffffffffffffffffffffffffff',
       },
     });
 
