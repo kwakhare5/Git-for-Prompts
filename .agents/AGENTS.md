@@ -116,9 +116,9 @@ _AI fills at END of every session. Read at START of next session._
 **What we built / changed:**
 
 - Fixed auth sign-in behavior by pulling Vercel environment variables (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`).
-- Added native Next.js OpenGraph 1200x630px social share card generator (`src/app/opengraph-image.tsx`).
-- Implemented SEO infrastructure: `robots.ts`, dynamic `sitemap.ts`, `manifest.ts`, JSON-LD structured data.
-- Configured Google Search Console verification meta tag hook and pushed token to Vercel.
+- Built custom monid.ai-style OpenGraph 1200x630px social share card (`src/app/opengraph-image.tsx`) with dark website theme, enlarged git-fork logo icon, title ("Git for Prompts"), and hero command pill (`$ npx gfp init`).
+- Implemented pre-launch SEO infrastructure: `robots.ts`, dynamic `sitemap.ts`, `manifest.ts`, JSON-LD structured data.
+- Configured Google Search Console verification (`public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html` & meta tag) and verified on Vercel.
 
 **Immediate next task:**
 Verify Google Search Console property indexing & monitor launch metrics.
@@ -128,8 +128,9 @@ Verify Google Search Console property indexing & monitor launch metrics.
 
 **Files most recently changed:**
 
-- `src/app/layout.tsx`
 - `src/app/opengraph-image.tsx`
+- `public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html`
+- `src/app/layout.tsx`
 - `src/app/robots.ts`
 - `src/app/sitemap.ts`
 - `src/app/manifest.ts`
