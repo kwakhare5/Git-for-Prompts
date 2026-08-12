@@ -32,7 +32,7 @@ export const responseFormatSchema = z.object({
 
 export const promptBundleSchema = z.object({
   systemPrompt: z.string().nullable().default(null),
-  userTemplate: z.string().min(1),
+  userTemplate: z.string(),
   modelConfig: modelConfigSchema,
   tools: z.array(toolDefinitionSchema).optional(),
   responseFormat: responseFormatSchema.optional(),
@@ -65,7 +65,7 @@ export function createBundleFromLegacy(content: string): PromptBundle {
   };
 }
 
-/** Create a draft bundle; an empty user template is allowed only at editor level. */
+/** Create a draft bundle; an empty user template is valid until the draft is saved. */
 export function createEmptyBundle(): PromptBundle {
   return {
     systemPrompt: null,
