@@ -1,19 +1,15 @@
-/** Canonical schema and helpers for immutable prompt bundles. */
-
 import { z } from 'zod/v4';
 
-const nonEmptyString = z.string().trim().min(1);
-
 export const modelConfigSchema = z.object({
-  provider: nonEmptyString,
-  model: nonEmptyString,
+  provider: z.string().min(1),
+  model: z.string().min(1),
   temperature: z.number().min(0).max(2).default(0.7),
   topP: z.number().min(0).max(1).optional(),
   maxTokens: z.number().int().positive().optional(),
 });
 
 export const toolDefinitionSchema = z.object({
-  name: nonEmptyString,
+  name: z.string().min(1),
   description: z.string(),
   parameters: z.record(z.string(), z.unknown()).default({}),
 });
@@ -21,13 +17,6 @@ export const toolDefinitionSchema = z.object({
 export const responseFormatSchema = z.object({
   type: z.enum(['text', 'json_object', 'json_schema']),
   schema: z.record(z.string(), z.unknown()).optional(),
-}).superRefine((value, ctx) => {
-  if (value.type === 'json_schema' && !value.schema) {
-    ctx.addIssue({ code: 'custom', path: ['schema'], message: 'json_schema response format requires schema' });
-  }
-  if (value.type !== 'json_schema' && value.schema) {
-    ctx.addIssue({ code: 'custom', path: ['schema'], message: 'schema is only valid for json_schema response format' });
-  }
 });
 
 export const promptBundleSchema = z.object({
@@ -65,7 +54,6 @@ export function createBundleFromLegacy(content: string): PromptBundle {
   };
 }
 
-/** Create a draft bundle; an empty user template is valid until the draft is saved. */
 export function createEmptyBundle(): PromptBundle {
   return {
     systemPrompt: null,
