@@ -16,16 +16,16 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
-### [GFP — Homepage Hero Exact Dashboard Replica, Shared Codebase & Zero Emojis] 2026-08-12
+### [GFP — Homepage Hero Exact Dashboard Overview Replica, Shared Codebase & Zero Emojis] 2026-08-12
 
-- **Commit**: `73c05f9`
+- **Commit**: `90137bd`
 - **Shipped**:
-  - Rebuilt homepage hero preview box (`DashboardHeroScreen.tsx`) as a 100% exact replica of the live `/dashboard` page using shared UI components (`DashboardSidebar`, `DashboardWorkspaceView`, `PromptRepositoriesList`).
+  - Rebuilt homepage hero preview box (`DashboardHeroScreen.tsx` & `DashboardWorkspaceView.tsx`) to render the 100% exact live `/dashboard` Overview Page on initial load: Header bar (`Prompt Repositories`), 4 Metric Summary Cards (`Total Prompts: 3`, `Total Versions: 12`, `Avg Pass Rate: 98%`, `API Credentials: 2`), Search input, and interactive repository table (`PromptRepositoriesList`).
   - Completely eliminated all unicode emojis/slop across the hero preview frame and dashboard domain components, replacing them with clean SVG Lucide icons (`FolderGit2`, `LayoutDashboard`, `Terminal`, `CheckIcon`).
-  - Preserved full interactive demo capabilities: unauthenticated visitors can search prompts, filter repositories (`All`, `Public`, `Private`), switch view modes (Table/Grid), and trigger Clerk Google Auth on write actions.
+  - Implemented interactive prompt detail view switching (`security-audit-v2`, `rag-knowledge-assistant`, `code-reviewer-pro`) with a `← Back to Repositories` button to return to the overview page.
   - Standardized left/right inline layout margins to `16px` (`px-4 sm:px-6`) across all website sections (`Navbar`, `HeroSection`, `DashboardHeroScreen`, `PromptStudioShowcase`, `BentoFeatures`, `EngineShowcase`, `FaqFooter`).
   - Verification: 0 TS compilation errors, 100% successful Next.js production build (`npm run build`).
-- **Vibe**: 🖥️ Exact Dashboard Replica Hero Preview, 100% Shared UI Codebase & Zero Emojis!
+- **Vibe**: 🖥️ Exact Dashboard Overview Page Replica in Hero Preview, 100% Shared UI Codebase & Zero Emojis!
 
 ### [GFP — Comprehensive UI Design Audit, Emil Kowalski Motion & GitHub Actions CI Fix] 2026-08-11
 
