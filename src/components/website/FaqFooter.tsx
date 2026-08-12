@@ -139,7 +139,17 @@ export function FaqFooter() {
         </div>
 
         <div className="max-w-6xl mx-auto border-t border-zinc-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500">
-          <div>© 2026 Git for Prompts • Built with Next.js 15, Drizzle ORM, & Wasm SQLite</div>
+          <div>
+            © 2026 Git for Prompts • Designed &amp; Built by{" "}
+            <a
+              href="https://github.com/kwakhare5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-300 hover:text-white font-semibold underline decoration-zinc-700 underline-offset-4 transition-colors"
+            >
+              Karan Wakhare
+            </a>
+          </div>
           <div className="flex items-center gap-4 mt-4 sm:mt-0">
             <span>SHA-256 Auth</span>
             <span>Advisory Locking</span>
