@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { FolderGit2, LayoutDashboard } from 'lucide-react';
 import { DashboardSidebar } from '@/components/layout/dashboard-sidebar';
 import { DashboardWorkspaceView } from '@/components/domain/dashboard/dashboard-workspace-view';
 
@@ -20,17 +21,17 @@ export function DashboardHeroScreen() {
               <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500/80 inline-block"></span>
             </div>
             <div className="px-2.5 py-1 rounded-xl bg-bg-panel border border-zinc-800/60 text-zinc-300 text-[10px] sm:text-[11px] truncate">
-              gitforprompts.com/dashboard (Demo Workspace)
+              gitforprompts.com/dashboard
             </div>
           </div>
 
           <div className="hidden sm:flex items-center gap-2 text-emerald-300 font-mono text-[11px] font-semibold shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
-            100% Interactive Demo
+            Live Workspace Preview
           </div>
         </div>
 
-        {/* Mobile Segmented Control Bar (< 768px) */}
+        {/* Mobile Segmented Control Bar (< 768px) - Zero Emojis */}
         <div className="md:hidden bg-zinc-900 border-b border-zinc-800/80 p-2 flex items-center justify-center gap-1 font-mono text-xs">
           <button
             type="button"
@@ -41,7 +42,8 @@ export function DashboardHeroScreen() {
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <span>📁 Prompts Tree</span>
+            <FolderGit2 className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Prompts Tree</span>
           </button>
           <button
             type="button"
@@ -52,7 +54,8 @@ export function DashboardHeroScreen() {
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <span>⚡ Studio Editor</span>
+            <LayoutDashboard className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Workspace Studio</span>
           </button>
         </div>
 
