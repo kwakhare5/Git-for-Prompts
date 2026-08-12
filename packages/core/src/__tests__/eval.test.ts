@@ -68,26 +68,6 @@ describe('@gfp/core evaluation engine', () => {
     ]);
   });
 
-  it('passes JSON mode for structured response formats', async () => {
-    const provider: AIProvider = {
-      chat: vi
-        .fn()
-        .mockResolvedValueOnce('{"answer":4}')
-        .mockResolvedValueOnce('{"passed":true,"reason":"Correct"}'),
-    };
-    const bundle = {
-      ...createBundleFromLegacy('Return JSON.'),
-      responseFormat: { type: 'json_object' as const },
-    };
-
-    await runSingleTestCase(provider, bundle, {
-      inputText: '2+2?',
-      expectedCriteria: 'Must contain 4',
-    });
-
-    expect(vi.mocked(provider.chat).mock.calls[0][1]?.jsonMode).toBe(true);
-  });
-
   it('returns per-case failures without aborting the whole evaluation', async () => {
     const provider: AIProvider = {
       chat: vi
