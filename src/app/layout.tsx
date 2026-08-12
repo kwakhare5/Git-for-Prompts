@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     creator: "@gitforprompts",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "XSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY",
   },
 };
 
