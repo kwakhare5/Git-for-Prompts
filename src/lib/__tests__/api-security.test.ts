@@ -39,25 +39,16 @@ describe('Stage 2C — API Security & Enumeration Defense Matrix', () => {
       scopes: ['prompts:read'],
     });
 
-    const promptOwnedByVictim = {
-      id: validPromptUuid,
-      name: 'Secret Victim Prompt',
-      ownerId: 'user_victim', // Different owner!
-      isPublic: false,
-    };
-
+    // The route scopes the prompt query by both ID and authenticated owner.
+    // An attacker therefore sees the same not-found response whether the ID
+    // belongs to another tenant or does not exist at all.
     vi.mocked(db.select).mockReturnValue({
       from: vi.fn().mockReturnValue({
         where: vi.fn().mockReturnValue({
-          orderBy: vi.fn().mockReturnValue({
-            limit: vi.fn().mockResolvedValue([]),
-          }),
+          limit: vi.fn().mockResolvedValue([]),
         }),
       }),
     } as unknown as ReturnType<typeof db.select>);
-
-    // Promise.all in route handler
-    vi.spyOn(Promise, 'all').mockResolvedValueOnce([[promptOwnedByVictim], []] as unknown as [unknown, unknown]);
 
     const req = new NextRequest(`https://example.com/api/v1/prompts/${validPromptUuid}/latest`, {
       headers: { Authorization: 'Bearer gfp_live_11112222333344445555666677778888' },
@@ -67,6 +58,6 @@ describe('Stage 2C — API Security & Enumeration Defense Matrix', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
-    expect(json.error).toBe('Prompt not found'); // Generic 404 does not reveal prompt existence to attacker
+    expect(json.error).toBe('Prompt not found');
   });
 });
