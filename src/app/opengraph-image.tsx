@@ -41,20 +41,14 @@ export default async function Image() {
               justifyContent: "center",
             }}
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 3v12M12 15l-4-4M12 15l4-4"
-                stroke="#60a5fa"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5 19h14"
-                stroke="#a1a1aa"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
+            <svg width="32" height="32" viewBox="0 0 32 32">
+              <g transform="translate(4, 4)" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="18" r="3"/>
+                <circle cx="6" cy="6" r="3"/>
+                <circle cx="18" cy="6" r="3"/>
+                <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9"/>
+                <path d="M12 15V9"/>
+              </g>
             </svg>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
