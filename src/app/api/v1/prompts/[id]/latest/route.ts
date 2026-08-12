@@ -1,24 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
-import { eq, desc } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { interpolateVariables } from '@gfp/core';
 import { authenticateApiKey } from '@/lib/api-auth';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/v1/prompts/[id]/latest
-//
-// Public API endpoint — authenticated via Bearer token.
-// Returns the latest version content of a prompt owned by the key holder.
-//
-// Responses:
-//   200 — prompt content JSON
-//   401 — missing / invalid Authorization header or key mismatch
-//   404 — prompt not found or not owned by this key's owner
-//   429 — rate limit exceeded (60 req/min per IP)
-//   500 — unexpected server error (no stack trace exposed)
-// ─────────────────────────────────────────────────────────────────────────────
 export const dynamic = 'force-dynamic';
 
 export async function GET(
@@ -26,7 +13,6 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // 0. Rate limiting — by IP before any DB work
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
       ?? req.headers.get('x-real-ip')
       ?? '127.0.0.1';
@@ -39,26 +25,30 @@ export async function GET(
       );
     }
 
-    // 1. Authenticate API key with required scope
     const authResult = await authenticateApiKey(req, 'prompts:read');
     if (authResult instanceof NextResponse) return authResult;
     const { ownerId } = authResult;
 
     const { id: promptId } = await params;
 
-    // 2. Prompt + version reads — independent of auth, fire in parallel
-    const [[prompt], [latest]] = await Promise.all([
-      db.select().from(prompts).where(eq(prompts.id, promptId)),
-      db.select().from(versions)
-        .where(eq(versions.promptId, promptId))
-        .orderBy(desc(versions.versionNumber))
-        .limit(1),
-    ]);
+    // Enforce tenant ownership in the database query so unauthorized prompt
+    // metadata is never fetched before the ownership check.
+    const [prompt] = await db
+      .select()
+      .from(prompts)
+      .where(and(eq(prompts.id, promptId), eq(prompts.ownerId, ownerId)))
+      .limit(1);
 
-    // 4. Resolve the prompt — must exist and belong to this key's owner
-    if (!prompt || prompt.ownerId !== ownerId) {
+    if (!prompt) {
       return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
     }
+
+    const [latest] = await db
+      .select()
+      .from(versions)
+      .where(eq(versions.promptId, promptId))
+      .orderBy(desc(versions.versionNumber))
+      .limit(1);
 
     if (!latest) {
       return NextResponse.json(
@@ -67,7 +57,6 @@ export async function GET(
       );
     }
 
-    // 5. Collect ?variables[name]=value query params and interpolate
     const variableValues: Record<string, string> = {};
     for (const [key, val] of req.nextUrl.searchParams.entries()) {
       const match = key.match(/^variables\[([a-zA-Z_][a-zA-Z0-9_]*)\]$/);
@@ -75,7 +64,6 @@ export async function GET(
     }
 
     const hasVars = Object.keys(variableValues).length > 0;
-
     const content = hasVars
       ? interpolateVariables(latest.content, variableValues)
       : latest.content;
@@ -87,7 +75,7 @@ export async function GET(
       commitMessage: latest.commitMessage ?? null,
       content,
       variables: latest.variables ?? [],
-      bundle: latest.bundle ?? null,  // V2: full bundle payload (null for V1 versions)
+      bundle: latest.bundle ?? null,
       createdAt: latest.createdAt,
     });
   } catch {
