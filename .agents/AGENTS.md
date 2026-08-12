@@ -121,6 +121,7 @@ _AI fills at END of every session. Read at START of next session._
 - Configured Google Search Console verification (`public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html` & meta tag) and verified on Vercel.
 - Fixed CI test suite race condition by setting `fileParallelism: false` in `vitest.config.ts`, ensuring 100% clean test execution (138/138 tests passing).
 - Added creator credits for Karan Wakhare with GitHub link in website footer (`src/components/website/FaqFooter.tsx`).
+- Executed comprehensive mobile responsiveness redesign across top Navbar (un-squished Get Started CTA + mobile slide-out drawer), high-impact serif Hero section, interactive Studio Demo Segmented Control tabs, and responsive Bento features.
 
 **Immediate next task:**
 Verify Google Search Console property indexing & monitor launch metrics.
@@ -130,10 +131,11 @@ Verify Google Search Console property indexing & monitor launch metrics.
 
 **Files most recently changed:**
 
-- `src/components/website/FaqFooter.tsx`
-- `vitest.config.ts`
 - `src/components/website/Navbar.tsx`
-- `src/app/opengraph-image.tsx`
-- `src/app/icon.svg`
-- `src/app/apple-icon.svg`
+- `src/components/website/HeroSection.tsx`
+- `src/components/website/DashboardHeroScreen.tsx`
+- `src/components/website/PromptStudioShowcase.tsx`
+- `src/components/website/BentoFeatures.tsx`
+- `src/components/website/EngineShowcase.tsx`
+- `src/components/website/FaqFooter.tsx`
 
