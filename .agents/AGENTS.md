@@ -111,18 +111,28 @@ _AI appends here after every VERIFY failure. Never repeat these._
 
 _AI fills at END of every session. Read at START of next session._
 
-**Last session date:** [YYYY-MM-DD]
+**Last session date:** 2026-08-12
 
 **What we built / changed:**
 
-- [New session]
+- Fixed auth sign-in behavior by pulling Vercel environment variables (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`).
+- Added native Next.js OpenGraph 1200x630px social share card generator (`src/app/opengraph-image.tsx`).
+- Implemented SEO infrastructure: `robots.ts`, dynamic `sitemap.ts`, `manifest.ts`, JSON-LD structured data.
+- Configured Google Search Console verification meta tag hook and pushed token to Vercel.
 
 **Immediate next task:**
-[What to pick up next]
+Verify Google Search Console property indexing & monitor launch metrics.
 
 **Open blockers:**
 [None]
 
 **Files most recently changed:**
 
-- [None]
+- `src/app/layout.tsx`
+- `src/app/opengraph-image.tsx`
+- `src/app/robots.ts`
+- `src/app/sitemap.ts`
+- `src/app/manifest.ts`
+- `src/components/website/json-ld.tsx`
+- `.env.local`
+

@@ -60,3 +60,5 @@ next-env.d.ts
 
 # gfp CLI local storage
 .gfp/
+
+.env*
