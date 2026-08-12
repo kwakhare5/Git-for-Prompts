@@ -1,32 +1,19 @@
-/**
- * Bundle — the atomic unit of versioning in Git for Prompts V2.
- *
- * A PromptBundle captures everything that determines AI behavior:
- * system prompt, user template, model configuration, tool definitions,
- * and output format constraints. When ANY of these change, a new
- * immutable version is created.
- *
- * This module owns:
- *   - The canonical PromptBundle TypeScript type
- *   - Zod validation schema (used by CLI, API, and UI)
- *   - Bundle creation helpers (from legacy text, from scratch)
- *   - Content extraction (for backward-compatible `content` column)
- */
+/** Canonical schema and helpers for immutable prompt bundles. */
 
 import { z } from 'zod/v4';
 
-// ─── Zod Schemas ─────────────────────────────────────────────────────────────
+const nonEmptyString = z.string().trim().min(1);
 
 export const modelConfigSchema = z.object({
-  provider: z.string().min(1),
-  model: z.string().min(1),
+  provider: nonEmptyString,
+  model: nonEmptyString,
   temperature: z.number().min(0).max(2).default(0.7),
   topP: z.number().min(0).max(1).optional(),
   maxTokens: z.number().int().positive().optional(),
 });
 
 export const toolDefinitionSchema = z.object({
-  name: z.string().min(1),
+  name: nonEmptyString,
   description: z.string(),
   parameters: z.record(z.string(), z.unknown()).default({}),
 });
@@ -34,6 +21,13 @@ export const toolDefinitionSchema = z.object({
 export const responseFormatSchema = z.object({
   type: z.enum(['text', 'json_object', 'json_schema']),
   schema: z.record(z.string(), z.unknown()).optional(),
+}).superRefine((value, ctx) => {
+  if (value.type === 'json_schema' && !value.schema) {
+    ctx.addIssue({ code: 'custom', path: ['schema'], message: 'json_schema response format requires schema' });
+  }
+  if (value.type !== 'json_schema' && value.schema) {
+    ctx.addIssue({ code: 'custom', path: ['schema'], message: 'schema is only valid for json_schema response format' });
+  }
 });
 
 export const promptBundleSchema = z.object({
@@ -44,36 +38,19 @@ export const promptBundleSchema = z.object({
   responseFormat: responseFormatSchema.optional(),
 });
 
-// ─── Types (inferred from Zod — single source of truth) ─────────────────────
-
 export type ModelConfig = z.infer<typeof modelConfigSchema>;
 export type ToolDefinition = z.infer<typeof toolDefinitionSchema>;
 export type ResponseFormat = z.infer<typeof responseFormatSchema>;
 export type PromptBundle = z.infer<typeof promptBundleSchema>;
 
-// ─── Validation ──────────────────────────────────────────────────────────────
-
-/**
- * Validate and parse an unknown input into a PromptBundle.
- * Strips unknown fields. Throws ZodError on invalid input.
- */
 export function validateBundle(input: unknown): PromptBundle {
   return promptBundleSchema.parse(input);
 }
 
-/**
- * Safe validation — returns success/error discriminated union.
- */
 export function safeParseBundleResult(input: unknown) {
   return promptBundleSchema.safeParse(input);
 }
 
-// ─── Factory helpers ─────────────────────────────────────────────────────────
-
-/**
- * Create a PromptBundle from legacy V1 text-only content.
- * Used during migration: old versions have `content` but no `bundle`.
- */
 export function createBundleFromLegacy(content: string): PromptBundle {
   return {
     systemPrompt: null,
@@ -88,9 +65,7 @@ export function createBundleFromLegacy(content: string): PromptBundle {
   };
 }
 
-/**
- * Create a minimal PromptBundle with sensible defaults.
- */
+/** Create a draft bundle; an empty user template is allowed only at editor level. */
 export function createEmptyBundle(): PromptBundle {
   return {
     systemPrompt: null,
@@ -105,10 +80,6 @@ export function createEmptyBundle(): PromptBundle {
   };
 }
 
-/**
- * Extract the user-facing prompt text from a bundle.
- * Used to populate the legacy `content` column for backward compatibility.
- */
 export function extractContentFromBundle(bundle: PromptBundle): string {
   return bundle.userTemplate;
 }
