@@ -6,6 +6,10 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     fileParallelism: false,
+    maxConcurrency: 1,
+    sequence: {
+      concurrent: false,
+    },
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'packages/**/*.test.ts'],
   },
   resolve: {
