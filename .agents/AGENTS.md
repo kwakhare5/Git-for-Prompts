@@ -119,6 +119,8 @@ _AI fills at END of every session. Read at START of next session._
 - Built custom monid.ai-style OpenGraph 1200x630px social share card (`src/app/opengraph-image.tsx`) with dark website theme, enlarged git-fork logo icon, title ("Git for Prompts"), and hero command pill (`$ npx gfp init`).
 - Implemented pre-launch SEO infrastructure: `robots.ts`, dynamic `sitemap.ts`, `manifest.ts`, JSON-LD structured data.
 - Configured Google Search Console verification (`public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html` & meta tag) and verified on Vercel.
+- Fixed CI test suite race condition by setting `fileParallelism: false` in `vitest.config.ts`, ensuring 100% clean test execution (138/138 tests passing).
+- Added creator credits for Karan Wakhare with GitHub link in website footer (`src/components/website/FaqFooter.tsx`).
 
 **Immediate next task:**
 Verify Google Search Console property indexing & monitor launch metrics.
@@ -128,12 +130,10 @@ Verify Google Search Console property indexing & monitor launch metrics.
 
 **Files most recently changed:**
 
+- `src/components/website/FaqFooter.tsx`
+- `vitest.config.ts`
+- `src/components/website/Navbar.tsx`
 - `src/app/opengraph-image.tsx`
-- `public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html`
-- `src/app/layout.tsx`
-- `src/app/robots.ts`
-- `src/app/sitemap.ts`
-- `src/app/manifest.ts`
-- `src/components/website/json-ld.tsx`
-- `.env.local`
+- `src/app/icon.svg`
+- `src/app/apple-icon.svg`
 

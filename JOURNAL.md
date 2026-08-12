@@ -18,12 +18,13 @@ During the Session End ritual (called automatically whenever significant changes
 
 ### [GFP — monid.ai-Style OpenGraph Share Cards, Complete SEO Infrastructure & GSC Verification] 2026-08-12
 
-- **Commit**: `746edc3`
+- **Commit**: `43a4ccc`
 - **Shipped**:
   - Resolved sign-in environment discrepancy by pulling Vercel production keys (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`) to `.env.local`.
   - Built custom monid.ai-style `@vercel/og` 1200x630px social share card generator (`src/app/opengraph-image.tsx`) featuring website dark charcoal theme, enlarged 3-circle git-fork logo icon, title ("Git for Prompts"), and hero command pill (`$ npx gfp init`).
   - Implemented complete pre-launch SEO infrastructure: `robots.ts` crawler policy, dynamic `sitemap.ts`, `manifest.ts` PWA spec, and JSON-LD structured data snippet (`SoftwareApplication` schema).
   - Configured Google Search Console verification via HTML verification file (`public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html`) & layout meta tag hook.
+  - Added creator credits for Karan Wakhare with GitHub profile link in website footer (`src/components/website/FaqFooter.tsx`).
   - Verification: 0 TS errors, 100% successful Next.js production build (`npm run build`).
 - **Vibe**: 🌐 Launch-Ready SEO, Custom monid.ai OpenGraph Cards & Search Console Verified!
 
