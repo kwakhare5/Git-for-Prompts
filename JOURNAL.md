@@ -16,17 +16,16 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
-### [GFP — Comprehensive Mobile Responsiveness Overhaul, 16px Grid Padding Standard & Hero Drawer] 2026-08-12
+### [GFP — Homepage Hero Exact Dashboard Replica, Shared Codebase & Zero Emojis] 2026-08-12
 
-- **Commit**: `45ea820`
+- **Commit**: `73c05f9`
 - **Shipped**:
-  - Executed complete mobile responsiveness redesign across top Navbar (`Navbar.tsx`): un-squished, full-size `Get Started` CTA button + mobile slide-out drawer menu with backdrop blur.
-  - Rebuilt Hero section (`HeroSection.tsx`) maintaining full-bold desktop serif typography (`text-4xl sm:text-6xl`), uncut kicker badge (`100% OPEN SOURCE PROMPT VERSION CONTROL`), and stacked 48px CTAs (`$ npx gfp init` CLI pill + `Open Cloud Dashboard →` button).
-  - Standardized left/right inline layout margins to `16px` (`px-4 sm:px-6`) across all website sections (`Navbar`, `HeroSection`, `DashboardHeroScreen`, `PromptStudioShowcase`, `BentoFeatures`, `EngineShowcase`, `FaqFooter`), aligning card and text container edges to a single vertical grid line.
-  - Implemented mobile Segmented Control Tabs (`[Prompts Tree]`, `[Studio Editor]`) in `DashboardHeroScreen.tsx` for clean single-pane toggling on mobile screens.
-  - Added creator credits for Karan Wakhare with GitHub profile link in website footer (`FaqFooter.tsx`).
+  - Rebuilt homepage hero preview box (`DashboardHeroScreen.tsx`) as a 100% exact replica of the live `/dashboard` page using shared UI components (`DashboardSidebar`, `DashboardWorkspaceView`, `PromptRepositoriesList`).
+  - Completely eliminated all unicode emojis/slop across the hero preview frame and dashboard domain components, replacing them with clean SVG Lucide icons (`FolderGit2`, `LayoutDashboard`, `Terminal`, `CheckIcon`).
+  - Preserved full interactive demo capabilities: unauthenticated visitors can search prompts, filter repositories (`All`, `Public`, `Private`), switch view modes (Table/Grid), and trigger Clerk Google Auth on write actions.
+  - Standardized left/right inline layout margins to `16px` (`px-4 sm:px-6`) across all website sections (`Navbar`, `HeroSection`, `DashboardHeroScreen`, `PromptStudioShowcase`, `BentoFeatures`, `EngineShowcase`, `FaqFooter`).
   - Verification: 0 TS compilation errors, 100% successful Next.js production build (`npm run build`).
-- **Vibe**: 📱 Flawless Mobile Responsiveness, 16px Aligned Grid Padding & Un-squished Navbar CTAs!
+- **Vibe**: 🖥️ Exact Dashboard Replica Hero Preview, 100% Shared UI Codebase & Zero Emojis!
 
 ### [GFP — Comprehensive UI Design Audit, Emil Kowalski Motion & GitHub Actions CI Fix] 2026-08-11
 

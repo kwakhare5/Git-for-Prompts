@@ -123,6 +123,7 @@ _AI fills at END of every session. Read at START of next session._
 - Added creator credits for Karan Wakhare with GitHub link in website footer (`src/components/website/FaqFooter.tsx`).
 - Executed comprehensive mobile responsiveness redesign across top Navbar (un-squished Get Started CTA + mobile slide-out drawer), high-impact serif Hero section, interactive Studio Demo Segmented Control tabs, and responsive Bento features.
 - Standardized left/right mobile padding (`px-4 sm:px-6`) across all website sections for 100% aligned vertical grid edges (`better-layout` compliance).
+- Rebuilt homepage hero preview box as a 100% exact replica of the live `/dashboard` page using shared UI components, shared sidebar, zero unicode emojis/slop, and Clerk Google Auth triggers.
 
 **Immediate next task:**
 Verify Google Search Console property indexing & monitor launch metrics.
@@ -132,11 +133,11 @@ Verify Google Search Console property indexing & monitor launch metrics.
 
 **Files most recently changed:**
 
-- `src/components/website/Navbar.tsx`
 - `src/components/website/DashboardHeroScreen.tsx`
+- `src/components/domain/dashboard/dashboard-workspace-view.tsx`
+- `src/components/layout/dashboard-sidebar.tsx`
+- `src/components/website/Navbar.tsx`
 - `src/components/website/HeroSection.tsx`
-- `src/components/website/PromptStudioShowcase.tsx`
-- `src/components/website/BentoFeatures.tsx`
 - `src/components/website/EngineShowcase.tsx`
 - `src/components/website/FaqFooter.tsx`
 
