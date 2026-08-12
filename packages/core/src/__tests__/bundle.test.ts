@@ -1,97 +1,101 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  validateBundle,
-  safeParseBundleResult,
   createBundleFromLegacy,
   createEmptyBundle,
   extractContentFromBundle,
+  safeParseBundleResult,
+  validateBundle,
 } from '../bundle.js';
 import { diffBundles, diffVersions } from '../diff.js';
 
-describe('@gfp/core — bundle & diff engine', () => {
-  describe('bundle validation & factory helpers', () => {
-    it('creates a valid bundle from legacy text content', () => {
-      const bundle = createBundleFromLegacy('Hello {{name}}, welcome!');
-      expect(bundle.userTemplate).toBe('Hello {{name}}, welcome!');
-      expect(bundle.systemPrompt).toBeNull();
-      expect(bundle.modelConfig.provider).toBe('groq');
-      expect(bundle.modelConfig.model).toBe('llama-3.3-70b-versatile');
-      expect(extractContentFromBundle(bundle)).toBe('Hello {{name}}, welcome!');
-    });
+describe('@gfp/core bundle and diff engine', () => {
+  it('creates a valid legacy bundle', () => {
+    const bundle = createBundleFromLegacy('Hello {{name}}, welcome!');
 
-    it('creates an empty bundle with defaults', () => {
-      const bundle = createEmptyBundle();
-      expect(bundle.userTemplate).toBe('');
-      expect(bundle.modelConfig.provider).toBe('openai');
-      expect(bundle.modelConfig.model).toBe('gpt-4o');
-    });
-
-    it('validates a complete PromptBundle payload', () => {
-      const raw = {
-        systemPrompt: 'You are a helpful assistant.',
-        userTemplate: 'Summarize {{text}}',
-        modelConfig: {
-          provider: 'groq',
-          model: 'llama-3.3-70b-versatile',
-          temperature: 0.2,
-        },
-      };
-
-      const parsed = validateBundle(raw);
-      expect(parsed.systemPrompt).toBe('You are a helpful assistant.');
-      expect(parsed.userTemplate).toBe('Summarize {{text}}');
-      expect(parsed.modelConfig.temperature).toBe(0.2);
-    });
-
-    it('fails validation gracefully on invalid modelConfig', () => {
-      const invalid = {
-        userTemplate: 'Test prompt',
-        modelConfig: {
-          provider: '',
-          model: '',
-        },
-      };
-
-      const result = safeParseBundleResult(invalid);
-      expect(result.success).toBe(false);
-    });
+    expect(bundle.userTemplate).toBe('Hello {{name}}, welcome!');
+    expect(bundle.systemPrompt).toBeNull();
+    expect(bundle.modelConfig.provider).toBe('groq');
+    expect(extractContentFromBundle(bundle)).toBe(bundle.userTemplate);
   });
 
-  describe('structural diff engine', () => {
-    it('detects no changes for identical bundles', () => {
-      const a = createBundleFromLegacy('Same text');
-      const b = createBundleFromLegacy('Same text');
+  it('creates an editor draft with defaults', () => {
+    const bundle = createEmptyBundle();
 
-      const diff = diffBundles(a, b);
-      expect(diff.hasChanges).toBe(false);
-      expect(diff.summary).toBe('No changes');
+    expect(bundle.userTemplate).toBe('');
+    expect(bundle.modelConfig).toMatchObject({ provider: 'openai', model: 'gpt-4o', temperature: 0.7 });
+  });
+
+  it('applies schema defaults and strips unknown fields', () => {
+    const parsed = validateBundle({
+      userTemplate: 'Summarize {{text}}',
+      modelConfig: { provider: 'groq', model: 'llama', temperature: 0.2 },
+      unexpected: 'removed',
     });
 
-    it('detects changes when userTemplate or modelConfig changes', () => {
-      const a = createBundleFromLegacy('Original text');
-      const b = {
-        ...a,
-        userTemplate: 'Modified text',
-        modelConfig: {
-          ...a.modelConfig,
-          temperature: 0.9,
-        },
-      };
+    expect(parsed.systemPrompt).toBeNull();
+    expect(parsed.modelConfig.temperature).toBe(0.2);
+    expect('unexpected' in parsed).toBe(false);
+  });
 
-      const diff = diffBundles(a, b);
-      expect(diff.hasChanges).toBe(true);
-      expect(diff.fields.find((f) => f.field === 'userTemplate')?.type).toBe('modified');
-      expect(diff.fields.find((f) => f.field === 'modelConfig')?.type).toBe('modified');
-      expect(diff.summary).toContain('2 field(s) changed');
+  it('rejects invalid model configuration', () => {
+    const result = safeParseBundleResult({
+      userTemplate: 'Test prompt',
+      modelConfig: { provider: '', model: '' },
     });
 
-    it('falls back to text-only diff when version lacks a bundle (V1 migration)', () => {
-      const v1 = { content: 'V1 text', bundle: null };
-      const v2 = { content: 'V1 text modified', bundle: null };
+    expect(result.success).toBe(false);
+  });
 
-      const diff = diffVersions(v1, v2);
-      expect(diff.hasChanges).toBe(true);
-      expect(diff.summary).toBe('1 field(s) changed: content');
+  it('rejects json_schema response format without a schema', () => {
+    const result = safeParseBundleResult({
+      userTemplate: 'Return JSON',
+      modelConfig: { provider: 'openai', model: 'gpt-4o' },
+      responseFormat: { type: 'json_schema' },
     });
+
+    expect(result.success).toBe(false);
+  });
+
+  it('rejects a schema for non-json_schema response formats', () => {
+    const result = safeParseBundleResult({
+      userTemplate: 'Return JSON',
+      modelConfig: { provider: 'openai', model: 'gpt-4o' },
+      responseFormat: { type: 'json_object', schema: { type: 'object' } },
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it('detects identical bundles', () => {
+    const diff = diffBundles(createBundleFromLegacy('Same text'), createBundleFromLegacy('Same text'));
+
+    expect(diff.hasChanges).toBe(false);
+    expect(diff.summary).toBe('No changes');
+  });
+
+  it('detects independent field changes', () => {
+    const before = createBundleFromLegacy('Original text');
+    const after = {
+      ...before,
+      userTemplate: 'Modified text',
+      modelConfig: { ...before.modelConfig, temperature: 0.9 },
+    };
+
+    const diff = diffBundles(before, after);
+
+    expect(diff.hasChanges).toBe(true);
+    expect(diff.fields.find((field) => field.field === 'userTemplate')?.type).toBe('modified');
+    expect(diff.fields.find((field) => field.field === 'modelConfig')?.type).toBe('modified');
+    expect(diff.summary).toContain('2 field(s) changed');
+  });
+
+  it('falls back to content diff for V1 versions', () => {
+    const diff = diffVersions(
+      { content: 'V1 text', bundle: null },
+      { content: 'V1 text modified', bundle: null },
+    );
+
+    expect(diff.hasChanges).toBe(true);
+    expect(diff.summary).toBe('1 field(s) changed: content');
   });
 });
