@@ -9,17 +9,19 @@ A chronological record of project milestones, features shipped, and metrics. Thi
 During the Session End ritual (called automatically whenever significant changes are made), the agent:
 
 1. Reads the current `JOURNAL.md`.
-2. Compiles the session's work into the format below.
-3. Formats all work under a single entry heading per date (`### [GFP — Summary] YYYY-MM-DD`), containing detailed bullet points categorized by topic.
+2. Formats all work under **at most ONE date heading per calendar day** (`### [Project — Summary] YYYY-MM-DD`).
+3. If today's date heading (`YYYY-MM-DD`) already exists under `## Log Entries`, merges/appends the new bullet points under `- **Shipped**:`, updates `- **Commit**:`, and updates `- **Vibe**:`.
+4. If today's date heading does NOT exist, prepends a new date heading `### [Project — Summary] YYYY-MM-DD` directly under `## Log Entries` (newest date on top).
 
 ---
 
 ## Log Entries
 
-### [GFP — Hero Dashboard Replica, Mobile Overhaul, SEO Infrastructure & GSC Verification] 2026-08-12
+### [GFP — Hero Dashboard Replica, Mobile Overhaul, SEO & GitHub Actions CI Fix] 2026-08-12
 
-- **Commit**: `90137bd`
+- **Commit**: `36d854f`
 - **Shipped**:
+  - Fixed GitHub Actions CI test failure in `src/lib/__tests__/api-security.test.ts` where `vi.spyOn(Promise, 'all')` intercepted Upstash Redis internal `Promise.all` inside `checkRateLimit`, causing rate limit checks to fail-closed with 429 instead of reaching 404 route logic.
   - Rebuilt homepage hero preview box (`DashboardHeroScreen.tsx` & `DashboardWorkspaceView.tsx`) to render the 100% exact live `/dashboard` Overview Page on initial load: Header bar (`Prompt Repositories`), 4 Metric Summary Cards (`Total Prompts: 3`, `Total Versions: 12`, `Avg Pass Rate: 98%`, `API Credentials: 2`), Search input, and interactive repository table (`PromptRepositoriesList`).
   - Completely eliminated all unicode emojis/slop across the hero preview frame and dashboard domain components, replacing them with clean SVG Lucide icons (`FolderGit2`, `LayoutDashboard`, `Terminal`, `CheckIcon`).
   - Implemented interactive prompt detail view switching (`security-audit-v2`, `rag-knowledge-assistant`, `code-reviewer-pro`) with a `← Back to Repositories` button to return to the overview page.
@@ -31,7 +33,7 @@ During the Session End ritual (called automatically whenever significant changes
   - Resolved Vitest cross-file database race condition (`fileParallelism: false`, `maxConcurrency: 1`, `sequence: { concurrent: false }` in `vitest.config.ts`) and fixed `drizzle.config.ts` (`strict: false`) for non-interactive CI runs.
   - Added creator credits for Karan Wakhare with GitHub profile link in website footer (`FaqFooter.tsx`).
   - Verification: 0 TS compilation errors, 100% clean test suite (138/138 passing), and successful Next.js production build (`npm run build`).
-- **Vibe**: 🚀 Complete Pre-Launch Overhaul: Exact Dashboard Hero Preview, Mobile Responsive Redesign & Search Console Verified!
+- **Vibe**: 🚀 100% Green GitHub Actions CI, Exact Dashboard Hero Preview & Search Console Verified!
 
 ### [GFP — Master Design System, Motion Engineering, P0 Security Engine & CI Hardening] 2026-08-11
 
