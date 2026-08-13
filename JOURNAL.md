@@ -19,7 +19,7 @@ During the Session End ritual (called automatically whenever significant changes
 
 ### [GFP — Icon & Favicon Dark Background Standardization] 2026-08-13
 
-- **Commit**: `wip`
+- **Commit**: `415069b`
 - **Shipped**:
   - Standardized logo separation: `public/logo.svg` is transparent stroke for in-app UI (`Navbar`, `Sidebar`, `BrandLogo`, `Footer`), while `src/app/icon.svg` & `src/app/apple-icon.svg` feature the dark background tile (`#09090b`) for favicons, Web Manifest (`manifest.ts`), and Google Search Console crawlers.
   - Updated metadata icon hierarchy in `src/app/layout.tsx` and `src/app/manifest.ts`.
