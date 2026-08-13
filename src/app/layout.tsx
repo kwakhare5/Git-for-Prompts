@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   publisher: "Git for Prompts",
   icons: {
     icon: [
-      { url: "/logo.svg", type: "image/svg+xml" },
       { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/apple-icon.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
   },

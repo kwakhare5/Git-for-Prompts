@@ -111,33 +111,23 @@ _AI appends here after every VERIFY failure. Never repeat these._
 
 _AI fills at END of every session. Read at START of next session._
 
-**Last session date:** 2026-08-12
+**Last session date:** 2026-08-13
 
 **What we built / changed:**
 
-- Fixed auth sign-in behavior by pulling Vercel environment variables (`CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`).
-- Built custom monid.ai-style OpenGraph 1200x630px social share card (`src/app/opengraph-image.tsx`) with dark website theme, enlarged git-fork logo icon, title ("Git for Prompts"), and hero command pill (`$ npx gfp init`).
-- Implemented pre-launch SEO infrastructure: `robots.ts`, dynamic `sitemap.ts`, `manifest.ts`, JSON-LD structured data.
-- Configured Google Search Console verification (`public/googleXSkLpDVzfOoqfrH0Te2qtiwn9hcFgkre7xwviSaDWKY.html` & meta tag) and verified on Vercel.
-- Fixed CI test suite race condition by setting `fileParallelism: false` in `vitest.config.ts`, ensuring 100% clean test execution (138/138 tests passing).
-- Added creator credits for Karan Wakhare with GitHub link in website footer (`src/components/website/FaqFooter.tsx`).
-- Executed comprehensive mobile responsiveness redesign across top Navbar (un-squished Get Started CTA + mobile slide-out drawer), high-impact serif Hero section, interactive Studio Demo Segmented Control tabs, and responsive Bento features.
-- Standardized left/right mobile padding (`px-4 sm:px-6`) across all website sections for 100% aligned vertical grid edges (`better-layout` compliance).
-- Rebuilt homepage hero preview box (`DashboardHeroScreen.tsx` & `DashboardWorkspaceView.tsx`) to render the 100% exact live `/dashboard` Overview Page on initial load (header, 4 metric cards, search bar, visibility filters, and prompt repository table) with zero emojis/slop and interactive studio detail switching.
+- Standardized logo separation: `public/logo.svg` is transparent stroke for in-app UI (`Navbar`, `Sidebar`, `BrandLogo`, `Footer`), while `src/app/icon.svg` & `src/app/apple-icon.svg` feature the dark background tile (`#09090b`) for favicons, Web Manifest (`manifest.ts`), and Google Search Console crawlers.
+- Cleaned up metadata icon hierarchy in `src/app/layout.tsx`.
+- Ran full test suite to confirm zero regressions (138/138 tests passing).
 
 **Immediate next task:**
-Verify Google Search Console property indexing & monitor launch metrics.
+Deploy changes to Vercel and request re-indexing on Google Search Console via URL Inspection tool.
 
 **Open blockers:**
 [None]
 
 **Files most recently changed:**
 
-- `src/components/domain/dashboard/dashboard-workspace-view.tsx`
-- `src/components/website/DashboardHeroScreen.tsx`
-- `src/components/layout/dashboard-sidebar.tsx`
-- `src/components/website/Navbar.tsx`
-- `src/components/website/HeroSection.tsx`
-- `src/components/website/EngineShowcase.tsx`
-- `src/components/website/FaqFooter.tsx`
+- `src/app/icon.svg`
+- `public/logo.svg`
+- `src/app/layout.tsx`
 
