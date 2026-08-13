@@ -147,16 +147,18 @@ export async function restoreVersion(input: unknown) {
   try {
     const validated = restoreVersionSchema.parse(input);
 
-    // Get the version to restore + verify ownership in parallel
-    const [[versionToRestore], [prompt]] = await Promise.all([
-      db.select().from(versions).where(eq(versions.id, validated.versionId)),
-      db
-        .select()
-        .from(prompts)
-        .where(and(eq(prompts.id, validated.promptId), eq(prompts.ownerId, userId))),
-    ]);
+    const [versionToRestore] = await db
+      .select()
+      .from(versions)
+      .where(eq(versions.id, validated.versionId));
 
     if (!versionToRestore) throw new Error('Version not found');
+
+    const [prompt] = await db
+      .select()
+      .from(prompts)
+      .where(and(eq(prompts.id, validated.promptId), eq(prompts.ownerId, userId)));
+
     if (!prompt) throw new Error('Prompt not found or access denied');
 
     // Security: ensure the version actually belongs to the requested prompt.
@@ -175,6 +177,12 @@ export async function restoreVersion(input: unknown) {
         createdBy: userId,
       })
     );
+
+    // Direct update to ensure connection pool synchronization across drivers
+    await db
+      .update(prompts)
+      .set({ currentVersionId: restoredVersion.id, updatedAt: new Date() })
+      .where(eq(prompts.id, validated.promptId));
 
     // Fire webhooks after commit — fire-and-forget, never blocks the save
     void fireWebhooks(userId, {
