@@ -178,12 +178,6 @@ export async function restoreVersion(input: unknown) {
       })
     );
 
-    // Direct update to ensure connection pool synchronization across drivers
-    await db
-      .update(prompts)
-      .set({ currentVersionId: restoredVersion.id, updatedAt: new Date() })
-      .where(eq(prompts.id, validated.promptId));
-
     // Fire webhooks after commit — fire-and-forget, never blocks the save
     void fireWebhooks(userId, {
       event: 'version.created',
