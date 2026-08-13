@@ -92,14 +92,14 @@ describe('Server Actions Integration Tests', () => {
   describe('Prompt Actions', () => {
     it('successfully creates a prompt and saves to database', async () => {
       const validPrompt = {
-        name: 'Developer Prompt',
+        name: `Developer Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
         description: 'Used for coding code review prompts',
       };
 
       const result = await createPrompt(validPrompt);
       expect(result).toBeDefined();
       expect(result.id).toBeDefined();
-      expect(result.name).toBe('Developer Prompt');
+      expect(result.name).toBe(validPrompt.name);
       expect(result.ownerId).toBe(TEST_USER_ID);
 
       trackPrompt(result.id);
@@ -115,7 +115,7 @@ describe('Server Actions Integration Tests', () => {
       const [prompt] = await db
         .insert(schema.prompts)
         .values({
-          name: 'Original Prompt',
+          name: `Original Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           description: 'To be updated',
           ownerId: TEST_USER_ID,
         })
@@ -144,7 +144,7 @@ describe('Server Actions Integration Tests', () => {
       const [otherPrompt] = await db
         .insert(schema.prompts)
         .values({
-          name: 'Foreign Prompt',
+          name: `Foreign Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           description: 'Top Secret prompt data',
           ownerId: OTHER_USER_ID,
         })
@@ -161,7 +161,7 @@ describe('Server Actions Integration Tests', () => {
       const [promptToDelete] = await db
         .insert(schema.prompts)
         .values({
-          name: 'Garbage Prompt',
+          name: `Garbage Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           description: 'Will be deleted',
           ownerId: TEST_USER_ID,
         })
@@ -184,11 +184,11 @@ describe('Server Actions Integration Tests', () => {
     let activePromptId: string;
 
     beforeAll(async () => {
-      // Create a prompt we can attach versions to
+      // Create a prompt we can attach versions to with guaranteed unique name
       const [prompt] = await db
         .insert(schema.prompts)
         .values({
-          name: 'Version Sandbox Prompt',
+          name: `Version Sandbox Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           description: 'Testing incrementing and restoring versions',
           ownerId: TEST_USER_ID,
         })
@@ -269,7 +269,7 @@ describe('Server Actions Integration Tests', () => {
       const [otherPrompt] = await db
         .insert(schema.prompts)
         .values({
-          name: 'Foreign Version Prompt',
+          name: `Foreign Version Prompt ${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
           ownerId: TEST_USER_ID,
         })
         .returning();
