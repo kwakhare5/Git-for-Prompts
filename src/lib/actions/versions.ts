@@ -90,8 +90,7 @@ export async function insertNextVersion(
   await tx
     .update(prompts)
     .set({ currentVersionId: created.id, updatedAt: new Date() })
-    .where(eq(prompts.id, params.promptId))
-    .returning();
+    .where(eq(prompts.id, params.promptId));
 
   return created;
 }
