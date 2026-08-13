@@ -176,6 +176,18 @@ export async function restoreVersion(input: unknown) {
       })
     );
 
+    // Fire webhooks after commit — fire-and-forget, never blocks the save
+    void fireWebhooks(userId, {
+      event: 'version.created',
+      promptId: validated.promptId,
+      promptName: prompt.name,
+      versionId: restoredVersion.id,
+      versionNumber: restoredVersion.versionNumber,
+      commitMessage: restoredVersion.commitMessage ?? null,
+      variables: restoredVersion.variables,
+      createdAt: restoredVersion.createdAt,
+    });
+
     revalidatePath('/dashboard');
     revalidatePath(`/dashboard/prompts/${validated.promptId}`);
     return restoredVersion;
