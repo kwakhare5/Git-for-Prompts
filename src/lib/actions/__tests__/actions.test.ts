@@ -35,8 +35,8 @@ let createVersion: typeof createVersionFn;
 let restoreVersion: typeof restoreVersionFn;
 
 describe('Server Actions Integration Tests', () => {
-  const TEST_USER_ID = 'user_clerk_actions_test_holder_456';
-  const OTHER_USER_ID = 'user_clerk_actions_test_holder_789';
+  const TEST_USER_ID = `user_clerk_actions_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+  const OTHER_USER_ID = `user_clerk_other_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 
   const createdPromptIds: string[] = [];
   const createdVersionIds: string[] = [];
