@@ -17,6 +17,15 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — Icon & Favicon Dark Background Standardization] 2026-08-13
+
+- **Commit**: `wip`
+- **Shipped**:
+  - Standardized logo separation: `public/logo.svg` is transparent stroke for in-app UI (`Navbar`, `Sidebar`, `BrandLogo`, `Footer`), while `src/app/icon.svg` & `src/app/apple-icon.svg` feature the dark background tile (`#09090b`) for favicons, Web Manifest (`manifest.ts`), and Google Search Console crawlers.
+  - Updated metadata icon hierarchy in `src/app/layout.tsx` and `src/app/manifest.ts`.
+  - Verification: 100% clean test suite (138/138 passing), 0 TS compilation errors.
+- **Vibe**: 🎯 Clean Dark Square Icon & Favicon Infrastructure Ready for Search Console Re-indexing!
+
 ### [GFP — Hero Dashboard Replica, Mobile Overhaul, SEO & GitHub Actions CI Fix] 2026-08-12
 
 - **Commit**: `36d854f`
