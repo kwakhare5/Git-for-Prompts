@@ -94,7 +94,12 @@ describe('Stage 2B — Database Correctness & Invariants', () => {
         }),
         update: vi.fn().mockReturnValue({
           set: vi.fn().mockReturnValue({
-            where: vi.fn().mockResolvedValue([]),
+            where: vi.fn().mockImplementation(() => {
+              const res = Promise.resolve([]);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (res as any).returning = vi.fn().mockResolvedValue([]);
+              return res;
+            }),
           }),
         }),
       };
