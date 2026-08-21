@@ -16,13 +16,13 @@ export const LaunchVideo: React.FC = () => {
       {/* Master Background Music (Volume 0.55) */}
       <Audio src={staticFile('bgm.mp3')} volume={0.55} />
 
-      {/* SFX 1: Scene 1 Hero Prompt Typing (Frames 4 - 66) */}
-      <Sequence from={4} durationInFrames={62}>
+      {/* SFX 1: Scene 1 Hero Prompt Typing (Frames 2 - 60) */}
+      <Sequence from={2} durationInFrames={58}>
         <Audio src={staticFile('sfx/mixkit-keyboard-typing-1386.wav')} volume={0.35} />
       </Sequence>
 
-      {/* SFX 2: Scene 1 Slot Machine Final Lock on "history." (Frame 140) */}
-      <Sequence from={140} durationInFrames={30}>
+      {/* SFX 2: Scene 1 Slot Machine Final Lock on "history." (Frame 148) */}
+      <Sequence from={148} durationInFrames={30}>
         <Audio src={staticFile('sfx/click_soft.mp3')} volume={0.30} />
       </Sequence>
 

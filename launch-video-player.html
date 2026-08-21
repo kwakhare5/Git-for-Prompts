@@ -582,20 +582,59 @@
       else if (frame < 675) {
         sceneNum = 4;
         const local = frame - 435;
-        const cutDuration = 80;
-        const activeIdx = Math.min(2, Math.floor(local / cutDuration));
-        const localCut = local % cutDuration;
-        
-        const cardMorphOpacity = localCut < 4 ? localCut / 4 : (localCut >= 76 ? (80 - localCut) / 4 : 1);
-        const cardMorphY = localCut < 4 ? (4 - localCut) * 2 : 0;
 
-        const clipProgress = Math.max(0, Math.min(100, 100 - ((localCut - 10) / 25) * 100));
-        const barGrowth = 1 - Math.pow(1 - Math.min(1, Math.max(0, (localCut - 6) / 24)), 3);
+        // Continuous Menu Interpolation
+        const t1P = Math.min(1, Math.max(0, (local - 74) / 12));
+        const t1Ease = 1 - Math.pow(1 - t1P, 3);
+        const t2P = Math.min(1, Math.max(0, (local - 154) / 12));
+        const t2Ease = 1 - Math.pow(1 - t2P, 3);
+        const continuousIdx = t1Ease + t2Ease;
+        const indicatorY = continuousIdx * 56;
+
+        const weight0 = Math.max(0, 1 - t1Ease);
+        const weight1 = Math.max(0, t1Ease - t2Ease);
+        const weight2 = t2Ease;
+        const weights = [weight0, weight1, weight2];
+
+        // Card 0 (Diff View)
+        const card0EnterP = Math.min(1, local / 10);
+        const card0EnterEase = 1 - Math.pow(1 - card0EnterP, 3);
+        const card0ExitP = Math.min(1, Math.max(0, (local - 74) / 12));
+        const card0ExitEase = 1 - Math.pow(1 - card0ExitP, 3);
+        const card0Opacity = card0EnterEase * (1 - card0ExitEase);
+        const card0Y = (1 - card0EnterEase) * 10 - card0ExitEase * 8;
+        const card0Scale = (0.98 + card0EnterEase * 0.02) - card0ExitEase * 0.02;
+
+        const clipP = Math.min(1, Math.max(0, (local - 10) / 22));
+        const clipEase = 1 - Math.pow(1 - clipP, 3);
+        const clipRightInset = (1 - clipEase) * 100;
+
+        // Card 1 (Benchmark)
+        const card1EnterP = Math.min(1, Math.max(0, (local - 74) / 12));
+        const card1EnterEase = 1 - Math.pow(1 - card1EnterP, 3);
+        const card1ExitP = Math.min(1, Math.max(0, (local - 154) / 12));
+        const card1ExitEase = 1 - Math.pow(1 - card1ExitP, 3);
+        const card1Opacity = card1EnterEase * (1 - card1ExitEase);
+        const card1Y = (1 - card1EnterEase) * 10 - card1ExitEase * 8;
+        const card1Scale = (0.98 + card1EnterEase * 0.02) - card1ExitEase * 0.02;
+
+        const barP = Math.min(1, Math.max(0, (local - 76) / 24));
+        const barGrowth = 1 - Math.pow(1 - barP, 3.5);
+
+        // Card 2 (Sync)
+        const card2EnterP = Math.min(1, Math.max(0, (local - 154) / 12));
+        const card2EnterEase = 1 - Math.pow(1 - card2EnterP, 3);
+        const card2Opacity = card2EnterEase;
+        const card2Y = (1 - card2EnterEase) * 10;
+        const card2Scale = 0.98 + card2EnterEase * 0.02;
 
         const fullHash = "sha256:7f3a9e0481bc92e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca4";
-        const typedHashChars = Math.min(fullHash.length, Math.floor(Math.max(0, localCut - 6) / 0.5));
+        const hashP = Math.min(1, Math.max(0, (local - 166) / 48));
+        const typedHashChars = Math.min(fullHash.length, Math.floor(hashP * fullHash.length));
+        const cursorBlink = Math.floor(local / 8) % 2 === 0;
 
-        currentSceneLabel.innerText = `Act 4.${activeIdx + 1}: Deep Tech Showcase (${(14.5 + activeIdx * 2.67).toFixed(1)}s - ${(17.17 + activeIdx * 2.67).toFixed(1)}s)`;
+        const activeSubIdx = Math.min(2, Math.floor(local / 80));
+        currentSceneLabel.innerText = `Act 4.${activeSubIdx + 1}: Deep Tech Showcase (${(14.5 + activeSubIdx * 2.67).toFixed(1)}s - ${(17.17 + activeSubIdx * 2.67).toFixed(1)}s)`;
 
         const features = [
           { num: "01", name: "Visual Prompt Diffs" },
@@ -603,36 +642,127 @@
           { num: "03", name: "Local-to-Cloud Sync" }
         ];
 
-        let rightCardHtml = "";
-        if (activeIdx === 0) {
-          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs text-left"><div class="bg-[#18181B] px-6 py-4 border-b border-zinc-800/80 flex items-center justify-between"><div class="flex items-center gap-3"><span class="text-zinc-200 text-xs font-semibold">system_prompt.md</span><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">v1 ➔ v2</span></div></div><div class="grid grid-cols-2 divide-x divide-zinc-800/80 p-6 text-left text-xs gap-6 bg-[#0A0A0C] min-h-[260px]"><div class="space-y-3"><div class="text-[10px] font-semibold text-red-400 uppercase tracking-wider">v1 (Old)</div><div class="text-zinc-500">1  You are a security auditor.</div><div class="bg-red-500/15 border-l-2 border-red-500 py-2 px-3 text-red-300 line-through rounded-r">- 2 Output raw text.</div></div><div class="space-y-3 pl-4"><div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">v2 (Current)</div><div class="text-zinc-500">1  You are a security auditor.</div><div class="bg-emerald-500/15 border-l-2 border-emerald-500 py-2 px-3 text-emerald-300 font-semibold flex items-center gap-2 rounded-r" style="clip-path: inset(0 ${clipProgress}% 0 0);"><span>+ 2 Output JSON:</span><span class="bg-emerald-500/30 border border-emerald-400/50 text-emerald-200 px-2 py-0.5 rounded text-[10px]">{{json_schema}}</span></div></div></div></div>`;
-        } else if (activeIdx === 1) {
-          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left"><div class="flex justify-between items-center border-b border-zinc-800/80 pb-4"><span class="text-white font-bold text-sm">Model Latency Benchmark (ms)</span></div><div class="space-y-5 pt-1"><div><div class="flex justify-between text-zinc-300 mb-2"><span class="flex items-center gap-2"><span>Groq / Llama 3.3 70B</span><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-bold font-mono">6.2x FASTER</span></span><span class="text-emerald-400 font-bold">140 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full rounded-full" style="width: ${Math.min(11, barGrowth * 11)}%;"></div></div></div><div><div class="flex justify-between text-zinc-300 mb-2"><span>OpenAI / GPT-5.6 Sol</span><span class="text-zinc-400">650 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500/60 h-full rounded-full" style="width: ${Math.min(52, barGrowth * 52)}%;"></div></div></div><div><div class="flex justify-between text-zinc-300 mb-2"><span>Anthropic / Claude Opus 5</span><span class="text-zinc-400">1250 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500/80 h-full rounded-full" style="width: ${Math.min(100, barGrowth * 100)}%;"></div></div></div></div></div>`;
-        } else {
-          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left"><div class="flex items-center justify-between bg-[#18181B] p-4 rounded-xl border border-zinc-800/80"><div class="flex items-center gap-4"><div class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gfp/</div><span class="text-emerald-400 font-bold">►</span><div class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold">Cloud Postgres</div></div><span class="text-xs text-emerald-400 font-bold">✔ Sync Locked</span></div><div class="p-4 rounded-xl bg-[#0A0A0C] border border-zinc-800/80 text-emerald-400 text-xs font-mono break-all flex items-center gap-1"><span>${fullHash.slice(0, typedHashChars)}</span>${typedHashChars < fullHash.length ? '<span class="w-2 h-4 bg-emerald-400 inline-block animate-pulse"></span>' : ''}</div></div>`;
-        }
-
         html = `
           <div class="scene-container flex items-center justify-center font-sans bg-transparent select-none px-20">
             <div class="w-full max-w-[1200px] grid grid-cols-12 gap-12 items-center">
               
-              <!-- LEFT APPLE SINGLE-LINE TYPOGRAPHY MENU -->
-              <div class="col-span-4 flex flex-col space-y-6 relative text-left pl-4">
+              <!-- LEFT APPLE SINGLE-LINE TYPOGRAPHY MENU WITH ANCHORED RAIL & OPTICALLY CENTERED INDICATOR -->
+              <div class="col-span-4 flex flex-col relative text-left pl-6">
+                <div class="absolute left-0 top-3 bottom-3 w-0.5 bg-zinc-800/80 rounded-full"></div>
+                <div 
+                  class="absolute left-[-1px] w-1 h-6 bg-emerald-400 rounded-full shadow-[0_0_14px_rgba(52,211,153,0.9)] will-change-transform z-10"
+                  style="transform: translateY(${indicatorY + 16}px);"
+                ></div>
                 ${features.map((f, idx) => {
-                  const isActive = idx === activeIdx;
+                  const w = weights[idx];
+                  const op = 0.35 + w * 0.65;
+                  const x = w * 6;
                   return `
-                    <div class="flex items-center gap-4 transition-all duration-300 relative" style="opacity: ${isActive ? 1 : 0.35}; transform: ${isActive ? 'translateX(6px)' : 'translateX(0)'}">
-                      ${isActive ? '<div class="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-5 bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>' : ''}
-                      <span class="font-mono text-xs font-bold ${isActive ? 'text-emerald-400' : 'text-zinc-500'}">${f.num}</span>
-                      <span class="text-xl font-bold tracking-tight ${isActive ? 'text-[#FAFAFA]' : 'text-zinc-400'}">${f.name}</span>
+                    <div class="flex items-center gap-4 relative h-14" style="opacity: ${op}; transform: translateX(${x}px)">
+                      <span class="font-mono text-xs font-bold transition-colors duration-200 ${w > 0.5 ? 'text-emerald-400' : 'text-zinc-500'}">${f.num}</span>
+                      <span class="text-xl font-bold tracking-tight transition-colors duration-200 ${w > 0.5 ? 'text-[#FAFAFA]' : 'text-zinc-400'}">${f.name}</span>
                     </div>
                   `;
                 }).join('')}
               </div>
 
-              <!-- RIGHT PREVIEW CARD -->
-              <div class="col-span-8 relative" style="opacity: ${cardMorphOpacity}; transform: translateY(${cardMorphY}px);">
-                ${rightCardHtml}
+              <!-- RIGHT PREVIEW CARDS (OVERLAPPING CROSS-MORPH) -->
+              <div class="col-span-8 relative min-h-[300px] flex items-center">
+                
+                ${local < 86 ? `
+                  <div 
+                    class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs text-left absolute inset-x-0"
+                    style="opacity: ${card0Opacity}; transform: translateY(${card0Y}px) scale(${card0Scale}); z-index: ${local < 80 ? 20 : 10};"
+                  >
+                    <div class="bg-[#18181B] px-6 py-4 border-b border-zinc-800/80 flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <span class="text-zinc-200 text-xs font-semibold">system_prompt.md</span>
+                        <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">v1 ➔ v2</span>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-2 divide-x divide-zinc-800/80 p-6 text-left text-xs gap-6 bg-[#0A0A0C] min-h-[220px]">
+                      <div class="space-y-3">
+                        <div class="text-[10px] font-semibold text-red-400 uppercase tracking-wider">v1 (Old)</div>
+                        <div class="text-zinc-500">1  You are a security auditor.</div>
+                        <div class="bg-red-500/15 border-l-2 border-red-500 py-2 px-3 text-red-300 line-through rounded-r">- 2 Output raw text.</div>
+                      </div>
+                      <div class="space-y-3 pl-4">
+                        <div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">v2 (Current)</div>
+                        <div class="text-zinc-500">1  You are a security auditor.</div>
+                        <div class="bg-emerald-500/15 border-l-2 border-emerald-500 py-2 px-3 text-emerald-300 font-semibold flex items-center gap-2 rounded-r overflow-hidden">
+                          <div class="flex items-center gap-2" style="clip-path: inset(0 ${clipRightInset}% 0 0);">
+                            <span>+ 2 Output JSON:</span>
+                            <span class="bg-emerald-500/30 border border-emerald-400/50 text-emerald-200 px-2 py-0.5 rounded text-[10px]">{{json_schema}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
+
+                ${local >= 74 && local < 166 ? `
+                  <div 
+                    class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left absolute inset-x-0"
+                    style="opacity: ${card1Opacity}; transform: translateY(${card1Y}px) scale(${card1Scale}); z-index: ${local >= 80 && local < 160 ? 20 : 10};"
+                  >
+                    <div class="flex justify-between items-center border-b border-zinc-800/80 pb-4">
+                      <span class="text-white font-bold text-sm">Model Latency Benchmark (ms)</span>
+                    </div>
+                    <div class="space-y-5 pt-1">
+                      <div>
+                        <div class="flex justify-between text-zinc-300 mb-2">
+                          <span class="flex items-center gap-2">
+                            <span>Groq / Llama 3.3 70B</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-bold font-mono">6.2x FASTER</span>
+                          </span>
+                          <span class="text-emerald-400 font-bold">140 ms</span>
+                        </div>
+                        <div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
+                          <div class="bg-emerald-500 h-full rounded-full" style="width: ${Math.min(11, barGrowth * 11)}%;"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-zinc-300 mb-2">
+                          <span>OpenAI / GPT-5.6 Sol</span>
+                          <span class="text-zinc-400">650 ms</span>
+                        </div>
+                        <div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
+                          <div class="bg-emerald-500/60 h-full rounded-full" style="width: ${Math.min(52, barGrowth * 52)}%;"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex justify-between text-zinc-300 mb-2">
+                          <span>Anthropic / Claude Opus 5</span>
+                          <span class="text-zinc-400">1250 ms</span>
+                        </div>
+                        <div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
+                          <div class="bg-emerald-500/80 h-full rounded-full" style="width: ${Math.min(100, barGrowth * 100)}%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
+
+                ${local >= 154 ? `
+                  <div 
+                    class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left absolute inset-x-0"
+                    style="opacity: ${card2Opacity}; transform: translateY(${card2Y}px) scale(${card2Scale}); z-index: 20;"
+                  >
+                    <div class="flex items-center justify-between bg-[#18181B] p-4 rounded-xl border border-zinc-800/80">
+                      <div class="flex items-center gap-4">
+                        <div class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gfp/</div>
+                        <span class="text-emerald-400 font-bold">►</span>
+                        <div class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold">Cloud Postgres</div>
+                      </div>
+                      <span class="text-xs text-emerald-400 font-bold">✔ Sync Locked</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-[#0A0A0C] border border-zinc-800/80 text-emerald-400 text-xs font-mono break-all flex items-center gap-1 min-h-[56px]">
+                      <span>${fullHash.slice(0, typedHashChars)}</span>
+                      ${typedHashChars < fullHash.length ? `<span class="w-2 h-4 bg-emerald-400 inline-block shrink-0" style="opacity: ${cursorBlink ? 1 : 0};"></span>` : ''}
+                    </div>
+                  </div>
+                ` : ''}
+
               </div>
 
             </div>
@@ -646,9 +776,16 @@
         const local = frame - 675;
         const logoP = Math.min(1, local / 18);
         const btnP = Math.min(1, Math.max(0, (local - 14) / 14));
-        const btnHover = local >= 24 && local < 40;
-        const btnPress = local >= 40;
-        const btnScale = btnPress ? 0.97 : (btnHover ? 1.02 : 1.0);
+        const hoverP = Math.min(1, Math.max(0, (local - 24) / 10));
+        const hoverEase = 1 - Math.pow(1 - hoverP, 3);
+        const pressP = Math.min(1, Math.max(0, (local - 40) / 4));
+        const pressEase = 1 - Math.pow(1 - pressP, 3);
+        const btnScale = 1.0 + hoverEase * 0.02 - pressEase * 0.05;
+        const isPressed = local >= 40;
+
+        const copiedP = Math.min(1, Math.max(0, (local - 40) / 8));
+        const copiedEase = 1 - Math.pow(1 - copiedP, 3);
+        const copiedY = (1 - copiedEase) * 4;
 
         html = `
           <div class="scene-container flex-col space-y-6 text-center px-8">
@@ -668,31 +805,33 @@
             </div>
 
             <div class="space-y-2">
-              <h2 class="text-4xl sm:text-5xl font-extrabold text-[#FAFAFA] tracking-tight">${videoConfig.scene8.title}</h2>
-              <p class="text-xl text-zinc-300 font-medium">${videoConfig.scene8.subtitle}</p>
+              <h2 class="text-4xl sm:text-5xl font-extrabold text-[#FAFAFA] tracking-tight">Git for Prompts</h2>
+              <p class="text-xl text-zinc-300 font-medium">Open source, all the way down</p>
             </div>
 
             <div class="pt-2" style="opacity: ${btnP}; transform: translateY(${(1 - btnP) * 10}px);">
               <div 
-                class="inline-flex items-center gap-4 px-7 py-3.5 rounded-xl font-mono text-sm tracking-tight transition-all duration-150 shadow-2xl border ${btnPress ? 'bg-[#141417] text-white border-emerald-500/80 ring-2 ring-emerald-500/30' : (btnHover ? 'bg-[#18181B] text-white border-zinc-700' : 'bg-[#141417] text-zinc-200 border-zinc-800')}"
+                class="inline-flex items-center gap-4 px-7 py-3.5 rounded-xl font-mono text-sm tracking-tight shadow-2xl border ${isPressed ? 'bg-[#141417] text-white border-emerald-500/80 ring-2 ring-emerald-500/30' : (local >= 24 ? 'bg-[#18181B] text-white border-zinc-700' : 'bg-[#141417] text-zinc-200 border-zinc-800')}"
                 style="transform: scale(${btnScale});"
               >
                 <div class="flex items-center gap-2.5">
                   <span class="text-emerald-400 font-extrabold">$</span>
                   <span class="font-bold text-[#FAFAFA]">npx gfp init</span>
                 </div>
-                <div class="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden">
-                  ${btnPress ? `
-                    <span class="text-emerald-400 font-bold animate-in fade-in slide-in-from-bottom-1 duration-150">✔ Copied!</span>
+                <div class="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden h-5">
+                  ${isPressed ? `
+                    <span class="text-emerald-400 font-bold" style="opacity: ${copiedEase}; transform: translateY(${copiedY}px);">✔ Copied!</span>
                   ` : `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-zinc-400"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-zinc-400">
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+                    </svg>
                     <span>Copy</span>
                   `}
                 </div>
               </div>
             </div>
           </div>
-        `;
       }
 
       sceneHost.innerHTML = html;
