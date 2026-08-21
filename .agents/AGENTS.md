@@ -11,13 +11,13 @@
 ---
 
 ## 2. TECH STACK
-- **Framework:** Next.js 16.3.0 (Turbopack + App Router) + React 19.2.8 + TypeScript 6.0
+- **Framework:** Next.js 16.3.1 (Turbopack + App Router) + React 19.2.8 + TypeScript 6.0
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss` 4.3.3) + Monaco Editor
 - **Database & ORM:** PostgreSQL (`postgres` 3.4.9) + Drizzle ORM (`drizzle-orm` 0.45.2, `drizzle-kit` 0.31.10)
-- **Auth:** Clerk (`@clerk/nextjs` 7.7.1)
+- **Auth:** Clerk (`@clerk/nextjs` 7.7.9)
 - **Rate Limiting:** Upstash Redis (`@upstash/ratelimit`, `@upstash/redis`)
-- **Testing:** Vitest 4.1.10 (154/154 passing unit & security tests) + Playwright
-- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core`)
+- **Testing:** Vitest 4.1.11 (154/154 passing unit & security tests) + Playwright
+- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core` & `@git-for-prompts/cli`)
 
 ---
 
