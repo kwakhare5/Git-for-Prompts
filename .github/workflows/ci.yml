@@ -37,17 +37,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 11.20.0
 
-      - name: Setup Node.js cache
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -56,11 +51,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build @gfp/core
-        run: pnpm --filter @gfp/core build
+      - name: Build packages
+        run: pnpm --filter @gfp/core build && pnpm --filter @git-for-prompts/cli build
 
       - name: Sync database schema
         run: pnpm exec drizzle-kit push --force
+        env:
+          DATABASE_URL: postgres://postgres:password@localhost:5432/git_for_prompts_test
 
       - name: Typecheck
         run: pnpm exec tsc --noEmit
