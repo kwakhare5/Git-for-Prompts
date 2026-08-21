@@ -40,9 +40,6 @@ export function Navbar({ userId }: { userId?: string | null }) {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/explore" className="hover:text-zinc-100 tab-interactive text-zinc-200">
-            Explore
-          </Link>
           <Link href="/dashboard" className="hover:text-zinc-100 tab-interactive">
             Dashboard
           </Link>
@@ -125,14 +122,6 @@ export function Navbar({ userId }: { userId?: string | null }) {
             </div>
 
             <nav className="flex flex-col gap-2">
-              <Link
-                href="/explore"
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3.5 py-3 rounded-xl text-zinc-200 hover:bg-zinc-800/80 flex items-center justify-between"
-              >
-                <span>Explore Prompts</span>
-                <span className="text-zinc-600 text-xs">→</span>
-              </Link>
               <Link
                 href="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}

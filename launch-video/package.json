@@ -1,0 +1,30 @@
+{
+  "name": "launch-video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio",
+    "studio": "remotion studio",
+    "build": "remotion render src/index.ts LaunchVideo out/launch-video.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.280",
+    "@remotion/google-fonts": "^4.0.513",
+    "@remotion/media-utils": "^4.0.280",
+    "clsx": "^2.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.280",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@remotion/tailwind": "^4.0.280",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}

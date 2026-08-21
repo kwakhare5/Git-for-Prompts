@@ -17,7 +17,7 @@ A **local-first prompt package manager** that versions the entire "prompt bundle
 - **Full bundle versioning:** System prompt + user template + model config (provider, model, temperature, topP, maxTokens) + function/tool definitions + output schema — all versioned as a single immutable snapshot
 - **Local-first CLI:** `npx gfp init` → SQLite database on your laptop. Zero cloud dependency. Zero subscriptions.
 - **Cloud sync (optional):** `gfp push` / `gfp pull` with API key to sync bundles to hosted SaaS for team collaboration
-- **Everything from V1:** Visual diff, A/B compare, test runner, webhooks, REST API, CLI, Explore page
+- **Everything from V1:** Visual diff, A/B compare, test runner, webhooks, REST API, CLI
 
 ### What Differentiates Us
 | Feature | Langfuse | Braintrust | PromptLayer | **Git for Prompts V2** |
@@ -60,56 +60,58 @@ git-for-prompts/
 │       │   │   ├── pull.ts          # gfp pull — sync cloud → local
 │       │   │   └── auth.ts          # gfp auth — set API key for cloud sync
 │       │   ├── db/
-│       │   │   ├── sqlite.ts        # better-sqlite3 adapter (implements @gfp/core StorageAdapter)
+│       │   │   ├── sqlite.ts        # sql.js (Wasm SQLite) adapter (implements @gfp/core StorageAdapter)
 │       │   │   └── migrations.ts    # SQLite schema migrations
 │       │   └── config.ts            # .gfp/config.json reader/writer
 │       ├── package.json
 │       └── tsconfig.json
 │
-├── src/                             # Next.js cloud SaaS app
+├── src/                             # Next.js 16 cloud SaaS app (20 routes)
 │   ├── app/
 │   │   ├── (auth)/                  # Route group — auth pages (sign-in, sign-up)
 │   │   ├── (dashboard)/             # Route group — protected app pages
 │   │   │   ├── layout.tsx           # Sidebar + nav wrapper
-│   │   │   ├── page.tsx             # Dashboard — all prompts
+│   │   │   ├── page.tsx             # Dashboard — prompt repositories table & metrics
 │   │   │   ├── api-keys/            # API key manager page
 │   │   │   ├── webhooks/            # Webhook manager page
 │   │   │   └── prompts/[id]/
 │   │   │       ├── page.tsx         # Prompt detail + version history
-│   │   │       ├── edit/            # Edit prompt bundle (V2: tabbed editor)
+│   │   │       ├── edit/            # Edit prompt bundle (V2: tabbed Monaco editor)
 │   │   │       ├── diff/            # Visual bundle diff comparison
 │   │   │       ├── compare/         # A/B version comparison
 │   │   │       └── tests/           # Test suite runner
-│   │   ├── (landing)/               # Marketing page & Explore page
-│   │   │   ├── page.tsx             # Landing page (V2: local-first messaging)
-│   │   │   └── explore/             # Public prompt discovery page
+│   │   ├── (landing)/               # Marketing landing page
+│   │   │   └── page.tsx             # Landing page with interactive DashboardHeroReplica demo
 │   │   └── api/
 │   │       ├── v1/prompts/[id]/
 │   │       │   ├── latest/route.ts  # GET: fetch latest version (returns bundle)
 │   │       │   └── versions/route.ts # POST: push new version (accepts bundle)
-│   │       └── cron/                # Cron endpoints (keep-alive, regression-tests)
+│   │       └── cron/regression-tests/ # Scheduled prompt regression evaluator
 │   ├── components/                  # React components
-│   │   ├── prompt-editor.tsx        # Monaco editor (V2: tabbed for bundle fields)
-│   │   ├── diff-viewer.tsx          # Monaco diff (V2: multi-section bundle diff)
-│   │   ├── bundle-editor.tsx        # NEW: Visual editor for model config + tools + schema
+│   │   ├── domain/dashboard/prompt-repositories-list.tsx # Pure real dashboard prompt table/grid
+│   │   ├── website/DashboardHeroReplica.tsx              # Pure static demo preview sandbox
+│   │   ├── prompt-editor.tsx        # Monaco editor (tabbed for bundle fields)
+│   │   ├── diff-viewer.tsx          # Monaco diff (multi-section bundle diff)
+│   │   ├── bundle-editor.tsx        # Visual editor for model config + tools + schema
 │   │   ├── compare-runner.tsx
 │   │   ├── test-runner.tsx
 │   │   ├── version-history.tsx
 │   │   └── api-keys-manager.tsx
 │   ├── db/
-│   │   ├── schema.ts               # Drizzle schema — V2: bundle JSONB column added
+│   │   ├── schema.ts                # Drizzle schema — bundle JSONB column + BOLA indexes
 │   │   ├── index.ts                 # Drizzle client instance
-│   │   └── migrations/             # V2: migration 0008 adds bundle column
+│   │   └── migrations/              # Drizzle migrations
 │   └── lib/
 │       ├── actions/                 # Next.js Server Actions
-│       ├── api-auth.ts              # Shared API key authentication
+│       ├── api-auth.ts              # Shared API key authentication (SHA-256)
+│       ├── rate-limit.ts            # Upstash Redis token bucket + fail-closed protection
 │       ├── test-runner.ts           # Cloud test runner (delegates to @gfp/core eval)
 │       ├── webhooks.ts              # HMAC-SHA256 webhook delivery
 │       └── ai.ts                    # Groq + OpenRouter client
 │
-├── docker-compose.yml               # NEW: One-command self-hosted deployment
-├── Dockerfile                        # NEW: Container image for self-hosting
-└── README.md                        # V2: local-first messaging + install instructions
+├── docker-compose.yml               # One-command self-hosted deployment
+├── Dockerfile                        # Multi-stage container image for self-hosting
+└── README.md                        # Local-first prompt package manager docs
 ```
 
 ### Data Flow
@@ -124,7 +126,7 @@ git-for-prompts/
     │   packages/cli   │              │   Next.js Cloud     │
     │  (local-first)   │   gfp push   │   (hosted SaaS)     │
     │                  │ ──────────►  │                     │
-    │  better-sqlite3  │              │  Drizzle + Postgres  │
+    │  sql.js (Wasm)   │              │  Drizzle + Postgres  │
     │  .gfp/bundles.db │  ◄────────  │  Supabase            │
     │  User's API key  │   gfp pull   │  Clerk Auth          │
     └──────────────────┘              └─────────────────────┘

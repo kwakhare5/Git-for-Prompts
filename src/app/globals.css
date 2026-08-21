@@ -1,3 +1,8 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GIT FOR PROMPTS — DESIGN SYSTEM TOKENS & RUNTIME STYLESHEET
+   Full Specification & Guidelines: DESIGN.md
+   ═════════════════════════════════════════════════════════════════════ */
+
 @import "tailwindcss";
 
 @theme {

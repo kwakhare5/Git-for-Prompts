@@ -20,7 +20,6 @@ export function TopHeaderBar() {
       else if (seg === 'prompts') label = 'Prompts';
       else if (seg === 'api-keys') label = 'API Keys';
       else if (seg === 'webhooks') label = 'Webhooks';
-      else if (seg === 'explore') label = 'Explore';
       else if (seg === 'new') label = 'New Repository';
       else if (seg === 'edit') label = 'Edit Bundle';
       else if (seg === 'diff') label = 'Diff Viewer';
