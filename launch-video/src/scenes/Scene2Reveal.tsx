@@ -62,7 +62,7 @@ export const Scene2Reveal: React.FC = () => {
 
           <div 
             className="overflow-hidden h-20 flex items-center justify-start z-10"
-            style={{ width: `${maskW}px`, opacity: slideP > 0.05 ? 1 : slideP * 20 }}
+            style={{ width: `${maskW}px`, opacity: slideEasing }}
           >
             <div className="pl-6 whitespace-nowrap" style={{ transform: `translateX(${textX}px)` }}>
               <h2 className="text-5xl font-extrabold text-[#FAFAFA] tracking-tight">Git for Prompts</h2>
