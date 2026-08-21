@@ -33,7 +33,7 @@ async function apiRequest(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'gfp-cli/0.2.0',
+      'User-Agent': 'gfp-cli/0.1.0',
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });

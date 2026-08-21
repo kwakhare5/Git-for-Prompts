@@ -1,0 +1,37 @@
+# Dependencies & builds
+node_modules/
+.pnpm-store/
+packages/*/dist/
+packages/*/node_modules/
+dist/
+build/
+out/
+.next/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+
+# Agent skills, tooling & auth metadata
+.agents/
+.opencode/
+.clerk/
+.gemini/
+.superpowers/
+
+# Launch video composition & HTML demo player
+launch-video/
+launch-video-player.html
+
+# Local scripts & public static assets
+scripts/
+public/
+supabase/
+
+# JSON files, config maps, lockfiles, SQL migrations & Drizzle meta snapshots
+*.json
+*.yaml
+*.yml
+*.sql
+drizzle/
+*.tsbuildinfo

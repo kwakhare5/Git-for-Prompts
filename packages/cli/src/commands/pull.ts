@@ -30,7 +30,7 @@ async function apiRequest(
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      'User-Agent': 'gfp-cli/0.2.0',
+      'User-Agent': 'gfp-cli/0.1.0',
     },
   });
 

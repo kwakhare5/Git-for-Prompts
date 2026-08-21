@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { prompts, versions, testResults, apiKeys } from "@/db/schema";
 import { eq, desc, count, inArray } from "drizzle-orm";
 import Link from "next/link";
-import { PromptRepositoriesList } from "@/components/domain/dashboard/dashboard-workspace-view";
+import { PromptRepositoriesList } from "@/components/domain/dashboard/prompt-repositories-list";
 import { CreateSamplePromptButton } from "@/components/domain/prompts/create-sample-prompt-button";
 
 export const dynamic = 'force-dynamic';

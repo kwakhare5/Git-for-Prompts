@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { FolderGit2, LayoutDashboard } from 'lucide-react';
 import { DashboardSidebar } from '@/components/layout/dashboard-sidebar';
-import { DashboardWorkspaceView } from '@/components/domain/dashboard/dashboard-workspace-view';
+import { DashboardHeroReplica } from '@/components/website/DashboardHeroReplica';
 
 export function DashboardHeroScreen() {
   const [activeMobileTab, setActiveMobileTab] = useState<'sidebar' | 'workspace'>('workspace');
@@ -68,7 +68,7 @@ export function DashboardHeroScreen() {
 
           {/* Main Workspace Pane */}
           <div className={`flex-1 p-2.5 sm:p-4 bg-bg-page min-w-0 ${activeMobileTab === 'workspace' ? 'block' : 'hidden'} md:block`}>
-            <DashboardWorkspaceView isDemo={true} isFullScreen={true} />
+            <DashboardHeroReplica isDemo={true} isFullScreen={true} />
           </div>
         </div>
 

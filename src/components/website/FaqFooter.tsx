@@ -109,7 +109,7 @@ export function FaqFooter() {
             <ul className="space-y-2 text-zinc-400 text-[11px]">
               <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/core" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/core</a></li>
               <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/cli" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/cli</a></li>
-              <li><Link href="/explore" className="hover:text-zinc-200 transition-colors">Public Explore Gallery</Link></li>
+              <li><Link href="/dashboard" className="hover:text-zinc-200 transition-colors">Prompt Studio Dashboard</Link></li>
               <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Bundle Zod Spec</a></li>
             </ul>
           </div>

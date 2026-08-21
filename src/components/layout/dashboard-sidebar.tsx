@@ -11,7 +11,6 @@ import {
   PlusCircle,
   Key,
   Webhook,
-  Compass,
   ChevronLeft,
   ChevronRight,
   Terminal,
@@ -39,7 +38,6 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
     { label: 'Create Prompt', href: '/dashboard/new', icon: PlusCircle },
     { label: 'API Credentials', href: '/dashboard/api-keys', icon: Key },
     { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook },
-    { label: 'Explore Community', href: '/dashboard/explore', icon: Compass },
   ];
 
   return (

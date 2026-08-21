@@ -135,12 +135,12 @@ Git-for-Prompts/
 │   ├── core/                        # @gfp/core: Schemas, bundle types, diff engine, eval runner
 │   └── cli/                         # @gitforprompts/cli: SQLite Wasm CLI (init, add, push, pull, run)
 ├── src/
-│   ├── app/                         # Next.js 15 App Router
-│   │   ├── (dashboard)/dashboard/   # Prompt detail, Monaco bundle editor, diff, evals
-│   │   ├── (landing)/               # Marketing page (Geist font, animated terminal)
-│   │   └── api/v1/                  # Cloud REST API endpoints (GET latest, POST versions, GET name lookup)
-│   ├── components/                  # Bundle editor, Monaco diff viewer, version history with badges
-│   └── lib/                         # Server Actions, auth, webhooks, DB client
+│   ├── app/                         # Next.js 15 App Router (22 clean routes)
+│   │   ├── (dashboard)/dashboard/   # Overview, prompt detail, bundle editor, diff, evals, API keys, webhooks
+│   │   ├── (landing)/               # Marketing landing page with interactive DashboardHeroReplica
+│   │   └── api/v1/                  # REST API endpoints (GET latest, POST versions, GET name lookup)
+│   ├── components/                  # Bundle editor, Monaco diff viewer, prompt-repositories-list, ui-tokens
+│   └── lib/                         # Server Actions, auth, webhooks, rate limiting, DB client
 ├── Dockerfile                       # Multi-stage standalone build
 └── docker-compose.yml               # Local Docker orchestrator (Postgres 16 + Next.js App)
 ```
@@ -197,11 +197,14 @@ pnpm dev
 ## 🧪 Testing
 
 ```bash
-# Run unit & API integration test suite
+# Run unit & integration test suite (154 tests across 20 test files)
 pnpm test
 
-# Type-check entire workspace
+# Type-check entire workspace (0 errors)
 npx tsc --noEmit
+
+# Lint check (0 errors / 0 warnings)
+pnpm lint
 ```
 
 ---

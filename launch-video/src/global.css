@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #121214;
+    color: #f4f4f5;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+.radial-spotlight {
+  background: radial-gradient(
+    circle at center,
+    rgba(59, 130, 246, 0.18) 0%,
+    rgba(18, 18, 20, 0.95) 70%,
+    #121214 100%
+  );
+}
+
+.blue-glow {
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.35);
+}
+
+.blue-glow-lg {
+  box-shadow: 0 0 60px rgba(59, 130, 246, 0.55);
+}

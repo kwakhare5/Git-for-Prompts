@@ -43,7 +43,6 @@ vi.mock('@/db', () => {
   };
 });
 
-import { forkPrompt } from '@/lib/actions/prompts';
 import { runTestsForVersion } from '@/lib/actions/tests';
 
 describe('Cross-Tenant Authorization / BOLA Security Matrix', () => {
@@ -63,7 +62,6 @@ describe('Cross-Tenant Authorization / BOLA Security Matrix', () => {
     await expect(deleteTestCase('test_case_b_123')).rejects.toThrow('Unauthorized');
     await expect(deleteApiKey({ id: 'key_b_123' })).rejects.toThrow('Unauthorized');
     await expect(deleteWebhook('webhook_b_123')).rejects.toThrow('Unauthorized');
-    await expect(forkPrompt('prompt_b_private')).rejects.toThrow('Unauthorized');
     await expect(runTestsForVersion('version_b_1')).rejects.toThrow('Unauthorized');
   });
 
@@ -101,12 +99,6 @@ describe('Cross-Tenant Authorization / BOLA Security Matrix', () => {
     vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue('user_A');
 
     await expect(deleteWebhook('webhook_b_999')).rejects.toThrow();
-  });
-
-  it('rejects User A attempting to fork private prompt owned by User B', async () => {
-    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue('user_A');
-
-    await expect(forkPrompt('prompt_b_private')).rejects.toThrow();
   });
 
   it('rejects User A attempting to create test case for User B prompt', async () => {
