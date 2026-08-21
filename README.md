@@ -64,7 +64,7 @@ The `gfp` CLI is powered by an in-process Wasm SQLite engine (`sql.js`), enablin
 
 ```bash
 # Global installation
-npm install -g @gitforprompts/cli
+npm install -g @git-for-prompts/cli
 
 # Initialize a local prompt repository (.gfp/ directory)
 gfp init
@@ -120,7 +120,7 @@ gfp pull customer-support         # Pull latest cloud version -> Local
 flowchart TD
     Core["@gfp/core (Shared Library)"]
     CLI["gfp CLI (SQLite Wasm)"]
-    Web["Next.js 15 Web Platform"]
+    Web["Next.js 16 Web Platform"]
     DB[(PostgreSQL)]
 
     CLI -->|Imports schemas & diff engine| Core
@@ -133,9 +133,9 @@ flowchart TD
 Git-for-Prompts/
 ├── packages/
 │   ├── core/                        # @gfp/core: Schemas, bundle types, diff engine, eval runner
-│   └── cli/                         # @gitforprompts/cli: SQLite Wasm CLI (init, add, push, pull, run)
+│   └── cli/                         # @git-for-prompts/cli: SQLite Wasm CLI (init, add, push, pull, run)
 ├── src/
-│   ├── app/                         # Next.js 15 App Router (22 clean routes)
+│   ├── app/                         # Next.js 16 App Router (20 clean routes)
 │   │   ├── (dashboard)/dashboard/   # Overview, prompt detail, bundle editor, diff, evals, API keys, webhooks
 │   │   ├── (landing)/               # Marketing landing page with interactive DashboardHeroReplica
 │   │   └── api/v1/                  # REST API endpoints (GET latest, POST versions, GET name lookup)
@@ -171,8 +171,8 @@ Access your instance at `http://localhost:3000`.
 ## 🚀 Local Development Quickstart
 
 ### Prerequisites
-- Node.js 20+
-- pnpm 9+
+- Node.js 22+
+- pnpm 11+
 
 ### Setup
 
