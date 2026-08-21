@@ -1,6 +1,6 @@
 {
   "name": "@git-for-prompts/cli",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "Git for Prompts CLI — local-first prompt package manager with SQLite storage",
   "type": "module",
   "bin": {

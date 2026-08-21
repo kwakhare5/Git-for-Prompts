@@ -175,11 +175,11 @@ export class SqliteStorageAdapter implements StorageAdapter {
     return rows.map(mapPrompt);
   }
 
-  async createPrompt(prompt: Omit<Prompt, 'id' | 'createdAt' | 'updatedAt'>): Promise<Prompt & { cloudPromptId: string | null }> {
+  async createPrompt(prompt: Omit<Prompt, 'id' | 'createdAt' | 'updatedAt'> | { name: string; description?: string | null; currentVersionId?: string | null }): Promise<Prompt & { cloudPromptId: string | null }> {
     const id = randomUUID();
     this.db.run(
       'INSERT INTO prompts (id, name, description, current_version_id) VALUES (?, ?, ?, ?)',
-      [id, prompt.name, prompt.description, prompt.currentVersionId]
+      [id, prompt.name, prompt.description ?? null, prompt.currentVersionId ?? null]
     );
     this.save();
     const rows = query(this.db, 'SELECT * FROM prompts WHERE id = ?', [id]);
@@ -220,15 +220,35 @@ export class SqliteStorageAdapter implements StorageAdapter {
     return rows.map(mapVersion);
   }
 
-  async insertVersion(version: Omit<Version, 'id' | 'createdAt'>): Promise<Version> {
+  async insertVersion(version: {
+    promptId: string;
+    content: string;
+    versionNumber?: number;
+    bundle?: PromptBundle | null;
+    commitMessage?: string | null;
+    variables?: string[];
+    createdBy?: string;
+  }): Promise<Version> {
     const id = randomUUID();
+    let versionNumber = version.versionNumber;
+    if (typeof versionNumber !== 'number') {
+      const rows = query(
+        this.db,
+        'SELECT COALESCE(MAX(version_number), 0) + 1 AS next_ver FROM versions WHERE prompt_id = ?',
+        [version.promptId]
+      );
+      versionNumber = Number(rows[0]?.['next_ver'] ?? 1);
+    }
+
     const bundleStr = version.bundle ? JSON.stringify(version.bundle) : null;
-    const variablesStr = JSON.stringify(version.variables);
+    const variablesStr = JSON.stringify(version.variables ?? []);
+    const commitMsg = version.commitMessage ?? null;
+    const createdBy = version.createdBy ?? 'local';
 
     this.db.run(
       `INSERT INTO versions (id, prompt_id, version_number, content, bundle, commit_message, variables, created_by)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, version.promptId, version.versionNumber, version.content, bundleStr, version.commitMessage, variablesStr, version.createdBy]
+      [id, version.promptId, versionNumber, version.content, bundleStr, commitMsg, variablesStr, createdBy]
     );
 
     // Update prompt's currentVersionId
@@ -285,7 +305,7 @@ export class SqliteStorageAdapter implements StorageAdapter {
          actual_output = excluded.actual_output,
          score = excluded.score,
          run_at = datetime('now')`,
-      [id, result.versionId, result.testCaseId, result.passed ? 1 : 0, result.actualOutput, result.score]
+      [id, result.versionId, result.testCaseId, result.passed ? 1 : 0, result.actualOutput, result.score ?? null]
     );
     this.save();
 

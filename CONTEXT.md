@@ -16,7 +16,6 @@
 | Run | A single execution of a Prompt against an AI model, with recorded input/output | Call, request, generation |
 | Test Case | A saved input + expected criteria used to evaluate a prompt version | Eval, benchmark |
 | Diff | A Monaco-rendered comparison between two versions of a Prompt | Compare, delta |
-| Fork | A copy of a public Prompt into the user's own account as a new private Prompt | Clone, duplicate |
 
 ---
 
@@ -30,7 +29,7 @@
 6. `font-mono` on ALL prompt text and AI output — prompts are code
 7. Rate limiting via Upstash Redis applies to all API Key usage and all public API routes
 8. Webhooks fire after DB commit — always fire-and-forget (`void`), never `await`
-9. All version inserts (create, restore, fork, push) MUST go through `insertNextVersion` — advisory lock is mandatory
+9. All version inserts (create, restore, push) MUST go through `insertNextVersion` — advisory lock is mandatory
 
 ---
 
@@ -44,7 +43,9 @@ prompts       → id, ownerId (Clerk userId), name, description,
                 INDEX: prompts_owner_id_idx
 
 versions      → id, promptId→prompts, versionNumber (1,2,3...),
-                content (the actual prompt text), commitMessage,
+                content (the actual prompt text),
+                bundle (jsonb of PromptBundle structure),
+                commitMessage,
                 variables (string[] of extracted {{var}} names),
                 createdBy (Clerk userId), createdAt
                 CONSTRAINT: unique(promptId, versionNumber)
@@ -65,7 +66,7 @@ api_keys      → id, ownerId, name, keyLookupHash (SHA-256),
 webhooks      → id, ownerId, url, secret (HMAC key), events (text[]),
                 createdAt
 ```
-_8 migrations applied (0000–0007). Schema source of truth: `src/db/schema.ts`_
+_Schema source of truth: `src/db/schema.ts`_
 
 ---
 
@@ -74,21 +75,18 @@ _8 migrations applied (0000–0007). Schema source of truth: `src/db/schema.ts`_
 | Feature | Status | File |
 |---------|--------|------|
 | Auth (sign-in/sign-up) | 🟢 Live | `app/(auth)/` — Clerk route group |
-| Dashboard | 🟢 Live | `app/(dashboard)/dashboard/page.tsx` |
-| Create / edit prompt | 🟢 Live | `lib/actions/prompts.ts` |
+| Dashboard | 🟢 Live | `app/(dashboard)/dashboard/page.tsx` + `prompt-repositories-list.tsx` |
+| Create / edit prompt | 🟢 Live | `lib/actions/prompts.ts` + `components/bundle-editor.tsx` |
 | Version diff | 🟢 Live | `components/diff-viewer.tsx` |
 | A/B compare | 🟢 Live | `components/compare-runner.tsx` |
 | Test runner | 🟢 Live | `lib/actions/tests.ts` + `lib/test-runner.ts` |
-| Variable interpolation | 🟢 Live | `lib/variables.ts` |
+| Variable interpolation | 🟢 Live | `lib/variables.ts` + `@gfp/core` |
 | API keys | 🟢 Live | `components/api-keys-manager.tsx` |
 | Public API GET | 🟢 Live | `app/api/v1/prompts/[id]/latest/route.ts` |
 | Push API POST | 🟢 Live | `app/api/v1/prompts/[id]/versions/route.ts` |
 | Webhooks | 🟢 Live | `lib/webhooks.ts` + `app/(dashboard)/dashboard/webhooks/` |
-| gfp CLI | 🟢 Live | `packages/cli/src/index.ts` |
-| Explore page | 🟢 Live | `app/(landing)/explore/` |
+| gfp CLI (SQLite Wasm) | 🟢 Live | `packages/cli/src/index.ts` |
 | Scheduled regression cron | 🟢 Live | `app/api/cron/regression-tests/route.ts` |
-| Keep-alive cron | 🟢 Live | `app/api/cron/keep-alive/route.ts` |
-| Collaboration/sharing | ⏸️ Paused | Not started |
 
 ---
 
@@ -99,25 +97,28 @@ src/
 ├── app/
 │   ├── (auth)/                          ← sign-in, sign-up (Clerk)
 │   ├── (dashboard)/dashboard/
-│   │   ├── page.tsx                     ← Prompt grid
+│   │   ├── page.tsx                     ← Prompt repositories table & metrics
 │   │   ├── new/page.tsx                 ← Create prompt
-│   │   ├── api-keys/page.tsx
+│   │   ├── api-keys/page.tsx            ← API keys manager
 │   │   ├── webhooks/page.tsx            ← Webhook management
 │   │   └── prompts/[id]/
 │   │       ├── page.tsx                 ← Prompt detail
-│   │       ├── edit/page.tsx
-│   │       ├── diff/page.tsx
-│   │       ├── compare/page.tsx
-│   │       └── tests/page.tsx
+│   │       ├── edit/page.tsx            ← Bundle editor
+│   │       ├── diff/page.tsx            ← Visual diff
+│   │       ├── compare/page.tsx         ← A/B compare runner
+│   │       └── tests/page.tsx           ← Eval test runner
 │   ├── (landing)/
-│   │   ├── page.tsx                     ← Marketing page
-│   │   └── explore/                     ← Public prompt discovery
+│   │   └── page.tsx                     ← Marketing page with DashboardHeroReplica
 │   └── api/v1/prompts/[id]/
 │       ├── latest/route.ts              ← GET: fetch latest version
 │       └── versions/route.ts            ← POST: push new version
 ├── components/
+│   ├── domain/dashboard/prompt-repositories-list.tsx ← Real dashboard prompt list
+│   ├── website/DashboardHeroReplica.tsx               ← Static interactive demo sandbox
 │   ├── prompt-editor.tsx                ← Monaco editor
 │   ├── diff-viewer.tsx                  ← Monaco diff
+│   ├── bundle-editor.tsx                ← Visual bundle editor
+│   └── ui-tokens.tsx                    ← Design system primitives
 │   ├── compare-runner.tsx
 │   ├── test-runner.tsx
 │   ├── version-history.tsx

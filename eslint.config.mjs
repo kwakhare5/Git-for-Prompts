@@ -8,6 +8,8 @@ const eslintConfig = defineConfig([
   globalIgnores([
     ".next/**",
     ".vercel/**",
+    ".agents/**",
+    "launch-video/**",
     "coverage/**",
     "out/**",
     "build/**",

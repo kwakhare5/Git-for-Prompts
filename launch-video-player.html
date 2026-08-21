@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git for Prompts — Launch Video Studio</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Geist & Geist Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'sans-serif'],
+            mono: ['Geist Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #08080a;
+      color: #fafafa;
+      font-family: 'Geist', sans-serif;
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    .video-viewport {
+      aspect-ratio: 16 / 9;
+      height: 100%;
+      max-height: calc(100vh - 140px);
+      position: relative;
+      background: radial-gradient(circle at 50% 40%, rgba(24, 24, 28, 0.6) 0%, rgba(13, 13, 16, 1) 100%), #0d0d10;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+    .scene-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .cursor-blink {
+      animation: blink 0.8s infinite;
+    }
+    .drawer-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .drawer-scroll::-webkit-scrollbar-track {
+      background: #121214;
+    }
+    .drawer-scroll::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between p-3 sm:p-4 select-none relative">
+
+  <!-- TOP COMPACT APP HEADER -->
+  <header class="w-full flex items-center justify-between px-3 py-2 bg-[#121214] border border-zinc-800 rounded-xl shrink-0 z-20">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-[#18181B] border border-zinc-800 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-5 h-5">
+          <g transform="translate(4, 4)" fill="none" stroke="#f5f0eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="18" r="3" fill="#f5f0eb" fill-opacity="0.12"/>
+            <circle cx="6" cy="6" r="3" fill="#f5f0eb" fill-opacity="0.12"/>
+            <circle cx="18" cy="6" r="3" fill="#f5f0eb" fill-opacity="0.12"/>
+            <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9"/>
+            <path d="M12 15V9"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+          Git for Prompts
+          <span class="px-2 py-0.2 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-mono border border-emerald-500/30">SINGLE-SCREEN STUDIO</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Quick Scene Selector Tabs (1 - 5) -->
+    <div class="flex items-center gap-1 bg-zinc-900/80 p-1 rounded-lg border border-zinc-800 text-xs font-mono">
+      <button onclick="seekToScene(1)" id="tab-1" class="px-2.5 py-1 rounded bg-emerald-500 text-black font-bold transition">1. Pain</button>
+      <button onclick="seekToScene(2)" id="tab-2" class="px-2.5 py-1 rounded text-zinc-400 hover:text-white transition">2. Reveal</button>
+      <button onclick="seekToScene(3)" id="tab-3" class="px-2.5 py-1 rounded text-zinc-400 hover:text-white transition">3. CLI Workflow</button>
+      <button onclick="seekToScene(4)" id="tab-4" class="px-2.5 py-1 rounded text-zinc-400 hover:text-white transition">4. Tech Showcase</button>
+      <button onclick="seekToScene(5)" id="tab-5" class="px-2.5 py-1 rounded text-zinc-400 hover:text-white transition">5. Outro</button>
+    </div>
+
+    <!-- Music Toggle, Drawer Toggle & MP4 Download -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleMusic()" id="musicToggleBtn" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-emerald-400 text-xs font-semibold rounded-lg border border-emerald-500/30 transition flex items-center gap-1.5">
+        <span id="musicBtnText">🎵 Music: ON</span>
+      </button>
+      <button onclick="toggleDrawer()" id="drawerToggleBtn" class="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold rounded-lg border border-zinc-700 transition flex items-center gap-1.5">
+        <span>⚙️ Customize Scene</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CENTER: DYNAMICALLY SCALED 16:9 VIEWPORT (NO SCROLLING) -->
+  <main class="flex-1 min-h-0 w-full flex items-center justify-center p-2 relative z-10">
+    <div class="video-viewport relative select-none">
+      <!-- Ambient Scrim -->
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(24,24,28,0.6)_0%,rgba(13,13,16,1)_100%)] pointer-events-none z-0"></div>
+
+      <!-- Active Scene Screen -->
+      <div id="sceneHost" class="relative z-10 w-full h-full"></div>
+    </div>
+
+    <!-- SLIDE-IN EDITING DRAWER (COLLAPSIBLE, ZERO VERTICAL EXPANSION) -->
+    <div id="editorDrawer" class="absolute top-2 right-2 bottom-2 w-[380px] bg-[#121214]/95 backdrop-blur-xl border border-zinc-800 rounded-2xl p-4 shadow-2xl z-30 transform translate-x-[420px] transition-transform duration-300 flex flex-col justify-between">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 class="text-xs font-bold text-white uppercase font-mono flex items-center gap-2">
+          <span>⚙️ Live Design Workbench</span>
+        </h3>
+        <button onclick="toggleDrawer()" class="text-zinc-400 hover:text-white text-sm font-bold">✕</button>
+      </div>
+
+      <!-- Drawer Content Scrollable Area -->
+      <div id="editorPanelHost" class="flex-1 min-h-0 overflow-y-auto drawer-scroll py-3 space-y-3 text-xs">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="pt-3 border-t border-zinc-800 flex justify-between items-center text-[11px]">
+        <span class="text-zinc-500">Live parameter synchronization</span>
+        <button onclick="exportConfig()" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded font-mono">
+          Export JSON
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- BOTTOM COMPACT CONTROLS BAR -->
+  <footer class="w-full bg-[#121214] border border-zinc-800 rounded-xl px-4 py-2.5 shrink-0 z-20 space-y-2">
+    <!-- Scrubber Row -->
+    <div class="flex items-center gap-3">
+      <span id="currentSceneLabel" class="text-xs font-mono text-emerald-400 font-semibold w-48 truncate">Act 1: The Pain</span>
+      <input 
+        id="timelineSlider" 
+        type="range" 
+        min="0" 
+        max="795" 
+        value="0" 
+        class="flex-1 h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+      />
+      <span id="timecodeBadge" class="text-xs font-mono text-zinc-400 w-44 text-right">00:00.00 / 00:26.50</span>
+    </div>
+
+    <!-- Playback Buttons Row -->
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <button id="playBtn" class="px-4 py-1 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg flex items-center gap-1.5 transition shadow">
+          <svg id="playIcon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span id="playText">Play</span>
+        </button>
+        <button onclick="seekToFrame(0)" class="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs rounded-lg transition">
+          Restart
+        </button>
+        <button onclick="seekToFrame(currentFrame - 30)" class="px-2 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-xs font-mono rounded-lg border border-zinc-800 transition">
+          -1s
+        </button>
+        <button onclick="seekToFrame(currentFrame + 30)" class="px-2 py-1 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-xs font-mono rounded-lg border border-zinc-800 transition">
+          +1s
+        </button>
+      </div>
+
+      <div class="text-[11px] text-zinc-500 font-mono">
+        <span id="frameCounter">Frame 0 / 795 (26.5s • 30 FPS • Direction 1 Edit)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT STATE ENGINE -->
+  <script>
+    const videoConfig = {
+      scene1: {
+        typewriterText: "Your prompts are scattered in text files",
+        cursorColor: "#10B981",
+        word1: "history.",
+        word1Color: "#EF4444",
+        word2: "diffs.",
+        word2Color: "#F59E0B",
+        word3: "tests.",
+        word3Color: "#EF4444"
+      },
+      scene2: {
+        eyebrow: "Local-First Prompt Infrastructure",
+        title: "Git for Prompts",
+        subtitle: "Local-first, open-source version control and evals for AI engineers"
+      },
+      scene3: {
+        eyebrow: "Architecture & Foundation",
+        headline: "Version control built for prompts",
+        tab1: "Local-First",
+        tab1Desc: "100% offline local repository stored directly in your codebase.",
+        tab2: "Version Control",
+        tab2Desc: "Cryptographic SHA-256 snapshots for every prompt push.",
+        tab3: "AI Engineering",
+        tab3Desc: "Automated regression assertions across Groq, Anthropic & OpenAI."
+      },
+      scene4: {
+        eyebrow: "The Mental Model",
+        headline: "Like Git for code, but built for AI prompts",
+        cmd1: "$ gfp push main.prompt",
+        badge1: "Git for Prompts",
+        cmd2: "$ git push origin main",
+        badge2: "Git for Code"
+      },
+      scene5: {
+        cut1Title: "Visual Version Diffs",
+        cut1Subtitle: "Monaco-powered side-by-side prompt comparisons",
+        filename: "system_prompt.md",
+        v1Line: "- 2 Output your review in raw text format.",
+        v2Line: "+ 2 Output JSON strictly adhering to",
+        variablePill: "{{json_schema}}",
+        cut2Title: "Cryptographic Snapshots",
+        cut2Subtitle: "Immutable append-only tree with PostgreSQL advisory locks",
+        commit1: "v1 (0b1a8f)",
+        commit2: "v2 (7f3a9e) • Snapshot Locked",
+        lockId: "#LCK-8920-MAIN",
+        shaHash: "sha256:7f3a9e0481bc92e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca4",
+        cut3Title: "Multi-Model Regression Evals",
+        cut3Subtitle: "Automated assertions & latency benchmarks across AI providers",
+        evalPassText: "100% Assertions Passed (12/12)",
+        model1Name: "Groq / Llama 3.3 70B",
+        model1Time: "140 ms (Fastest)",
+        model2Name: "OpenAI / GPT-5.6 Sol",
+        model2Time: "650 ms",
+        model3Name: "Anthropic / Claude Opus 5",
+        model3Time: "1250 ms",
+        cut4Title: "Production Runtime Pull API",
+        cut4Subtitle: "Fetch latest prompt versions with dynamic variable injection",
+        endpoint: "/api/v1/prompts/security-audit/latest",
+        curlCmd: "$ curl -X GET https://gitforprompts.com/api/v1/prompts/sec-v2/latest \\",
+        curlAuth: '-H "Authorization: Bearer gfp_live_••••••••"',
+        resText: "✓ 200 OK • Interpolated {{json_schema}} in 8ms"
+      },
+      scene6: {
+        eyebrow: "Production Standards",
+        headline: "Guaranteed Safety & Quality",
+        claim1: "Never overwrite a production prompt",
+        claim2: "Test assertions across Groq, Claude & OpenAI",
+        claim3: "Deploy deterministic snapshots in 1 click"
+      },
+      scene7: {
+        eyebrow: "Developer Experience",
+        headline: "Version & Ship from the Terminal",
+        step1Cmd: "npx gfp init",
+        step1Res: "✓ Initialized local .gfp repository in 12ms",
+        step2Cmd: "npx gfp eval --all",
+        step2Res: "✓ 12/12 assertions passed across Groq & Anthropic (340ms)",
+        step3Cmd: "npx gfp push main.prompt",
+        step3Res: "✓ Snapshot 7f3a9e published & locked (sha256 verified)"
+      },
+      scene8: {
+        title: "Git for Prompts",
+        subtitle: "Open source, all the way down",
+        ctaText: "gitforprompts.vercel.app",
+        ctaUrl: "https://gitforprompts.vercel.app"
+      }
+    };
+
+    let currentFrame = 0;
+    const totalFrames = 795;
+    const fps = 30;
+    let isPlaying = false;
+    let playInterval = null;
+    let currentActiveScene = 1;
+    let isDrawerOpen = false;
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx && typeof window !== 'undefined') {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    const sceneHost = document.getElementById('sceneHost');
+    const slider = document.getElementById('timelineSlider');
+    const timecodeBadge = document.getElementById('timecodeBadge');
+    const frameCounter = document.getElementById('frameCounter');
+    const currentSceneLabel = document.getElementById('currentSceneLabel');
+    const editorPanelHost = document.getElementById('editorPanelHost');
+    const editorDrawer = document.getElementById('editorDrawer');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+
+    function toggleDrawer() {
+      isDrawerOpen = !isDrawerOpen;
+      if (isDrawerOpen) {
+        editorDrawer.classList.remove('translate-x-[420px]');
+      } else {
+        editorDrawer.classList.add('translate-x-[420px]');
+      }
+    }
+
+    function highlightActiveTab(num) {
+      for (let i = 1; i <= 5; i++) {
+        const tab = document.getElementById(`tab-${i}`);
+        if (tab) {
+          if (i === num) {
+            tab.className = 'px-2.5 py-1 rounded bg-emerald-500 text-black font-bold transition';
+          } else {
+            tab.className = 'px-2.5 py-1 rounded text-zinc-400 hover:text-white transition';
+          }
+        }
+      }
+    }
+
+    function renderScene(frame) {
+      let html = '';
+      let sceneNum = 1;
+
+      // Act 1: The Pain (0 - 160 / 5.33s)
+      if (frame < 160) {
+        sceneNum = 1;
+        currentSceneLabel.innerText = "Act 1: The Pain (0.0s - 5.3s)";
+        if (frame < 66) {
+          const fullText = videoConfig.scene1.typewriterText;
+          const progress = Math.min(1, Math.max(0, (frame - 2) / 58));
+          const typedChars = Math.min(fullText.length, Math.floor(progress * fullText.length));
+          const currentTyped = fullText.slice(0, typedChars);
+          const isTyping = frame >= 2 && typedChars < fullText.length;
+
+          const keyframes = [
+            { f: 0.0, o: 51 },   // "Your"
+            { f: 0.18, o: 212 }, // "prompts"
+            { f: 0.35, o: 358 }, // "are"
+            { f: 0.55, o: 532 }, // "scattered"
+            { f: 0.72, o: 692 }, // "in"
+            { f: 0.82, o: 774 }, // "text"
+            { f: 1.0, o: 880 },  // "files"
+          ];
+
+          let continuousOffset = keyframes[0].o;
+          for (let i = 0; i < keyframes.length - 1; i++) {
+            const k1 = keyframes[i];
+            const k2 = keyframes[i + 1];
+            if (progress >= k1.f && progress <= k2.f) {
+              const segP = (progress - k1.f) / (k2.f - k1.f);
+              continuousOffset = k1.o + segP * (k2.o - k1.o);
+              break;
+            }
+          }
+          if (progress >= 1.0) continuousOffset = keyframes[keyframes.length - 1].o;
+
+          const exitBlur = frame >= 64 ? (frame - 63) * 1.5 : 0;
+          const exitOpacity = frame >= 64 ? Math.max(0, 1 - (frame - 63) * 0.4) : 1;
+
+          html = `
+            <div class="scene-container overflow-hidden">
+              <div 
+                class="absolute top-1/2 flex items-center whitespace-nowrap will-change-transform"
+                style="left: 62%; transform: translate3d(-${continuousOffset}px, -50%, 0); filter: ${exitBlur > 0 ? `blur(${exitBlur}px)` : 'none'}; opacity: ${exitOpacity};"
+              >
+                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#FAFAFA] tracking-tight">${currentTyped}</span>
+                <span class="inline-block w-1.5 h-10 ml-2 ${isTyping ? '' : 'cursor-blink'}" style="background-color: ${videoConfig.scene1.cursorColor};"></span>
+              </div>
+            </div>
+          `;
+        } else {
+          const words = ["diffs.", "evals.", "tests.", "history."];
+          const ats = [88, 110, 134];
+          const itemHeight = 64;
+
+          let continuousOffset = 0;
+          for (let i = 0; i < ats.length; i++) {
+            if (frame >= ats[i]) {
+              const p = Math.min(1, (frame - ats[i]) / 14);
+              const eased = 1 - Math.pow(1 - p, 3.5);
+              continuousOffset += eased;
+            }
+          }
+
+          const localSub2 = frame - 66;
+          const enterBlur = localSub2 <= 3 ? (3 - localSub2) * 1.0 : 0;
+          const enterOpacity = localSub2 <= 3 ? (localSub2 + 1) * 0.33 : 1;
+          const sub2Zoom = 1.0 + (localSub2 / 94) * 0.04;
+          const exitDissolve = frame >= 150 ? Math.max(0, 1 - (frame - 150) / 10) : 1;
+
+          html = `
+            <div class="scene-container select-none overflow-hidden" style="transform: scale(${sub2Zoom}); opacity: ${exitDissolve * enterOpacity}; filter: ${enterBlur > 0 ? `blur(${enterBlur}px)` : 'none'};">
+              <div class="flex items-center justify-center text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+                <span class="text-white mr-4 shrink-0 font-extrabold">No</span>
+                <span class="inline-block relative overflow-hidden align-middle text-emerald-400 font-extrabold" style="height: ${itemHeight}px; line-height: ${itemHeight}px; vertical-align: middle;">
+                  <span class="invisible opacity-0 px-1">history.</span>
+                  <span style="position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; transform: translateY(-${continuousOffset * itemHeight}px);">
+                    ${words.map((w, idx) => {
+                      const dist = continuousOffset - idx;
+                      const tilt = Math.max(-45, Math.min(45, dist * 35));
+                      const op = Math.max(0.2, 1 - Math.abs(dist) * 0.7);
+                      return `<span style="height: ${itemHeight}px; line-height: ${itemHeight}px; display: flex; align-items: center; justify-content: flex-start; opacity: ${op}; transform: perspective(400px) rotateX(${tilt}deg);">${w}</span>`;
+                    }).join('')}
+                  </span>
+                </span>
+              </div>
+            </div>
+          `;
+        }
+      } 
+      // Act 2: Hero Reveal (160 - 285 / 4.17s)
+      else if (frame < 285) {
+        sceneNum = 2;
+        currentSceneLabel.innerText = "Act 2: Hero Reveal (5.3s - 9.5s)";
+        const local = frame - 160;
+        
+        const popP = Math.min(1, Math.max(0, local / 20));
+        const popEasing = 1 - Math.pow(1 - popP, 3);
+        const logoScale = 0.88 + popEasing * 0.12;
+        const logoOp = Math.min(1, local / 10);
+
+        const node1P = Math.min(1, Math.max(0, local / 8));
+        const path1P = Math.min(1, Math.max(0, (local - 4) / 14));
+        const path2P = Math.min(1, Math.max(0, (local - 8) / 10));
+        const node2P = Math.min(1, Math.max(0, (local - 8) / 8));
+        const node3P = Math.min(1, Math.max(0, (local - 14) / 8));
+        
+        const path1Dash = 40 * (1 - path1P);
+        const path2Dash = 20 * (1 - path2P);
+
+        const slideP = Math.min(1, Math.max(0, (local - 20) / 20));
+        const slideEasing = 1 - Math.pow(1 - slideP, 4);
+        const maskW = slideEasing * 420;
+        const textX = (1 - slideEasing) * -24;
+
+        const sweepP = Math.min(1, Math.max(0, (local - 36) / 12));
+        const sweepX = -100 + sweepP * 300;
+        const showSweep = local >= 36 && local <= 48;
+
+        const subP = Math.min(1, Math.max(0, (local - 40) / 28));
+        const subEasing = 1 - Math.pow(1 - subP, 3);
+        const subY = (1 - subEasing) * 14;
+
+        html = `
+          <div class="scene-container select-none overflow-hidden font-sans bg-transparent p-12">
+            <div class="flex flex-col items-center justify-center space-y-6">
+              <div class="flex items-center justify-center relative min-h-[80px]">
+                <div 
+                  class="w-20 h-20 bg-[#141417] border border-zinc-800 rounded-2xl flex items-center justify-center shadow-2xl relative overflow-hidden shrink-0 z-20"
+                  style="transform: scale(${logoScale}); opacity: ${logoOp};"
+                >
+                  ${showSweep ? `
+                    <div 
+                      class="absolute inset-0 pointer-events-none z-30"
+                      style="background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.25) 55%, transparent 100%); transform: translateX(${sweepX}%);"
+                    ></div>
+                  ` : ''}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-12 h-12 relative z-10">
+                    <g transform="translate(4, 4)" fill="none" stroke="#FAFAFA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9" stroke-dasharray="40" stroke-dashoffset="${path1Dash}"/>
+                      <path d="M12 15V9" stroke-dasharray="20" stroke-dashoffset="${path2Dash}"/>
+                      <circle cx="12" cy="18" r="3" fill="#FAFAFA" fill-opacity="0.25" style="opacity: ${node1P}; transform: scale(${0.6 + node1P * 0.4}); transform-origin: 12px 18px;"/>
+                      <circle cx="6" cy="6" r="3" fill="#FAFAFA" fill-opacity="0.25" style="opacity: ${node2P}; transform: scale(${0.6 + node2P * 0.4}); transform-origin: 6px 6px;"/>
+                      <circle cx="18" cy="6" r="3" fill="#FAFAFA" fill-opacity="0.4" style="opacity: ${node3P}; transform: scale(${0.6 + node3P * 0.4}); transform-origin: 18px 6px;"/>
+                    </g>
+                  </svg>
+                </div>
+
+                <div 
+                  class="overflow-hidden h-20 flex items-center justify-start z-10"
+                  style="width: ${maskW}px; opacity: ${slideP > 0.05 ? 1 : slideP * 20};"
+                >
+                  <div class="pl-6 whitespace-nowrap" style="transform: translateX(${textX}px);">
+                    <h2 class="text-5xl font-extrabold text-[#FAFAFA] tracking-tight">Git for Prompts</h2>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xl text-zinc-300 font-medium leading-relaxed max-w-[680px] mx-auto pt-2" style="transform: translateY(${subY}px); opacity: ${subP};">
+                ${videoConfig.scene2.subtitle}
+              </p>
+            </div>
+          </div>
+        `;
+      }
+      // Act 3: Terminal CLI (285 - 435 / 5.0s)
+      else if (frame < 435) {
+        sceneNum = 3;
+        currentSceneLabel.innerText = "Act 3: Terminal CLI Workflow (9.5s - 14.5s)";
+        const local = frame - 285;
+
+        const cmd1 = "npx gfp init";
+        const cmd1TypedChars = Math.min(cmd1.length, Math.floor(Math.max(0, local - 4) / 1.4));
+        const showCmd1Cursor = local >= 4 && local < 20;
+        const cmd1Running = local >= 20 && local < 32;
+        const cmd1Done = local >= 32;
+
+        const cmd2 = "gfp run main";
+        const showCmd2Line = local >= 38;
+        const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) / 1.4));
+        const showCmd2Cursor = local >= 38 && local < 58;
+        const cmd2Running = local >= 58 && local < 76;
+        const cmd2Done = local >= 76;
+
+        const cmd3 = "gfp push main.prompt";
+        const showCmd3Line = local >= 82;
+        const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
+        const showCmd3Cursor = local >= 82 && local < 110;
+        const cmd3Running = local >= 110 && local < 135;
+        const cmd3Done = local >= 135;
+
+        const spinnerChars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+        const spinIndex = Math.floor(local / 3) % spinnerChars.length;
+        const currentSpinner = spinnerChars[spinIndex];
+
+        html = `
+          <div class="scene-container flex items-center justify-center font-sans bg-transparent select-none px-20">
+            <div class="w-full max-w-[820px] bg-[#121214] border border-zinc-800/90 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs text-left my-auto">
+              <div class="bg-[#18181B] px-5 py-4 border-b border-zinc-800/80 flex items-center justify-between text-zinc-400">
+                <div class="flex items-center gap-2.5 w-24">
+                  <div class="w-3.5 h-3.5 rounded-full bg-[#FF5F56]/80"></div>
+                  <div class="w-3.5 h-3.5 rounded-full bg-[#FFBD2E]/80"></div>
+                  <div class="w-3.5 h-3.5 rounded-full bg-[#27C93F]/80"></div>
+                </div>
+                <div class="text-xs text-zinc-300 font-mono font-semibold text-center flex-1 tracking-wide">
+                  gfp — zsh — terminal
+                </div>
+                <div class="w-24 text-right text-[11px] text-zinc-500 font-mono">
+                  v0.1.0
+                </div>
+              </div>
+
+              <div class="p-8 bg-[#0A0A0C] h-[360px] space-y-6 text-left overflow-hidden flex flex-col justify-start">
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
+                    <span class="text-emerald-400 font-extrabold">$</span>
+                    <span>${cmd1.slice(0, cmd1TypedChars)}</span>
+                    ${showCmd1Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
+                  </div>
+                  ${cmd1Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Initializing local repository...</div>` : ''}
+                  ${cmd1Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> Initialized .gfp/ repository</div>` : ''}
+                </div>
+
+                ${showCmd2Line ? `
+                  <div class="space-y-1.5">
+                    <div class="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
+                      <span class="text-emerald-400 font-extrabold">$</span>
+                      <span>${cmd2.slice(0, cmd2TypedChars)}</span>
+                      ${showCmd2Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
+                    </div>
+                    ${cmd2Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Running evals across Groq & Anthropic...</div>` : ''}
+                    ${cmd2Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> 12/12 assertions passed (Groq 120ms / Claude 1.5s)</div>` : ''}
+                  </div>
+                ` : ''}
+
+                ${showCmd3Line ? `
+                  <div class="space-y-1.5">
+                    <div class="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
+                      <span class="text-emerald-400 font-extrabold">$</span>
+                      <span>${cmd3.slice(0, cmd3TypedChars)}</span>
+                      ${showCmd3Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
+                    </div>
+                    ${cmd3Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Acquiring advisory lock & hashing SHA-256...</div>` : ''}
+                    ${cmd3Done ? `<div class="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3"><span class="font-bold">✔</span> <span class="text-zinc-200">Published main.prompt v2</span><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span></div>` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      // Act 4: Deep Tech Showcase (435 - 675 / 8.0s)
+      else if (frame < 675) {
+        sceneNum = 4;
+        const local = frame - 435;
+        const cutDuration = 80;
+        const activeIdx = Math.min(2, Math.floor(local / cutDuration));
+        const localCut = local % cutDuration;
+        
+        const cardMorphOpacity = localCut < 4 ? localCut / 4 : (localCut >= 76 ? (80 - localCut) / 4 : 1);
+        const cardMorphY = localCut < 4 ? (4 - localCut) * 2 : 0;
+
+        const clipProgress = Math.max(0, Math.min(100, 100 - ((localCut - 10) / 25) * 100));
+        const barGrowth = 1 - Math.pow(1 - Math.min(1, Math.max(0, (localCut - 6) / 24)), 3);
+
+        const fullHash = "sha256:7f3a9e0481bc92e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca4";
+        const typedHashChars = Math.min(fullHash.length, Math.floor(Math.max(0, localCut - 6) / 0.5));
+
+        currentSceneLabel.innerText = `Act 4.${activeIdx + 1}: Deep Tech Showcase (${(14.5 + activeIdx * 2.67).toFixed(1)}s - ${(17.17 + activeIdx * 2.67).toFixed(1)}s)`;
+
+        const features = [
+          { num: "01", name: "Visual Prompt Diffs" },
+          { num: "02", name: "Multi-Model Evals" },
+          { num: "03", name: "Local-to-Cloud Sync" }
+        ];
+
+        let rightCardHtml = "";
+        if (activeIdx === 0) {
+          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs text-left"><div class="bg-[#18181B] px-6 py-4 border-b border-zinc-800/80 flex items-center justify-between"><div class="flex items-center gap-3"><span class="text-zinc-200 text-xs font-semibold">system_prompt.md</span><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">v1 ➔ v2</span></div></div><div class="grid grid-cols-2 divide-x divide-zinc-800/80 p-6 text-left text-xs gap-6 bg-[#0A0A0C] min-h-[260px]"><div class="space-y-3"><div class="text-[10px] font-semibold text-red-400 uppercase tracking-wider">v1 (Old)</div><div class="text-zinc-500">1  You are a security auditor.</div><div class="bg-red-500/15 border-l-2 border-red-500 py-2 px-3 text-red-300 line-through rounded-r">- 2 Output raw text.</div></div><div class="space-y-3 pl-4"><div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">v2 (Current)</div><div class="text-zinc-500">1  You are a security auditor.</div><div class="bg-emerald-500/15 border-l-2 border-emerald-500 py-2 px-3 text-emerald-300 font-semibold flex items-center gap-2 rounded-r" style="clip-path: inset(0 ${clipProgress}% 0 0);"><span>+ 2 Output JSON:</span><span class="bg-emerald-500/30 border border-emerald-400/50 text-emerald-200 px-2 py-0.5 rounded text-[10px]">{{json_schema}}</span></div></div></div></div>`;
+        } else if (activeIdx === 1) {
+          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left"><div class="flex justify-between items-center border-b border-zinc-800/80 pb-4"><span class="text-white font-bold text-sm">Model Latency Benchmark (ms)</span></div><div class="space-y-5 pt-1"><div><div class="flex justify-between text-zinc-300 mb-2"><span class="flex items-center gap-2"><span>Groq / Llama 3.3 70B</span><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-bold font-mono">6.2x FASTER</span></span><span class="text-emerald-400 font-bold">140 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full rounded-full" style="width: ${Math.min(11, barGrowth * 11)}%;"></div></div></div><div><div class="flex justify-between text-zinc-300 mb-2"><span>OpenAI / GPT-5.6 Sol</span><span class="text-zinc-400">650 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500/60 h-full rounded-full" style="width: ${Math.min(52, barGrowth * 52)}%;"></div></div></div><div><div class="flex justify-between text-zinc-300 mb-2"><span>Anthropic / Claude Opus 5</span><span class="text-zinc-400">1250 ms</span></div><div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden"><div class="bg-emerald-500/80 h-full rounded-full" style="width: ${Math.min(100, barGrowth * 100)}%;"></div></div></div></div></div>`;
+        } else {
+          rightCardHtml = `<div class="w-full bg-[#121214] border border-zinc-800/80 rounded-2xl p-7 shadow-2xl font-mono text-xs space-y-6 text-left"><div class="flex items-center justify-between bg-[#18181B] p-4 rounded-xl border border-zinc-800/80"><div class="flex items-center gap-4"><div class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gfp/</div><span class="text-emerald-400 font-bold">►</span><div class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold">Cloud Postgres</div></div><span class="text-xs text-emerald-400 font-bold">✔ Sync Locked</span></div><div class="p-4 rounded-xl bg-[#0A0A0C] border border-zinc-800/80 text-emerald-400 text-xs font-mono break-all flex items-center gap-1"><span>${fullHash.slice(0, typedHashChars)}</span>${typedHashChars < fullHash.length ? '<span class="w-2 h-4 bg-emerald-400 inline-block animate-pulse"></span>' : ''}</div></div>`;
+        }
+
+        html = `
+          <div class="scene-container flex items-center justify-center font-sans bg-transparent select-none px-20">
+            <div class="w-full max-w-[1200px] grid grid-cols-12 gap-12 items-center">
+              
+              <!-- LEFT APPLE SINGLE-LINE TYPOGRAPHY MENU -->
+              <div class="col-span-4 flex flex-col space-y-6 relative text-left pl-4">
+                ${features.map((f, idx) => {
+                  const isActive = idx === activeIdx;
+                  return `
+                    <div class="flex items-center gap-4 transition-all duration-300 relative" style="opacity: ${isActive ? 1 : 0.35}; transform: ${isActive ? 'translateX(6px)' : 'translateX(0)'}">
+                      ${isActive ? '<div class="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-5 bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>' : ''}
+                      <span class="font-mono text-xs font-bold ${isActive ? 'text-emerald-400' : 'text-zinc-500'}">${f.num}</span>
+                      <span class="text-xl font-bold tracking-tight ${isActive ? 'text-[#FAFAFA]' : 'text-zinc-400'}">${f.name}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- RIGHT PREVIEW CARD -->
+              <div class="col-span-8 relative" style="opacity: ${cardMorphOpacity}; transform: translateY(${cardMorphY}px);">
+                ${rightCardHtml}
+              </div>
+
+            </div>
+          </div>
+        `;
+      }
+      // Act 5: Outro & CTA (675 - 795 / 4.0s)
+      else {
+        sceneNum = 5;
+        currentSceneLabel.innerText = "Act 5: Outro & CTA (22.5s - 26.5s)";
+        const local = frame - 675;
+        const logoP = Math.min(1, local / 18);
+        const btnP = Math.min(1, Math.max(0, (local - 14) / 14));
+        const btnHover = local >= 24 && local < 40;
+        const btnPress = local >= 40;
+        const btnScale = btnPress ? 0.97 : (btnHover ? 1.02 : 1.0);
+
+        html = `
+          <div class="scene-container flex-col space-y-6 text-center px-8">
+            <div 
+              class="w-20 h-20 bg-[#141417] border border-zinc-800 rounded-2xl flex items-center justify-center shadow-2xl"
+              style="opacity: ${logoP}; transform: scale(${0.95 + logoP * 0.05}) translateY(${(1 - logoP) * 12}px);"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-12 h-12">
+                <g transform="translate(4, 4)" fill="none" stroke="#FAFAFA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="18" r="3" fill="#FAFAFA" fill-opacity="0.25"/>
+                  <circle cx="6" cy="6" r="3" fill="#FAFAFA" fill-opacity="0.25"/>
+                  <circle cx="18" cy="6" r="3" fill="#FAFAFA" fill-opacity="0.25"/>
+                  <path d="M18 9v2c0 1.7-1.3 3-3 3h-6c-1.7 0-3-1.3-3-3V9"/>
+                  <path d="M12 15V9"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="space-y-2">
+              <h2 class="text-4xl sm:text-5xl font-extrabold text-[#FAFAFA] tracking-tight">${videoConfig.scene8.title}</h2>
+              <p class="text-xl text-zinc-300 font-medium">${videoConfig.scene8.subtitle}</p>
+            </div>
+
+            <div class="pt-2" style="opacity: ${btnP}; transform: translateY(${(1 - btnP) * 10}px);">
+              <div 
+                class="inline-flex items-center gap-4 px-7 py-3.5 rounded-xl font-mono text-sm tracking-tight transition-all duration-150 shadow-2xl border ${btnPress ? 'bg-[#141417] text-white border-emerald-500/80 ring-2 ring-emerald-500/30' : (btnHover ? 'bg-[#18181B] text-white border-zinc-700' : 'bg-[#141417] text-zinc-200 border-zinc-800')}"
+                style="transform: scale(${btnScale});"
+              >
+                <div class="flex items-center gap-2.5">
+                  <span class="text-emerald-400 font-extrabold">$</span>
+                  <span class="font-bold text-[#FAFAFA]">npx gfp init</span>
+                </div>
+                <div class="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden">
+                  ${btnPress ? `
+                    <span class="text-emerald-400 font-bold animate-in fade-in slide-in-from-bottom-1 duration-150">✔ Copied!</span>
+                  ` : `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-zinc-400"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    <span>Copy</span>
+                  `}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      sceneHost.innerHTML = html;
+      slider.value = frame;
+      slider.max = totalFrames;
+      
+      const mins = Math.floor(frame / (fps * 60));
+      const secs = (frame / fps) % 60;
+      timecodeBadge.innerText = `${String(mins).padStart(2, '0')}:${secs.toFixed(2).padStart(5, '0')} / 00:26.50`;
+      frameCounter.innerText = `Frame ${frame} / ${totalFrames} (${(frame / fps).toFixed(1)}s • 30 FPS)`;
+
+      if (sceneNum !== currentActiveScene) {
+        currentActiveScene = sceneNum;
+        highlightActiveTab(sceneNum);
+        updateEditorPanel(sceneNum);
+      }
+    }
+
+    function updateEditorPanel(sceneNum) {
+      let formHtml = '';
+
+      if (sceneNum === 1) {
+        formHtml = `
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-zinc-400 mb-1">Typewriter Text:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white font-mono text-xs" value="${videoConfig.scene1.typewriterText}" oninput="videoConfig.scene1.typewriterText = this.value; renderScene(currentFrame);">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-zinc-400 mb-1">Word 1:</label>
+                <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white font-mono text-xs" value="${videoConfig.scene1.word1}" oninput="videoConfig.scene1.word1 = this.value; renderScene(currentFrame);">
+              </div>
+              <div>
+                <label class="block text-zinc-400 mb-1">Color 1:</label>
+                <input type="color" class="w-full h-8 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer" value="${videoConfig.scene1.word1Color}" oninput="videoConfig.scene1.word1Color = this.value; renderScene(currentFrame);">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-zinc-400 mb-1">Word 2:</label>
+                <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white font-mono text-xs" value="${videoConfig.scene1.word2}" oninput="videoConfig.scene1.word2 = this.value; renderScene(currentFrame);">
+              </div>
+              <div>
+                <label class="block text-zinc-400 mb-1">Color 2:</label>
+                <input type="color" class="w-full h-8 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer" value="${videoConfig.scene1.word2Color}" oninput="videoConfig.scene1.word2Color = this.value; renderScene(currentFrame);">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-zinc-400 mb-1">Word 3:</label>
+                <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white font-mono text-xs" value="${videoConfig.scene1.word3}" oninput="videoConfig.scene1.word3 = this.value; renderScene(currentFrame);">
+              </div>
+              <div>
+                <label class="block text-zinc-400 mb-1">Color 3:</label>
+                <input type="color" class="w-full h-8 bg-zinc-900 border border-zinc-800 rounded-lg cursor-pointer" value="${videoConfig.scene1.word3Color}" oninput="videoConfig.scene1.word3Color = this.value; renderScene(currentFrame);">
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (sceneNum === 2) {
+        formHtml = `
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-zinc-400 mb-1">Badge:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs" value="${videoConfig.scene2.eyebrow}" oninput="videoConfig.scene2.eyebrow = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Title:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs font-bold" value="${videoConfig.scene2.title}" oninput="videoConfig.scene2.title = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Subtitle:</label>
+              <textarea class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs h-16" oninput="videoConfig.scene2.subtitle = this.value; renderScene(currentFrame);">${videoConfig.scene2.subtitle}</textarea>
+            </div>
+          </div>
+        `;
+      } else if (sceneNum === 3) {
+        formHtml = `
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-zinc-400 mb-1">Headline:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs" value="${videoConfig.scene3.headline}" oninput="videoConfig.scene3.headline = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Tab 1:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs mb-1" value="${videoConfig.scene3.tab1}" oninput="videoConfig.scene3.tab1 = this.value; renderScene(currentFrame);">
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-zinc-400 text-xs" value="${videoConfig.scene3.tab1Desc}" oninput="videoConfig.scene3.tab1Desc = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Tab 2:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs mb-1" value="${videoConfig.scene3.tab2}" oninput="videoConfig.scene3.tab2 = this.value; renderScene(currentFrame);">
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-zinc-400 text-xs" value="${videoConfig.scene3.tab2Desc}" oninput="videoConfig.scene3.tab2Desc = this.value; renderScene(currentFrame);">
+            </div>
+          </div>
+        `;
+      } else if (sceneNum === 4) {
+        formHtml = `
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-zinc-400 mb-1">Cut 1 Variable Pill:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-emerald-400 font-mono text-xs" value="${videoConfig.scene5.variablePill}" oninput="videoConfig.scene5.variablePill = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Cut 2 Lock Tag:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-emerald-400 font-mono text-xs" value="${videoConfig.scene5.lockId}" oninput="videoConfig.scene5.lockId = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Cut 3 Fast Metric:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white font-mono text-xs" value="${videoConfig.scene5.model1Time}" oninput="videoConfig.scene5.model1Time = this.value; renderScene(currentFrame);">
+            </div>
+          </div>
+        `;
+      } else {
+        formHtml = `
+          <div class="space-y-2.5">
+            <div>
+              <label class="block text-zinc-400 mb-1">Title:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs font-bold" value="${videoConfig.scene8.title}" oninput="videoConfig.scene8.title = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">Subtitle:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-white text-xs" value="${videoConfig.scene8.subtitle}" oninput="videoConfig.scene8.subtitle = this.value; renderScene(currentFrame);">
+            </div>
+            <div>
+              <label class="block text-zinc-400 mb-1">CTA Button Text:</label>
+              <input type="text" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-2 text-emerald-400 font-mono text-xs" value="${videoConfig.scene8.ctaText}" oninput="videoConfig.scene8.ctaText = this.value; renderScene(currentFrame);">
+            </div>
+          </div>
+        `;
+      }
+
+      editorPanelHost.innerHTML = formHtml;
+    }
+
+    function seekToScene(num) {
+      // Seek to hero keyframes for instant visual preview
+      const sceneFrames = { 1: 0, 2: 160, 3: 285, 4: 435, 5: 675 };
+      seekToFrame(sceneFrames[num] || 0);
+    }
+
+    let musicEnabled = true;
+    function getAudioEl() {
+      return document.getElementById('bgmAudio');
+    }
+
+    function toggleMusic() {
+      musicEnabled = !musicEnabled;
+      const btn = document.getElementById('musicToggleBtn');
+      const text = document.getElementById('musicBtnText');
+      const audio = getAudioEl();
+      if (musicEnabled) {
+        text.innerText = '🎵 Music: ON';
+        btn.className = 'px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-emerald-400 text-xs font-semibold rounded-lg border border-emerald-500/30 transition flex items-center gap-1.5';
+        if (isPlaying && audio) {
+          audio.currentTime = (currentFrame / fps);
+          audio.play().catch((e) => console.warn('Audio play prevented:', e));
+        }
+      } else {
+        text.innerText = '🔇 Music: OFF';
+        btn.className = 'px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-xs font-semibold rounded-lg border border-zinc-800 transition flex items-center gap-1.5';
+        if (audio) audio.pause();
+      }
+    }
+
+    const typingAudio = new Audio('launch-video/public/sfx/mixkit-keyboard-typing-1386.wav');
+    const enterAudio = new Audio('launch-video/public/sfx/keyboard_enter_holypanda.mp3');
+    const lockAudio = new Audio('launch-video/public/sfx/click_soft.mp3');
+    const popAudio = new Audio('launch-video/public/sfx/notification_pop.mp3');
+    const whooshAudio = new Audio('launch-video/public/sfx/mixkit-arrow-whoosh-1491.wav');
+    const mouseClickAudio = new Audio('launch-video/public/sfx/mixkit-mouse-click-close-1113.wav');
+    const chimeAudio = new Audio('launch-video/public/sfx/chime_success.mp3');
+
+    function startTyping(vol = 0.35) {
+      if (!musicEnabled) return;
+      try {
+        typingAudio.currentTime = 0;
+        typingAudio.volume = vol;
+        typingAudio.play().catch(() => {});
+      } catch(e) {}
+    }
+
+    function stopTyping() {
+      try {
+        typingAudio.pause();
+        typingAudio.currentTime = 0;
+      } catch(e) {}
+    }
+
+    function playOneShot(audio, vol = 0.4) {
+      if (!musicEnabled || !audio) return;
+      try {
+        audio.currentTime = 0;
+        audio.volume = vol;
+        audio.play().catch(() => {});
+      } catch(e) {}
+    }
+
+    function stopAllSfx() {
+      stopTyping();
+      [enterAudio, lockAudio, popAudio, whooshAudio, mouseClickAudio, chimeAudio].forEach(a => {
+        try { a.pause(); a.currentTime = 0; } catch(e) {}
+      });
+    }
+
+    function checkSfxTriggers(f) {
+      // Scene 1 Hero Prompt Typing & Final Lock on "history"
+      if (f === 4) startTyping(0.35);
+      else if (f === 54) stopTyping();
+      else if (f === 134) playOneShot(lockAudio, 0.30);
+      // Scene 2 Logo Tile Pop
+      else if (f === 160) playOneShot(popAudio, 0.38);
+      // Scene 3 Terminal CLI Typing Scenes + Enter Keystrokes
+      else if (f === 289) startTyping(0.30);
+      else if (f === 305) { stopTyping(); playOneShot(enterAudio, 0.38); }
+      else if (f === 323) startTyping(0.30);
+      else if (f === 343) { stopTyping(); playOneShot(enterAudio, 0.38); }
+      else if (f === 367) startTyping(0.30);
+      else if (f === 395) { stopTyping(); playOneShot(enterAudio, 0.38); }
+      else if (f === 420) playOneShot(chimeAudio, 0.35);
+      // Scene 4 Groq Speed Surge Whoosh
+      else if (f === 525) playOneShot(whooshAudio, 0.30);
+      // Scene 5 CTA Real Mouse Click & Celebration Chime
+      else if (f === 715) { playOneShot(mouseClickAudio, 0.45); playOneShot(chimeAudio, 0.35); }
+    }
+
+    function play() {
+      if (isPlaying) return;
+      isPlaying = true;
+      playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      playText.innerText = "Pause";
+
+      // Start Background Music
+      const audio = getAudioEl();
+      if (audio && musicEnabled) {
+        audio.volume = 0.55;
+        audio.currentTime = (currentFrame / fps);
+        audio.play().catch((e) => console.warn('Audio play prevented:', e));
+      }
+      
+      playInterval = setInterval(() => {
+        currentFrame += 1;
+        if (currentFrame > totalFrames) {
+          currentFrame = 0;
+          stopAllSfx();
+          if (audio) audio.currentTime = 0;
+        }
+
+        checkSfxTriggers(currentFrame);
+        renderScene(currentFrame);
+      }, 1000 / fps);
+    }
+
+    function pause() {
+      if (!isPlaying) return;
+      isPlaying = false;
+      playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      playText.innerText = "Play";
+      clearInterval(playInterval);
+
+      const audio = getAudioEl();
+      if (audio) audio.pause();
+      stopAllSfx();
+    }
+
+    function seekToFrame(f) {
+      currentFrame = Math.max(0, Math.min(totalFrames, f));
+      stopAllSfx();
+      const audio = getAudioEl();
+      if (audio && isPlaying) {
+        audio.currentTime = (currentFrame / fps);
+      }
+      renderScene(currentFrame);
+    }
+
+    function exportConfig() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(videoConfig, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "git_for_prompts_video_config.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    async function startTabRecording() {
+      const recordBtn = document.getElementById('recordVideoBtn');
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            displaySurface: "browser",
+            frameRate: 60,
+          },
+          audio: true,
+        });
+
+        const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')
+          ? 'video/webm;codecs=vp9,opus'
+          : 'video/webm';
+
+        const mediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+        const chunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) chunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'git-for-prompts-launch-video.webm';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+          recordBtn.innerHTML = '<span>🔴 Record & Export Video</span>';
+          recordBtn.classList.remove('bg-red-600', 'animate-pulse');
+          recordBtn.classList.add('bg-emerald-500');
+        };
+
+        mediaRecorder.start(100);
+        recordBtn.innerHTML = '<span>⏹️ Recording... (26.5s)</span>';
+        recordBtn.classList.remove('bg-emerald-500');
+        recordBtn.classList.add('bg-red-600', 'animate-pulse');
+
+        // Rewind and start playback cleanly from frame 0
+        seekToFrame(0);
+        play();
+
+        // Automatically stop recording when reaching the end of the video
+        setTimeout(() => {
+          pause();
+          if (mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+          }
+          stream.getTracks().forEach(t => t.stop());
+        }, (totalFrames / fps) * 1000 + 400);
+
+      } catch (err) {
+        console.warn("Screen recording canceled or not granted:", err);
+      }
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        pause();
+      } else {
+        play();
+      }
+    });
+
+    slider.addEventListener('input', (e) => {
+      pause();
+      seekToFrame(parseInt(e.target.value, 10));
+    });
+
+    // Boot
+    renderScene(0);
+    highlightActiveTab(1);
+    updateEditorPanel(1);
+  </script>
+  <audio id="bgmAudio" preload="auto" loop>
+    <source src="bgm.mp3" type="audio/mpeg">
+    <source src="launch-video/public/bgm.mp3" type="audio/mpeg">
+    <source src="public/bgm.mp3" type="audio/mpeg">
+    <source src="launch-video/public/Cosmonkey%20-%20Bubbles%20Drop%20-%20(320%20Kbps).mp3" type="audio/mpeg">
+  </audio>
+</body>
+</html>

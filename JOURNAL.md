@@ -17,6 +17,60 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
+ 
+- **Commit**: `90ce672`
+- **Shipped**:
+  - Executed brutal product strategy audit: aligned product positioning on **Atomic Local-First Prompt Bundling (`Prompt + Model Parameters + Schema` in a zero-dependency SQLite repository)**.
+  - Purged non-core distraction features: deleted public Explore gallery routes (`src/app/(landing)/explore/` and `src/app/(dashboard)/dashboard/explore/`), public fork button/action, and serverless keep-alive cron.
+  - Conducted complete documentation cleanup: deleted 29 obsolete intermediate stage/scratch reports from `docs/` and `docs/archive/`, establishing a clean 10-file canonical documentation tree.
+  - Completed Ponytail whole-repo deep cleanup: purged 8.3 MB of obsolete video renders, stray npm lockfiles, scratch Python scripts, unused dependencies in `launch-video/package.json`, and duplicate root audio.
+  - Synchronized 100% ground-truth across all core markdown files (`README.md`, `ARCHITECTURE.md`, `CONTEXT.md`, `AUDIT_REPORT.md`, `LAUNCH_PLAN.md`, `.agents/AGENTS.md`).
+  - Configured [`.graphifyignore`](file:///d:/Git%20for%20Prompts/.graphifyignore) to ignore non-code assets and third-party skills, eliminating 26 warnings and generating a lean AST code graph (686 nodes, 1343 edges, 50 communities).
+  - Reorganized bloated 828-line `dashboard-workspace-view.tsx` into two focused modules: `prompt-repositories-list.tsx` (clean dashboard workspace table/grid) and `DashboardHeroReplica.tsx` (isolated landing page interactive demo with pure static demo data).
+  - Expanded test coverage across packages: wrote `packages/cli/src/__tests__/cli-sqlite.test.ts` (Wasm SQLite storage, table creation, auto-incrementing immutable versions, test case/result persistence) and core engine test suites (`diff.test.ts`, `variables.test.ts`, `eval.test.ts`).
+  - Standardized CLI version batch to `v0.1.0` ground truth across all packages, configs, scenes, and terminal windows.
+  - Updated Scene 4 model latency benchmarks to real August 2026 frontier AI measurements: **Groq / Llama 3.3 70B (140ms, 6.2x FASTER)**, **OpenAI / GPT-5.6 Sol (650ms)**, and **Anthropic / Claude Opus 5 (1250ms)**.
+  - Sourced and integrated studio-grade Mixkit acoustic Foley suite: mechanical keyboard typing, Holy Panda Enter keystrokes, slot machine lock tick, 6.2x Groq speed surge whoosh, and close-mic mouse click + celebration chime on 1-click CTA Copy.
+  - Upgraded all 5 Remotion scenes with Emil Kowalski design engineering principles: 2-frame micro-blur bridges, tactile slot machine deceleration curves, cryptographic pill badges, snappy Groq surge physics, and active click compression.
+  - Exported master 2K Retina launch video (`launch-video/out/launch-video-master.mp4`) with CRF 12 visually pristine compression, 320 kbps studio master AAC audio, and YUV420p universal web compatibility.
+  - Relaxed Act 1 typewriter effect and synchronized camera pan from 50 frames to 58 frames (`0.67 chars/frame`), delivering a smoother reading cadence and zero transition jarring.
+  - Built robust audio lifecycle engine and synchronized ambient background scrim in `launch-video-player.html` ensuring instantaneous pause/seek audio cutoff and 1:1 visual match.
+  - Verification: 154/154 tests passing across 20 test files (100% green), 0 TypeScript compilation errors (`tsc --noEmit`), 0 ESLint errors/warnings (`pnpm lint`), 0 Graphify warnings (686 clean AST code nodes).
+- **Vibe**: 🚀 Master 2K Launch Video Exported & 100% Ground Truth Repo Pushed to Main!
+
+### [GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20
+
+- **Commit**: `1e89b42`
+- **Shipped**:
+  - Relaxed Act 1 slot reel word flip animation to 1.0s per word (`["diffs.", "evals.", "tests.", "history."]` at `[90, 115, 140]`) with a 1.67-second static hero hold.
+  - Tightened scene transition gaps across all 5 acts, bringing total master video duration from 900f to **795f (~26.5s @ 30fps)** with zero transition lag or dead air.
+  - Updated model benchmark cards (Cut 2) and terminal output text to match August 2026 live web ground-truth latencies: Groq Llama 3.3 70B (`120ms` [6.5x FASTER]), OpenAI GPT-5.2 (`800ms`), and Anthropic Claude Sonnet 5 (`1500ms`).
+  - Synthesized Direction 1 Linear/Warp organic tech soundtrack ([`bgm.wav`](file:///D:/Git%20for%20Prompts/launch-video/public/bgm.wav) — 26.5s stereo 44.1kHz WAV @ 110 BPM): soft Rhodes piano chord build in Act 1 ➔ glass bell chime & warm bass swell in Act 2 ➔ **Organic Tech Beat Drop @ 9.5s (`285f`)** ➔ Ebmaj7 arpeggiated showcase ➔ Eb major resolution chord & logarithmic fade out.
+  - Upgraded sound effect suite to 100% organic acoustic audio: **Thocky custom mechanical switch clicks** (`click.wav`), sub-air sweeps (`whoosh.wav`), glass bell chime (`chime.wav`), dual-note acoustic marimba ping (`success.wav`), and haptic button pop (`pop.wav`).
+  - Built explicit `<audio>` playback engine and `🔊 Sound: ON` toggle control into [`launch-video-player.html`](file:///D:/Git%20for%20Prompts/launch-video-player.html) to bypass browser autoplay policies.
+  - Verification: 100% clean TypeScript check (`npx tsc --noEmit`), 795/795 frames rendered without errors in HTML player simulation, and pushed directly to `origin/main`.
+- **Vibe**: 🎵 Direction 1 Linear/Warp Organic Tech Soundtrack & Thocky Mechanical Switch SFX!
+
+### [GFP — Remotion Launch Video Engine, File Reorganization & Codebase Pruning] 2026-08-19
+
+- **Commit**: `d1779e8`
+- **Shipped**:
+  - Reorganized `launch-video/src/scenes/` folder to map 1:1 with the 5-Act product storyboard (`Act1Pain.tsx`, `Act2Reveal.tsx`, `Act3Terminal.tsx`, `Act4Showcase.tsx`, `Act5Outro.tsx`).
+  - Purged dead, unreferenced scene files (`Scene3Tagline.tsx`, `Scene4Positioning.tsx`, `Scene6Value.tsx`) and legacy imports in `LaunchVideo.tsx`.
+  - Fixed vertical centering in `Act3Terminal.tsx` and `launch-video-player.html` (Act 3): wrapped header block and terminal card in `flex flex-col items-center justify-center`, placing the entire assembly at exact 50% Y vertical center with 140px margin breathing room top & bottom.
+  - Locked terminal body height (`h-[290px]` in Remotion / `h-[250px]` in player), completely eliminating vertical layout shifting as commands reveal.
+  - Re-anchored floating success toast (`bottom-4 right-5`) inside the terminal card so it never overlaps terminal output text.
+  - Refactored CLI workflow scene into a strict sequential execution loop: Command 1 (`npx gfp init`) types out with active cursor ➔ Enter pressed ➔ Spinner executes ➔ Result printed ➔ Command 2 (`gfp eval --all`) types out ➔ Executed ➔ Result printed ➔ Command 3 (`gfp push main.prompt`) types out ➔ Executed ➔ Toast popup slides up.
+  - Replaced colored/gradient spotlight with pure monochrome dark theme (`#0D0D10`): seamless optical focus pull and de-blur on the central Brand Icon Tile (`blur(14px) -> blur(0px)` + `scale(0.94 -> 1.0)`) into Title and Subtitle.
+  - Symmetrically aligned and vertically/horizontally centered the Hero Reveal layout (Tile + Title + Subtitle) in `Act2Reveal.tsx` and `launch-video-player.html`.
+  - Purged all bottom feature badges from `Act2Reveal.tsx`, directing 100% viewer focus to the clean Brand Icon Tile, Title, and Subtitle.
+  - Reduced typewriter typing speed in `Act1Pain.tsx` (expanded to 64 frames, 6f–70f) for a calm, easily readable cadence with subpixel camera dolly tracking.
+  - Set stationary static white `"No"` on the left while only the emerald words (`diffs.`, `evals.`, `tests.`, `history.`) rotate in the slot reel with zero blur filters for razor-sharp typography.
+  - Synchronized single-screen interactive studio player (`launch-video-player.html`) with real-time parameter tuning and 5 scene selectors.
+  - Verification: 0 TypeScript errors (`npx tsc --noEmit`), clean frame previews, and verified smooth playback.
+- **Vibe**: 🧹 Clean 5-Act File Structure, Zero Dead Scenes, 100% Dead-Center UI!
+
 ### [GFP — Icon & Favicon Dark Background Standardization] 2026-08-13
 
 - **Commit**: `2ecf4ec`

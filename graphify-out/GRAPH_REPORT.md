@@ -1,243 +1,206 @@
-# Graph Report - Git for Prompts  (2026-08-14)
+# Graph Report - Git for Prompts  (2026-08-21)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 158 files · ~66,448 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 844 nodes · 1515 edges · 82 communities (62 shown, 20 thin omitted)
+- 683 nodes · 1338 edges · 52 communities (45 shown, 7 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 14 edges (avg confidence: 0.52)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a1350816`
+- Built from commit: `ccdf167c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- core/src/index.ts
-- prompts.ts
-- compilerOptions
-- devDependencies
-- ui-tokens.tsx
-- tests.ts
-- cli/src/index.ts
-- prompt-editor.tsx
-- sqlite.ts
-- cli/package.json
 - getAuthUserId
-- components.json
-- api-keys.ts
-- compilerOptions
-- prompts
+- core/src/index.ts
+- test-runner.tsx
+- ui-tokens.tsx
+- sqlite.ts
+- versions.ts
+- prompt-editor.tsx
+- SqliteStorageAdapter
+- tests.ts
 - ai.ts
-- db/index.ts
-- schema.ts
 - actions/webhooks.ts
-- (landing)/explore/page.tsx
-- 0000_sparkling_scrambler.sql
-- rate-limit.ts
+- StorageAdapter
 - [[...sign-in]]/page.tsx
-- dependencies
-- .prettierrc.json
-- scripts
-- ssrf.ts
-- dashboard/page.tsx
+- Validation Playbook — Git for Prompts
 - brand-logo.tsx
-- package.json
-- @clerk/themes
 - opengraph-image.tsx
 - status/route.ts
 - proxy.ts
-- 0004_audit_fixes.sql
-- "webhooks"
-- date-fns
 - eslint.config.mjs
-- lucide-react
-- @monaco-editor/react
-- next
 - next.config.ts
-- postgres
-- react
-- react-hook-form
-- @upstash/ratelimit
-- @upstash/redis
-- @vercel/analytics
-- zod
 - postcss.config.mjs
-- vercel.json
+- README.md
+- ARCHITECTURE.md — The Technical Blueprint (V2)
+- AI fills and maintains this via @GRILL. You rarely edit this manually.
+- 2. Deep Module-by-Module Audit
+- Log Entries
+- 2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps)
+- Git for Prompts — Design System Specification
+- compare-runner.tsx
+- Threat Model — Git for Prompts
+- API Security Matrix
+- ssrf.ts
+- diff-version-selector.tsx
 
 ## God Nodes (most connected - your core abstractions)
-1. `getAuthUserId()` - 46 edges
-2. `db` - 33 edges
-3. `prompts` - 21 edges
-4. `versions` - 21 edges
-5. `getDbPath()` - 20 edges
-6. `createSqliteAdapter()` - 20 edges
-7. `SqliteStorageAdapter` - 18 edges
-8. `checkRateLimit()` - 17 edges
-9. `compilerOptions` - 17 edges
-10. `compilerOptions` - 16 edges
+1. `getAuthUserId()` - 45 edges
+2. `db` - 28 edges
+3. `createSqliteAdapter()` - 21 edges
+4. `getDbPath()` - 20 edges
+5. `SqliteStorageAdapter` - 18 edges
+6. `checkRateLimit()` - 17 edges
+7. `prompts` - 16 edges
+8. `versions` - 16 edges
+9. `StorageAdapter` - 15 edges
+10. `query()` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `exclude` --extends--> `node_modules`  [EXTRACTED]
-  packages/cli/tsconfig.json → tsconfig.json
-- `exclude` --extends--> `node_modules`  [EXTRACTED]
-  packages/core/tsconfig.json → tsconfig.json
-- `createPrompt()` --calls--> `getAuthUserId()`  [EXTRACTED]
-  src/lib/actions/prompts.ts → src/lib/auth.ts
-- `createPrompt()` --calls--> `checkRateLimit()`  [EXTRACTED]
-  src/lib/actions/prompts.ts → src/lib/rate-limit.ts
-- `deletePrompt()` --calls--> `getAuthUserId()`  [EXTRACTED]
-  src/lib/actions/prompts.ts → src/lib/auth.ts
+- `POST()` --calls--> `fireWebhooks()`  [EXTRACTED]
+  src/app/api/v1/prompts/[id]/versions/route.ts → src/lib/webhooks.ts
+- `ComparePage()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx → src/lib/auth.ts
+- `generateMetadata()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx → src/lib/auth.ts
+- `DiffPage()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx → src/lib/auth.ts
+- `generateMetadata()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx → src/lib/auth.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (82 total, 20 thin omitted)
+## Communities (52 total, 7 thin omitted)
 
-### Community 0 - "core/src/index.ts"
-Cohesion: 0.06
-Nodes (49): DEFAULT_AI_TIMEOUT_MS, DEFAULT_GROQ_EVALUATION_MODEL, DEFAULT_GROQ_EXECUTION_MODEL, DEFAULT_MAX_CONCURRENT_TESTS, DEFAULT_OPENROUTER_EVALUATION_MODEL, DEFAULT_OPENROUTER_EXECUTION_MODEL, GROQ_URL, OPENROUTER_URL (+41 more)
+### Community 0 - "getAuthUserId"
+Cohesion: 0.05
+Nodes (75): dynamic, maxDuration, dynamic, GET(), bodySchema, dynamic, POST(), createPromptBodySchema (+67 more)
 
-### Community 1 - "prompts.ts"
+### Community 1 - "core/src/index.ts"
 Cohesion: 0.09
-Nodes (34): dynamic, metadata, CreatePromptForm(), CreateSamplePromptButton(), ForkButton(), ForkButtonProps, emptySubscribe(), getOrigin() (+26 more)
+Nodes (48): DEFAULT_AI_TIMEOUT_MS, DEFAULT_GROQ_EVALUATION_MODEL, DEFAULT_GROQ_EXECUTION_MODEL, DEFAULT_MAX_CONCURRENT_TESTS, DEFAULT_OPENROUTER_EVALUATION_MODEL, DEFAULT_OPENROUTER_EXECUTION_MODEL, GROQ_URL, OPENROUTER_URL (+40 more)
 
-### Community 2 - "compilerOptions"
-Cohesion: 0.04
-Nodes (46): compilerOptions, declaration, esModuleInterop, forceConsistentCasingInFileNames, isolatedModules, module, moduleResolution, outDir (+38 more)
+### Community 2 - "test-runner.tsx"
+Cohesion: 0.16
+Nodes (14): TestCaseCard(), TestCaseCardProps, TestResult, AddTestCaseForm, addTestCaseSchema, TestRunner(), TestRunnerProps, TestCase (+6 more)
 
-### Community 3 - "devDependencies"
-Cohesion: 0.04
-Nodes (45): dotenv, drizzle-kit, eslint, eslint-config-next, devDependencies, dotenv, drizzle-kit, eslint (+37 more)
-
-### Community 4 - "ui-tokens.tsx"
+### Community 3 - "ui-tokens.tsx"
 Cohesion: 0.07
-Nodes (32): dynamic, Home(), instrumentSerif, metadata, plusJakartaSans, DashboardWorkspaceView(), DashboardWorkspaceViewProps, PromptRepositoriesListProps (+24 more)
+Nodes (34): dynamic, Home(), instrumentSerif, metadata, plusJakartaSans, PromptRepositoriesList(), PromptRepositoriesListProps, PromptWithStats (+26 more)
 
-### Community 5 - "tests.ts"
+### Community 4 - "sqlite.ts"
+Cohesion: 0.10
+Nodes (38): AddOptions, cmdAdd(), AuthOptions, cmdAuth(), cmdDiff(), cmdHistory(), cmdInit(), cmdList() (+30 more)
+
+### Community 5 - "versions.ts"
 Cohesion: 0.08
-Nodes (33): CompareRunner(), CompareRunnerProps, DiffVersionSelector(), DiffVersionSelectorProps, Version, CellStatus, TestCase, useCompareRunner() (+25 more)
+Nodes (35): dynamic, metadata, CreatePromptForm(), CreateSamplePromptButton(), emptySubscribe(), getOrigin(), getSSROrigin(), PromptDetailClient() (+27 more)
 
-### Community 6 - "cli/src/index.ts"
-Cohesion: 0.12
-Nodes (33): AddOptions, cmdAdd(), AuthOptions, cmdAuth(), cmdDiff(), cmdHistory(), cmdInit(), cmdList() (+25 more)
-
-### Community 7 - "prompt-editor.tsx"
+### Community 6 - "prompt-editor.tsx"
 Cohesion: 0.09
 Nodes (25): DiffStats, DiffViewer(), DiffViewerProps, MonacoDiffEditor, StandaloneDiffEditor, BundleModelTab(), BundleModelTabProps, DEFAULT_MODELS (+17 more)
 
-### Community 8 - "sqlite.ts"
-Cohesion: 0.15
-Nodes (10): runMigrations(), mapPrompt(), mapTestCase(), mapTestResult(), mapVersion(), parseBundle(), parseVariables(), query() (+2 more)
+### Community 7 - "SqliteStorageAdapter"
+Cohesion: 0.19
+Nodes (5): mapPrompt(), mapTestCase(), mapTestResult(), query(), SqliteStorageAdapter
 
-### Community 9 - "cli/package.json"
-Cohesion: 0.07
-Nodes (27): commander, @gfp/core, @gfp/core, bin, gfp, dependencies, commander, @gfp/core (+19 more)
+### Community 8 - "tests.ts"
+Cohesion: 0.22
+Nodes (11): RFC-4122, ComparisonResult, TestCaseOutcome, createApiKeySchema, deleteApiKeySchema, createTestCaseSchema, deleteTestCaseSchema, runComparisonSchema (+3 more)
 
-### Community 10 - "getAuthUserId"
-Cohesion: 0.13
-Nodes (20): ComparePage(), dynamic, generateMetadata(), DiffPage(), dynamic, generateMetadata(), Version, dynamic (+12 more)
+### Community 9 - "ai.ts"
+Cohesion: 0.16
+Nodes (17): POST(), AIPurpose, AIResponse, callAI(), evaluateOutput(), evaluationResultSchema, extractJson(), fetchWithTimeout() (+9 more)
 
-### Community 11 - "components.json"
-Cohesion: 0.09
-Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent (+13 more)
-
-### Community 12 - "api-keys.ts"
-Cohesion: 0.17
-Nodes (16): RFC-4122, ApiKeysPage(), dynamic, metadata, ApiKeyRow, ApiKeysManager(), emptySubscribe(), getOrigin() (+8 more)
-
-### Community 13 - "compilerOptions"
-Cohesion: 0.10
-Nodes (21): dom, dom.iterable, esnext, vitest/globals, compilerOptions, allowJs, esModuleInterop, incremental (+13 more)
-
-### Community 14 - "prompts"
-Cohesion: 0.11
-Nodes (10): dynamic, dynamic, Props, dynamic, metadata, Props, revalidate, prompts (+2 more)
-
-### Community 15 - "ai.ts"
-Cohesion: 0.15
-Nodes (18): POST(), testResults, AIPurpose, AIResponse, callAI(), evaluateOutput(), evaluationResultSchema, extractJson() (+10 more)
-
-### Community 16 - "db/index.ts"
-Cohesion: 0.32
-Nodes (7): dynamic, GET(), db, globalForDb, authenticateApiKey(), AuthenticatedKey, touchApiKeyLastUsed()
-
-### Community 17 - "schema.ts"
-Cohesion: 0.15
-Nodes (15): dynamic, maxDuration, bodySchema, dynamic, POST(), promptsCurrentVersionFk, promptsRelations, testCases (+7 more)
-
-### Community 18 - "actions/webhooks.ts"
+### Community 10 - "actions/webhooks.ts"
 Cohesion: 0.18
 Nodes (13): dynamic, metadata, WebhooksPage(), Webhook, WebhooksClient(), WebhooksClientProps, DeleteConfirmButton(), DeleteConfirmButtonProps (+5 more)
 
-### Community 19 - "(landing)/explore/page.tsx"
-Cohesion: 0.22
-Nodes (11): ExploreClient(), PublicPrompt, dynamic, ExplorePage(), getPublicPrompts(), metadata, emptySubscribe(), getRelativeTimeString() (+3 more)
-
-### Community 20 - "0000_sparkling_scrambler.sql"
-Cohesion: 0.18
-Nodes (10): "public"."test_cases", "api_keys", "prompts", "public"."prompts", "public"."versions", "test_cases", "test_results", "versions" (+2 more)
-
-### Community 21 - "rate-limit.ts"
-Cohesion: 0.20
-Nodes (12): createPromptBodySchema, dynamic, GET(), POST(), checkRateLimit(), cleanupExpiredInProcessEntries(), getExpensiveRatelimit(), getStandardRatelimit() (+4 more)
-
-### Community 22 - "[[...sign-in]]/page.tsx"
+### Community 12 - "[[...sign-in]]/page.tsx"
 Cohesion: 0.20
 Nodes (5): hasClerkKeys, metadata, hasClerkKeys, metadata, clerkAppearance
 
-### Community 23 - "dependencies"
-Cohesion: 0.18
-Nodes (11): @clerk/nextjs, drizzle-orm, @hookform/resolvers, dependencies, @clerk/nextjs, drizzle-orm, @hookform/resolvers, react-dom (+3 more)
+### Community 13 - "Validation Playbook — Git for Prompts"
+Cohesion: 0.08
+Nodes (23): Cold DM on X — If They Said Something Broke, Cold DM on X (Twitter) — Short Version, DM on Discord, ❌ No validation (wrong audience):, On Discord, On Indie Hackers (indiehackers.com), On Reddit, On X (Twitter) (+15 more)
 
-### Community 24 - ".prettierrc.json"
-Cohesion: 0.18
-Nodes (10): arrowParens, bracketSpacing, endOfLine, jsxSingleQuote, printWidth, semi, singleQuote, tabWidth (+2 more)
-
-### Community 25 - "scripts"
-Cohesion: 0.20
-Nodes (10): scripts, build, dev, kill, lint, save, start, test (+2 more)
-
-### Community 26 - "ssrf.ts"
-Cohesion: 0.43
-Nodes (5): RFC-1918, DnsLookupFn, isPrivateOrReservedIp(), SsrfValidationResult, validateWebhookUrl()
-
-### Community 27 - "dashboard/page.tsx"
-Cohesion: 0.33
-Nodes (6): DashboardPage(), dynamic, getPromptsWithStats(), metadata, PromptRepositoriesList(), apiKeys
-
-### Community 29 - "package.json"
-Cohesion: 0.40
-Nodes (4): name, packageManager, private, version
-
-### Community 31 - "opengraph-image.tsx"
+### Community 15 - "opengraph-image.tsx"
 Cohesion: 0.40
 Nodes (3): alt, contentType, size
 
-### Community 33 - "proxy.ts"
+### Community 17 - "proxy.ts"
 Cohesion: 0.50
 Nodes (3): config, hasClerkKeys, isProtected
 
+### Community 40 - "README.md"
+Cohesion: 0.10
+Nodes (19): Code of Conduct, Contributing to Git for Prompts, Development Setup, How Can I Contribute?, Pull Requests, Reporting Bugs, Style Guide, Suggesting Enhancements (+11 more)
+
+### Community 41 - "ARCHITECTURE.md — The Technical Blueprint (V2)"
+Cohesion: 0.11
+Nodes (18): 1. PROJECT OVERVIEW & BUSINESS LOGIC, 2. SYSTEM ARCHITECTURE, 3. DATABASE SCHEMA (V2), 4. DEEP MODULE ARCHITECTURE & SEAMS, 5. SYNC PROTOCOL (cloud ↔ local), 6. ADRs — Architecture Decision Records, ARCHITECTURE.md — The Technical Blueprint (V2), Bundle JSON Schema (stored in `bundle` column) (+10 more)
+
+### Community 42 - "AI fills and maintains this via @GRILL. You rarely edit this manually."
+Cohesion: 0.14
+Nodes (13): ADRs — Architecture Decision Records, AI fills and maintains this via @GRILL. You rarely edit this manually., Bugs Fixed, Business Rules (Never Break), CONTEXT.md — Domain Language, Core Entities, Database Schema, Feature Status (+5 more)
+
+### Community 43 - "2. Deep Module-by-Module Audit"
+Cohesion: 0.18
+Nodes (10): 1. Executive Summary & Health Check, 2. Deep Module-by-Module Audit, 3. Findings & Potential Edge Cases Analyzed, 4. Final Verdict, A. Database Layer (`src/db/`), B. Server Actions & Business Logic (`src/lib/actions/`), C. Public REST API Routes (`src/app/api/v1/`), Comprehensive Codebase & Architecture Audit Report (+2 more)
+
+### Community 44 - "Log Entries"
+Cohesion: 0.18
+Nodes (10): [GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20, [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21, [GFP — Color Token Purge, Vercel Pure Black Migration & Build Optimizations] 2026-08-10, [GFP — Hero Dashboard Replica, Mobile Overhaul, SEO & GitHub Actions CI Fix] 2026-08-12, [GFP — Icon & Favicon Dark Background Standardization] 2026-08-13, [GFP — Master Design System, Motion Engineering, P0 Security Engine & CI Hardening] 2026-08-11, [GFP — Remotion Launch Video Engine, File Reorganization & Codebase Pruning] 2026-08-19, How to Maintain This Journal (For the Agent) (+2 more)
+
+### Community 45 - "2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps)"
+Cohesion: 0.22
+Nodes (8): 1. Overview, 2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps), Act 1: The Pain (0.0s – 5.33s / Frames 0 – 160), Act 2: Hero Reveal (5.33s – 9.50s / Frames 160 – 285), Act 3: Terminal CLI Workflow (9.50s – 14.50s / Frames 285 – 435), Act 4: Deep Tech Showcase (14.50s – 22.50s / Frames 435 – 675), Act 5: Outro & CTA (22.50s – 26.50s / Frames 675 – 795), Git for Prompts — Master 26.5s Launch Video Specification
+
+### Community 46 - "Git for Prompts — Design System Specification"
+Cohesion: 0.25
+Nodes (7): 1. Product Identity & Aesthetics, 2. Color Palette & Dark Theme Tokens, 3. Typography Hierarchy, 4. Motion & Micro-Interactions, 5. Touch Target & Accessibility Standards, Git for Prompts — Design System Specification, Semantic Badges & Accents
+
+### Community 47 - "compare-runner.tsx"
+Cohesion: 0.24
+Nodes (9): CompareRunner(), CompareRunnerProps, CellStatus, TestCase, useCompareRunner(), Version, VersionResults, runComparisonForVersions() (+1 more)
+
+### Community 48 - "Threat Model — Git for Prompts"
+Cohesion: 0.40
+Nodes (4): 1. Attacker Personas, 2. Asset Inventory & Protection Requirements, 3. Vulnerability Vector Evaluation Matrix, Threat Model — Git for Prompts
+
+### Community 50 - "ssrf.ts"
+Cohesion: 0.43
+Nodes (5): RFC-1918, DnsLookupFn, isPrivateOrReservedIp(), SsrfValidationResult, validateWebhookUrl()
+
+### Community 51 - "diff-version-selector.tsx"
+Cohesion: 0.43
+Nodes (4): DiffVersionSelector(), DiffVersionSelectorProps, Version, formatVersionLabel()
+
 ## Knowledge Gaps
-- **288 isolated node(s):** `ForkButtonProps`, `PromptDetailClientProps`, `Version`, `PromptSubnavProps`, `Version` (+283 more)
+- **213 isolated node(s):** `How to Maintain This Journal (For the Agent)`, `[GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21`, `[GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20`, `[GFP — Remotion Launch Video Engine, File Reorganization & Codebase Pruning] 2026-08-19`, `[GFP — Icon & Favicon Dark Background Standardization] 2026-08-13` (+208 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getAuthUserId()` connect `getAuthUserId` to `prompts.ts`, `tests.ts`, `api-keys.ts`, `actions/webhooks.ts`, `dashboard/page.tsx`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
-- **Why does `db` connect `db/index.ts` to `prompts.ts`, `tests.ts`, `getAuthUserId`, `api-keys.ts`, `prompts`, `ai.ts`, `schema.ts`, `actions/webhooks.ts`, `(landing)/explore/page.tsx`, `rate-limit.ts`, `dashboard/page.tsx`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Why does `devDependencies` connect `devDependencies` to `package.json`?**
-  _High betweenness centrality (0.011) - this node is a cross-community bridge._
-- **What connects `ForkButtonProps`, `PromptDetailClientProps`, `Version` to the rest of the system?**
-  _288 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `getAuthUserId()` connect `getAuthUserId` to `test-runner.tsx`, `versions.ts`, `tests.ts`, `actions/webhooks.ts`, `compare-runner.tsx`?**
+  _High betweenness centrality (0.046) - this node is a cross-community bridge._
+- **Why does `db` connect `getAuthUserId` to `tests.ts`, `ai.ts`, `actions/webhooks.ts`, `versions.ts`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `DashboardSidebar()` connect `ui-tokens.tsx` to `getAuthUserId`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **What connects `How to Maintain This Journal (For the Agent)`, `[GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21`, `[GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20` to the rest of the system?**
+  _213 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `getAuthUserId` be split into smaller, more focused modules?**
+  _Cohesion score 0.050314465408805034 - nodes in this community are weakly interconnected._
 - **Should `core/src/index.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.05875251509054326 - nodes in this community are weakly interconnected._
-- **Should `prompts.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.08816326530612245 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08531073446327683 - nodes in this community are weakly interconnected._
+- **Should `ui-tokens.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.06972789115646258 - nodes in this community are weakly interconnected._
