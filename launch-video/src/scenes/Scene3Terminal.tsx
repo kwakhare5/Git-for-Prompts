@@ -28,6 +28,8 @@ export const Scene3Terminal: React.FC = () => {
   const spinIndex = Math.floor(local / 3) % spinnerChars.length;
   const currentSpinner = spinnerChars[spinIndex];
 
+  const cursorBlink = Math.floor(local / 8) % 2 === 0;
+
   return (
     <div className="w-full h-full flex items-center justify-center font-sans bg-transparent select-none px-20">
       <div className="w-full max-w-[820px] bg-[#121214] border border-zinc-800/90 rounded-2xl overflow-hidden shadow-2xl font-mono text-xs text-left my-auto">
@@ -50,7 +52,12 @@ export const Scene3Terminal: React.FC = () => {
             <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
               <span className="text-emerald-400 font-extrabold">$</span>
               <span>{cmd1.slice(0, cmd1TypedChars)}</span>
-              {showCmd1Cursor && <span className="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse" />}
+              {showCmd1Cursor && (
+                <span 
+                  className="inline-block w-2.5 h-5 bg-emerald-400" 
+                  style={{ opacity: cursorBlink ? 1 : 0 }} 
+                />
+              )}
             </div>
             {cmd1Running && (
               <div className="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6">
@@ -71,7 +78,12 @@ export const Scene3Terminal: React.FC = () => {
               <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
                 <span className="text-emerald-400 font-extrabold">$</span>
                 <span>{cmd2.slice(0, cmd2TypedChars)}</span>
-                {showCmd2Cursor && <span className="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse" />}
+                {showCmd2Cursor && (
+                  <span 
+                    className="inline-block w-2.5 h-5 bg-emerald-400" 
+                    style={{ opacity: cursorBlink ? 1 : 0 }} 
+                  />
+                )}
               </div>
               {cmd2Running && (
                 <div className="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6">
@@ -93,7 +105,12 @@ export const Scene3Terminal: React.FC = () => {
               <div className="flex items-center gap-3 text-sm sm:text-base font-bold text-white">
                 <span className="text-emerald-400 font-extrabold">$</span>
                 <span>{cmd3.slice(0, cmd3TypedChars)}</span>
-                {showCmd3Cursor && <span className="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse" />}
+                {showCmd3Cursor && (
+                  <span 
+                    className="inline-block w-2.5 h-5 bg-emerald-400" 
+                    style={{ opacity: cursorBlink ? 1 : 0 }} 
+                  />
+                )}
               </div>
               {cmd3Running && (
                 <div className="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6">
