@@ -7,7 +7,7 @@ export default defineConfig({
   out: './src/db/migrations',
   dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.DATABASE_URL || 'postgres://postgres:password@localhost:5432/git_for_prompts_test',
   },
   verbose: true,
   strict: false,
