@@ -5,25 +5,25 @@
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 686 nodes · 1343 edges · 50 communities (43 shown, 7 thin omitted)
+- 683 nodes · 1338 edges · 52 communities (45 shown, 7 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 14 edges (avg confidence: 0.52)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `76e2ee68`
+- Built from commit: `ccdf167c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - getAuthUserId
 - core/src/index.ts
-- tests.ts
+- test-runner.tsx
 - ui-tokens.tsx
-- createSqliteAdapter
+- sqlite.ts
 - versions.ts
 - prompt-editor.tsx
-- sqlite.ts
-- api-keys.ts
+- SqliteStorageAdapter
+- tests.ts
 - ai.ts
 - actions/webhooks.ts
 - StorageAdapter
@@ -43,9 +43,11 @@
 - Log Entries
 - 2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps)
 - Git for Prompts — Design System Specification
-- relative-time.tsx
+- compare-runner.tsx
 - Threat Model — Git for Prompts
 - API Security Matrix
+- ssrf.ts
+- diff-version-selector.tsx
 
 ## God Nodes (most connected - your core abstractions)
 1. `getAuthUserId()` - 45 edges
@@ -60,65 +62,65 @@
 10. `query()` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `createSqliteAdapter()` --calls--> `runMigrations()`  [EXTRACTED]
-  packages/cli/src/db/sqlite.ts → packages/cli/src/db/migrations.ts
-- `ApiKeysPage()` --calls--> `getAuthUserId()`  [EXTRACTED]
-  src/app/(dashboard)/dashboard/api-keys/page.tsx → src/lib/auth.ts
-- `generateMetadata()` --calls--> `getAuthUserId()`  [EXTRACTED]
-  src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx → src/lib/auth.ts
+- `POST()` --calls--> `fireWebhooks()`  [EXTRACTED]
+  src/app/api/v1/prompts/[id]/versions/route.ts → src/lib/webhooks.ts
 - `ComparePage()` --calls--> `getAuthUserId()`  [EXTRACTED]
   src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx → src/lib/auth.ts
+- `generateMetadata()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx → src/lib/auth.ts
+- `DiffPage()` --calls--> `getAuthUserId()`  [EXTRACTED]
+  src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx → src/lib/auth.ts
 - `generateMetadata()` --calls--> `getAuthUserId()`  [EXTRACTED]
   src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx → src/lib/auth.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (50 total, 7 thin omitted)
+## Communities (52 total, 7 thin omitted)
 
 ### Community 0 - "getAuthUserId"
-Cohesion: 0.06
-Nodes (59): dynamic, maxDuration, dynamic, GET(), bodySchema, dynamic, POST(), createPromptBodySchema (+51 more)
+Cohesion: 0.05
+Nodes (75): dynamic, maxDuration, dynamic, GET(), bodySchema, dynamic, POST(), createPromptBodySchema (+67 more)
 
 ### Community 1 - "core/src/index.ts"
 Cohesion: 0.09
 Nodes (48): DEFAULT_AI_TIMEOUT_MS, DEFAULT_GROQ_EVALUATION_MODEL, DEFAULT_GROQ_EXECUTION_MODEL, DEFAULT_MAX_CONCURRENT_TESTS, DEFAULT_OPENROUTER_EVALUATION_MODEL, DEFAULT_OPENROUTER_EXECUTION_MODEL, GROQ_URL, OPENROUTER_URL (+40 more)
 
-### Community 2 - "tests.ts"
-Cohesion: 0.07
-Nodes (34): RFC-4122, CompareRunner(), CompareRunnerProps, DiffVersionSelector(), DiffVersionSelectorProps, Version, CellStatus, TestCase (+26 more)
+### Community 2 - "test-runner.tsx"
+Cohesion: 0.16
+Nodes (14): TestCaseCard(), TestCaseCardProps, TestResult, AddTestCaseForm, addTestCaseSchema, TestRunner(), TestRunnerProps, TestCase (+6 more)
 
 ### Community 3 - "ui-tokens.tsx"
 Cohesion: 0.07
 Nodes (34): dynamic, Home(), instrumentSerif, metadata, plusJakartaSans, PromptRepositoriesList(), PromptRepositoriesListProps, PromptWithStats (+26 more)
 
-### Community 4 - "createSqliteAdapter"
-Cohesion: 0.12
-Nodes (33): AddOptions, cmdAdd(), AuthOptions, cmdAuth(), cmdDiff(), cmdHistory(), cmdInit(), cmdList() (+25 more)
+### Community 4 - "sqlite.ts"
+Cohesion: 0.10
+Nodes (38): AddOptions, cmdAdd(), AuthOptions, cmdAuth(), cmdDiff(), cmdHistory(), cmdInit(), cmdList() (+30 more)
 
 ### Community 5 - "versions.ts"
-Cohesion: 0.09
-Nodes (32): dynamic, metadata, CreatePromptForm(), CreateSamplePromptButton(), emptySubscribe(), getOrigin(), getSSROrigin(), PromptDetailClient() (+24 more)
+Cohesion: 0.08
+Nodes (35): dynamic, metadata, CreatePromptForm(), CreateSamplePromptButton(), emptySubscribe(), getOrigin(), getSSROrigin(), PromptDetailClient() (+27 more)
 
 ### Community 6 - "prompt-editor.tsx"
 Cohesion: 0.09
 Nodes (25): DiffStats, DiffViewer(), DiffViewerProps, MonacoDiffEditor, StandaloneDiffEditor, BundleModelTab(), BundleModelTabProps, DEFAULT_MODELS (+17 more)
 
-### Community 7 - "sqlite.ts"
-Cohesion: 0.15
-Nodes (10): runMigrations(), mapPrompt(), mapTestCase(), mapTestResult(), mapVersion(), parseBundle(), parseVariables(), query() (+2 more)
+### Community 7 - "SqliteStorageAdapter"
+Cohesion: 0.19
+Nodes (5): mapPrompt(), mapTestCase(), mapTestResult(), query(), SqliteStorageAdapter
 
-### Community 8 - "api-keys.ts"
-Cohesion: 0.18
-Nodes (15): ApiKeysPage(), dynamic, metadata, ApiKeyRow, ApiKeysManager(), emptySubscribe(), getOrigin(), getSSROrigin() (+7 more)
+### Community 8 - "tests.ts"
+Cohesion: 0.22
+Nodes (11): RFC-4122, ComparisonResult, TestCaseOutcome, createApiKeySchema, deleteApiKeySchema, createTestCaseSchema, deleteTestCaseSchema, runComparisonSchema (+3 more)
 
 ### Community 9 - "ai.ts"
 Cohesion: 0.16
 Nodes (17): POST(), AIPurpose, AIResponse, callAI(), evaluateOutput(), evaluationResultSchema, extractJson(), fetchWithTimeout() (+9 more)
 
 ### Community 10 - "actions/webhooks.ts"
-Cohesion: 0.11
-Nodes (21): RFC-1918, dynamic, metadata, WebhooksPage(), Webhook, WebhooksClient(), WebhooksClientProps, DeleteConfirmButton() (+13 more)
+Cohesion: 0.18
+Nodes (13): dynamic, metadata, WebhooksPage(), Webhook, WebhooksClient(), WebhooksClientProps, DeleteConfirmButton(), DeleteConfirmButtonProps (+5 more)
 
 ### Community 12 - "[[...sign-in]]/page.tsx"
 Cohesion: 0.20
@@ -164,33 +166,41 @@ Nodes (8): 1. Overview, 2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps),
 Cohesion: 0.25
 Nodes (7): 1. Product Identity & Aesthetics, 2. Color Palette & Dark Theme Tokens, 3. Typography Hierarchy, 4. Motion & Micro-Interactions, 5. Touch Target & Accessibility Standards, Git for Prompts — Design System Specification, Semantic Badges & Accents
 
-### Community 47 - "relative-time.tsx"
-Cohesion: 0.60
-Nodes (5): emptySubscribe(), getRelativeTimeString(), getServerSnapshot(), getSnapshot(), RelativeTime()
+### Community 47 - "compare-runner.tsx"
+Cohesion: 0.24
+Nodes (9): CompareRunner(), CompareRunnerProps, CellStatus, TestCase, useCompareRunner(), Version, VersionResults, runComparisonForVersions() (+1 more)
 
 ### Community 48 - "Threat Model — Git for Prompts"
 Cohesion: 0.40
 Nodes (4): 1. Attacker Personas, 2. Asset Inventory & Protection Requirements, 3. Vulnerability Vector Evaluation Matrix, Threat Model — Git for Prompts
 
+### Community 50 - "ssrf.ts"
+Cohesion: 0.43
+Nodes (5): RFC-1918, DnsLookupFn, isPrivateOrReservedIp(), SsrfValidationResult, validateWebhookUrl()
+
+### Community 51 - "diff-version-selector.tsx"
+Cohesion: 0.43
+Nodes (4): DiffVersionSelector(), DiffVersionSelectorProps, Version, formatVersionLabel()
+
 ## Knowledge Gaps
-- **213 isolated node(s):** `eslintConfig`, `nextConfig`, `AddOptions`, `AuthOptions`, `PullOptions` (+208 more)
+- **213 isolated node(s):** `How to Maintain This Journal (For the Agent)`, `[GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21`, `[GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20`, `[GFP — Remotion Launch Video Engine, File Reorganization & Codebase Pruning] 2026-08-19`, `[GFP — Icon & Favicon Dark Background Standardization] 2026-08-13` (+208 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getAuthUserId()` connect `getAuthUserId` to `api-keys.ts`, `tests.ts`, `actions/webhooks.ts`, `versions.ts`?**
+- **Why does `getAuthUserId()` connect `getAuthUserId` to `test-runner.tsx`, `versions.ts`, `tests.ts`, `actions/webhooks.ts`, `compare-runner.tsx`?**
   _High betweenness centrality (0.046) - this node is a cross-community bridge._
-- **Why does `db` connect `getAuthUserId` to `tests.ts`, `versions.ts`, `api-keys.ts`, `ai.ts`, `actions/webhooks.ts`?**
+- **Why does `db` connect `getAuthUserId` to `tests.ts`, `ai.ts`, `actions/webhooks.ts`, `versions.ts`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **Why does `DashboardSidebar()` connect `ui-tokens.tsx` to `getAuthUserId`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **What connects `eslintConfig`, `nextConfig`, `AddOptions` to the rest of the system?**
+- **What connects `How to Maintain This Journal (For the Agent)`, `[GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21`, `[GFP — 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20` to the rest of the system?**
   _213 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `getAuthUserId` be split into smaller, more focused modules?**
-  _Cohesion score 0.05975485188968335 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.050314465408805034 - nodes in this community are weakly interconnected._
 - **Should `core/src/index.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.08531073446327683 - nodes in this community are weakly interconnected._
-- **Should `tests.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.07493061979648474 - nodes in this community are weakly interconnected._
+- **Should `ui-tokens.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.06972789115646258 - nodes in this community are weakly interconnected._
