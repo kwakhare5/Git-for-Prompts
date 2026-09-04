@@ -2,7 +2,7 @@
  * §7.2 — E2E tests for authenticated dashboard flows.
  *
  * These tests require:
- * 1. A running Next.js dev server (`npm run dev`)
+ * 1. A running Next.js dev server (`pnpm dev`)
  * 2. A test Clerk user logged in via environment variables:
  *    E2E_TEST_EMAIL / E2E_TEST_PASSWORD in .env.local
  *

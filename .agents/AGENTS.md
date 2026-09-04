@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Completed whole-codebase review and cleanup: enforced SSRF IP-pinning connection in `webhooks.ts`, added pre-flight SSRF validation to webhook registration, added V2 PromptBundle system prompt support to scheduled regression cron, purged dead `runEvaluationsLegacy` code from `@gfp/core`, and standardized server action rate limiting on `expensive:${userId}`. Live deployment `dpl_4Vf6h7ozYog2M99JZo93gudr7c2F` is `● Ready` at `https://gitforprompts.vercel.app` (`50/50 PASSED`).
+- **Current State:** Completed whole-codebase documentation and codebase scope alignment. Synchronized 100% ground truth across `README.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md`, `src/db/schema.ts`, `src/lib/validations/prompt.ts`, and `src/app/api/cron/regression-tests/route.ts`. Purged all outdated references to legacy `/explore` gallery, `forkPrompt` action, `keep-alive` cron, and `better-sqlite3`. Test suite 154/154 green, ESLint clean, 50/50 deep audit passed, and Graphify AST updated.
 - **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 

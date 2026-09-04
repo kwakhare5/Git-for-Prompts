@@ -70,7 +70,7 @@ npm install -g @git-for-prompts/cli
 gfp init
 
 # Authenticate with your cloud account
-gfp auth --key gfp_live_your_key_here
+gfp auth gfp_live_your_key_here
 
 # Create or commit a new prompt version locally
 gfp add "customer-support" -m "Adjusted temperature to 0.7 for tone"
@@ -81,8 +81,9 @@ gfp history customer-support
 # Compare local versions
 gfp diff customer-support 1 2
 
-# Execute prompt locally with test variables
-gfp run customer-support --var tone=polite --var issue="broken item"
+# Add a test case and run evals locally
+gfp test-add customer-support -n "Greeting check" -i "Hi" -c "Polite tone"
+gfp run customer-support --provider groq
 
 # Sync with Cloud
 gfp push customer-support         # Push local bundle -> Cloud
@@ -185,8 +186,8 @@ pnpm install
 # 2. Configure environment
 cp .env.example .env.local
 
-# 3. Run database migrations
-pnpm drizzle-kit migrate
+# 3. Push database schema
+pnpm drizzle-kit push
 
 # 4. Start development server
 pnpm dev

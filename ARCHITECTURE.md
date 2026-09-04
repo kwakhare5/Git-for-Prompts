@@ -88,15 +88,18 @@ git-for-prompts/
 │   │       │   └── versions/route.ts # POST: push new version (accepts bundle)
 │   │       └── cron/regression-tests/ # Scheduled prompt regression evaluator
 │   ├── components/                  # React components
-│   │   ├── domain/dashboard/prompt-repositories-list.tsx # Pure real dashboard prompt table/grid
-│   │   ├── website/DashboardHeroReplica.tsx              # Pure static demo preview sandbox
-│   │   ├── prompt-editor.tsx        # Monaco editor (tabbed for bundle fields)
-│   │   ├── diff-viewer.tsx          # Monaco diff (multi-section bundle diff)
-│   │   ├── bundle-editor.tsx        # Visual editor for model config + tools + schema
-│   │   ├── compare-runner.tsx
-│   │   ├── test-runner.tsx
-│   │   ├── version-history.tsx
-│   │   └── api-keys-manager.tsx
+│   │   ├── domain/
+│   │   │   ├── dashboard/prompt-repositories-list.tsx # Pure real dashboard prompt table/grid
+│   │   │   ├── prompts/
+│   │   │   │   ├── prompt-editor.tsx        # Monaco editor (tabbed for bundle fields)
+│   │   │   │   └── version-history.tsx      # Timeline & tags
+│   │   │   ├── bundle/bundle-editor.tsx     # Visual editor for model config + tools + schema
+│   │   │   ├── diff/diff-viewer.tsx         # Monaco diff (multi-section bundle diff)
+│   │   │   ├── compare/compare-runner.tsx   # A/B comparison runner
+│   │   │   ├── tests/test-runner.tsx        # Test suite runner
+│   │   │   └── api-keys/api-keys-manager.tsx # API key manager
+│   │   ├── website/DashboardHeroReplica.tsx  # Pure static demo preview sandbox
+│   │   └── ui-tokens.tsx                    # Design system primitives
 │   ├── db/
 │   │   ├── schema.ts                # Drizzle schema — bundle JSONB column + BOLA indexes
 │   │   ├── index.ts                 # Drizzle client instance
@@ -244,7 +247,7 @@ Tables `prompts`, `test_cases`, `test_results`, `api_keys`, `webhooks` remain as
 6. **`@gfp/core` — Storage Interface:**
    - `StorageAdapter` interface: `{ getPrompt, listVersions, insertVersion, getTestCases, upsertResults }`
    - Postgres adapter: `src/db/` (Drizzle, advisory locks)
-   - SQLite adapter: `packages/cli/src/db/sqlite.ts` (better-sqlite3, auto-increment versioning)
+   - SQLite adapter: `packages/cli/src/db/sqlite.ts` (sql.js Wasm, auto-increment versioning)
 
 ## 5. SYNC PROTOCOL (cloud ↔ local)
 
@@ -275,7 +278,6 @@ gfp pull <prompt-name>
 | 2026-08 | **V2: Bundle as single JSONB column** | Cleaner diffs, simpler migrations, flexible schema evolution |
 | 2026-08 | **V2: Keep `content` + add `bundle`** | Backward compatible — V1 versions have null bundle |
 | 2026-08 | **V2: `@gfp/core` shared package** | Pure TS engine shared by CLI (SQLite) and cloud (Postgres) |
-| 2026-08 | **V2: `better-sqlite3` for local** | Fastest native SQLite binding, sync API, perfect for CLI |
+| 2026-08 | **V2: `sql.js` (Wasm SQLite) for local** | Zero native C++ compilation dependencies, runs identically on any OS |
 | 2026-08 | **V2: User-provided API key for local evals** | No key storage on our side. User controls their own provider. |
 | 2026-08 | **V2: MIT license** | Maximum adoption and community trust |
-| 2026-08 | **V2: Kill Idea #2 (API Change Detector)** | Wrong audience (DevOps), wrong stack (AST), market eaten by AI agents |
