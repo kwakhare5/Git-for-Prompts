@@ -25,7 +25,8 @@
 ```bash
 pnpm dev             # Start Next.js local development server
 pnpm build           # Build @gfp/core and Next.js app
-pnpm test            # Run Vitest test suite (154 tests)
+pnpm test            # Run Vitest test suite
+pnpm test:unit       # Fast zero-network unit & security test suite
 pnpm lint            # Run ESLint validation
 pnpm run save        # Run checkpoint script
 ```
@@ -52,13 +53,14 @@ pnpm run save        # Run checkpoint script
 - [2026-08-10] Direct database mutations bypassed Clerk user context → Always assert `getAuthUserId()` before querying Drizzle.
 - [2026-08-12] Unchecked external webhook URLs triggered SSRF warnings → Route all outbound test requests through `validateDestinationUrl()`.
 - [2026-08-13] Monaco editor theme flicker on initial load → Synchronize theme initialization with `next-themes` mount state.
+- [2026-09-04] Prototype function leakage in variable interpolation → Enforce `Object.hasOwn()` + `typeof === 'string'`.
 
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-08-21
-- **Current State:** Completed comprehensive performance optimization across Next.js / Vercel configurations and the Remotion video engine (enabled `poweredByHeader: false`, Brotli/Gzip `compress: true`, `optimizePackageImports: ["lucide-react", "date-fns"]`, font `display: "swap"` + `preload: true`, hardware-accelerated Remotion OpenGL angle renderer, and 1-year immutable caching). Upgraded all scenes with Emil Kowalski design engineering (continuous gliding indicator, overlapping card cross-morph, deterministic blinking cursors, and haptic button compression). Exported master 2K Retina launch video (`launch-video/out/launch-video-master.mp4`, 3.1 MB) and validated all 154/154 unit & security tests.
-- **Immediate next task:** Launch deployment and public release.
+**Last session date:** 2026-09-04
+- **Current State:** Completed deep adversarial audit across security, prompt bundles, SSRF defense, BOLA/IDOR, and Vercel production deployment (`50/50 PASSED`). Resolved prototype leakage in `interpolateVariables`, added multi-model fallback chain (`llama-3.3-70b` -> `mistral-small-24b` -> `claude-3.5-haiku`) in `src/lib/ai.ts`, surfaced clean quota/billing errors, and added zero-network `test:unit` script. Vercel deployment `dpl_MVEVfWwYFxHe77X8BQHeh1KXya6u` is live at `https://gitforprompts.vercel.app`.
+- **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 
 
