@@ -48,10 +48,9 @@ export const metadata: Metadata = {
   publisher: "Git for Prompts",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/logo.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/logo.svg", sizes: "any", type: "image/svg+xml" }],
   },
   alternates: {
     canonical: "https://gitforprompts.vercel.app",

@@ -51,7 +51,7 @@ git-for-prompts/
 │       ├── src/
 │       │   ├── index.ts             # CLI entry point (commander.js)
 │       │   ├── commands/
-│       │   │   ├── init.ts          # gitforprompts init — create .gfp/ + SQLite DB
+│       │   │   ├── init.ts          # gitforprompts init — create .gitforprompts/ + SQLite DB
 │       │   │   ├── add.ts           # gitforprompts add — create/update prompt bundle
 │       │   │   ├── run.ts           # gitforprompts run — execute evals locally
 │       │   │   ├── history.ts       # gitforprompts history — show version log
@@ -62,7 +62,7 @@ git-for-prompts/
 │       │   ├── db/
 │       │   │   ├── sqlite.ts        # sql.js (Wasm SQLite) adapter (implements @gfp/core StorageAdapter)
 │       │   │   └── migrations.ts    # SQLite schema migrations
-│       │   └── config.ts            # .gfp/config.json reader/writer
+│       │   └── config.ts            # .gitforprompts/config.json reader/writer
 │       ├── package.json
 │       └── tsconfig.json
 │
@@ -126,13 +126,13 @@ git-for-prompts/
 └────────────┬─────────────────────────────────┬──────────────────┘
              │                                 │
     ┌────────▼────────┐              ┌─────────▼──────────┐
-    │   packages/cli   │              │   Next.js Cloud     │
-    │  (local-first)   │   gfp push   │   (hosted SaaS)     │
-    │                  │ ──────────►  │                     │
-    │  sql.js (Wasm)   │              │  Drizzle + Postgres  │
-    │  .gfp/bundles.db │  ◄────────  │  Supabase            │
-    │  User's API key  │   gfp pull   │  Clerk Auth          │
-    └──────────────────┘              └─────────────────────┘
+    │   packages/cli   │                  │   Next.js Cloud     │
+    │  (local-first)   │ gitforprompts push│  (hosted SaaS)     │
+    │                  │ ───────────────► │                     │
+    │  sql.js (Wasm)   │                  │  Drizzle + Postgres │
+    │.gitforprompts/db │ ◄─────────────── │  Neon / Postgres    │
+    │  User's API key  │ gitforprompts pull│ Clerk Auth         │
+    └──────────────────┘                  └─────────────────────┘
 ```
 
 ## 3. DATABASE SCHEMA (V2)
