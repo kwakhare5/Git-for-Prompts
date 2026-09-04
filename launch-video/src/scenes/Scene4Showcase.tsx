@@ -180,7 +180,7 @@ export const Scene4Showcase: React.FC = () => {
                 </div>
                 <div>
                   <div className="flex justify-between text-zinc-300 mb-2">
-                    <span>OpenAI / GPT-5.6 Sol</span>
+                    <span>OpenAI / GPT-4o</span>
                     <span className="text-zinc-400">650 ms</span>
                   </div>
                   <div className="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
@@ -189,7 +189,7 @@ export const Scene4Showcase: React.FC = () => {
                 </div>
                 <div>
                   <div className="flex justify-between text-zinc-300 mb-2">
-                    <span>Anthropic / Claude Opus 5</span>
+                    <span>Anthropic / Claude 3.5 Sonnet</span>
                     <span className="text-zinc-400">1250 ms</span>
                   </div>
                   <div className="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">

@@ -4,7 +4,7 @@
  * Runs scheduled test suites for all prompts that have testSchedule set and
  * are due for a run. Fires webhook alerts if any tests fail.
  *
- * Authorization: Bearer ${CRON_SECRET}  (same pattern as keep-alive)
+ * Authorization: Bearer ${CRON_SECRET}
  * Triggered by: vercel.json cron ("0 2 * * *" = 2am UTC daily)
  */
 
@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5-minute Vercel function timeout
 
 export async function POST(req: NextRequest) {
-  // Auth — same guard as keep-alive
+  // Auth — bearer token validation against CRON_SECRET
   const cronSecret = process.env.CRON_SECRET;
   const authHeader = req.headers.get('Authorization');
   if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {

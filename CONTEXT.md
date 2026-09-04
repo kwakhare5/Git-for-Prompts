@@ -63,7 +63,7 @@ api_keys      → id, ownerId, name, keyLookupHash (SHA-256),
                 keyPrefix ("gfp_live_"), lastUsedAt, createdAt
                 CONSTRAINT: unique(keyLookupHash) — O(1) lookup
 
-webhooks      → id, ownerId, url, secret (HMAC key), events (text[]),
+webhooks      → id, ownerId, url, secretHash (varchar 64), label (varchar 255),
                 createdAt
 ```
 _Schema source of truth: `src/db/schema.ts`_
@@ -113,25 +113,27 @@ src/
 │       ├── latest/route.ts              ← GET: fetch latest version
 │       └── versions/route.ts            ← POST: push new version
 ├── components/
-│   ├── domain/dashboard/prompt-repositories-list.tsx ← Real dashboard prompt list
-│   ├── website/DashboardHeroReplica.tsx               ← Static interactive demo sandbox
-│   ├── prompt-editor.tsx                ← Monaco editor
-│   ├── diff-viewer.tsx                  ← Monaco diff
-│   ├── bundle-editor.tsx                ← Visual bundle editor
+│   ├── domain/
+│   │   ├── dashboard/prompt-repositories-list.tsx ← Real dashboard prompt list
+│   │   ├── prompts/
+│   │   │   ├── prompt-editor.tsx        ← Monaco editor
+│   │   │   └── version-history.tsx      ← Commit timeline & tags
+│   │   ├── bundle/bundle-editor.tsx     ← Visual bundle editor
+│   │   ├── diff/diff-viewer.tsx         ← Monaco diff
+│   │   ├── compare/compare-runner.tsx   ← A/B comparison runner
+│   │   ├── tests/test-runner.tsx        ← Test suite runner
+│   │   └── api-keys/api-keys-manager.tsx ← API key management
+│   ├── website/DashboardHeroReplica.tsx ← Static interactive demo sandbox
 │   └── ui-tokens.tsx                    ← Design system primitives
-│   ├── compare-runner.tsx
-│   ├── test-runner.tsx
-│   ├── version-history.tsx
-│   └── api-keys-manager.tsx
 └── lib/
     ├── actions/
-    │   ├── prompts.ts                   ← CRUD + fork
-    │   ├── versions.ts                  ← create, restore (exportsinserNextVersion)
+    │   ├── prompts.ts                   ← CRUD + visibility toggle
+    │   ├── versions.ts                  ← create, restore (exports insertNextVersion)
     │   ├── tests.ts                     ← test runner actions
     │   └── webhooks.ts                  ← webhook CRUD actions
     ├── api-auth.ts                      ← Shared API key auth module
     ├── test-runner.ts                   ← Deep TestRunner module
-    ├── webhooks.ts                      ← HMAC-SHA256 delivery
+    ├── webhooks.ts                      ← HMAC-SHA256 delivery & SSRF protection
     ├── variables.ts                     ← {{var}} extraction + interpolation
     └── ai.ts                            ← Groq + OpenRouter client
 ```
@@ -143,7 +145,7 @@ src/
 
 | Role | What they can do |
 |------|-----------------|
-| Owner | Full access to all their Prompts, Collections, API Keys, billing |
+| Owner | Full access to all their Prompts, Versions, Test Suites, API Keys, Webhooks |
 | API Consumer | Read/execute Prompts via API Key only (no UI access) |
 
 ---
@@ -153,10 +155,10 @@ src/
 1. **Create Prompt:** User writes prompt → saves → new Version row created → displayed as "v1"
 2. **Edit Prompt:** User edits → saves → new immutable Version row → displayed as "v2, v3..." (never overwrites)
 3. **API Access (pull):** User creates API Key → fetch `GET /api/v1/prompts/:id/latest` at runtime → inject into AI call
-4. **Push from CLI:** `gfp push <id> <file>` → `POST /api/v1/prompts/:id/versions` with advisory lock → `version.created` webhook fires
+4. **Push from CLI:** `gfp push <name>` → `POST /api/v1/prompts/:id/versions` with advisory lock → `version.created` webhook fires
 5. **Run Tests:** Create test cases → `runTestsForVersion` → AI evaluation → bulk-upsert results → display pass/fail
 6. **Compare:** Pick two versions → `runComparisonForVersions` → both sides evaluated in parallel → side-by-side scores
-7. **Explore:** Public prompt marked `isPublic=true` → appears on Explore page → fork creates a private copy via `insertNextVersion`
+7. **Visibility & Sharing:** Toggle prompt between Public and Private repository visibility from prompt settings for team sharing
 
 ---
 

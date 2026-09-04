@@ -16,8 +16,8 @@ export const LaunchVideo: React.FC = () => {
       {/* Master Background Music (Volume 0.55) */}
       <Audio src={staticFile('bgm.mp3')} volume={0.55} />
 
-      {/* SFX 1: Scene 1 Hero Prompt Typing (Frames 2 - 60) */}
-      <Sequence from={2} durationInFrames={58}>
+      {/* SFX 1: Scene 1 Hero Prompt Typing (Frames 2 - 44) */}
+      <Sequence from={2} durationInFrames={42}>
         <Audio src={staticFile('sfx/mixkit-keyboard-typing-1386.wav')} volume={0.35} />
       </Sequence>
 
