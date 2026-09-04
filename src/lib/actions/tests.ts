@@ -156,9 +156,14 @@ export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcom
     revalidatePath(`/dashboard/prompts/${version.promptId}/tests`);
     return outcomes;
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message === 'Version not found') throw err;
-    if (err instanceof Error && err.message === 'Access denied') throw err;
+    if (err instanceof Error) {
+      if (err.message === 'Unauthorized' || err.message === 'Version not found' || err.message === 'Access denied') {
+        throw err;
+      }
+      if (err.message.includes('Rate limit') || err.message.includes('quota') || err.message.includes('balance') || err.message.includes('credits')) {
+        throw err;
+      }
+    }
     throw new Error('Failed to run tests');
   }
 }
@@ -257,10 +262,14 @@ export async function runComparisonForVersions(input: unknown): Promise<{
       resultsB: attemptsB.map((a) => toResult(a, versionIdB)),
     };
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
-    if (err instanceof Error && err.message.includes('not found')) throw err;
-    if (err instanceof Error && err.message === 'Access denied') throw err;
-    if (err instanceof Error && err.message.includes('same prompt')) throw err;
+    if (err instanceof Error) {
+      if (err.message === 'Unauthorized' || err.message.includes('not found') || err.message === 'Access denied' || err.message.includes('same prompt')) {
+        throw err;
+      }
+      if (err.message.includes('Rate limit') || err.message.includes('quota') || err.message.includes('balance') || err.message.includes('credits')) {
+        throw err;
+      }
+    }
     throw new Error('Failed to run comparison');
   }
 }

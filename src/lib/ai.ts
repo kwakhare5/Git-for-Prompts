@@ -87,6 +87,8 @@ import {
   DEFAULT_GROQ_EVALUATION_MODEL,
   DEFAULT_OPENROUTER_EXECUTION_MODEL,
   DEFAULT_OPENROUTER_EVALUATION_MODEL,
+  OPENROUTER_FALLBACK_EXECUTION_MODELS,
+  OPENROUTER_FALLBACK_EVALUATION_MODELS,
   DEFAULT_AI_TIMEOUT_MS,
   DEFAULT_MAX_CONCURRENT_TESTS,
 } from '@gfp/core';
@@ -128,21 +130,10 @@ export async function runWithConcurrency<T>(
 }
 
 /**
- * Core fetch wrapper with fallback logic.
- * Try Groq first -> Fallback to OpenRouter.
- *
- * `purpose` selects which model pair (execution vs. evaluation) is used
- * for whichever provider ends up handling the call — see the model
- * constants above.
- *
- * `jsonMode` requests OpenAI-compatible `response_format: { type:
- * "json_object" }`. This is ONLY passed for calls that must return JSON
- * (the evaluator) — never for `runPromptAgainstInput`, which executes the
- * user's own prompt and must not have its output shape forced. json_object
- * mode is broadly supported by both Groq and OpenRouter but not
- * guaranteed on every routed model, so it is a best-effort first layer of
- * defense, not the only one — extractJson + Zod validation below still
- * run on every response regardless.
+ * Core fetch wrapper with resilient fallback logic:
+ * 1. Try Groq first (if configured).
+ * 2. If Groq fails/unconfigured, iterate through OpenRouter model fallback chain.
+ * 3. Catches quota/billing depletion and surfaces clean actionable error.
  */
 async function callAI(
   messages: Message[],
@@ -150,10 +141,8 @@ async function callAI(
   purpose: AIPurpose = 'execution'
 ): Promise<string> {
   const groqModel = purpose === 'evaluation' ? GROQ_EVALUATION_MODEL : GROQ_EXECUTION_MODEL;
-  const openRouterModel =
-    purpose === 'evaluation' ? OPENROUTER_EVALUATION_MODEL : OPENROUTER_EXECUTION_MODEL;
 
-  // 1. Try Groq (Primary)
+  // 1. Try Groq (Primary if configured)
   if (process.env.GROQ_API_KEY) {
     try {
       return await fetchWithTimeout(GROQ_URL, process.env.GROQ_API_KEY, groqModel, messages, jsonMode);
@@ -162,9 +151,37 @@ async function callAI(
     }
   }
 
-  // 2. Try OpenRouter (Fallback)
+  // 2. Try OpenRouter with model fallback chain
   if (process.env.OPENROUTER_API_KEY) {
-    return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, openRouterModel, messages, jsonMode);
+    const fallbackList =
+      purpose === 'evaluation'
+        ? [OPENROUTER_EVALUATION_MODEL, ...OPENROUTER_FALLBACK_EVALUATION_MODELS.filter((m) => m !== OPENROUTER_EVALUATION_MODEL)]
+        : [OPENROUTER_EXECUTION_MODEL, ...OPENROUTER_FALLBACK_EXECUTION_MODELS.filter((m) => m !== OPENROUTER_EXECUTION_MODEL)];
+
+    let lastError: Error | null = null;
+
+    for (const model of fallbackList) {
+      try {
+        return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, model, messages, jsonMode);
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        lastError = err instanceof Error ? err : new Error(errorMsg);
+
+        // Immediate stop if quota or billing depleted — retrying other models won't help
+        if (
+          errorMsg.toLowerCase().includes('402') ||
+          errorMsg.toLowerCase().includes('credit') ||
+          errorMsg.toLowerCase().includes('quota') ||
+          errorMsg.toLowerCase().includes('balance')
+        ) {
+          throw new Error('OpenRouter API quota or balance exhausted. Please verify your OpenRouter credits.');
+        }
+
+        console.warn(`[AI] Model ${model} failed, trying next fallback:`, errorMsg);
+      }
+    }
+
+    throw lastError || new Error('All OpenRouter fallback models failed.');
   }
 
   throw new Error('No AI provider API keys configured (GROQ_API_KEY or OPENROUTER_API_KEY)');
