@@ -59,8 +59,8 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Completed comprehensive inside-out audit and adversarial testing across CLI and UI. Standardized CLI package identity and all executable references to `gitforprompts` on npm (`gitforprompts@0.1.2` published live). Enhanced CLI `add` command to accept optional positional content. Fixed Node.js Windows libuv async exit assertion crash by draining event loop via `process.exitCode = 1; return;`. Unified website navigation: changed navbar authenticated CTA from "Workspace" to "Open Dashboard", pointed Hero CTA directly to `/dashboard`, turned static replica `+ Save Version` button into an interactive snapshot simulator with toast feedback, and wired sidebar links to internal preview tab switching. Cleared all legacy references. Full verification passed: 154/154 Vitest passing, zero ESLint errors, clean Next.js production build.
-- **Immediate next task:** Deploy final commit to Vercel and execute live end-to-end smoke test.
+- **Current State:** Unified all web assets strictly to `public/logo.svg` (removed legacy dark-box favicons and dynamic apple-icon; updated metadata in layout.tsx and manifest.ts). Published `gitforprompts@0.1.3` live to npm with bundled `README.md` and complete quickstart documentation. Aligned launch video Scene 3 Terminal with Option B: `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated directory to `.gitforprompts/`, bumped header to `v0.1.3`, and re-rendered master launch video (795/795 frames, 2 MB). Full test suite 154/154 passing, build clean.
+- **Immediate next task:** Launch announcement and distribution.
 - **Open blockers:** None.
 
 
