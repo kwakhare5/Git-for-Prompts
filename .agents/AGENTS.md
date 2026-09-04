@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Aligned launch video copy to 100% current ground truth (standardized `$ gfp push main` and updated benchmark models to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`). Completed root housekeeping: moved `launch-video-player.html` into `launch-video/` with universal audio loading, purged unused `supabase/` folder, and removed duplicate audio from `public/`. Monorepo is 100% clean, 154/154 Vitest passing, ESLint clean, and 50/50 deep audit passed.
+- **Current State:** Aligned launch video copy to 100% current ground truth (standardized `$ gfp push main` and updated benchmark models to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`). Added a deliberate ~0.73s (22-frame) motionless reading pause on Scene 1 typewriter ("files") with synchronized audio cut. Completed root housekeeping: moved `launch-video-player.html` into `launch-video/` with universal audio loading, purged unused `supabase/` folder, and removed duplicate audio from `public/`. Monorepo is 100% clean, 154/154 Vitest passing, ESLint clean, and 50/50 deep audit passed.
 - **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 

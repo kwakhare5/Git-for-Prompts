@@ -36,6 +36,7 @@ During the Session End ritual (called automatically whenever significant changes
   - Completed whole-codebase documentation and scope audit: aligned `README.md`, `CONTEXT.md`, `ARCHITECTURE.md`, and `CONTRIBUTING.md` with 100% current ground truth.
   - Synchronized CLI command documentation in `README.md` to match actual commander interface (`gfp auth <api-key>`, `gfp test-add`, `gfp run --provider`).
   - Aligned launch video copy to real-world models: updated latency benchmark to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`, and standardized CLI push command to `$ gfp push main`.
+  - Added deliberate ~0.73s (22-frame) motionless reading pause on Scene 1 typewriter ("files") with synchronized audio cut in both Remotion scene and HTML player.
   - Executed root housekeeping: relocated `launch-video-player.html` into `launch-video/` with universal relative audio paths, deleted unused legacy `supabase/` folder, and removed duplicate audio from root `public/`.
 - **Vibe**: 💎 100% Ground-Truth Synchronized, Video Copy Polished & Codebase Spotless!
 
