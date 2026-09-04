@@ -1,5 +1,5 @@
 # Comprehensive Codebase & Architecture Audit Report
-**Project:** Git for Prompts (`gfp`)
+**Project:** Git for Prompts (`gitforprompts`)
 **Status:** Ready for Production Launch (100% Green)
 **Audit Date:** 2026-08-21
 
@@ -49,7 +49,7 @@
 - **Verdict**: **100% Secure**.
 
 ### D. Offline CLI (`packages/cli/`)
-- **Local SQLite Storage**: Manages prompt bundles (`.gfp/`) completely offline via Wasm SQLite (`sql.js`).
+- **Local SQLite Storage**: Manages prompt bundles (`.gitforprompts/`) completely offline via Wasm SQLite (`sql.js`).
 - **Commands**: `init`, `add`, `list`, `history`, `diff`, `run` (evals against OpenAI, Groq, Ollama), `push`, `pull`.
 - **Test Coverage**: 100% verified via `packages/cli/src/__tests__/cli-sqlite.test.ts`.
 - **Verdict**: **100% Functional**.
@@ -69,7 +69,7 @@
 ## 3. Findings & Potential Edge Cases Analyzed
 
 1. **Are there any hidden memory or DB connection leaks?**
-   - No. Supabase connection uses pooled Postgres client with single shared instance in `src/db/index.ts`.
+   - No. PostgreSQL connection uses pooled Postgres client with single shared instance in `src/db/index.ts`.
 2. **Can a user access or overwrite another user's prompt?**
    - No. All queries join or filter on `ownerId == userId`. Version restore checks `versionToRestore.promptId === validated.promptId`.
 3. **What happens if Upstash Redis goes down?**

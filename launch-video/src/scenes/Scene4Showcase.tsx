@@ -212,7 +212,7 @@ export const Scene4Showcase: React.FC = () => {
             >
               <div className="flex items-center justify-between bg-[#18181B] p-4 rounded-xl border border-zinc-800/80">
                 <div className="flex items-center gap-4">
-                  <div className="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gfp/</div>
+                  <div className="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gitforprompts/</div>
                   <span className="text-emerald-400 font-bold">►</span>
                   <div className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold">Cloud Postgres</div>
                 </div>

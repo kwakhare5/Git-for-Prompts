@@ -70,7 +70,7 @@ export const Scene2Reveal: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-xl text-zinc-300 font-medium leading-relaxed max-w-[680px] mx-auto pt-2" style={{ transform: `translateY(${subY}px)`, opacity: subP }}>
+        <p className="text-xl text-zinc-200 font-medium leading-relaxed max-w-[680px] mx-auto pt-2" style={{ transform: `translateY(${subY}px)`, opacity: subP }}>
           Local-first, open-source version control and evals for AI engineers
         </p>
       </div>

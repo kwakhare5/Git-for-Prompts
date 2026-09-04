@@ -11,7 +11,7 @@
 
   <br/>
 
-  ![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)
+  ![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Last Commit](https://img.shields.io/github/last-commit/kwakhare5/Git-for-Prompts?style=for-the-badge&color=orange)
   ![Language](https://img.shields.io/badge/Language-TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
@@ -20,8 +20,8 @@
 
   <a href="#-about-the-project">About</a> &nbsp;·&nbsp;
   <a href="#-features">Features</a> &nbsp;·&nbsp;
-  <a href="#-gfp-cli">CLI</a> &nbsp;·&nbsp;
-  <a href="#-v2-prompt-bundles">V2 Bundles</a> &nbsp;·&nbsp;
+  <a href="#-gitforprompts-cli">CLI</a> &nbsp;·&nbsp;
+  <a href="#-prompt-bundles">Prompt Bundles</a> &nbsp;·&nbsp;
   <a href="#-architecture">Architecture</a> &nbsp;·&nbsp;
   <a href="#-docker-self-hosting">Self-Hosting</a> &nbsp;·&nbsp;
   <a href="#-quickstart">Quickstart</a>
@@ -39,7 +39,7 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 `gitforprompts` fixes this by providing:
 1. **Local-first SQLite repository** — manage and version prompt bundles completely offline in your terminal (`.gitforprompts/`).
 2. **Cloud Synchronization** — push local prompt bundles to the central cloud platform when you're ready to share or run hosted evaluations (`gitforprompts push` / `gitforprompts pull`).
-3. **Structured V2 Prompt Bundles** — version system prompts, user templates, model configs (provider, model, temperature, max tokens), tools, and response formats together as a single unit.
+3. **Structured Prompt Bundles** — version system prompts, user templates, model configs (provider, model, temperature, max tokens), tools, and response formats together as a single unit.
 
 ---
 
@@ -48,7 +48,7 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 | Status | Feature | Description |
 |:---:|---|---|
 | ✅ | **Local-First SQLite** | `gitforprompts init` creates a Wasm-powered `.gitforprompts/` SQLite database right inside your project directory. 100% offline. |
-| ✅ | **V2 Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
+| ✅ | **Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
 | ✅ | **Monaco Diff Engine** | Side-by-side visual comparison with line-level diffs and model config comparison header. |
 | ✅ | **Cloud Sync (`push` / `pull`)** | `gitforprompts push <name>` and `gitforprompts pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
 | ✅ | **Automated Eval Runner** | Run evaluations against local or cloud prompt versions using custom test cases and AI scoring criteria. |
@@ -95,7 +95,7 @@ gitforprompts pull customer-support         # Pull latest cloud version -> Local
 
 ---
 
-## 📦 V2 Prompt Bundles
+## 📦 Prompt Bundles
 
 `gitforprompts` uses a structured JSON representation for prompt bundles defined in `@gfp/core`:
 
@@ -137,7 +137,7 @@ flowchart TD
 Git-for-Prompts/
 ├── packages/
 │   ├── core/                        # @gfp/core: Schemas, bundle types, diff engine, eval runner
-│   └── cli/                         # @git-for-prompts/cli: SQLite Wasm CLI (init, add, push, pull, run)
+│   └── cli/                         # gitforprompts: SQLite Wasm CLI (init, add, push, pull, run)
 ├── src/
 │   ├── app/                         # Next.js 16 App Router (20 clean routes)
 │   │   ├── (dashboard)/dashboard/   # Overview, prompt detail, bundle editor, diff, evals, API keys, webhooks

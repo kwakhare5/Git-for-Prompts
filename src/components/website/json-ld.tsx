@@ -61,7 +61,7 @@ export function JsonLd() {
             "name": "Can I migrate my existing raw prompt strings to Git for Prompts?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! Running npx gitforprompts init automatically detects existing prompt templates and wraps them into valid v2 Prompt Bundles.",
+              "text": "Yes! Running npx gitforprompts init automatically detects existing prompt templates and wraps them into valid Prompt Bundles.",
             },
           },
         ],

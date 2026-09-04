@@ -52,7 +52,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: pnpm --filter @gfp/core build && pnpm --filter @git-for-prompts/cli build
+        run: pnpm --filter @gfp/core build && pnpm --filter gitforprompts build
 
       - name: Sync database schema
         run: pnpm exec drizzle-kit push --force

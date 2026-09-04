@@ -244,9 +244,9 @@ async function fetchWithTimeout(
  * user's own prompt content, not our internal evaluator. Always uses the
  * "execution" model pair.
  *
- * For V2 bundles: systemPrompt is the top-level system message, and
+ * When systemPrompt is provided: systemPrompt is the top-level system message, and
  * promptContent is the user template (combined with userInput).
- * For V1 (no bundle): promptContent is treated as the system message.
+ * Otherwise promptContent is treated as the system message.
  */
 async function runPromptAgainstInput(
   promptContent: string,
