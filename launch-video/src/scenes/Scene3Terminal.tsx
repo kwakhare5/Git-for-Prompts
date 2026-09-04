@@ -10,16 +10,16 @@ export const Scene3Terminal: React.FC = () => {
   const cmd1Running = local >= 20 && local < 32;
   const cmd1Done = local >= 32;
 
-  const cmd2 = "gitforprompts run main";
+  const cmd2 = 'gitforprompts add rag-agent "You are an AI assistant"';
   const showCmd2Line = local >= 38;
-  const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) / 1.4));
+  const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) * 2.7));
   const showCmd2Cursor = local >= 38 && local < 58;
   const cmd2Running = local >= 58 && local < 76;
   const cmd2Done = local >= 76;
 
-  const cmd3 = "gitforprompts push main";
+  const cmd3 = "gitforprompts push rag-agent";
   const showCmd3Line = local >= 82;
-  const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
+  const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) * 1.0));
   const showCmd3Cursor = local >= 82 && local < 110;
   const cmd3Running = local >= 110 && local < 135;
   const cmd3Done = local >= 135;
@@ -43,7 +43,7 @@ export const Scene3Terminal: React.FC = () => {
             gitforprompts — zsh — terminal
           </div>
           <div className="w-24 text-right text-[11px] text-zinc-500 font-mono">
-            v0.1.0
+            v0.1.3
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export const Scene3Terminal: React.FC = () => {
             {cmd1Done && (
               <div className="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium">
                 <span className="font-bold">✔</span>
-                <span>Initialized .gfp/ repository</span>
+                <span>Initialized .gitforprompts/ repository</span>
               </div>
             )}
           </div>
@@ -88,13 +88,13 @@ export const Scene3Terminal: React.FC = () => {
               {cmd2Running && (
                 <div className="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6">
                   <span className="text-yellow-400 font-bold">{currentSpinner}</span>
-                  <span>Running evals across Groq & Anthropic...</span>
+                  <span>Saving snapshot to local SQLite...</span>
                 </div>
               )}
               {cmd2Done && (
                 <div className="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium">
                   <span className="font-bold">✔</span>
-                  <span>12/12 assertions passed (Groq 120ms / Claude 1.5s)</span>
+                  <span>Saved version v1 (rag-agent)</span>
                 </div>
               )}
             </div>
@@ -121,7 +121,7 @@ export const Scene3Terminal: React.FC = () => {
               {cmd3Done && (
                 <div className="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3">
                   <span className="font-bold">✔</span>
-                  <span className="text-zinc-200">Published main v2</span>
+                  <span className="text-zinc-200">Published rag-agent v1</span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span>
                 </div>
               )}
