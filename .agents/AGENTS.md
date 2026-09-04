@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Completed deep adversarial audit across security, prompt bundles, SSRF defense, BOLA/IDOR, and Vercel production deployment (`50/50 PASSED`). Resolved prototype leakage in `interpolateVariables`, added multi-model fallback chain (`llama-3.3-70b` -> `mistral-small-24b` -> `claude-3.5-haiku`) in `src/lib/ai.ts`, surfaced clean quota/billing errors, and added zero-network `test:unit` script. Vercel deployment `dpl_MVEVfWwYFxHe77X8BQHeh1KXya6u` is live at `https://gitforprompts.vercel.app`.
+- **Current State:** Completed whole-codebase review and cleanup: enforced SSRF IP-pinning connection in `webhooks.ts`, added pre-flight SSRF validation to webhook registration, added V2 PromptBundle system prompt support to scheduled regression cron, purged dead `runEvaluationsLegacy` code from `@gfp/core`, and standardized server action rate limiting on `expensive:${userId}`. Live deployment `dpl_4Vf6h7ozYog2M99JZo93gudr7c2F` is `● Ready` at `https://gitforprompts.vercel.app` (`50/50 PASSED`).
 - **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 
