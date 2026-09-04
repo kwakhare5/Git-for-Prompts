@@ -11,7 +11,7 @@
 ## 2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps)
 
 ### Act 1: The Pain (0.0s – 5.33s / Frames 0 – 160)
-- **Sub-beat 1 (0–66f)**: Smooth linear typewriter typing across 58 frames (`0.67 chars/frame`): `"Your prompts are scattered in text files"` followed by a static reading hold with blinking emerald cursor.
+- **Sub-beat 1 (0–66f)**: Smooth linear typewriter typing across 42 frames (`0.93 chars/frame`): `"Your prompts are scattered in text files"` followed by a deliberate 22-frame (~0.73s) motionless reading pause with blinking emerald cursor.
 - **Sub-beat 2 (66–160f)**: Static `"No"` with 3D perspective slot machine reel flipping through `["diffs.", "evals.", "tests.", "history."]`.
 - **Motion Physics**: 2-frame micro-blur bridge at frames 64–68; asymmetric mechanical deceleration curve (`1 - (1-p)^3.5`).
 - **Sound**: Mechanical typing stream ➔ tactile slot machine lock on `"history."` at frame 134.

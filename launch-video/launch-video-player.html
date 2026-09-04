@@ -336,7 +336,7 @@
         currentSceneLabel.innerText = "Act 1: The Pain (0.0s - 5.3s)";
         if (frame < 66) {
           const fullText = videoConfig.scene1.typewriterText;
-          const progress = Math.min(1, Math.max(0, (frame - 2) / 58));
+          const progress = Math.min(1, Math.max(0, (frame - 2) / 42));
           const typedChars = Math.min(fullText.length, Math.floor(progress * fullText.length));
           const currentTyped = fullText.slice(0, typedChars);
           const isTyping = frame >= 2 && typedChars < fullText.length;
@@ -1045,7 +1045,7 @@
     function checkSfxTriggers(f) {
       // Scene 1 Hero Prompt Typing & Final Lock on "history"
       if (f === 4) startTyping(0.35);
-      else if (f === 54) stopTyping();
+      else if (f === 44) stopTyping();
       else if (f === 134) playOneShot(lockAudio, 0.30);
       // Scene 2 Logo Tile Pop
       else if (f === 160) playOneShot(popAudio, 0.38);
