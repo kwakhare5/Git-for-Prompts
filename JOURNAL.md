@@ -52,8 +52,10 @@ During the Session End ritual (called automatically whenever significant changes
   - Enhanced CLI `add` command with positional inline argument support (`gitforprompts add <name> [content]`).
   - Fixed Node.js Windows libuv async handle assertion crash on error exits by draining the event loop before termination.
   - Unified website navigation: resolved "Workspace" vs "Open Dashboard" button discrepancy, eliminated authenticated visitor kickout on hero CTA, and converted static `+ Save Version` button into an interactive local SQLite snapshot simulator with toast feedback.
-  - Merged and consolidated release commits into a single clean conventional commit on `main`.
-- **Vibe**: 🚀 100% Launch Ready — gitforprompts@0.1.2 Live on NPM, UI Flow Unified, All Tests Green!
+  - Unified favicon and logo assets: enforced transparent `public/logo.svg` across layout icons, web manifest, and UI components; removed legacy dark-tile favicons and dynamic apple-icon.
+  - Published `gitforprompts@0.1.3` to npm registry with bundled `README.md`, command table, and usage quickstart.
+  - Rebuilt launch video Scene 3 Terminal (Option B): aligned workflow to `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated repository directory output to `.gitforprompts/`, bumped terminal header to `v0.1.3`, and re-rendered master video (795/795 frames, 2 MB).
+- **Vibe**: 🚀 100% Launch Ready — gitforprompts@0.1.3 Live with Full Docs, Logo Unified, Video Terminal Calibrated!
 
 ### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
  

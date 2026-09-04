@@ -217,7 +217,7 @@
       scene4: {
         eyebrow: "The Mental Model",
         headline: "Like Git for code, but built for AI prompts",
-        cmd1: "$ gfp push main.prompt",
+        cmd1: "$ gitforprompts push rag-agent",
         badge1: "Git for Prompts",
         cmd2: "$ git push origin main",
         badge2: "Git for Code"
@@ -247,7 +247,7 @@
         cut4Title: "Production Runtime Pull API",
         cut4Subtitle: "Fetch latest prompt versions with dynamic variable injection",
         endpoint: "/api/v1/prompts/security-audit/latest",
-        curlCmd: "$ curl -X GET https://gitforprompts.com/api/v1/prompts/sec-v2/latest \\",
+        curlCmd: "$ curl -X GET https://gitforprompts.vercel.app/api/v1/prompts/sec-v2/latest \\",
         curlAuth: '-H "Authorization: Bearer gfp_live_••••••••"',
         resText: "✓ 200 OK • Interpolated {{json_schema}} in 8ms"
       },
@@ -261,12 +261,12 @@
       scene7: {
         eyebrow: "Developer Experience",
         headline: "Version & Ship from the Terminal",
-        step1Cmd: "npx gfp init",
-        step1Res: "✓ Initialized local .gfp repository in 12ms",
-        step2Cmd: "npx gfp eval --all",
-        step2Res: "✓ 12/12 assertions passed across Groq & Anthropic (340ms)",
-        step3Cmd: "npx gfp push main.prompt",
-        step3Res: "✓ Snapshot 7f3a9e published & locked (sha256 verified)"
+        step1Cmd: "npx gitforprompts init",
+        step1Res: "✓ Initialized local .gitforprompts repository in 12ms",
+        step2Cmd: "gitforprompts add rag-agent",
+        step2Res: "✓ Saved version v1 (rag-agent)",
+        step3Cmd: "gitforprompts push rag-agent",
+        step3Res: "✓ Snapshot published & locked (sha256 verified)"
       },
       scene8: {
         title: "Git for Prompts",
@@ -504,16 +504,16 @@
         const cmd1Running = local >= 20 && local < 32;
         const cmd1Done = local >= 32;
 
-        const cmd2 = "gitforprompts run main";
+        const cmd2 = 'gitforprompts add rag-agent "You are an AI assistant"';
         const showCmd2Line = local >= 38;
-        const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) / 1.4));
+        const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) * 2.7));
         const showCmd2Cursor = local >= 38 && local < 58;
         const cmd2Running = local >= 58 && local < 76;
         const cmd2Done = local >= 76;
 
-        const cmd3 = "gitforprompts push main";
+        const cmd3 = "gitforprompts push rag-agent";
         const showCmd3Line = local >= 82;
-        const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
+        const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) * 1.0));
         const showCmd3Cursor = local >= 82 && local < 110;
         const cmd3Running = local >= 110 && local < 135;
         const cmd3Done = local >= 135;
@@ -535,7 +535,7 @@
                   gitforprompts — zsh — terminal
                 </div>
                 <div class="w-24 text-right text-[11px] text-zinc-500 font-mono">
-                  v0.1.0
+                  v0.1.3
                 </div>
               </div>
 
@@ -547,7 +547,7 @@
                     ${showCmd1Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
                   </div>
                   ${cmd1Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Initializing local repository...</div>` : ''}
-                  ${cmd1Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> Initialized .gfp/ repository</div>` : ''}
+                  ${cmd1Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> Initialized .gitforprompts/ repository</div>` : ''}
                 </div>
 
                 ${showCmd2Line ? `
@@ -557,8 +557,8 @@
                       <span>${cmd2.slice(0, cmd2TypedChars)}</span>
                       ${showCmd2Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
                     </div>
-                    ${cmd2Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Running evals across Groq & Anthropic...</div>` : ''}
-                    ${cmd2Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> 12/12 assertions passed (Groq 120ms / Claude 1.5s)</div>` : ''}
+                    ${cmd2Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Saving snapshot to local SQLite...</div>` : ''}
+                    ${cmd2Done ? `<div class="text-emerald-400 text-xs sm:text-sm flex items-center gap-2.5 pl-6 font-medium"><span class="font-bold">✔</span> Saved version v1 (rag-agent)</div>` : ''}
                   </div>
                 ` : ''}
 
@@ -570,7 +570,7 @@
                       ${showCmd3Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
                     </div>
                     ${cmd3Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Acquiring advisory lock & hashing SHA-256...</div>` : ''}
-                    ${cmd3Done ? `<div class="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3"><span class="font-bold">✔</span> <span class="text-zinc-200">Published main v2</span><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span></div>` : ''}
+                    ${cmd3Done ? `<div class="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3"><span class="font-bold">✔</span> <span class="text-zinc-200">Published rag-agent v1</span><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span></div>` : ''}
                   </div>
                 ` : ''}
               </div>
