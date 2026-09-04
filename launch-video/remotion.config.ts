@@ -11,13 +11,37 @@ Config.setChromiumOpenGlRenderer('angle');
 Config.setOverwriteOutput(true);
 
 Config.overrideWebpackConfig((currentConfiguration) => {
-  const withTailwind = enableTailwind(currentConfiguration);
+  const rulesWithoutCss = (currentConfiguration.module?.rules ?? []).filter((rule: any) => {
+    return rule && rule !== '...' && !rule.test?.toString().includes('.css');
+  });
+
   return {
-    ...withTailwind,
+    ...currentConfiguration,
+    module: {
+      ...currentConfiguration.module,
+      rules: [
+        ...rulesWithoutCss,
+        {
+          test: /\.css$/i,
+          use: [
+            require.resolve('style-loader'),
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                modules: {
+                  auto: true,
+                  namedExport: false,
+                },
+              },
+            },
+          ],
+        },
+      ],
+    },
     resolve: {
-      ...withTailwind.resolve,
+      ...currentConfiguration.resolve,
       alias: {
-        ...(withTailwind.resolve?.alias ?? {}),
+        ...(currentConfiguration.resolve?.alias ?? {}),
         '@': path.resolve(process.cwd(), 'src'),
       },
     },
