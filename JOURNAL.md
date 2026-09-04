@@ -17,9 +17,9 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
-### [GFP — Adversarial Security Hardening, Multi-Model LLM Fallback & Production Launch Readiness] 2026-09-04
+### [GFP — Adversarial Security Hardening, Whole-Repo Audit & Production Launch Readiness] 2026-09-04
 
-- **Commit**: `5b7e6e4`
+- **Commit**: `917cef3`
 - **Shipped**:
   - Executed comprehensive 50-assertion adversarial system audit across 8 distinct architectural surfaces (`scratch/deep-audit.mjs`), achieving 50/50 PASSED (100% green).
   - Fixed variable prototype method leakage vulnerability in `packages/core/src/variables.ts` by enforcing `Object.hasOwn()` and string type checks, preventing prototype method strings from exposing JS internals.
@@ -27,8 +27,13 @@ During the Session End ritual (called automatically whenever significant changes
   - Hardened quota and billing exhaustion defense: surfaced human-readable error messages for OpenRouter 402/balance depletion and preserved actionable error details in server actions.
   - Streamlined local test developer experience: added `pnpm test:unit` script to bypass network stalls on Windows and updated dev rules in `.agents/AGENTS.md`.
   - Audited and verified SSRF firewall (`src/lib/security/ssrf.ts`) blocking RFC1918 subnets, cloud metadata (`169.254.169.254`), CGNAT, and IPv6 tunnels with DNS IP-pinning.
-  - Deployed verified production release `dpl_MVEVfWwYFxHe77X8BQHeh1KXya6u` to Vercel live at `https://gitforprompts.vercel.app` with full anti-clickjacking and security headers.
-- **Vibe**: 🛡️ 100% Adversarial Hardened, Multi-Model Resilient & Production Live!
+  - Enforced DNS rebinding TOCTOU defense in `src/lib/webhooks.ts`: webhook dispatcher now connects strictly to `ssrfCheck.pinnedUrl` with original `Host` header.
+  - Added pre-flight SSRF validation to webhook registration (`createWebhook` in `src/lib/actions/webhooks.ts`), blocking private/local IPs before database insertion.
+  - Fixed V2 PromptBundle system prompt support in scheduled regression test cron (`src/app/api/cron/regression-tests/route.ts`), preventing false failures during scheduled runs.
+  - Purged dead legacy wrapper `runEvaluationsLegacy` from `@gfp/core` (YAGNI).
+  - Standardized server action rate limiting on `expensive:${userId}` across `createPrompt`, `createVersion`, and `restoreVersion`.
+  - Deployed verified production release `dpl_4Vf6h7ozYog2M99JZo93gudr7c2F` to Vercel live at `https://gitforprompts.vercel.app` with full anti-clickjacking and security headers.
+- **Vibe**: 🛡️ 100% Adversarial Hardened, Cleaned of Dead Code & Production Live!
 
 ### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
  
