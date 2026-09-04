@@ -49,7 +49,12 @@ export function interpolateVariables(
   content: string,
   values: Record<string, string>
 ): string {
-  return content.replace(VARIABLE_REGEX, (match, name) => values[name] ?? match);
+  return content.replace(VARIABLE_REGEX, (match, name) => {
+    if (Object.hasOwn(values, name) && typeof values[name] === 'string') {
+      return values[name];
+    }
+    return match;
+  });
 }
 
 /**

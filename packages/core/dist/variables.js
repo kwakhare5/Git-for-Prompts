@@ -37,7 +37,12 @@ export function extractBundleVariables(bundle) {
  * Missing variables are left as-is (safe degradation).
  */
 export function interpolateVariables(content, values) {
-    return content.replace(VARIABLE_REGEX, (match, name) => values[name] ?? match);
+    return content.replace(VARIABLE_REGEX, (match, name) => {
+        if (Object.hasOwn(values, name) && typeof values[name] === 'string') {
+            return values[name];
+        }
+        return match;
+    });
 }
 /**
  * Interpolate variables across an entire PromptBundle.
