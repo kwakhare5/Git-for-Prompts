@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /**
- * gfp — Git for Prompts CLI
+ * gitforprompts — Git for Prompts CLI
  *
  * The local-first prompt package manager.
  * Version, diff, and evaluate your prompt bundles entirely offline.
  *
  * Commands:
- *   gfp init                           Initialize .gfp project
- *   gfp add <name> [options]           Add/update a prompt bundle
- *   gfp list                           List all local prompt bundles
- *   gfp history <name>                 Show version history
- *   gfp diff <name> <v1> <v2>          Compare two versions
- *   gfp run <name> [options]           Run eval tests locally
- *   gfp test-add <name> [options]      Add a test case to a prompt
- *   gfp auth <api-key>                 Save API key for cloud sync
- *   gfp push <name>                    Sync local → cloud
- *   gfp pull <name>                    Sync cloud → local
+ *   gitforprompts init                           Initialize .gitforprompts project
+ *   gitforprompts add <name> [options]           Add/update a prompt bundle
+ *   gitforprompts list                           List all local prompt bundles
+ *   gitforprompts history <name>                 Show version history
+ *   gitforprompts diff <name> <v1> <v2>          Compare two versions
+ *   gitforprompts run <name> [options]           Run eval tests locally
+ *   gitforprompts test-add <name> [options]      Add a test case to a prompt
+ *   gitforprompts auth <api-key>                 Save API key for cloud sync
+ *   gitforprompts push <name>                    Sync local → cloud
+ *   gitforprompts pull <name>                    Sync cloud → local
  */
 
 import { Command } from 'commander';
@@ -33,15 +33,15 @@ import { cmdTestAdd } from './commands/test-add.js';
 const program = new Command();
 
 program
-  .name('gfp')
+  .name('gitforprompts')
   .description('Git for Prompts — the local-first prompt package manager')
-  .version('0.1.0');
+  .version('0.1.2');
 
 // ─── init ────────────────────────────────────────────────────────────────────
 
 program
   .command('init')
-  .description('Initialize a .gfp project with local SQLite storage')
+  .description('Initialize a gitforprompts project with local SQLite storage')
   .action(async () => {
     await cmdInit();
   });
@@ -51,12 +51,16 @@ program
 program
   .command('add')
   .argument('<name>', 'Prompt name')
+  .argument('[content]', 'Inline prompt content')
   .description('Add or update a prompt bundle')
   .option('-f, --file <path>', 'Read prompt content from a text file')
   .option('-c, --content <text>', 'Inline prompt content')
   .option('-b, --bundle <path>', 'Read full bundle from a JSON file')
   .option('-m, --message <msg>', 'Commit message for this version')
-  .action(async (name: string, options) => {
+  .action(async (name: string, contentArg: string | undefined, options) => {
+    if (contentArg && !options.content) {
+      options.content = contentArg;
+    }
     await cmdAdd(name, options);
   });
 
@@ -108,8 +112,8 @@ program
 
 program
   .command('auth')
-  .argument('<api-key>', 'Your gfp_live_* API key')
-  .description('Save API key for cloud sync (gfp push/pull)')
+  .argument('<api-key>', 'Your API key (starting with gfp_live_*)')
+  .description('Save API key for cloud sync (gitforprompts push/pull)')
   .option('-u, --url <base>', 'Custom base URL for the cloud API')
   .action((apiKey: string, options) => {
     cmdAuth(apiKey, options);
@@ -120,7 +124,7 @@ program
 program
   .command('test-add')
   .argument('<name>', 'Prompt name')
-  .description('Add a test case to a local prompt (enables gfp run)')
+  .description('Add a test case to a local prompt (enables gitforprompts run)')
   .option('-n, --test-name <name>', 'Test case name')
   .option('-i, --input <text>', 'Input text to send to the prompt')
   .option('-c, --criteria <text>', 'Expected criteria the output should meet')

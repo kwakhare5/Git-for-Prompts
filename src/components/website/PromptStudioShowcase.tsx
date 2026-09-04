@@ -51,7 +51,7 @@ export function PromptStudioShowcase() {
             <div className="px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-zinc-800 flex items-center justify-between font-bold text-zinc-200">
               <div className="flex items-center gap-2 min-w-0">
                 <TerminalIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300 shrink-0" />
-                <span className="truncate text-[11px] sm:text-xs">gfp run test-suite --all</span>
+                <span className="truncate text-[11px] sm:text-xs">gitforprompts run test-suite --all</span>
               </div>
               <span className="text-emerald-300 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold shrink-0">
                 88/88 PASSED

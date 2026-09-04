@@ -1,5 +1,5 @@
 /**
- * gfp diff — Compare two versions of a prompt in the terminal.
+ * gitforprompts diff — Compare two versions of a prompt in the terminal.
  */
 
 import { diffVersions } from '@gfp/core';
@@ -8,15 +8,17 @@ import { createSqliteAdapter } from '../db/sqlite.js';
 
 export async function cmdDiff(name: string, v1Str: string, v2Str: string): Promise<void> {
   if (!name || !v1Str || !v2Str) {
-    console.error('\x1b[31mError:\x1b[0m Usage: gfp diff <name> <v1> <v2>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Usage: gitforprompts diff <name> <v1> <v2>');
+    process.exitCode = 1;
+    return;
   }
 
   const v1Num = parseInt(v1Str.replace(/^v/, ''), 10);
   const v2Num = parseInt(v2Str.replace(/^v/, ''), 10);
   if (isNaN(v1Num) || isNaN(v2Num)) {
     console.error('\x1b[31mError:\x1b[0m Version numbers must be integers (e.g., 1, 2 or v1, v2)');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -26,7 +28,8 @@ export async function cmdDiff(name: string, v1Str: string, v2Str: string): Promi
     const prompt = await adapter.getPromptByName(name);
     if (!prompt) {
       console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     const versions = await adapter.listVersions(prompt.id);
@@ -35,11 +38,13 @@ export async function cmdDiff(name: string, v1Str: string, v2Str: string): Promi
 
     if (!ver1) {
       console.error(`\x1b[31mError:\x1b[0m Version ${v1Num} not found`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
     if (!ver2) {
       console.error(`\x1b[31mError:\x1b[0m Version ${v2Num} not found`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     const diff = diffVersions(

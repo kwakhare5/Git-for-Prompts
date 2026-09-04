@@ -1,11 +1,11 @@
 /**
- * gfp test-add — Add a test case to a local prompt.
+ * gitforprompts test-add — Add a test case to a local prompt.
  *
  * Usage:
- *   gfp test-add <name> --test-name "Happy path" --input "user message" --criteria "should respond politely"
+ *   gitforprompts test-add <name> --test-name "Happy path" --input "user message" --criteria "should respond politely"
  *
  * After adding test cases, run:
- *   gfp run <name> --provider openai --api-key sk-...
+ *   gitforprompts run <name> --provider openai --api-key sk-...
  */
 
 import { getDbPath } from '../config.js';
@@ -19,18 +19,21 @@ interface TestAddOptions {
 
 export async function cmdTestAdd(name: string, options: TestAddOptions): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp test-add <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts test-add <name>');
+    process.exitCode = 1;
+    return;
   }
 
   if (!options.input) {
     console.error('\x1b[31mError:\x1b[0m --input is required. Example: --input "Hello, how do I cancel my order?"');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   if (!options.criteria) {
     console.error('\x1b[31mError:\x1b[0m --criteria is required. Example: --criteria "should offer a refund option"');
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -39,8 +42,9 @@ export async function cmdTestAdd(name: string, options: TestAddOptions): Promise
   try {
     const prompt = await adapter.getPromptByName(name);
     if (!prompt) {
-      console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found. Run: gfp add ${name} --content "..."`);
-      process.exit(1);
+      console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found. Run: gitforprompts add ${name} [content]`);
+      process.exitCode = 1;
+      return;
     }
 
     const testName = options.testName ?? `Test ${Date.now()}`;
@@ -56,7 +60,7 @@ export async function cmdTestAdd(name: string, options: TestAddOptions): Promise
     console.log(`  \x1b[90mInput:    ${testCase.inputText}\x1b[0m`);
     console.log(`  \x1b[90mCriteria: ${testCase.expectedCriteria}\x1b[0m`);
     console.log('');
-    console.log(`\x1b[90mRun tests with: gfp run ${name} --provider openai --api-key sk-...\x1b[0m`);
+    console.log(`\x1b[90mRun tests with: gitforprompts run ${name} --provider openai --api-key sk-...\x1b[0m`);
   } finally {
     adapter.close();
   }

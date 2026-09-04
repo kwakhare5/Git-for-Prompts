@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
 //
 // Authenticated via Bearer token.
 // Creates a new prompt owned by the key holder.
-// Used by the CLI: `gfp push` auto-creates the cloud prompt on first push.
+// Used by the CLI: `gitforprompts push` auto-creates the cloud prompt on first push.
 //
 // Body: { name: string, description?: string }
 //

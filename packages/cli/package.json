@@ -1,27 +1,44 @@
 {
-  "name": "@git-for-prompts/cli",
-  "version": "0.1.0",
+  "name": "gitforprompts",
+  "version": "0.1.2",
   "description": "Git for Prompts CLI — local-first prompt package manager with SQLite storage",
   "type": "module",
   "bin": {
-    "gfp": "./dist/index.js"
+    "gitforprompts": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup src/index.ts --format esm --target node18 --no-splitting --clean",
     "dev": "tsx src/index.ts"
   },
   "dependencies": {
-    "@gfp/core": "workspace:*",
-    "sql.js": "^1.14.2",
-    "commander": "^15.0.0"
+    "commander": "^15.0.0",
+    "sql.js": "^1.14.2"
   },
   "devDependencies": {
+    "@gfp/core": "workspace:*",
     "@types/node": "^26.2.0",
     "@types/sql.js": "^1.4.0",
-    "typescript": "^6.0.0",
-    "tsx": "^4.23.12"
+    "tsup": "^8.5.1",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwakhare5/git-for-prompts.git"
+  },
+  "homepage": "https://gitforprompts.vercel.app",
+  "keywords": [
+    "gitforprompts",
+    "prompt-engineering",
+    "llm",
+    "prompt-version-control",
+    "local-first",
+    "evals"
+  ],
   "engines": {
     "node": ">=18"
   },

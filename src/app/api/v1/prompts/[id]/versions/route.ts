@@ -12,7 +12,7 @@ import { z } from 'zod';
  * POST /api/v1/prompts/[id]/versions
  *
  * Create a new version via API key auth.
- * Used by the gfp CLI: gfp push <promptId> <file>
+ * Used by the gitforprompts CLI: gitforprompts push <promptId> <file>
  *
  * Body (V1 legacy): { content: string, commitMessage?: string }
  * Body (V2 bundle): { bundle: PromptBundle, commitMessage?: string }

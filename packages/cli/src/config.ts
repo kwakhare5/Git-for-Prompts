@@ -23,7 +23,8 @@ export interface GfpConfig {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const GFP_DIR = '.gfp';
+const GITFORPROMPTS_DIR = '.gitforprompts';
+const LEGACY_GFP_DIR = '.gfp';
 const CONFIG_FILE = 'config.json';
 const DB_FILE = 'bundles.db';
 const DEFAULT_BASE_URL = 'https://gitforprompts.vercel.app';
@@ -31,14 +32,16 @@ const DEFAULT_BASE_URL = 'https://gitforprompts.vercel.app';
 // ─── Path helpers ────────────────────────────────────────────────────────────
 
 /**
- * Find the .gfp directory by walking up from cwd.
- * Returns null if not found (project not initialized).
+ * Find the .gitforprompts (or legacy .gfp) directory by walking up from cwd.
+ * Returns { root, dirName } or null if not found (project not initialized).
  */
-function findGfpRoot(startDir: string = process.cwd()): string | null {
+function findProjectRoot(startDir: string = process.cwd()): { root: string; dirName: string } | null {
   let dir = startDir;
   while (true) {
-    const candidate = join(dir, GFP_DIR);
-    if (existsSync(candidate)) return dir;
+    const candidate = join(dir, GITFORPROMPTS_DIR);
+    if (existsSync(candidate)) return { root: dir, dirName: GITFORPROMPTS_DIR };
+    const legacyCandidate = join(dir, LEGACY_GFP_DIR);
+    if (existsSync(legacyCandidate)) return { root: dir, dirName: LEGACY_GFP_DIR };
     const parent = join(dir, '..');
     if (parent === dir) return null; // reached filesystem root
     dir = parent;
@@ -46,49 +49,52 @@ function findGfpRoot(startDir: string = process.cwd()): string | null {
 }
 
 /**
- * Get the .gfp directory path for the current project.
+ * Get the project directory path (.gitforprompts or legacy .gfp) for the current project.
  * Throws if not initialized.
  */
 export function requireGfpDir(): string {
-  const root = findGfpRoot();
-  if (!root) {
-    console.error('\x1b[31mError:\x1b[0m Not a gfp project. Run: gfp init');
+  const found = findProjectRoot();
+  if (!found) {
+    console.error('\x1b[31mError:\x1b[0m Not a gitforprompts project. Run: gitforprompts init');
     process.exit(1);
   }
-  return join(root, GFP_DIR);
+  return join(found.root, found.dirName);
 }
 
 /** Path to the SQLite database file. */
-export function getDbPath(gfpDir?: string): string {
-  const dir = gfpDir ?? requireGfpDir();
+export function getDbPath(projectDir?: string): string {
+  const dir = projectDir ?? requireGfpDir();
   return join(dir, DB_FILE);
 }
 
 /** Path to the config file. */
-function getConfigPath(gfpDir?: string): string {
-  const dir = gfpDir ?? requireGfpDir();
+function getConfigPath(projectDir?: string): string {
+  const dir = projectDir ?? requireGfpDir();
   return join(dir, CONFIG_FILE);
 }
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 
 /**
- * Initialize a .gfp directory in the current working directory.
+ * Initialize a .gitforprompts directory in the current working directory.
  * Idempotent — won't overwrite existing config.
  */
 export function initGfpDir(targetDir: string = process.cwd()): string {
-  const gfpDir = join(targetDir, GFP_DIR);
-  if (!existsSync(gfpDir)) {
-    mkdirSync(gfpDir, { recursive: true });
+  const legacyDir = join(targetDir, LEGACY_GFP_DIR);
+  const primaryDir = join(targetDir, GITFORPROMPTS_DIR);
+  const projectDir = existsSync(legacyDir) ? legacyDir : primaryDir;
+
+  if (!existsSync(projectDir)) {
+    mkdirSync(projectDir, { recursive: true });
   }
 
-  const configPath = join(gfpDir, CONFIG_FILE);
+  const configPath = join(projectDir, CONFIG_FILE);
   if (!existsSync(configPath)) {
     const defaultConfig: GfpConfig = { baseUrl: DEFAULT_BASE_URL };
     writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2), { mode: 0o600 });
   }
 
-  return gfpDir;
+  return projectDir;
 }
 
 // ─── Config CRUD ─────────────────────────────────────────────────────────────

@@ -1,9 +1,9 @@
 /**
- * gfp pull — Sync latest cloud version to local SQLite.
+ * gitforprompts pull — Sync latest cloud version to local SQLite.
  *
  * Usage:
- *   gfp pull <name>                Pull latest cloud version by name
- *   gfp pull <name> --cloud-id <id>  Target a specific cloud prompt ID
+ *   gitforprompts pull <name>                Pull latest cloud version by name
+ *   gitforprompts pull <name> --cloud-id <id>  Target a specific cloud prompt ID
  *
  * Flow:
  *   1. Resolve cloud prompt ID (from local cache, --cloud-id flag, or name lookup)
@@ -30,7 +30,7 @@ async function apiRequest(
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      'User-Agent': 'gfp-cli/0.1.0',
+      'User-Agent': 'gitforprompts-cli/0.1.2',
     },
   });
 
@@ -47,14 +47,16 @@ async function apiRequest(
 
 export async function cmdPull(name: string, options: PullOptions): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp pull <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts pull <name>');
+    process.exitCode = 1;
+    return;
   }
 
   const config = loadConfig();
   if (!config.apiKey) {
-    console.error('\x1b[31mError:\x1b[0m No API key. Run: gfp auth <api-key>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m No API key. Run: gitforprompts auth <api-key>');
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -79,14 +81,17 @@ export async function cmdPull(name: string, options: PullOptions): Promise<void>
       } else if (lookupRes.status === 404) {
         console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found in cloud.`);
         console.error('Check the dashboard or provide the cloud prompt ID directly:');
-        console.error(`  gfp pull ${name} --cloud-id <your-cloud-prompt-id>`);
-        process.exit(1);
+        console.error(`  gitforprompts pull ${name} --cloud-id <your-cloud-prompt-id>`);
+        process.exitCode = 1;
+        return;
       } else if (lookupRes.status === 401) {
-        console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
-        process.exit(1);
+        console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gitforprompts auth <api-key>');
+        process.exitCode = 1;
+        return;
       } else {
         console.error(`\x1b[31mError:\x1b[0m API error ${lookupRes.status}: ${JSON.stringify(lookupRes.data)}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
     }
 
@@ -98,16 +103,19 @@ export async function cmdPull(name: string, options: PullOptions): Promise<void>
     );
 
     if (res.status === 401) {
-      console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
-      process.exit(1);
+      console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gitforprompts auth <api-key>');
+      process.exitCode = 1;
+      return;
     }
     if (res.status === 404) {
       console.error(`\x1b[31mError:\x1b[0m Cloud prompt has no versions yet.`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
     if (res.status !== 200) {
       console.error(`\x1b[31mError:\x1b[0m Pull failed ${res.status}: ${JSON.stringify(res.data)}`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     // 3. Parse cloud response

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   CopyIcon,
   CheckIcon,
@@ -39,13 +40,13 @@ const DEMO_PROMPTS: PromptWithStats[] = [
     versionCount: 3,
     testsPassed: 12,
     testsTotal: 12,
-    isPublic: true,
-    updatedAt: '2026-08-21T10:00:00.000Z',
+    isPublic: false,
+    updatedAt: '2026-08-22T08:30:00.000Z',
   },
   {
     id: 'demo-2',
-    name: 'rag-knowledge-assistant',
-    description: 'Grounding system prompt with semantic search vector citations and Zod JSON output.',
+    name: 'customer-support-agent',
+    description: 'Tone-calibrated customer response generator with strict refund guardrails.',
     versionCount: 5,
     testsPassed: 23,
     testsTotal: 24,
@@ -74,6 +75,8 @@ export function DashboardHeroReplica({
   const [copiedKey, setCopiedKey] = useState(false);
   const [tempValue, setTempValue] = useState(0.2);
   const [selectedPromptId, setSelectedPromptId] = useState<string>('demo-1');
+  const [demoVersion, setDemoVersion] = useState(3);
+  const [isSaved, setIsSaved] = useState(false);
 
   const demoPrompts = DEMO_PROMPTS;
 
@@ -215,18 +218,65 @@ export function DashboardHeroReplica({
           <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">
             Workspace Tools
           </div>
-          <div className="flex items-center gap-2 text-zinc-100 bg-zinc-100/10 border border-zinc-800 px-3 py-2 rounded-xl font-bold">
-            <span>Bundle Editor</span>
-          </div>
-          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>Commit History</span>
-          </Link>
-          <Link href={!isDemo && selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/tests` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>Test Suite &amp; Evals</span>
-          </Link>
-          <Link href={!isDemo ? '/dashboard/api-keys' : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
-            <span>API Key Credentials</span>
-          </Link>
+          {isDemo ? (
+            <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => setActiveTab('editor')}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer w-full text-left transition-colors ${
+                  activeTab === 'editor'
+                    ? 'text-zinc-100 bg-zinc-100/10 border border-zinc-800 font-bold'
+                    : 'hover:text-zinc-200 text-zinc-400 hover:bg-bg-panel'
+                }`}
+              >
+                <span>Bundle Editor</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('diff')}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer w-full text-left transition-colors ${
+                  activeTab === 'diff'
+                    ? 'text-zinc-100 bg-zinc-100/10 border border-zinc-800 font-bold'
+                    : 'hover:text-zinc-200 text-zinc-400 hover:bg-bg-panel'
+                }`}
+              >
+                <span>Commit History</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('evals')}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer w-full text-left transition-colors ${
+                  activeTab === 'evals'
+                    ? 'text-zinc-100 bg-zinc-100/10 border border-zinc-800 font-bold'
+                    : 'hover:text-zinc-200 text-zinc-400 hover:bg-bg-panel'
+                }`}
+              >
+                <span>Test Suite &amp; Evals</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => toast.success('API key credentials are generated with SHA-256 hashes.')}
+                className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer w-full text-left text-zinc-400 hover:bg-bg-panel transition-colors"
+              >
+                <span>API Key Credentials</span>
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-2 text-zinc-100 bg-zinc-100/10 border border-zinc-800 px-3 py-2 rounded-xl font-bold">
+                <span>Bundle Editor</span>
+              </div>
+              <Link href={selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/diff` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+                <span>Commit History</span>
+              </Link>
+              <Link href={selectedPromptId ? `/dashboard/prompts/${selectedPromptId}/tests` : '/sign-in'} className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+                <span>Test Suite &amp; Evals</span>
+              </Link>
+              <Link href="/dashboard/api-keys" className="flex items-center gap-2 hover:text-zinc-200 px-3 py-2 rounded-xl cursor-pointer block">
+                <span>API Key Credentials</span>
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -235,7 +285,7 @@ export function DashboardHeroReplica({
           <div>
             <h3 className="text-lg font-bold text-zinc-100 font-mono flex items-center gap-2.5">
               {activePromptName}
-              <BadgeVersion>v3 snapshot</BadgeVersion>
+              <BadgeVersion>v{demoVersion} snapshot</BadgeVersion>
             </h3>
             <p className="text-xs text-zinc-400 mt-1 font-sans leading-relaxed">
               {activePromptDesc}
@@ -249,8 +299,15 @@ export function DashboardHeroReplica({
               </ButtonPrimary>
             </Link>
           ) : (
-            <ButtonPrimary>
-              + Save Version
+            <ButtonPrimary
+              onClick={() => {
+                setDemoVersion((v) => v + 1);
+                setIsSaved(true);
+                toast.success(`✓ Saved snapshot v${demoVersion + 1} to local SQLite database with commit: 'Updated prompt variables'`);
+                setTimeout(() => setIsSaved(false), 2200);
+              }}
+            >
+              {isSaved ? `✓ Saved v${demoVersion}` : '+ Save Version'}
             </ButtonPrimary>
           )}
         </div>
@@ -482,7 +539,7 @@ export function DashboardHeroReplica({
 
           <div className="flex items-center gap-2">
             <span className="text-[10px] bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-800/60 font-mono">
-              gfp-cli
+              gitforprompts
             </span>
           </div>
         </div>
@@ -516,7 +573,7 @@ export function DashboardHeroReplica({
 
         <div className="flex items-center gap-2">
           <span className="text-[10px] bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-lg border border-zinc-800/60 font-mono">
-            gfp-cli
+            gitforprompts
           </span>
         </div>
       </div>

@@ -59,7 +59,9 @@ next-env.d.ts
 # Build artifacts / local env
 .env.local
 
-# gfp CLI local storage
+# gitforprompts CLI local storage
 .gfp/
+.gitforprompts/
+/scratch/
 
 .env*

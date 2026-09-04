@@ -68,7 +68,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
               href="/dashboard"
               className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center shrink-0"
             >
-              Workspace
+              Open Dashboard
             </Link>
           ) : (
             <Link
@@ -83,7 +83,7 @@ export function Navbar({ userId }: { userId?: string | null }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden h-9 w-9 flex items-center justify-center rounded-xl border border-zinc-800 bg-bg-card text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition-colors ml-0.5 shrink-0"
+            className="md:hidden min-h-[44px] min-w-[44px] h-10 w-10 flex items-center justify-center rounded-xl border border-zinc-800 bg-bg-card text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 transition-colors ml-0.5 shrink-0"
             aria-label="Toggle mobile menu"
           >
             {mobileMenuOpen ? (

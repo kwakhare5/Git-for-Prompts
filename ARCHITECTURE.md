@@ -15,8 +15,8 @@ AI teams manage prompts in Google Docs, Notion, or hardcoded strings. When produ
 A **local-first prompt package manager** that versions the entire "prompt bundle" — not just text:
 
 - **Full bundle versioning:** System prompt + user template + model config (provider, model, temperature, topP, maxTokens) + function/tool definitions + output schema — all versioned as a single immutable snapshot
-- **Local-first CLI:** `npx gfp init` → SQLite database on your laptop. Zero cloud dependency. Zero subscriptions.
-- **Cloud sync (optional):** `gfp push` / `gfp pull` with API key to sync bundles to hosted SaaS for team collaboration
+- **Local-first CLI:** `npx gitforprompts init` → SQLite database on your laptop. Zero cloud dependency. Zero subscriptions.
+- **Cloud sync (optional):** `gitforprompts push` / `gitforprompts pull` with API key to sync bundles to hosted SaaS for team collaboration
 - **Everything from V1:** Visual diff, A/B compare, test runner, webhooks, REST API, CLI
 
 ### What Differentiates Us
@@ -25,7 +25,7 @@ A **local-first prompt package manager** that versions the entire "prompt bundle
 | Prompt text versioning | ✅ | ✅ | ✅ | ✅ |
 | Model config versioning | Partial | ✅ | ✅ | ✅ |
 | Tool/schema versioning | ❌ | ✅ | ✅ | ✅ |
-| Self-hosted | Docker+PG+CH | ❌ (SaaS) | ❌ (SaaS) | **`npx gfp` + SQLite** |
+| Self-hosted | Docker+PG+CH | ❌ (SaaS) | ❌ (SaaS) | **`npx gitforprompts` + SQLite** |
 | Zero-dependency local | ❌ | ❌ | ❌ | **✅** |
 | Offline eval runner | ❌ | ❌ | ❌ | **✅** |
 | Free & MIT licensed | ✅ | ❌ | ❌ | **✅** |
@@ -47,18 +47,18 @@ git-for-prompts/
 │   │   ├── package.json
 │   │   └── tsconfig.json
 │   │
-│   └── cli/                         # gfp CLI — local-first prompt manager
+│   └── cli/                         # gitforprompts CLI — local-first prompt manager
 │       ├── src/
 │       │   ├── index.ts             # CLI entry point (commander.js)
 │       │   ├── commands/
-│       │   │   ├── init.ts          # gfp init — create .gfp/ + SQLite DB
-│       │   │   ├── add.ts           # gfp add — create/update prompt bundle
-│       │   │   ├── run.ts           # gfp run — execute evals locally
-│       │   │   ├── history.ts       # gfp history — show version log
-│       │   │   ├── diff.ts          # gfp diff — compare two versions
-│       │   │   ├── push.ts          # gfp push — sync local → cloud
-│       │   │   ├── pull.ts          # gfp pull — sync cloud → local
-│       │   │   └── auth.ts          # gfp auth — set API key for cloud sync
+│       │   │   ├── init.ts          # gitforprompts init — create .gfp/ + SQLite DB
+│       │   │   ├── add.ts           # gitforprompts add — create/update prompt bundle
+│       │   │   ├── run.ts           # gitforprompts run — execute evals locally
+│       │   │   ├── history.ts       # gitforprompts history — show version log
+│       │   │   ├── diff.ts          # gitforprompts diff — compare two versions
+│       │   │   ├── push.ts          # gitforprompts push — sync local → cloud
+│       │   │   ├── pull.ts          # gitforprompts pull — sync cloud → local
+│       │   │   └── auth.ts          # gitforprompts auth — set API key for cloud sync
 │       │   ├── db/
 │       │   │   ├── sqlite.ts        # sql.js (Wasm SQLite) adapter (implements @gfp/core StorageAdapter)
 │       │   │   └── migrations.ts    # SQLite schema migrations

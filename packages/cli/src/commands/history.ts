@@ -1,5 +1,5 @@
 /**
- * gfp history — Show version history for a prompt.
+ * gitforprompts history — Show version history for a prompt.
  */
 
 import { getDbPath } from '../config.js';
@@ -7,8 +7,9 @@ import { createSqliteAdapter } from '../db/sqlite.js';
 
 export async function cmdHistory(name: string): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp history <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts history <name>');
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -18,7 +19,8 @@ export async function cmdHistory(name: string): Promise<void> {
     const prompt = await adapter.getPromptByName(name);
     if (!prompt) {
       console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     const versions = await adapter.listVersions(prompt.id);
