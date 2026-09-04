@@ -23,20 +23,20 @@
 - **Sound**: Electronic beat drop and warm synth swell at 9.5s (`285f`).
 
 ### Act 3: Terminal CLI Workflow (9.50s – 14.50s / Frames 285 – 435)
-- **Terminal UI**: MacOS traffic light header, `#0A0A0C` background, 10 FPS CLI spinner, `px-20` lateral padding.
+- **Terminal UI**: MacOS traffic light header, `#0A0A0C` background, 10 FPS CLI spinner, `px-20` lateral padding, `v1.0.0` header.
 - **Commands Executed**:
-  1. `$ npx gfp init` ➔ `✔ Initialized .gfp/ repository`
-  2. `$ gfp run main` ➔ `✔ 12/12 assertions passed (Groq 120ms / Claude 1.5s)`
-  3. `$ gfp push main` ➔ `✔ Published main v2` + `[sha256: 7f3a9e04]` cryptographic badge.
+  1. `$ npx gitforprompts init` ➔ `✔ Initialized .gitforprompts/ repository`
+  2. `$ gitforprompts add rag-agent "You are an AI assistant"` ➔ `✔ Saved version v1 (rag-agent)`
+  3. `$ gitforprompts push rag-agent` ➔ `✔ Published rag-agent v1` + `[sha256: 7f3a9e04]` cryptographic badge.
 - **Sound**: Rapid CLI keystrokes ➔ Holy Panda Enter thuds at frames 32, 76, 135.
 
 ### Act 4: Deep Tech Showcase (14.50s – 22.50s / Frames 435 – 675)
-- **Cut 1 (435–515f)**: *Visual Prompt Diffs* — Monaco side-by-side split editor showing v1 raw text vs v2 structured JSON schema addition.
+- **Cut 1 (435–515f)**: *Visual Prompt Diffs* — Monaco side-by-side split editor showing prompt diff with structured JSON schema.
 - **Cut 2 (515–595f)**: *Multi-Model Evals* — Live latency bars showing Groq Llama 3.3 70B (`140ms`, 6.2x FASTER) vs GPT-4o (`650ms`) vs Claude 3.5 Sonnet (`1250ms`).
-- **Cut 3 (595–675f)**: *Local-to-Cloud Sync* — `Local .gfp/` ➔ `Cloud Postgres` locked sync with SHA-256 stream.
+- **Cut 3 (595–675f)**: *Local-to-Cloud Sync* — `Local .gitforprompts/` ➔ `Cloud Postgres` locked sync with SHA-256 stream.
 - **Motion**: 4-frame card morph cross-dissolves (`opacity` + `translateY(2px)`) between cuts.
 
 ### Act 5: Outro & CTA (22.50s – 26.50s / Frames 675 – 795)
 - **Visual**: Brand logo tile, headline `"Git for Prompts"`, subheadline `"Open source, all the way down"`.
-- **Interactive CTA**: `$ npx gfp init` button simulating active click (`scale: 0.97`) at frame 40 (715 global) swapping to `✔ Copied!`.
+- **Interactive CTA**: `$ npx gitforprompts init` button simulating active click (`scale: 0.97`) at frame 40 (715 global) swapping to `✔ Copied!`.
 - **Sound**: Close-mic mouse click + soft celebration chime.

@@ -48,7 +48,7 @@ export type PersistResult = {
  * Run AI evaluation for every test case against a prompt version.
  * Concurrency-limited. No DB writes here — pure AI orchestration.
  *
- * systemPrompt: for V2 bundles, the separate top-level system prompt.
+ * systemPrompt: optional top-level system prompt from a prompt bundle.
  * When provided, promptContent is used as the user template instead of
  * the system message.
  */

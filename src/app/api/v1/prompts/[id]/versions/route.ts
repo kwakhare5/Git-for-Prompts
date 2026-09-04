@@ -14,9 +14,8 @@ import { z } from 'zod';
  * Create a new version via API key auth.
  * Used by the gitforprompts CLI: gitforprompts push <promptId> <file>
  *
- * Body (V1 legacy): { content: string, commitMessage?: string }
- * Body (V2 bundle): { bundle: PromptBundle, commitMessage?: string }
- *   — `content` is derived from bundle.userTemplate automatically
+ * Body: { content?: string, bundle?: PromptBundle, commitMessage?: string }
+ *   — `content` is derived from bundle.userTemplate automatically when bundle is provided
  * Auth: Bearer <api-key>
  */
 export const dynamic = 'force-dynamic';

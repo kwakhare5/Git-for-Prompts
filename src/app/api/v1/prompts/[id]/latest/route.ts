@@ -87,7 +87,7 @@ export async function GET(
       commitMessage: latest.commitMessage ?? null,
       content,
       variables: latest.variables ?? [],
-      bundle: latest.bundle ?? null,  // V2: full bundle payload (null for V1 versions)
+      bundle: latest.bundle ?? null,  // full bundle payload
       createdAt: latest.createdAt,
     });
   } catch {

@@ -120,7 +120,7 @@ export async function runTestsForVersion(input: unknown): Promise<TestCaseOutcom
     if (cases.length === 0) return [];
 
     // Delegate AI + persistence to TestRunner
-    // For V2 bundles: pass the bundle's systemPrompt so it's used as the
+    // When a bundle is present: pass the bundle's systemPrompt so it's used as the
     // system message, with content as the user template.
     const systemPrompt = version.bundle?.systemPrompt ?? null;
     const attempts = await runEvaluations(version.content, cases, '[TestRunner]', systemPrompt);
@@ -221,7 +221,7 @@ export async function runComparisonForVersions(input: unknown): Promise<{
     if (cases.length === 0) return { testCases: [], resultsA: [], resultsB: [] };
 
     // Run both sides in parallel via TestRunner
-    // Pass bundle systemPrompt for each side if available (V2 bundles).
+    // Pass bundle systemPrompt for each side if available.
     const [attemptsA, attemptsB] = await Promise.all([
       runEvaluations(versionA.content, cases, '[ComparisonA]', versionA.bundle?.systemPrompt ?? null),
       runEvaluations(versionB.content, cases, '[ComparisonB]', versionB.bundle?.systemPrompt ?? null),

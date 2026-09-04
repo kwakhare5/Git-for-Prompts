@@ -1,26 +1,26 @@
-# ARCHITECTURE.md — The Technical Blueprint (V2)
+# ARCHITECTURE.md — The Technical Blueprint (Version 1)
 
 _This document is for HUMANS to read. The AI will only read this when explicitly commanded via `@ZOOM` or when investigating complex database/architecture tasks._
 
 ## 1. PROJECT OVERVIEW & BUSINESS LOGIC
 
-### The Core Problem (V2 — Expanded)
+### The Core Problem
 AI teams manage prompts in Google Docs, Notion, or hardcoded strings. When production breaks, nobody knows what changed. But the problem is **deeper** than text versioning:
 
 1. **The "ghost drift" problem:** A prompt rollback doesn't fix the bug because the *model*, *temperature*, *tools*, or *output schema* also changed. Nobody tracked those.
 2. **The "another SaaS" problem:** Every prompt tool wants your prompts in their cloud. Developers in 2026 have subscription fatigue (41% report it) and want data ownership.
 3. **The "5-minute wall" problem:** Self-hosted alternatives (Langfuse) require Docker + Postgres + ClickHouse. Too heavy for a solo dev who just wants to version prompts on their laptop.
 
-### The Solution (V2)
+### The Solution
 A **local-first prompt package manager** that versions the entire "prompt bundle" — not just text:
 
 - **Full bundle versioning:** System prompt + user template + model config (provider, model, temperature, topP, maxTokens) + function/tool definitions + output schema — all versioned as a single immutable snapshot
 - **Local-first CLI:** `npx gitforprompts init` → SQLite database on your laptop. Zero cloud dependency. Zero subscriptions.
 - **Cloud sync (optional):** `gitforprompts push` / `gitforprompts pull` with API key to sync bundles to hosted SaaS for team collaboration
-- **Everything from V1:** Visual diff, A/B compare, test runner, webhooks, REST API, CLI
+- **Comprehensive toolset:** Visual diff, A/B compare, test runner, webhooks, REST API, CLI
 
 ### What Differentiates Us
-| Feature | Langfuse | Braintrust | PromptLayer | **Git for Prompts V2** |
+| Feature | Langfuse | Braintrust | PromptLayer | **Git for Prompts (v1)** |
 | :--- | :--- | :--- | :--- | :--- |
 | Prompt text versioning | ✅ | ✅ | ✅ | ✅ |
 | Model config versioning | Partial | ✅ | ✅ | ✅ |
@@ -32,7 +32,7 @@ A **local-first prompt package manager** that versions the entire "prompt bundle
 
 ## 2. SYSTEM ARCHITECTURE
 
-### Monorepo Structure (V2)
+### Monorepo Structure
 ```text
 git-for-prompts/
 ├── packages/
@@ -76,7 +76,7 @@ git-for-prompts/
 │   │   │   ├── webhooks/            # Webhook manager page
 │   │   │   └── prompts/[id]/
 │   │   │       ├── page.tsx         # Prompt detail + version history
-│   │   │       ├── edit/            # Edit prompt bundle (V2: tabbed Monaco editor)
+│   │   │       ├── edit/            # Edit prompt bundle (tabbed Monaco editor)
 │   │   │       ├── diff/            # Visual bundle diff comparison
 │   │   │       ├── compare/         # A/B version comparison
 │   │   │       └── tests/           # Test suite runner
@@ -135,16 +135,16 @@ git-for-prompts/
     └──────────────────┘                  └─────────────────────┘
 ```
 
-## 3. DATABASE SCHEMA (V2)
+## 3. DATABASE SCHEMA
 
-### Table: `versions` (V2 — bundle column added)
+### Table: `versions`
 ```typescript
 export const versions = pgTable("versions", {
   id: uuid("id").defaultRandom().primaryKey(),
   promptId: uuid("prompt_id").notNull().references(() => prompts.id, { onDelete: "cascade" }),
   versionNumber: integer("version_number").notNull(),
-  content: text("content").notNull(),                    // LEGACY: plain prompt text (always populated)
-  bundle: jsonb("bundle").$type<PromptBundle | null>(),  // V2 NEW: full bundle payload (null for V1 versions)
+  content: text("content").notNull(),                    // plain prompt text (always populated)
+  bundle: jsonb("bundle").$type<PromptBundle | null>(),  // full bundle payload
   commitMessage: varchar("commit_message", { length: 500 }),
   variables: text("variables").array().default([]).notNull(),
   createdBy: varchar("created_by", { length: 255 }).notNull(),
@@ -222,18 +222,15 @@ CREATE TABLE IF NOT EXISTS test_results (
 );
 ```
 
-### Other tables (unchanged from V1)
-Tables `prompts`, `test_cases`, `test_results`, `api_keys`, `webhooks` remain as documented in V1. See `src/db/schema.ts` for full definitions.
+### Other tables
+Tables `prompts`, `test_cases`, `test_results`, `api_keys`, `webhooks` remain as defined in `src/db/schema.ts`.
 
 ## 4. DEEP MODULE ARCHITECTURE & SEAMS
 
-### V1 Deep Modules (unchanged)
+### Core Deep Modules
 1. **`insertNextVersion`** — Advisory lock transaction, centralized version creation.
 2. **`authenticateApiKey`** — Bearer auth, SHA-256 lookup, single-call API key validation.
 3. **`fireWebhooks`** — Fire-and-forget HMAC-SHA256 webhook delivery.
-
-### V2 New Deep Modules
-
 4. **`@gfp/core` — Bundle Engine:**
    - `validateBundle(input: unknown): PromptBundle` — Zod parse + strip unknown fields
    - `diffBundles(a: PromptBundle, b: PromptBundle): BundleDiff` — Structural diff for each field
@@ -252,14 +249,14 @@ Tables `prompts`, `test_cases`, `test_results`, `api_keys`, `webhooks` remain as
 ## 5. SYNC PROTOCOL (cloud ↔ local)
 
 ```text
-gfp push <prompt-name>
+gitforprompts push <prompt-name>
   1. Read local prompt + all versions from SQLite
   2. Authenticate via API key (gfp_live_* → SHA-256 lookup)
   3. POST /api/v1/prompts/:id/versions with bundle payload
   4. Server inserts via insertNextVersion (advisory lock)
   5. Webhook fires (version.created)
 
-gfp pull <prompt-name>
+gitforprompts pull <prompt-name>
   1. Authenticate via API key
   2. GET /api/v1/prompts/:id/latest (returns full bundle)
   3. Insert into local SQLite (auto-increment local version)
@@ -275,9 +272,9 @@ gfp pull <prompt-name>
 | 2026-07 | `pg_advisory_xact_lock` for versioning | Prevents concurrent saves from racing |
 | 2026-07 | All version writes via `insertNextVersion` | Advisory lock + variable extraction in one place |
 | 2026-07 | Webhooks fire-and-forget | Never block a save |
-| 2026-08 | **V2: Bundle as single JSONB column** | Cleaner diffs, simpler migrations, flexible schema evolution |
-| 2026-08 | **V2: Keep `content` + add `bundle`** | Backward compatible — V1 versions have null bundle |
-| 2026-08 | **V2: `@gfp/core` shared package** | Pure TS engine shared by CLI (SQLite) and cloud (Postgres) |
-| 2026-08 | **V2: `sql.js` (Wasm SQLite) for local** | Zero native C++ compilation dependencies, runs identically on any OS |
-| 2026-08 | **V2: User-provided API key for local evals** | No key storage on our side. User controls their own provider. |
-| 2026-08 | **V2: MIT license** | Maximum adoption and community trust |
+| 2026-08 | Bundle as single JSONB column | Cleaner diffs, simpler migrations, flexible schema evolution |
+| 2026-08 | Dual-format support: `content` + `bundle` | Backwards compatibility and multi-modal template flexibility |
+| 2026-08 | `@gfp/core` shared package | Pure TS engine shared by CLI (SQLite) and cloud (Postgres) |
+| 2026-08 | `sql.js` (Wasm SQLite) for local | Zero native C++ compilation dependencies, runs identically on any OS |
+| 2026-08 | User-provided API key for local evals | No key storage on our side. User controls their own provider. |
+| 2026-08 | MIT license | Maximum adoption and community trust |

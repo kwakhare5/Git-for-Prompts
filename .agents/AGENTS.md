@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Unified all web assets strictly to `public/logo.svg` (removed legacy dark-box favicons and dynamic apple-icon; updated metadata in layout.tsx and manifest.ts). Published `gitforprompts@0.1.3` live to npm with bundled `README.md` and complete quickstart documentation. Aligned launch video Scene 3 Terminal with Option B: `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated directory to `.gitforprompts/`, bumped header to `v0.1.3`, and re-rendered master launch video (795/795 frames, 2 MB). Full test suite 154/154 passing, build clean.
+- **Current State:** Locked Version 1 standard (`v1.0.0`) across monorepo root, `@gfp/core`, and CLI. Published `gitforprompts@1.0.0` live to the npm registry. Purged all internal "V2", "gfp", and "Supabase" jargon across `README.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `LAUNCH_PLAN.md`, `FaqFooter.tsx`, and `json-ld.tsx`. Deleted speculative RFC `docs/GFP_AGENT_RFC.md` and pruned duplicate old launch video `launch-video.mp4` (leaving master `launch-video-master.mp4`). Audited all 37 UI components (0 dead code/components found; Next.js 16 Turbopack build clean across 23 routes in 5.4s; 154/154 Vitest unit/security tests passing; ESLint 0 errors/0 warnings). Updated graphify knowledge graph.
 - **Immediate next task:** Launch announcement and distribution.
 - **Open blockers:** None.
 

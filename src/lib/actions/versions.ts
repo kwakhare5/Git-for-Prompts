@@ -51,7 +51,7 @@ export async function insertNextVersion(
     content: string;
     commitMessage?: string;
     createdBy: string;
-    bundle?: PromptBundle; // V2: optional full bundle payload
+    bundle?: PromptBundle; // optional full bundle payload
   }
 ) {
   await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${params.promptId}))`);
@@ -65,8 +65,7 @@ export async function insertNextVersion(
 
   const nextVersionNumber = (lastVersion?.versionNumber ?? 0) + 1;
 
-  // V2: if a bundle is provided, derive content + variables from it.
-  // V1: use raw content string and extract variables from it.
+  // If a bundle is provided, derive content + variables from it; otherwise use raw content string.
   const resolvedContent = params.bundle
     ? extractContentFromBundle(params.bundle)
     : params.content;

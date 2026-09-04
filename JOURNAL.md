@@ -54,8 +54,13 @@ During the Session End ritual (called automatically whenever significant changes
   - Unified website navigation: resolved "Workspace" vs "Open Dashboard" button discrepancy, eliminated authenticated visitor kickout on hero CTA, and converted static `+ Save Version` button into an interactive local SQLite snapshot simulator with toast feedback.
   - Unified favicon and logo assets: enforced transparent `public/logo.svg` across layout icons, web manifest, and UI components; removed legacy dark-tile favicons and dynamic apple-icon.
   - Published `gitforprompts@0.1.3` to npm registry with bundled `README.md`, command table, and usage quickstart.
-  - Rebuilt launch video Scene 3 Terminal (Option B): aligned workflow to `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated repository directory output to `.gitforprompts/`, bumped terminal header to `v0.1.3`, and re-rendered master video (795/795 frames, 2 MB).
-- **Vibe**: 🚀 100% Launch Ready — gitforprompts@0.1.3 Live with Full Docs, Logo Unified, Video Terminal Calibrated!
+  - Rebuilt launch video Scene 3 Terminal (Option B): aligned workflow to `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated repository directory output to `.gitforprompts/`, bumped terminal header to `v1.0.0`, and re-rendered master video (795/795 frames, 2 MB).
+  - Deleted old duplicate launch video `launch-video.mp4`, keeping single canonical master `launch-video-master.mp4`.
+  - Locked Version 1 standard (`v1.0.0`) across all packages (`package.json`, `@gfp/core`, `gitforprompts` CLI) and published `gitforprompts@1.0.0` live to the public npm registry.
+  - Executed whole-repo deep audit: purged all misleading "V2", "gfp", and "Supabase" jargon across `README.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `LAUNCH_PLAN.md`, `FaqFooter.tsx`, and `json-ld.tsx`.
+  - Deleted speculative draft RFC `docs/GFP_AGENT_RFC.md` and audited all 37 UI components (0 dead code/components found; Next.js 16 build passing across 23 routes; 154/154 passing Vitest tests; ESLint 0 errors/0 warnings).
+  - Synchronized persistent codebase knowledge graph with `graphify update .` (693 nodes, 1355 edges, 49 communities).
+- **Vibe**: 🚀 100% Launch Ready — gitforprompts@1.0.0 Live on NPM with Pure Version 1 Docs, Video Master Calibrated & Monorepo 100% Green!
 
 ### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
  

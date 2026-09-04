@@ -43,7 +43,7 @@ export const Scene3Terminal: React.FC = () => {
             gitforprompts — zsh — terminal
           </div>
           <div className="w-24 text-right text-[11px] text-zinc-500 font-mono">
-            v0.1.3
+            v1.0.0
           </div>
         </div>
 
