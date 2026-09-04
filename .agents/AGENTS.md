@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Completed whole-codebase documentation and codebase scope alignment. Synchronized 100% ground truth across `README.md`, `CONTEXT.md`, `ARCHITECTURE.md`, `CONTRIBUTING.md`, `src/db/schema.ts`, `src/lib/validations/prompt.ts`, and `src/app/api/cron/regression-tests/route.ts`. Purged all outdated references to legacy `/explore` gallery, `forkPrompt` action, `keep-alive` cron, and `better-sqlite3`. Test suite 154/154 green, ESLint clean, 50/50 deep audit passed, and Graphify AST updated.
+- **Current State:** Aligned launch video copy to 100% current ground truth (standardized `$ gfp push main` and updated benchmark models to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`). Completed root housekeeping: moved `launch-video-player.html` into `launch-video/` with universal audio loading, purged unused `supabase/` folder, and removed duplicate audio from `public/`. Monorepo is 100% clean, 154/154 Vitest passing, ESLint clean, and 50/50 deep audit passed.
 - **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 

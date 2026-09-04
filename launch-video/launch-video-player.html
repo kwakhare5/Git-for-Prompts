@@ -240,9 +240,9 @@
         evalPassText: "100% Assertions Passed (12/12)",
         model1Name: "Groq / Llama 3.3 70B",
         model1Time: "140 ms (Fastest)",
-        model2Name: "OpenAI / GPT-5.6 Sol",
+        model2Name: "OpenAI / GPT-4o",
         model2Time: "650 ms",
-        model3Name: "Anthropic / Claude Opus 5",
+        model3Name: "Anthropic / Claude 3.5 Sonnet",
         model3Time: "1250 ms",
         cut4Title: "Production Runtime Pull API",
         cut4Subtitle: "Fetch latest prompt versions with dynamic variable injection",
@@ -511,7 +511,7 @@
         const cmd2Running = local >= 58 && local < 76;
         const cmd2Done = local >= 76;
 
-        const cmd3 = "gfp push main.prompt";
+        const cmd3 = "gfp push main";
         const showCmd3Line = local >= 82;
         const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
         const showCmd3Cursor = local >= 82 && local < 110;
@@ -570,7 +570,7 @@
                       ${showCmd3Cursor ? '<span class="inline-block w-2.5 h-5 bg-emerald-400 animate-pulse"></span>' : ''}
                     </div>
                     ${cmd3Running ? `<div class="text-zinc-300 text-xs sm:text-sm flex items-center gap-2.5 pl-6"><span class="text-yellow-400 font-bold">${currentSpinner}</span> Acquiring advisory lock & hashing SHA-256...</div>` : ''}
-                    ${cmd3Done ? `<div class="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3"><span class="font-bold">✔</span> <span class="text-zinc-200">Published main.prompt v2</span><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span></div>` : ''}
+                    ${cmd3Done ? `<div class="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3"><span class="font-bold">✔</span> <span class="text-zinc-200">Published main v2</span><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span></div>` : ''}
                   </div>
                 ` : ''}
               </div>
@@ -723,7 +723,7 @@
                       </div>
                       <div>
                         <div class="flex justify-between text-zinc-300 mb-2">
-                          <span>OpenAI / GPT-5.6 Sol</span>
+                          <span>OpenAI / GPT-4o</span>
                           <span class="text-zinc-400">650 ms</span>
                         </div>
                         <div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
@@ -732,7 +732,7 @@
                       </div>
                       <div>
                         <div class="flex justify-between text-zinc-300 mb-2">
-                          <span>Anthropic / Claude Opus 5</span>
+                          <span>Anthropic / Claude 3.5 Sonnet</span>
                           <span class="text-zinc-400">1250 ms</span>
                         </div>
                         <div class="w-full bg-zinc-900 h-3.5 rounded-full overflow-hidden">
@@ -997,13 +997,18 @@
       }
     }
 
-    const typingAudio = new Audio('launch-video/public/sfx/mixkit-keyboard-typing-1386.wav');
-    const enterAudio = new Audio('launch-video/public/sfx/keyboard_enter_holypanda.mp3');
-    const lockAudio = new Audio('launch-video/public/sfx/click_soft.mp3');
-    const popAudio = new Audio('launch-video/public/sfx/notification_pop.mp3');
-    const whooshAudio = new Audio('launch-video/public/sfx/mixkit-arrow-whoosh-1491.wav');
-    const mouseClickAudio = new Audio('launch-video/public/sfx/mixkit-mouse-click-close-1113.wav');
-    const chimeAudio = new Audio('launch-video/public/sfx/chime_success.mp3');
+    function loadSfx(rel) {
+      const audio = new Audio('public/sfx/' + rel);
+      audio.onerror = () => { audio.src = 'launch-video/public/sfx/' + rel; };
+      return audio;
+    }
+    const typingAudio = loadSfx('mixkit-keyboard-typing-1386.wav');
+    const enterAudio = loadSfx('keyboard_enter_holypanda.mp3');
+    const lockAudio = loadSfx('click_soft.mp3');
+    const popAudio = loadSfx('notification_pop.mp3');
+    const whooshAudio = loadSfx('mixkit-arrow-whoosh-1491.wav');
+    const mouseClickAudio = loadSfx('mixkit-mouse-click-close-1113.wav');
+    const chimeAudio = loadSfx('chime_success.mp3');
 
     function startTyping(vol = 0.35) {
       if (!musicEnabled) return;

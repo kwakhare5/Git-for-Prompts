@@ -34,9 +34,10 @@ During the Session End ritual (called automatically whenever significant changes
   - Standardized server action rate limiting on `expensive:${userId}` across `createPrompt`, `createVersion`, and `restoreVersion`.
   - Deployed verified production release `dpl_4Vf6h7ozYog2M99JZo93gudr7c2F` to Vercel live at `https://gitforprompts.vercel.app` with full anti-clickjacking and security headers.
   - Completed whole-codebase documentation and scope audit: aligned `README.md`, `CONTEXT.md`, `ARCHITECTURE.md`, and `CONTRIBUTING.md` with 100% current ground truth.
-  - Purged all obsolete references to deleted features: removed legacy `/explore` public gallery references, `forkPrompt` action, `keep-alive` cron comments, and `better-sqlite3` native references (standardized on `sql.js` Wasm).
   - Synchronized CLI command documentation in `README.md` to match actual commander interface (`gfp auth <api-key>`, `gfp test-add`, `gfp run --provider`).
-- **Vibe**: 🚀 100% Ground-Truth Synchronized, Documentation Aligned & Ready for Launch!
+  - Aligned launch video copy to real-world models: updated latency benchmark to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`, and standardized CLI push command to `$ gfp push main`.
+  - Executed root housekeeping: relocated `launch-video-player.html` into `launch-video/` with universal relative audio paths, deleted unused legacy `supabase/` folder, and removed duplicate audio from root `public/`.
+- **Vibe**: 💎 100% Ground-Truth Synchronized, Video Copy Polished & Codebase Spotless!
 
 ### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
  

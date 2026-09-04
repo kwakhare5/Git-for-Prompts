@@ -17,7 +17,7 @@ export const Scene3Terminal: React.FC = () => {
   const cmd2Running = local >= 58 && local < 76;
   const cmd2Done = local >= 76;
 
-  const cmd3 = "gfp push main.prompt";
+  const cmd3 = "gfp push main";
   const showCmd3Line = local >= 82;
   const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
   const showCmd3Cursor = local >= 82 && local < 110;
@@ -121,7 +121,7 @@ export const Scene3Terminal: React.FC = () => {
               {cmd3Done && (
                 <div className="text-emerald-400 text-xs sm:text-sm pl-6 font-bold flex items-center gap-3">
                   <span className="font-bold">✔</span>
-                  <span className="text-zinc-200">Published main.prompt v2</span>
+                  <span className="text-zinc-200">Published main v2</span>
                   <span className="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-mono font-medium">sha256: 7f3a9e04</span>
                 </div>
               )}

@@ -27,12 +27,12 @@
 - **Commands Executed**:
   1. `$ npx gfp init` ➔ `✔ Initialized .gfp/ repository`
   2. `$ gfp run main` ➔ `✔ 12/12 assertions passed (Groq 120ms / Claude 1.5s)`
-  3. `$ gfp push main.prompt` ➔ `✔ Published main.prompt v2` + `[sha256: 7f3a9e04]` cryptographic badge.
+  3. `$ gfp push main` ➔ `✔ Published main v2` + `[sha256: 7f3a9e04]` cryptographic badge.
 - **Sound**: Rapid CLI keystrokes ➔ Holy Panda Enter thuds at frames 32, 76, 135.
 
 ### Act 4: Deep Tech Showcase (14.50s – 22.50s / Frames 435 – 675)
 - **Cut 1 (435–515f)**: *Visual Prompt Diffs* — Monaco side-by-side split editor showing v1 raw text vs v2 structured JSON schema addition.
-- **Cut 2 (515–595f)**: *Multi-Model Evals* — Live latency bars showing Groq Llama 3.3 70B (`140ms`, 6.2x FASTER) vs GPT-5.6 Sol (`650ms`) vs Claude Opus 5 (`1250ms`).
+- **Cut 2 (515–595f)**: *Multi-Model Evals* — Live latency bars showing Groq Llama 3.3 70B (`140ms`, 6.2x FASTER) vs GPT-4o (`650ms`) vs Claude 3.5 Sonnet (`1250ms`).
 - **Cut 3 (595–675f)**: *Local-to-Cloud Sync* — `Local .gfp/` ➔ `Cloud Postgres` locked sync with SHA-256 stream.
 - **Motion**: 4-frame card morph cross-dissolves (`opacity` + `translateY(2px)`) between cuts.
 
