@@ -26,9 +26,9 @@
 - **Terminal UI**: MacOS traffic light header, `#0A0A0C` background, 10 FPS CLI spinner, `px-20` lateral padding, `v1.0.0` header.
 - **Commands Executed**:
   1. `$ npx gitforprompts init` ➔ `✔ Initialized .gitforprompts/ repository`
-  2. `$ gitforprompts add rag-agent "You are an AI assistant"` ➔ `✔ Saved version v1 (rag-agent)`
+  2. `$ gitforprompts add rag-agent` ➔ `✔ Saved version v1 (rag-agent)`
   3. `$ gitforprompts push rag-agent` ➔ `✔ Published rag-agent v1` + `[sha256: 7f3a9e04]` cryptographic badge.
-- **Sound**: Rapid CLI keystrokes ➔ Holy Panda Enter thuds at frames 32, 76, 135.
+- **Sound**: Calibrated 30 chars/sec keystrokes ➔ Holy Panda Enter thuds at global frames 313, 359, 407 ➔ Chime at frame 419.
 
 ### Act 4: Deep Tech Showcase (14.50s – 22.50s / Frames 435 – 675)
 - **Cut 1 (435–515f)**: *Visual Prompt Diffs* — Monaco side-by-side split editor showing prompt diff with structured JSON schema.

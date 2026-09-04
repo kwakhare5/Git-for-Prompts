@@ -5,24 +5,24 @@ export const Scene3Terminal: React.FC = () => {
   const local = useCurrentFrame();
 
   const cmd1 = "npx gitforprompts init";
-  const cmd1TypedChars = Math.min(cmd1.length, Math.floor(Math.max(0, local - 4) / 1.4));
-  const showCmd1Cursor = local >= 4 && local < 20;
-  const cmd1Running = local >= 20 && local < 32;
-  const cmd1Done = local >= 32;
+  const cmd1TypedChars = Math.min(cmd1.length, Math.max(0, local - 4));
+  const showCmd1Cursor = local >= 4 && local < 28;
+  const cmd1Running = local >= 28 && local < 38;
+  const cmd1Done = local >= 38;
 
-  const cmd2 = 'gitforprompts add rag-agent "You are an AI assistant"';
-  const showCmd2Line = local >= 38;
-  const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) * 2.7));
-  const showCmd2Cursor = local >= 38 && local < 58;
-  const cmd2Running = local >= 58 && local < 76;
-  const cmd2Done = local >= 76;
+  const cmd2 = "gitforprompts add rag-agent";
+  const showCmd2Line = local >= 44;
+  const cmd2TypedChars = Math.min(cmd2.length, Math.max(0, local - 46));
+  const showCmd2Cursor = local >= 44 && local < 74;
+  const cmd2Running = local >= 74 && local < 84;
+  const cmd2Done = local >= 84;
 
   const cmd3 = "gitforprompts push rag-agent";
-  const showCmd3Line = local >= 82;
-  const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) * 1.0));
-  const showCmd3Cursor = local >= 82 && local < 110;
-  const cmd3Running = local >= 110 && local < 135;
-  const cmd3Done = local >= 135;
+  const showCmd3Line = local >= 90;
+  const cmd3TypedChars = Math.min(cmd3.length, Math.max(0, local - 92));
+  const showCmd3Cursor = local >= 90 && local < 122;
+  const cmd3Running = local >= 122 && local < 134;
+  const cmd3Done = local >= 134;
 
   const spinnerChars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
   const spinIndex = Math.floor(local / 3) % spinnerChars.length;

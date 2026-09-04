@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Locked Version 1 standard (`v1.0.0`) across monorepo root, `@gfp/core`, and CLI. Published `gitforprompts@1.0.0` live to the npm registry. Purged all internal "V2", "gfp", and "Supabase" jargon across `README.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `LAUNCH_PLAN.md`, `FaqFooter.tsx`, and `json-ld.tsx`. Deleted speculative RFC `docs/GFP_AGENT_RFC.md` and pruned duplicate old launch video `launch-video.mp4` (leaving master `launch-video-master.mp4`). Audited all 37 UI components (0 dead code/components found; Next.js 16 Turbopack build clean across 23 routes in 5.4s; 154/154 Vitest unit/security tests passing; ESLint 0 errors/0 warnings). Updated graphify knowledge graph.
+- **Current State:** Calibrated, verified, and re-rendered master launch video (`launch-video/out/launch-video-master.mp4`, 795/795 frames, 1.99 MB). Synchronized all 3 terminal commands in Scene 3 to uniform 1 char/frame (30 chars/sec) with sub-frame Holy Panda Enter and chime audio alignment. Purged all legacy `Local .gfp/` ➔ `Local .gitforprompts/` in Scene 4 Card 3, sharpened Scene 2 subtitle contrast, synchronized tactile audio triggers at settle frames, standardized button compression on `scale(0.96)` and container height `h-6`, and synchronized `launch-video-player.html`. All 154 unit & security tests green.
 - **Immediate next task:** Launch announcement and distribution.
 - **Open blockers:** None.
 

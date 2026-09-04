@@ -31,32 +31,32 @@ export const LaunchVideo: React.FC = () => {
         <Audio src={staticFile('sfx/notification_pop.mp3')} volume={0.38} />
       </Sequence>
 
-      {/* SFX 4: Scene 3 Terminal CLI Typing 1 (Frames 289 - 305) & Enter Keystroke (Frame 305) */}
-      <Sequence from={289} durationInFrames={16}>
+      {/* SFX 4: Scene 3 Terminal CLI Typing 1 (Frames 289 - 311) & Enter Keystroke (Frame 313) */}
+      <Sequence from={289} durationInFrames={22}>
         <Audio src={staticFile('sfx/mixkit-keyboard-typing-1386.wav')} volume={0.30} />
       </Sequence>
-      <Sequence from={305} durationInFrames={25}>
+      <Sequence from={313} durationInFrames={25}>
         <Audio src={staticFile('sfx/keyboard_enter_holypanda.mp3')} volume={0.38} />
       </Sequence>
 
-      {/* SFX 5: Scene 3 Terminal CLI Typing 2 (Frames 323 - 343) & Enter Keystroke (Frame 343) */}
-      <Sequence from={323} durationInFrames={20}>
+      {/* SFX 5: Scene 3 Terminal CLI Typing 2 (Frames 331 - 357) & Enter Keystroke (Frame 359) */}
+      <Sequence from={331} durationInFrames={26}>
         <Audio src={staticFile('sfx/mixkit-keyboard-typing-1386.wav')} volume={0.30} />
       </Sequence>
-      <Sequence from={343} durationInFrames={25}>
+      <Sequence from={359} durationInFrames={25}>
         <Audio src={staticFile('sfx/keyboard_enter_holypanda.mp3')} volume={0.38} />
       </Sequence>
 
-      {/* SFX 6: Scene 3 Terminal CLI Typing 3 (Frames 367 - 395) & Enter Keystroke (Frame 395) */}
-      <Sequence from={367} durationInFrames={28}>
+      {/* SFX 6: Scene 3 Terminal CLI Typing 3 (Frames 377 - 405) & Enter Keystroke (Frame 407) */}
+      <Sequence from={377} durationInFrames={28}>
         <Audio src={staticFile('sfx/mixkit-keyboard-typing-1386.wav')} volume={0.30} />
       </Sequence>
-      <Sequence from={395} durationInFrames={25}>
+      <Sequence from={407} durationInFrames={25}>
         <Audio src={staticFile('sfx/keyboard_enter_holypanda.mp3')} volume={0.38} />
       </Sequence>
 
-      {/* SFX 7: Scene 3 Terminal Verified Publish Chime (Frame 420) */}
-      <Sequence from={420} durationInFrames={35}>
+      {/* SFX 7: Scene 3 Terminal Verified Publish Chime (Frame 419) */}
+      <Sequence from={419} durationInFrames={35}>
         <Audio src={staticFile('sfx/chime_success.mp3')} volume={0.35} />
       </Sequence>
 

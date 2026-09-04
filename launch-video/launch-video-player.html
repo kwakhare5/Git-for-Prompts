@@ -499,24 +499,24 @@
         const local = frame - 285;
 
         const cmd1 = "npx gitforprompts init";
-        const cmd1TypedChars = Math.min(cmd1.length, Math.floor(Math.max(0, local - 4) / 1.4));
-        const showCmd1Cursor = local >= 4 && local < 20;
-        const cmd1Running = local >= 20 && local < 32;
-        const cmd1Done = local >= 32;
+        const cmd1TypedChars = Math.min(cmd1.length, Math.max(0, local - 4));
+        const showCmd1Cursor = local >= 4 && local < 28;
+        const cmd1Running = local >= 28 && local < 38;
+        const cmd1Done = local >= 38;
 
-        const cmd2 = 'gitforprompts add rag-agent "You are an AI assistant"';
-        const showCmd2Line = local >= 38;
-        const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) * 2.7));
-        const showCmd2Cursor = local >= 38 && local < 58;
-        const cmd2Running = local >= 58 && local < 76;
-        const cmd2Done = local >= 76;
+        const cmd2 = "gitforprompts add rag-agent";
+        const showCmd2Line = local >= 44;
+        const cmd2TypedChars = Math.min(cmd2.length, Math.max(0, local - 46));
+        const showCmd2Cursor = local >= 44 && local < 74;
+        const cmd2Running = local >= 74 && local < 84;
+        const cmd2Done = local >= 84;
 
         const cmd3 = "gitforprompts push rag-agent";
-        const showCmd3Line = local >= 82;
-        const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) * 1.0));
-        const showCmd3Cursor = local >= 82 && local < 110;
-        const cmd3Running = local >= 110 && local < 135;
-        const cmd3Done = local >= 135;
+        const showCmd3Line = local >= 90;
+        const cmd3TypedChars = Math.min(cmd3.length, Math.max(0, local - 92));
+        const showCmd3Cursor = local >= 90 && local < 122;
+        const cmd3Running = local >= 122 && local < 134;
+        const cmd3Done = local >= 134;
 
         const spinnerChars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
         const spinIndex = Math.floor(local / 3) % spinnerChars.length;
@@ -750,7 +750,7 @@
                   >
                     <div class="flex items-center justify-between bg-[#18181B] p-4 rounded-xl border border-zinc-800/80">
                       <div class="flex items-center gap-4">
-                        <div class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gfp/</div>
+                        <div class="px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-300 text-xs font-semibold">Local .gitforprompts/</div>
                         <span class="text-emerald-400 font-bold">►</span>
                         <div class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold">Cloud Postgres</div>
                       </div>
@@ -780,7 +780,7 @@
         const hoverEase = 1 - Math.pow(1 - hoverP, 3);
         const pressP = Math.min(1, Math.max(0, (local - 40) / 4));
         const pressEase = 1 - Math.pow(1 - pressP, 3);
-        const btnScale = 1.0 + hoverEase * 0.02 - pressEase * 0.05;
+        const btnScale = 1.0 + hoverEase * 0.02 - pressEase * 0.04;
         const isPressed = local >= 40;
 
         const copiedP = Math.min(1, Math.max(0, (local - 40) / 8));
@@ -818,7 +818,7 @@
                   <span class="text-emerald-400 font-extrabold">$</span>
                   <span class="font-bold text-[#FAFAFA]">npx gitforprompts init</span>
                 </div>
-                <div class="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden h-5">
+                <div class="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden h-6">
                   ${isPressed ? `
                     <span class="text-emerald-400 font-bold" style="opacity: ${copiedEase}; transform: translateY(${copiedY}px);">✔ Copied!</span>
                   ` : `
@@ -832,6 +832,7 @@
               </div>
             </div>
           </div>
+        `;
       }
 
       sceneHost.innerHTML = html;
@@ -1046,17 +1047,20 @@
       // Scene 1 Hero Prompt Typing & Final Lock on "history"
       if (f === 4) startTyping(0.35);
       else if (f === 52) stopTyping();
-      else if (f === 134) playOneShot(lockAudio, 0.30);
+      else if (f === 148) playOneShot(lockAudio, 0.30);
       // Scene 2 Logo Tile Pop
       else if (f === 160) playOneShot(popAudio, 0.38);
       // Scene 3 Terminal CLI Typing Scenes + Enter Keystrokes
       else if (f === 289) startTyping(0.30);
-      else if (f === 305) { stopTyping(); playOneShot(enterAudio, 0.38); }
-      else if (f === 323) startTyping(0.30);
-      else if (f === 343) { stopTyping(); playOneShot(enterAudio, 0.38); }
-      else if (f === 367) startTyping(0.30);
-      else if (f === 395) { stopTyping(); playOneShot(enterAudio, 0.38); }
-      else if (f === 420) playOneShot(chimeAudio, 0.35);
+      else if (f === 311) stopTyping();
+      else if (f === 313) playOneShot(enterAudio, 0.38);
+      else if (f === 331) startTyping(0.30);
+      else if (f === 357) stopTyping();
+      else if (f === 359) playOneShot(enterAudio, 0.38);
+      else if (f === 377) startTyping(0.30);
+      else if (f === 405) stopTyping();
+      else if (f === 407) playOneShot(enterAudio, 0.38);
+      else if (f === 419) playOneShot(chimeAudio, 0.35);
       // Scene 4 Groq Speed Surge Whoosh
       else if (f === 525) playOneShot(whooshAudio, 0.30);
       // Scene 5 CTA Real Mouse Click & Celebration Chime

@@ -58,6 +58,11 @@ During the Session End ritual (called automatically whenever significant changes
   - Deleted old duplicate launch video `launch-video.mp4`, keeping single canonical master `launch-video-master.mp4`.
   - Locked Version 1 standard (`v1.0.0`) across all packages (`package.json`, `@gfp/core`, `gitforprompts` CLI) and published `gitforprompts@1.0.0` live to the public npm registry.
   - Executed whole-repo deep audit: purged all misleading "V2", "gfp", and "Supabase" jargon across `README.md`, `ARCHITECTURE.md`, `AUDIT_REPORT.md`, `LAUNCH_PLAN.md`, `FaqFooter.tsx`, and `json-ld.tsx`.
+  - Deleted speculative RFC `docs/GFP_AGENT_RFC.md` and pruned duplicate `launch-video/out/launch-video.mp4`, maintaining single canonical `launch-video-master.mp4`.
+  - Audited all 37 components in `src/components/` and 23 Next.js routes (0 dead code/components; Turbopack build clean in 5.4s; 154/154 Vitest passing; ESLint 0 errors).
+  - Synchronized and calibrated Remotion Scene 3 Terminal typing speed to uniform 1 char/frame (30 chars/sec) across all 3 CLI commands (`npx gitforprompts init`, `gitforprompts add rag-agent`, `gitforprompts push rag-agent`), eliminating mid-word cutoffs and aligning Holy Panda Enter thuds (frames 313, 359, 407) and verified publish chime (frame 419).
+  - Executed whole-video micro-detail audit and grilling: purged legacy `Local .gfp/` ➔ `Local .gitforprompts/` in Scene 4 Card 3, sharpened Scene 2 subtitle contrast to `text-zinc-200`, synchronized slot settle audio trigger to frame 148 in `launch-video-player.html`, and standardized CTA button press compression to `scale(0.96)`.
+  - Re-rendered master launch video to `launch-video/out/launch-video-master.mp4` (795/795 frames, 1.99 MB) and updated interactive HTML studio player.
   - Deleted speculative draft RFC `docs/GFP_AGENT_RFC.md` and audited all 37 UI components (0 dead code/components found; Next.js 16 build passing across 23 routes; 154/154 passing Vitest tests; ESLint 0 errors/0 warnings).
   - Synchronized persistent codebase knowledge graph with `graphify update .` (693 nodes, 1355 edges, 49 communities).
 - **Vibe**: 🚀 100% Launch Ready — gitforprompts@1.0.0 Live on NPM with Pure Version 1 Docs, Video Master Calibrated & Monorepo 100% Green!
