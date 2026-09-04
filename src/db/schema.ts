@@ -38,8 +38,8 @@ export const versions = pgTable(
       .notNull()
       .references(() => prompts.id, { onDelete: 'cascade' }),
     versionNumber: integer('version_number').notNull(), // 1, 2, 3… per prompt
-    content: text('content').notNull(),                 // The actual prompt text (always set; V2: mirrors bundle.userTemplate)
-    bundle: jsonb('bundle').$type<PromptBundle>(),       // V2 full bundle payload (null for V1 versions)
+    content: text('content').notNull(),                 // The actual prompt text (always set; mirrors bundle.userTemplate)
+    bundle: jsonb('bundle').$type<PromptBundle>(),       // Full bundle payload (optional)
     commitMessage: varchar('commit_message', { length: 500 }), // "Made tone friendlier"
     createdBy: varchar('created_by', { length: 255 }).notNull(), // Clerk userId
     createdAt: timestamp('created_at').defaultNow().notNull(),

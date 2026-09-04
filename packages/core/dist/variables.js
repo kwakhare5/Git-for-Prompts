@@ -2,7 +2,7 @@
  * Variable utilities — extracted from src/lib/variables.ts for @gfp/core.
  *
  * Variables are {{double-brace}} placeholders in prompt content.
- * V2: extracts from both systemPrompt and userTemplate fields of a bundle.
+ * Extracts from both systemPrompt and userTemplate fields of a bundle.
  */
 const VARIABLE_REGEX = /\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g;
 /**

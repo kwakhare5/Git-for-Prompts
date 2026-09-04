@@ -1,5 +1,5 @@
 /**
- * Bundle — the atomic unit of versioning in Git for Prompts V2.
+ * Bundle — the atomic unit of versioning in Git for Prompts.
  *
  * A PromptBundle captures everything that determines AI behavior:
  * system prompt, user template, model configuration, tool definitions,

@@ -17,7 +17,7 @@
 - **Auth:** Clerk (`@clerk/nextjs` 7.7.9)
 - **Rate Limiting:** Upstash Redis (`@upstash/ratelimit`, `@upstash/redis`)
 - **Testing:** Vitest 4.1.11 (154/154 passing unit & security tests) + Playwright
-- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core` & `@git-for-prompts/cli`)
+- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core` & `gitforprompts` CLI)
 
 ---
 
@@ -58,8 +58,8 @@ pnpm run save        # Run checkpoint script
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-09-04
-- **Current State:** Unified all web assets strictly to `public/logo.svg` (removed legacy dark-box favicons and dynamic apple-icon; updated metadata in layout.tsx and manifest.ts). Published `gitforprompts@0.1.3` live to npm with bundled `README.md` and complete quickstart documentation. Aligned launch video Scene 3 Terminal with Option B: `$ npx gitforprompts init` ➔ `$ gitforprompts add rag-agent "..."` ➔ `$ gitforprompts push rag-agent`, updated directory to `.gitforprompts/`, bumped header to `v0.1.3`, and re-rendered master launch video (795/795 frames, 2 MB). Full test suite 154/154 passing, build clean.
+**Last session date:** 2026-09-05
+- **Current State:** Fixed GitHub Actions CI failure: updated `pnpm --filter` target in `.github/workflows/ci.yml` to match published CLI package name `gitforprompts` (replacing legacy `@git-for-prompts/cli`). Verified full package build, root typecheck (`tsc --noEmit`), and Vitest test suite (154/154 passing unit/security tests). Master launch video calibrated and verified.
 - **Immediate next task:** Launch announcement and distribution.
 - **Open blockers:** None.
 

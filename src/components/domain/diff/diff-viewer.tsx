@@ -43,7 +43,7 @@ export interface DiffViewerProps {
   modifiedContent: string;  // right panel — "to" version
   originalLabel: string;    // e.g. "v1 · Initial draft"
   modifiedLabel: string;    // e.g. "v3 · Made tone friendlier"
-  /** V2: when both versions have bundles, show structural comparison header */
+  /** When both versions have bundles, show structural comparison header */
   originalBundle?: PromptBundle | null;
   modifiedBundle?: PromptBundle | null;
   height?: string;
@@ -105,7 +105,7 @@ export function DiffViewer({
 
   return (
     <div className="flex flex-col font-sans border border-zinc-800/90 rounded-2xl overflow-hidden bg-bg-card shadow-xl">
-      {/* Bundle structural diff header — only when both versions are V2 */}
+      {/* Bundle structural diff header — only when both versions have bundles */}
       {showBundleHeader && (
         <div className="flex items-start gap-4 border-b border-zinc-800/90 bg-bg-page px-4 py-2.5">
           <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 font-semibold shrink-0 mt-0.5">Bundle</span>

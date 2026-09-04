@@ -22,7 +22,7 @@ export function FaqFooter() {
     },
     {
       q: 'What is a Prompt Bundle?',
-      a: 'A prompt bundle is the atomic unit of versioning in Git for Prompts v2. It includes the system prompt, user template, model configurations (provider, model, temperature, topP), tools, and Zod response format schema.'
+      a: 'A prompt bundle is the atomic unit of versioning in Git for Prompts. It includes the system prompt, user template, model configurations (provider, model, temperature, topP), tools, and Zod response format schema.'
     },
     {
       q: 'How do concurrent pushes handle version collisions?',
@@ -30,7 +30,7 @@ export function FaqFooter() {
     },
     {
       q: 'Can I migrate my existing raw prompt strings to Git for Prompts?',
-      a: 'Yes! Running `gitforprompts init` automatically detects existing prompt templates and wraps them into valid v2 Prompt Bundles.'
+      a: 'Yes! Running `gitforprompts init` automatically detects existing prompt templates and wraps them into valid Prompt Bundles.'
     }
   ];
 
