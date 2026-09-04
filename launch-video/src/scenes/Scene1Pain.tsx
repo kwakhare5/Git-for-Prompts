@@ -16,9 +16,9 @@ const KEYFRAMES = [
 export const Scene1Pain: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // Sub-beat 1: Linear Smooth Typing (0f - 66f, typing across 42 frames, followed by a 22-frame reading pause)
+  // Sub-beat 1: Linear Smooth Typing (0f - 66f, typing across 50 frames, followed by a 14-frame reading pause)
   if (frame < 66) {
-    const progress = Math.min(1, Math.max(0, (frame - 2) / 42));
+    const progress = Math.min(1, Math.max(0, (frame - 2) / 50));
     const typedChars = Math.min(FULL_TEXT.length, Math.floor(progress * FULL_TEXT.length));
     const currentTyped = FULL_TEXT.slice(0, typedChars);
     const isTyping = frame >= 2 && typedChars < FULL_TEXT.length;

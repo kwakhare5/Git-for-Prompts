@@ -59,7 +59,7 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Aligned launch video copy to 100% current ground truth (standardized `$ gfp push main` and updated benchmark models to `OpenAI / GPT-4o` and `Anthropic / Claude 3.5 Sonnet`). Added a deliberate ~0.73s (22-frame) motionless reading pause on Scene 1 typewriter ("files") with synchronized audio cut. Completed root housekeeping: moved `launch-video-player.html` into `launch-video/` with universal audio loading, purged unused `supabase/` folder, and removed duplicate audio from `public/`. Monorepo is 100% clean, 154/154 Vitest passing, ESLint clean, and 50/50 deep audit passed.
+- **Current State:** Calibrated Scene 1 typewriter speed to 50 frames (~1.67s, ~24 chars/sec) followed by a 14-frame (~0.47s) motionless reading pause on "files" with synchronized keystroke sound cut (frames 2–52). Configured Remotion bundler webpack override to bypass monorepo PostCSS Tailwind v4 collision using prebuilt CSS (`tailwind.built.css`). Successfully rendered and exported master video to `launch-video/out/launch-video-master.mp4` (1.97 MB, H.264 CRF 12). Remotion Studio verified running at `http://localhost:3001`. Monorepo 100% clean with 154/154 Vitest passing and zero lint errors.
 - **Immediate next task:** Public launch and distribution.
 - **Open blockers:** None.
 

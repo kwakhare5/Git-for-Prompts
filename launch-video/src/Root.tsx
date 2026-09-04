@@ -1,7 +1,7 @@
 import React from 'react';
 import { Composition } from 'remotion';
 import { LaunchVideo } from './LaunchVideo';
-import './style.css';
+import './tailwind.built.css';
 
 export const Root: React.FC = () => {
   return (
