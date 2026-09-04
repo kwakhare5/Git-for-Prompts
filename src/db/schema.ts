@@ -22,7 +22,7 @@ export const prompts = pgTable(
   },
   (t) => [
     index('prompts_owner_id_idx').on(t.ownerId),
-    index('prompts_is_public_idx').on(t.isPublic), // for the /explore public gallery query
+    index('prompts_is_public_idx').on(t.isPublic), // for public vs private repository filtering
     uniqueIndex('prompts_owner_name_unique').on(t.ownerId, t.name), // Enforce unique prompt names per owner
   ]
 );
