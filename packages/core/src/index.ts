@@ -56,7 +56,6 @@ export {
   runWithConcurrency,
   runSingleTestCase,
   runEvaluations,
-  runEvaluationsLegacy,
 } from './eval.js';
 
 // Diff: structural bundle comparison

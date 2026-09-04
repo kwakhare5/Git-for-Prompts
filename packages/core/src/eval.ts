@@ -255,18 +255,3 @@ export async function runEvaluations(
     concurrency
   );
 }
-
-/**
- * Run evaluations using legacy text-only prompt content.
- * Convenience wrapper for V1 compatibility — creates a bundle from content string.
- */
-export async function runEvaluationsLegacy(
-  provider: AIProvider,
-  promptContent: string,
-  cases: TestCaseInput[],
-  concurrency: number = DEFAULT_CONCURRENCY
-): Promise<EvalAttempt[]> {
-  const { createBundleFromLegacy } = await import('./bundle.js');
-  const bundle = createBundleFromLegacy(promptContent);
-  return runEvaluations(provider, bundle, cases, concurrency);
-}

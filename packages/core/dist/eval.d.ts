@@ -75,9 +75,4 @@ export declare function runSingleTestCase(provider: AIProvider, bundle: PromptBu
  * This is the provider-agnostic equivalent of src/lib/test-runner.ts runEvaluations.
  */
 export declare function runEvaluations(provider: AIProvider, bundle: PromptBundle, cases: TestCaseInput[], concurrency?: number): Promise<EvalAttempt[]>;
-/**
- * Run evaluations using legacy text-only prompt content.
- * Convenience wrapper for V1 compatibility — creates a bundle from content string.
- */
-export declare function runEvaluationsLegacy(provider: AIProvider, promptContent: string, cases: TestCaseInput[], concurrency?: number): Promise<EvalAttempt[]>;
 //# sourceMappingURL=eval.d.ts.map

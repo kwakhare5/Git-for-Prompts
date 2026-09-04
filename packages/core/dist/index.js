@@ -18,7 +18,7 @@ createBundleFromLegacy, createEmptyBundle, extractContentFromBundle, } from './b
 // Variables: extraction, interpolation (string-level + bundle-level)
 export { extractVariables, extractBundleVariables, interpolateVariables, interpolateBundle, } from './variables.js';
 // Eval: provider interface, test runner, concurrency, JSON extraction
-export { extractJson, runWithConcurrency, runSingleTestCase, runEvaluations, runEvaluationsLegacy, } from './eval.js';
+export { extractJson, runWithConcurrency, runSingleTestCase, runEvaluations, } from './eval.js';
 // Diff: structural bundle comparison
 export { diffBundles, diffVersions, } from './diff.js';
 // AI Config: centralized provider & model defaults

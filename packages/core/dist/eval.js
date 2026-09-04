@@ -167,13 +167,4 @@ export async function runEvaluations(provider, bundle, cases, concurrency = DEFA
         }
     }), concurrency);
 }
-/**
- * Run evaluations using legacy text-only prompt content.
- * Convenience wrapper for V1 compatibility — creates a bundle from content string.
- */
-export async function runEvaluationsLegacy(provider, promptContent, cases, concurrency = DEFAULT_CONCURRENCY) {
-    const { createBundleFromLegacy } = await import('./bundle.js');
-    const bundle = createBundleFromLegacy(promptContent);
-    return runEvaluations(provider, bundle, cases, concurrency);
-}
 //# sourceMappingURL=eval.js.map

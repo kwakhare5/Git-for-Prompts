@@ -9,6 +9,7 @@ import { eq, desc, and, sql } from 'drizzle-orm';
 import { handleActionError } from '@/lib/action-error';
 import { extractVariables, extractBundleVariables, extractContentFromBundle, type PromptBundle } from '@gfp/core';
 import { fireWebhooks } from '@/lib/webhooks';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 // Type of the transaction object drizzle hands to a `db.transaction(async (tx) => ...)`
 // callback. Derived from `db.transaction` itself (not hardcoded against Drizzle's
@@ -100,6 +101,9 @@ export async function createVersion(input: unknown) {
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
+  const { success } = await checkRateLimit(`expensive:${userId}`);
+  if (!success) throw new Error('Rate limit exceeded. Please wait a minute before creating more versions.');
+
   try {
     const validated = createVersionSchema.parse(input);
 
@@ -144,6 +148,9 @@ export async function createVersion(input: unknown) {
 export async function restoreVersion(input: unknown) {
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
+
+  const { success } = await checkRateLimit(`expensive:${userId}`);
+  if (!success) throw new Error('Rate limit exceeded. Please wait a minute before restoring versions.');
 
   try {
     const validated = restoreVersionSchema.parse(input);
