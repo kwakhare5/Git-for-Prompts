@@ -74,15 +74,18 @@ export async function fireWebhooks(
       }
 
       const sig = createHmac('sha256', hook.secretHash).update(body).digest('hex');
+      const targetUrl = ssrfCheck.pinnedUrl || hook.url;
+      const parsedOriginal = new URL(hook.url);
 
       try {
-        const res = await fetch(hook.url, {
+        const res = await fetch(targetUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-GFP-Signature': `sha256=${sig}`,
             'X-GFP-Event': payload.event,
             'User-Agent': 'GitForPrompts/1.0',
+            'Host': parsedOriginal.host,
           },
           body,
           redirect: 'manual', // Block HTTP 3xx redirects to prevent post-validation SSRF

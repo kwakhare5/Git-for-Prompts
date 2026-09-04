@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { eq, and } from 'drizzle-orm';
 import { z } from 'zod';
 import { randomBytes, createHash } from 'crypto';
+import { validateWebhookUrl } from '@/lib/security/ssrf';
 
 const createWebhookSchema = z.object({
   url: z.string().url('Must be a valid URL').max(2048),
@@ -23,6 +24,12 @@ export async function createWebhook(input: unknown): Promise<{ id: string; secre
   if (!userId) throw new Error('Unauthorized');
 
   const validated = createWebhookSchema.parse(input);
+
+  // Pre-flight SSRF validation to prevent registering unroutable, loopback, or private IPs
+  const ssrfCheck = await validateWebhookUrl(validated.url);
+  if (!ssrfCheck.valid) {
+    throw new Error(`Invalid webhook URL: ${ssrfCheck.reason}`);
+  }
 
   // Generate a random 32-byte secret — shown once, never stored.
   // Store only SHA-256(secret) for HMAC signing at delivery time.

@@ -87,11 +87,15 @@ export async function POST(req: NextRequest) {
         continue;
       }
 
+      // For V2 bundles: pass the bundle's systemPrompt so it's used as the
+      // top-level system message, with content as the user template.
+      const systemPrompt = currentVersion.bundle?.systemPrompt ?? null;
+
       // Run AI evaluations concurrently
       const attempts = await runWithConcurrency(
         cases.map((tc) => async () => {
           try {
-            const result = await runSingleTestCase(currentVersion.content, tc);
+            const result = await runSingleTestCase(currentVersion.content, tc, systemPrompt);
             return { ok: true as const, testCase: tc, result };
           } catch (err) {
             return { ok: false as const, testCase: tc, message: String(err) };

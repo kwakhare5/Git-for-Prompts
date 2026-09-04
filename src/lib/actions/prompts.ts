@@ -13,7 +13,7 @@ export async function createPrompt(input: unknown) {
   const userId = await getAuthUserId();
   if (!userId) throw new Error('Unauthorized');
 
-  const { success } = await checkRateLimit(`sa_create_prompt_${userId}`);
+  const { success } = await checkRateLimit(`expensive:${userId}`);
   if (!success) throw new Error('Rate limit exceeded. Please wait a minute before creating more prompts.');
 
   try {
