@@ -35,7 +35,7 @@ const program = new Command();
 program
   .name('gitforprompts')
   .description('Git for Prompts — the local-first prompt package manager')
-  .version('0.1.2');
+  .version('0.1.3');
 
 // ─── init ────────────────────────────────────────────────────────────────────
 

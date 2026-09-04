@@ -1,13 +1,14 @@
 {
   "name": "gitforprompts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Git for Prompts CLI — local-first prompt package manager with SQLite storage",
   "type": "module",
   "bin": {
     "gitforprompts": "dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "main": "./dist/index.js",
   "scripts": {
