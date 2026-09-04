@@ -1,13 +1,13 @@
 {
-  "0": "schema.ts",
+  "0": "getAuthUserId",
   "1": "core/src/index.ts",
   "2": "tests.ts",
   "3": "ui-tokens.tsx",
   "4": "sqlite.ts",
-  "5": "prompts.ts",
+  "5": "prompt-detail-client.tsx",
   "6": "prompt-editor.tsx",
   "7": "SqliteStorageAdapter",
-  "8": "getAuthUserId",
+  "8": "api-keys.ts",
   "9": "ai.ts",
   "10": "actions/webhooks.ts",
   "11": "Proposed Changes",
@@ -46,8 +46,7 @@
   "44": "Log Entries",
   "45": "2. 5-Act Master Storyboard (26.5s / 795 Frames @ 30fps)",
   "46": "Git for Prompts — Design System Specification",
-  "47": "StorageAdapter",
+  "47": "apple-icon.tsx",
   "48": "Threat Model — Git for Prompts",
-  "49": "API Security Matrix",
-  "50": "relative-time.tsx"
+  "49": "API Security Matrix"
 }

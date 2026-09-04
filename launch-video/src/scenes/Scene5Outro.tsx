@@ -50,7 +50,7 @@ export const Scene5Outro: React.FC = () => {
         >
           <div className="flex items-center gap-2.5">
             <span className="text-emerald-400 font-extrabold">$</span>
-            <span className="font-bold text-[#FAFAFA]">npx gfp init</span>
+            <span className="font-bold text-[#FAFAFA]">npx gitforprompts init</span>
           </div>
           <div className="pl-4 border-l border-zinc-800 flex items-center text-xs text-zinc-400 font-sans font-medium gap-1.5 overflow-hidden h-6">
             {isPressed ? (

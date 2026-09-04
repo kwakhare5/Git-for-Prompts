@@ -1,9 +1,9 @@
 /**
- * gfp push — Sync latest local bundle to cloud.
+ * gitforprompts push — Sync latest local bundle to cloud.
  *
  * Usage:
- *   gfp push <name>                Push latest local version to cloud
- *   gfp push <name> --cloud-id <id>  Target a specific cloud prompt ID
+ *   gitforprompts push <name>                Push latest local version to cloud
+ *   gitforprompts push <name> --cloud-id <id>  Target a specific cloud prompt ID
  *
  * Flow:
  *   1. Load local prompt + latest version
@@ -33,7 +33,7 @@ async function apiRequest(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'User-Agent': 'gfp-cli/0.1.0',
+      'User-Agent': 'gitforprompts-cli/0.1.2',
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
@@ -51,14 +51,16 @@ async function apiRequest(
 
 export async function cmdPush(name: string, options: PushOptions): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp push <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts push <name>');
+    process.exitCode = 1;
+    return;
   }
 
   const config = loadConfig();
   if (!config.apiKey) {
-    console.error('\x1b[31mError:\x1b[0m No API key. Run: gfp auth <api-key>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m No API key. Run: gitforprompts auth <api-key>');
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -68,14 +70,16 @@ export async function cmdPush(name: string, options: PushOptions): Promise<void>
     // 1. Load local prompt + latest version
     const prompt = await adapter.getPromptByName(name);
     if (!prompt) {
-      console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found locally. Run: gfp add <name>`);
-      process.exit(1);
+      console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found locally. Run: gitforprompts add <name> [content]`);
+      process.exitCode = 1;
+      return;
     }
 
     const latest = await adapter.getLatestVersion(prompt.id);
     if (!latest) {
-      console.error(`\x1b[31mError:\x1b[0m No versions found for "${name}". Run: gfp add <name>`);
-      process.exit(1);
+      console.error(`\x1b[31mError:\x1b[0m No versions found for "${name}". Run: gitforprompts add <name> [content]`);
+      process.exitCode = 1;
+      return;
     }
 
     // 2. Resolve cloud prompt ID
@@ -107,8 +111,9 @@ export async function cmdPush(name: string, options: PushOptions): Promise<void>
           cloudPromptId = createRes.data['promptId'] as string;
           console.log(`\x1b[32m✓\x1b[0m Created cloud prompt: ${name} (${cloudPromptId})`);
         } else if (createRes.status === 401) {
-          console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
-          process.exit(1);
+          console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gitforprompts auth <api-key>');
+          process.exitCode = 1;
+          return;
         } else if (createRes.status === 409) {
           // Race condition: someone else created it. Try lookup again.
           const retryRes = await apiRequest(
@@ -119,19 +124,23 @@ export async function cmdPush(name: string, options: PushOptions): Promise<void>
           if (retryRes.status === 200) {
             cloudPromptId = retryRes.data['promptId'] as string;
           } else {
-            console.error(`\x1b[31mError:\x1b[0m Could not create or find cloud prompt. Try: gfp push ${name} --cloud-id <id>`);
-            process.exit(1);
+            console.error(`\x1b[31mError:\x1b[0m Could not create or find cloud prompt. Try: gitforprompts push ${name} --cloud-id <id>`);
+            process.exitCode = 1;
+            return;
           }
         } else {
           console.error(`\x1b[31mError:\x1b[0m Failed to create cloud prompt ${createRes.status}: ${JSON.stringify(createRes.data)}`);
-          process.exit(1);
+          process.exitCode = 1;
+          return;
         }
       } else if (lookupRes.status === 401) {
-        console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
-        process.exit(1);
+        console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gitforprompts auth <api-key>');
+        process.exitCode = 1;
+        return;
       } else {
         console.error(`\x1b[31mError:\x1b[0m API error ${lookupRes.status}: ${JSON.stringify(lookupRes.data)}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
     }
 
@@ -163,11 +172,13 @@ export async function cmdPush(name: string, options: PushOptions): Promise<void>
       adapter.setCloudPromptId(prompt.id, cloudPromptId);
       console.log(`\x1b[90mCloud prompt ID cached for future pushes\x1b[0m`);
     } else if (pushRes.status === 401) {
-      console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gfp auth <api-key>');
-      process.exit(1);
+      console.error('\x1b[31mError:\x1b[0m API key invalid or expired. Run: gitforprompts auth <api-key>');
+      process.exitCode = 1;
+      return;
     } else {
       console.error(`\x1b[31mError:\x1b[0m Push failed ${pushRes.status}: ${JSON.stringify(pushRes.data)}`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
   } finally {
     adapter.close();

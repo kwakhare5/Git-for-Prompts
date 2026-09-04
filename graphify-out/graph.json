@@ -6,28 +6,41 @@
     {
       "label": "Version",
       "file_type": "code",
-      "source_file": "src/components/domain/prompts/version-history.tsx",
-      "source_location": "L11",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
+      "source_location": "L14",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "id": "src_components_domain_prompts_version_history_version",
+      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_version",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "version"
     },
     {
-      "label": "VersionHistoryProps",
+      "label": "PromptRepositoriesListProps",
       "file_type": "code",
-      "source_file": "src/components/domain/prompts/version-history.tsx",
-      "source_location": "L13",
+      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
+      "source_location": "L17",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "id": "src_components_domain_prompts_version_history_versionhistoryprops",
+      "id": "src_components_domain_dashboard_prompt_repositories_list_promptrepositorieslistprops",
       "community": 0,
-      "community_name": "schema.ts",
-      "norm_label": "versionhistoryprops"
+      "community_name": "getAuthUserId",
+      "norm_label": "promptrepositorieslistprops"
+    },
+    {
+      "label": "PromptWithStats",
+      "file_type": "code",
+      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_components_domain_dashboard_prompt_repositories_list_promptwithstats",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "promptwithstats"
     },
     {
       "label": "Tx",
@@ -39,7 +52,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_versions_tx",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "tx"
     },
     {
@@ -52,7 +65,7 @@
       "_origin": "ast",
       "id": "src_lib_api_auth_authenticatedkey",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "authenticatedkey"
     },
     {
@@ -65,7 +78,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_ratelimitresult",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "ratelimitresult"
     },
     {
@@ -78,7 +91,7 @@
       "_origin": "ast",
       "id": "src_lib_webhooks_webhookpayload",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "webhookpayload"
     },
     {
@@ -238,6 +251,19 @@
       "norm_label": "prompt"
     },
     {
+      "label": "StorageAdapter",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L58",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": "storageadapter"
+    },
+    {
       "label": "TestCase",
       "file_type": "code",
       "source_file": "packages/core/src/storage.ts",
@@ -301,19 +327,6 @@
       "community": 10,
       "community_name": "actions/webhooks.ts",
       "norm_label": "webhooksclientprops"
-    },
-    {
-      "label": "DeleteConfirmButtonProps",
-      "file_type": "code",
-      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
-      "source_location": "L6",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "id": "src_components_domain_shared_delete_confirm_button_deleteconfirmbuttonprops",
-      "community": 10,
-      "community_name": "actions/webhooks.ts",
-      "norm_label": "deleteconfirmbuttonprops"
     },
     {
       "label": "DnsLookupFn",
@@ -446,6 +459,19 @@
       "norm_label": "versionresults"
     },
     {
+      "label": "DeleteConfirmButtonProps",
+      "file_type": "code",
+      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_components_domain_shared_delete_confirm_button_deleteconfirmbuttonprops",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "deleteconfirmbuttonprops"
+    },
+    {
       "label": "TestCaseCardProps",
       "file_type": "code",
       "source_file": "src/components/domain/testing/test-case-card.tsx",
@@ -576,30 +602,17 @@
       "norm_label": "testcaseoutcome"
     },
     {
-      "label": "PromptRepositoriesListProps",
+      "label": "CreatePromptInput",
       "file_type": "code",
-      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
-      "source_location": "L17",
+      "source_file": "src/lib/validations/prompt.ts",
+      "source_location": "L13",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "id": "src_components_domain_dashboard_prompt_repositories_list_promptrepositorieslistprops",
-      "community": 3,
-      "community_name": "ui-tokens.tsx",
-      "norm_label": "promptrepositorieslistprops"
-    },
-    {
-      "label": "PromptWithStats",
-      "file_type": "code",
-      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
-      "source_location": "L6",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "id": "src_components_domain_dashboard_prompt_repositories_list_promptwithstats",
-      "community": 3,
-      "community_name": "ui-tokens.tsx",
-      "norm_label": "promptwithstats"
+      "id": "src_lib_validations_prompt_createpromptinput",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "createpromptinput"
     },
     {
       "label": "DashboardSidebarProps",
@@ -784,19 +797,6 @@
       "norm_label": "rawrow"
     },
     {
-      "label": "StorageAdapter",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L58",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": "storageadapter"
-    },
-    {
       "label": "PromptDetailClientProps",
       "file_type": "code",
       "source_file": "src/components/domain/prompts/prompt-detail-client.tsx",
@@ -806,7 +806,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_promptdetailclientprops",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "promptdetailclientprops"
     },
     {
@@ -819,7 +819,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_version",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "version"
     },
     {
@@ -832,21 +832,34 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_subnav_promptsubnavprops",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "promptsubnavprops"
     },
     {
-      "label": "CreatePromptInput",
+      "label": "Version",
       "file_type": "code",
-      "source_file": "src/lib/validations/prompt.ts",
+      "source_file": "src/components/domain/prompts/version-history.tsx",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "id": "src_components_domain_prompts_version_history_version",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
+      "norm_label": "version"
+    },
+    {
+      "label": "VersionHistoryProps",
+      "file_type": "code",
+      "source_file": "src/components/domain/prompts/version-history.tsx",
       "source_location": "L13",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "id": "src_lib_validations_prompt_createpromptinput",
+      "id": "src_components_domain_prompts_version_history_versionhistoryprops",
       "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "createpromptinput"
+      "community_name": "prompt-detail-client.tsx",
+      "norm_label": "versionhistoryprops"
     },
     {
       "label": "DiffStats",
@@ -992,19 +1005,6 @@
       "norm_label": "sqlitestorageadapter"
     },
     {
-      "label": "Version",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
-      "source_location": "L14",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_version",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "version"
-    },
-    {
       "label": "ApiKeyRow",
       "file_type": "code",
       "source_file": "src/components/domain/api-keys/api-keys-manager.tsx",
@@ -1014,7 +1014,7 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_apikeyrow",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "apikeyrow"
     },
     {
@@ -1027,7 +1027,7 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_props",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "props"
     },
     {
@@ -1130,7 +1130,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_latest_route_get",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "get()"
     },
     {
@@ -1142,7 +1142,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_versions_route_post",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "post()"
     },
     {
@@ -1154,7 +1154,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_route_get",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "get()"
     },
     {
@@ -1166,7 +1166,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_route_post",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "post()"
     },
     {
@@ -1178,7 +1178,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_page_dashboardpage",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dashboardpage()"
     },
     {
@@ -1190,8 +1190,56 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_page_getpromptswithstats",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "getpromptswithstats()"
+    },
+    {
+      "label": "ComparePage()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
+      "source_location": "L29",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_comparepage",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "comparepage()"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
+      "source_location": "L13",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_generatemetadata",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "generatemetadata()"
+    },
+    {
+      "label": "DiffPage()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
+      "source_location": "L32",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_diffpage",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "diffpage()"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
+      "source_location": "L16",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_generatemetadata",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "generatemetadata()"
     },
     {
       "label": "EditPromptPage()",
@@ -1202,7 +1250,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_prompts_id_edit_page_editpromptpage",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "editpromptpage()"
     },
     {
@@ -1214,8 +1262,92 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_prompts_id_edit_page_generatemetadata",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "generatemetadata()"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
+      "source_location": "L11",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_page_generatemetadata",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "generatemetadata()"
+    },
+    {
+      "label": "PromptDetailPage()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
+      "source_location": "L27",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_page_promptdetailpage",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "promptdetailpage()"
+    },
+    {
+      "label": "generateMetadata()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
+      "source_location": "L13",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_generatemetadata",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "generatemetadata()"
+    },
+    {
+      "label": "TestsPage()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
+      "source_location": "L29",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_testspage",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "testspage()"
+    },
+    {
+      "label": "DashboardLayout()",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/layout.tsx",
+      "source_location": "L9",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_app_dashboard_layout_dashboardlayout",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "dashboardlayout()"
+    },
+    {
+      "label": "PromptRepositoriesList()",
+      "file_type": "code",
+      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
+      "source_location": "L21",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_components_domain_dashboard_prompt_repositories_list_promptrepositorieslist",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "promptrepositorieslist()"
+    },
+    {
+      "label": "CreateSamplePromptButton()",
+      "file_type": "code",
+      "source_file": "src/components/domain/prompts/create-sample-prompt-button.tsx",
+      "source_location": "L10",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_components_domain_prompts_create_sample_prompt_button_createsamplepromptbutton",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "createsamplepromptbutton()"
     },
     {
       "label": "PromptEditor()",
@@ -1226,20 +1358,92 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_editor_prompteditor",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "prompteditor()"
     },
     {
-      "label": "VersionHistory()",
+      "label": "TopHeaderBar()",
       "file_type": "code",
-      "source_file": "src/components/domain/prompts/version-history.tsx",
-      "source_location": "L20",
+      "source_file": "src/components/layout/top-header-bar.tsx",
+      "source_location": "L7",
       "_callable": true,
       "_origin": "ast",
-      "id": "src_components_domain_prompts_version_history_versionhistory",
+      "id": "src_components_layout_top_header_bar_topheaderbar",
       "community": 0,
-      "community_name": "schema.ts",
-      "norm_label": "versionhistory()"
+      "community_name": "getAuthUserId",
+      "norm_label": "topheaderbar()"
+    },
+    {
+      "label": "handleActionError()",
+      "file_type": "code",
+      "source_file": "src/lib/action-error.ts",
+      "source_location": "L3",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_action_error_handleactionerror",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "handleactionerror()"
+    },
+    {
+      "label": "createPrompt()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/prompts.ts",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_prompts_createprompt",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "createprompt()"
+    },
+    {
+      "label": "deletePrompt()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/prompts.ts",
+      "source_location": "L57",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_prompts_deleteprompt",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "deleteprompt()"
+    },
+    {
+      "label": "updatePrompt()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/prompts.ts",
+      "source_location": "L34",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_prompts_updateprompt",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "updateprompt()"
+    },
+    {
+      "label": "createTestCase()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/tests.ts",
+      "source_location": "L14",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_tests_createtestcase",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "createtestcase()"
+    },
+    {
+      "label": "runTestsForVersion()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/tests.ts",
+      "source_location": "L94",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_tests_runtestsforversion",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "runtestsforversion()"
     },
     {
       "label": "createVersion()",
@@ -1250,7 +1454,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_versions_createversion",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "createversion()"
     },
     {
@@ -1262,7 +1466,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_versions_insertnextversion",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "insertnextversion()"
     },
     {
@@ -1274,7 +1478,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_versions_restoreversion",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "restoreversion()"
     },
     {
@@ -1286,7 +1490,7 @@
       "_origin": "ast",
       "id": "src_lib_api_auth_authenticateapikey",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "authenticateapikey()"
     },
     {
@@ -1298,8 +1502,20 @@
       "_origin": "ast",
       "id": "src_lib_api_auth_touchapikeylastused",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "touchapikeylastused()"
+    },
+    {
+      "label": "getAuthUserId()",
+      "file_type": "code",
+      "source_file": "src/lib/auth.ts",
+      "source_location": "L10",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_auth_getauthuserid",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "getauthuserid()"
     },
     {
       "label": "checkRateLimit()",
@@ -1310,7 +1526,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_checkratelimit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "checkratelimit()"
     },
     {
@@ -1322,7 +1538,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_cleanupexpiredinprocessentries",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "cleanupexpiredinprocessentries()"
     },
     {
@@ -1334,7 +1550,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_getexpensiveratelimit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "getexpensiveratelimit()"
     },
     {
@@ -1346,7 +1562,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_getstandardratelimit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "getstandardratelimit()"
     },
     {
@@ -1358,7 +1574,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_inprocessratelimit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "inprocessratelimit()"
     },
     {
@@ -1370,7 +1586,7 @@
       "_origin": "ast",
       "id": "src_lib_webhooks_firewebhooks",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "firewebhooks()"
     },
     {
@@ -1566,6 +1782,162 @@
       "norm_label": "runwithconcurrency()"
     },
     {
+      "label": ".bulkUpsertTestResults()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L78",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_bulkupserttestresults",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".bulkupserttestresults()"
+    },
+    {
+      "label": ".createPrompt()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L63",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_createprompt",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".createprompt()"
+    },
+    {
+      "label": ".createTestCase()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L73",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_createtestcase",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".createtestcase()"
+    },
+    {
+      "label": ".getLatestVersion()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L67",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_getlatestversion",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".getlatestversion()"
+    },
+    {
+      "label": ".getPrompt()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L60",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_getprompt",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".getprompt()"
+    },
+    {
+      "label": ".getPromptByName()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L61",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_getpromptbyname",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".getpromptbyname()"
+    },
+    {
+      "label": ".getTestResults()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L76",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_gettestresults",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".gettestresults()"
+    },
+    {
+      "label": ".getVersion()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L66",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_getversion",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".getversion()"
+    },
+    {
+      "label": ".insertVersion()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L69",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_insertversion",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".insertversion()"
+    },
+    {
+      "label": ".listPrompts()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L62",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_listprompts",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".listprompts()"
+    },
+    {
+      "label": ".listTestCases()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L72",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_listtestcases",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".listtestcases()"
+    },
+    {
+      "label": ".listVersions()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L68",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_listversions",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".listversions()"
+    },
+    {
+      "label": ".upsertTestResult()",
+      "file_type": "code",
+      "source_file": "packages/core/src/storage.ts",
+      "source_location": "L77",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "packages_core_src_storage_storageadapter_upserttestresult",
+      "community": 1,
+      "community_name": "core/src/index.ts",
+      "norm_label": ".upserttestresult()"
+    },
+    {
       "label": "extractBundleVariables()",
       "file_type": "code",
       "source_file": "packages/core/src/variables.ts",
@@ -1636,18 +2008,6 @@
       "community": 10,
       "community_name": "actions/webhooks.ts",
       "norm_label": "webhooksclient()"
-    },
-    {
-      "label": "DeleteConfirmButton()",
-      "file_type": "code",
-      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
-      "source_location": "L13",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_components_domain_shared_delete_confirm_button_deleteconfirmbutton",
-      "community": 10,
-      "community_name": "actions/webhooks.ts",
-      "norm_label": "deleteconfirmbutton()"
     },
     {
       "label": "createWebhook()",
@@ -1902,6 +2262,18 @@
       "norm_label": "usecomparerunner()"
     },
     {
+      "label": "DeleteConfirmButton()",
+      "file_type": "code",
+      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
+      "source_location": "L13",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_components_domain_shared_delete_confirm_button_deleteconfirmbutton",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "deleteconfirmbutton()"
+    },
+    {
       "label": "TestCaseCard()",
       "file_type": "code",
       "source_file": "src/components/domain/testing/test-case-card.tsx",
@@ -1962,18 +2334,6 @@
       "norm_label": "runcomparisonforversions()"
     },
     {
-      "label": "runTestsForVersion()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/tests.ts",
-      "source_location": "L94",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_tests_runtestsforversion",
-      "community": 2,
-      "community_name": "tests.ts",
-      "norm_label": "runtestsforversion()"
-    },
-    {
       "label": "formatVersionLabel()",
       "file_type": "code",
       "source_file": "src/lib/format-version-label.ts",
@@ -1984,18 +2344,6 @@
       "community": 2,
       "community_name": "tests.ts",
       "norm_label": "formatversionlabel()"
-    },
-    {
-      "label": "persistResults()",
-      "file_type": "code",
-      "source_file": "src/lib/test-runner.ts",
-      "source_location": "L93",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_test_runner_persistresults",
-      "community": 2,
-      "community_name": "tests.ts",
-      "norm_label": "persistresults()"
     },
     {
       "label": "AuthLayout()",
@@ -2097,7 +2445,7 @@
       "label": "Home()",
       "file_type": "code",
       "source_file": "src/app/(landing)/page.tsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_landing_page_home",
@@ -2109,25 +2457,13 @@
       "label": "RootLayout()",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L82",
+      "source_location": "L83",
       "_callable": true,
       "_origin": "ast",
       "id": "src_app_layout_rootlayout",
       "community": 3,
       "community_name": "ui-tokens.tsx",
       "norm_label": "rootlayout()"
-    },
-    {
-      "label": "PromptRepositoriesList()",
-      "file_type": "code",
-      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
-      "source_location": "L21",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_components_domain_dashboard_prompt_repositories_list_promptrepositorieslist",
-      "community": 3,
-      "community_name": "ui-tokens.tsx",
-      "norm_label": "promptrepositorieslist()"
     },
     {
       "label": "DashboardSidebar()",
@@ -2253,7 +2589,7 @@
       "label": "BadgePastel()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L104",
+      "source_location": "L110",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_badgepastel",
@@ -2265,7 +2601,7 @@
       "label": "BadgeVersion()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L58",
+      "source_location": "L59",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_badgeversion",
@@ -2277,7 +2613,7 @@
       "label": "ButtonPrimary()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L67",
+      "source_location": "L68",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_buttonprimary",
@@ -2289,7 +2625,7 @@
       "label": "CardDark()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L42",
+      "source_location": "L43",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_carddark",
@@ -2301,7 +2637,7 @@
       "label": "CheckIcon()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_checkicon",
@@ -2313,7 +2649,7 @@
       "label": "CliCopyButton()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L80",
+      "source_location": "L81",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_clicopybutton",
@@ -2325,7 +2661,7 @@
       "label": "CopyIcon()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_copyicon",
@@ -2337,7 +2673,7 @@
       "label": "GithubIcon()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_githubicon",
@@ -2349,7 +2685,7 @@
       "label": "PanelElevated()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_panelelevated",
@@ -2361,7 +2697,7 @@
       "label": "TerminalIcon()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_terminalicon",
@@ -2373,7 +2709,7 @@
       "label": "Tooltip()",
       "file_type": "code",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L120",
+      "source_location": "L126",
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_website_ui_tokens_tooltip",
@@ -2718,160 +3054,16 @@
       "norm_label": "createsqliteadapter()"
     },
     {
-      "label": ".bulkUpsertTestResults()",
+      "label": "AppleIcon()",
       "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L78",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L9",
       "_callable": true,
       "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_bulkupserttestresults",
+      "id": "src_app_apple_icon_appleicon",
       "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".bulkupserttestresults()"
-    },
-    {
-      "label": ".createPrompt()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L63",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_createprompt",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".createprompt()"
-    },
-    {
-      "label": ".createTestCase()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L73",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_createtestcase",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".createtestcase()"
-    },
-    {
-      "label": ".getLatestVersion()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L67",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_getlatestversion",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".getlatestversion()"
-    },
-    {
-      "label": ".getPrompt()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L60",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_getprompt",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".getprompt()"
-    },
-    {
-      "label": ".getPromptByName()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L61",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_getpromptbyname",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".getpromptbyname()"
-    },
-    {
-      "label": ".getTestResults()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L76",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_gettestresults",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".gettestresults()"
-    },
-    {
-      "label": ".getVersion()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L66",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_getversion",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".getversion()"
-    },
-    {
-      "label": ".insertVersion()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L69",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_insertversion",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".insertversion()"
-    },
-    {
-      "label": ".listPrompts()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L62",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_listprompts",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".listprompts()"
-    },
-    {
-      "label": ".listTestCases()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L72",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_listtestcases",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".listtestcases()"
-    },
-    {
-      "label": ".listVersions()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L68",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_listversions",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".listversions()"
-    },
-    {
-      "label": ".upsertTestResult()",
-      "file_type": "code",
-      "source_file": "packages/core/src/storage.ts",
-      "source_location": "L77",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "packages_core_src_storage_storageadapter_upserttestresult",
-      "community": 47,
-      "community_name": "StorageAdapter",
-      "norm_label": ".upserttestresult()"
+      "community_name": "apple-icon.tsx",
+      "norm_label": "appleicon()"
     },
     {
       "label": "NewPromptPage()",
@@ -2882,7 +3074,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_new_page_newpromptpage",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "newpromptpage()"
     },
     {
@@ -2894,20 +3086,8 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_create_prompt_form_createpromptform",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "createpromptform()"
-    },
-    {
-      "label": "CreateSamplePromptButton()",
-      "file_type": "code",
-      "source_file": "src/components/domain/prompts/create-sample-prompt-button.tsx",
-      "source_location": "L10",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_components_domain_prompts_create_sample_prompt_button_createsamplepromptbutton",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "createsamplepromptbutton()"
     },
     {
       "label": "emptySubscribe()",
@@ -2918,7 +3098,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_emptysubscribe",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "emptysubscribe()"
     },
     {
@@ -2930,7 +3110,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_getorigin",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "getorigin()"
     },
     {
@@ -2942,7 +3122,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_getssrorigin",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "getssrorigin()"
     },
     {
@@ -2954,7 +3134,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client_promptdetailclient",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "promptdetailclient()"
     },
     {
@@ -2966,80 +3146,20 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_subnav_promptsubnav",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "promptsubnav()"
     },
     {
-      "label": "handleActionError()",
+      "label": "VersionHistory()",
       "file_type": "code",
-      "source_file": "src/lib/action-error.ts",
-      "source_location": "L3",
+      "source_file": "src/components/domain/prompts/version-history.tsx",
+      "source_location": "L20",
       "_callable": true,
       "_origin": "ast",
-      "id": "src_lib_action_error_handleactionerror",
+      "id": "src_components_domain_prompts_version_history_versionhistory",
       "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "handleactionerror()"
-    },
-    {
-      "label": "createPrompt()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/prompts.ts",
-      "source_location": "L12",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_prompts_createprompt",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "createprompt()"
-    },
-    {
-      "label": "deletePrompt()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/prompts.ts",
-      "source_location": "L57",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_prompts_deleteprompt",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "deleteprompt()"
-    },
-    {
-      "label": "togglePromptVisibility()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/prompts.ts",
-      "source_location": "L78",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_prompts_togglepromptvisibility",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "togglepromptvisibility()"
-    },
-    {
-      "label": "updatePrompt()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/prompts.ts",
-      "source_location": "L34",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_prompts_updateprompt",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "updateprompt()"
-    },
-    {
-      "label": "createTestCase()",
-      "file_type": "code",
-      "source_file": "src/lib/actions/tests.ts",
-      "source_location": "L14",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_actions_tests_createtestcase",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "createtestcase()"
+      "community_name": "prompt-detail-client.tsx",
+      "norm_label": "versionhistory()"
     },
     {
       "label": "emptySubscribe()",
@@ -3049,8 +3169,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_layout_relative_time_emptysubscribe",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "emptysubscribe()"
     },
     {
@@ -3061,8 +3181,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_layout_relative_time_getrelativetimestring",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "getrelativetimestring()"
     },
     {
@@ -3073,8 +3193,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_layout_relative_time_getserversnapshot",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "getserversnapshot()"
     },
     {
@@ -3085,8 +3205,8 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_layout_relative_time_getsnapshot",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "getsnapshot()"
     },
     {
@@ -3097,9 +3217,21 @@
       "_callable": true,
       "_origin": "ast",
       "id": "src_components_layout_relative_time_relativetime",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "relativetime()"
+    },
+    {
+      "label": "togglePromptVisibility()",
+      "file_type": "code",
+      "source_file": "src/lib/actions/prompts.ts",
+      "source_location": "L78",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_actions_prompts_togglepromptvisibility",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
+      "norm_label": "togglepromptvisibility()"
     },
     {
       "label": "DiffViewer()",
@@ -3506,116 +3638,8 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_api_keys_page_apikeyspage",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "apikeyspage()"
-    },
-    {
-      "label": "ComparePage()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
-      "source_location": "L29",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_comparepage",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "comparepage()"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
-      "source_location": "L13",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_generatemetadata",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "DiffPage()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
-      "source_location": "L32",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_diffpage",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "diffpage()"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
-      "source_location": "L16",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_generatemetadata",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
-      "source_location": "L11",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_page_generatemetadata",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "PromptDetailPage()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
-      "source_location": "L27",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_page_promptdetailpage",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "promptdetailpage()"
-    },
-    {
-      "label": "generateMetadata()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
-      "source_location": "L13",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_generatemetadata",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "generatemetadata()"
-    },
-    {
-      "label": "TestsPage()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
-      "source_location": "L29",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_testspage",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "testspage()"
-    },
-    {
-      "label": "DashboardLayout()",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L9",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_app_dashboard_layout_dashboardlayout",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "dashboardlayout()"
     },
     {
       "label": "ApiKeysManager()",
@@ -3626,7 +3650,7 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_apikeysmanager",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "apikeysmanager()"
     },
     {
@@ -3638,7 +3662,7 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_emptysubscribe",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "emptysubscribe()"
     },
     {
@@ -3650,7 +3674,7 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_getorigin",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "getorigin()"
     },
     {
@@ -3662,20 +3686,8 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager_getssrorigin",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "getssrorigin()"
-    },
-    {
-      "label": "TopHeaderBar()",
-      "file_type": "code",
-      "source_file": "src/components/layout/top-header-bar.tsx",
-      "source_location": "L7",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_components_layout_top_header_bar_topheaderbar",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "topheaderbar()"
     },
     {
       "label": "deleteApiKey()",
@@ -3686,7 +3698,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_api_keys_deleteapikey",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "deleteapikey()"
     },
     {
@@ -3698,7 +3710,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_api_keys_generateapikey",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "generateapikey()"
     },
     {
@@ -3710,7 +3722,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_api_keys_listapikeys",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "listapikeys()"
     },
     {
@@ -3722,20 +3734,8 @@
       "_origin": "ast",
       "id": "src_lib_actions_api_keys_revokeapikey",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "revokeapikey()"
-    },
-    {
-      "label": "getAuthUserId()",
-      "file_type": "code",
-      "source_file": "src/lib/auth.ts",
-      "source_location": "L10",
-      "_callable": true,
-      "_origin": "ast",
-      "id": "src_lib_auth_getauthuserid",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "getauthuserid()"
     },
     {
       "label": "POST()",
@@ -3834,6 +3834,18 @@
       "norm_label": "runwithconcurrency()"
     },
     {
+      "label": "persistResults()",
+      "file_type": "code",
+      "source_file": "src/lib/test-runner.ts",
+      "source_location": "L93",
+      "_callable": true,
+      "_origin": "ast",
+      "id": "src_lib_test_runner_persistresults",
+      "community": 9,
+      "community_name": "ai.ts",
+      "norm_label": "persistresults()"
+    },
+    {
       "label": "runEvaluations()",
       "file_type": "code",
       "source_file": "src/lib/test-runner.ts",
@@ -3853,7 +3865,7 @@
       "_origin": "ast",
       "id": "ratelimit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "@upstash/ratelimit"
     },
     {
@@ -3864,7 +3876,7 @@
       "_origin": "ast",
       "id": "redis",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "@upstash/redis"
     },
     {
@@ -3875,7 +3887,7 @@
       "_origin": "ast",
       "id": "src_app_api_cron_regression_tests_route",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "regression-tests/route.ts"
     },
     {
@@ -3886,7 +3898,7 @@
       "_origin": "ast",
       "id": "src_app_api_cron_regression_tests_route_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
@@ -3897,7 +3909,7 @@
       "_origin": "ast",
       "id": "src_app_api_cron_regression_tests_route_maxduration",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "maxduration"
     },
     {
@@ -3908,7 +3920,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_latest_route",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "latest/route.ts"
     },
     {
@@ -3919,7 +3931,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_latest_route_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
@@ -3930,7 +3942,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_latest_route_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "route.test.ts"
     },
     {
@@ -3941,7 +3953,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_versions_route",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "versions/route.ts"
     },
     {
@@ -3952,7 +3964,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_versions_route_bodyschema",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "bodyschema"
     },
     {
@@ -3963,7 +3975,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_id_versions_route_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
@@ -3974,7 +3986,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_route",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "prompts/route.ts"
     },
     {
@@ -3985,7 +3997,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_route_createpromptbodyschema",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "createpromptbodyschema"
     },
     {
@@ -3996,7 +4008,7 @@
       "_origin": "ast",
       "id": "src_app_api_v1_prompts_route_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
@@ -4007,7 +4019,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_page",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dashboard/page.tsx"
     },
     {
@@ -4018,7 +4030,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_page_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
@@ -4029,8 +4041,52 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_page_metadata",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "metadata"
+    },
+    {
+      "label": "compare/page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_compare_page",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "compare/page.tsx"
+    },
+    {
+      "label": "dynamic",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_dynamic",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "dynamic"
+    },
+    {
+      "label": "diff/page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_diff_page",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "diff/page.tsx"
+    },
+    {
+      "label": "dynamic",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_dynamic",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "dynamic"
     },
     {
       "label": "edit/page.tsx",
@@ -4040,7 +4096,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_prompts_id_edit_page",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "edit/page.tsx"
     },
     {
@@ -4051,19 +4107,96 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_prompts_id_edit_page_dynamic",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "dynamic"
     },
     {
-      "label": "version-history.tsx",
+      "label": "[id]/page.tsx",
       "file_type": "code",
-      "source_file": "src/components/domain/prompts/version-history.tsx",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "src_components_domain_prompts_version_history",
+      "id": "src_app_dashboard_dashboard_prompts_id_page",
       "community": 0,
-      "community_name": "schema.ts",
-      "norm_label": "version-history.tsx"
+      "community_name": "getAuthUserId",
+      "norm_label": "[id]/page.tsx"
+    },
+    {
+      "label": "tests/page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_tests_page",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "tests/page.tsx"
+    },
+    {
+      "label": "dynamic",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_dynamic",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "dynamic"
+    },
+    {
+      "label": "(dashboard)/layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/(dashboard)/layout.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_dashboard_layout",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "(dashboard)/layout.tsx"
+    },
+    {
+      "label": "prompt-repositories-list.tsx",
+      "file_type": "code",
+      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_domain_dashboard_prompt_repositories_list",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "prompt-repositories-list.tsx"
+    },
+    {
+      "label": "diff/index.ts",
+      "file_type": "code",
+      "source_file": "src/components/domain/diff/index.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_domain_diff_index",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "diff/index.ts"
+    },
+    {
+      "label": "create-sample-prompt-button.tsx",
+      "file_type": "code",
+      "source_file": "src/components/domain/prompts/create-sample-prompt-button.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_domain_prompts_create_sample_prompt_button",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "create-sample-prompt-button.tsx"
+    },
+    {
+      "label": "top-header-bar.tsx",
+      "file_type": "code",
+      "source_file": "src/components/layout/top-header-bar.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_layout_top_header_bar",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "top-header-bar.tsx"
     },
     {
       "label": "db/index.ts",
@@ -4073,7 +4206,7 @@
       "_origin": "ast",
       "id": "src_db_index",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "db/index.ts"
     },
     {
@@ -4084,7 +4217,7 @@
       "_origin": "ast",
       "id": "src_db_index_db",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "db"
     },
     {
@@ -4095,7 +4228,7 @@
       "_origin": "ast",
       "id": "src_db_index_globalfordb",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "globalfordb"
     },
     {
@@ -4106,7 +4239,7 @@
       "_origin": "ast",
       "id": "src_db_schema",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "schema.ts"
     },
     {
@@ -4117,7 +4250,7 @@
       "_origin": "ast",
       "id": "src_db_schema_apikeys",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "apikeys"
     },
     {
@@ -4128,7 +4261,7 @@
       "_origin": "ast",
       "id": "src_db_schema_prompts",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "prompts"
     },
     {
@@ -4139,7 +4272,7 @@
       "_origin": "ast",
       "id": "src_db_schema_promptscurrentversionfk",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "promptscurrentversionfk"
     },
     {
@@ -4150,8 +4283,19 @@
       "_origin": "ast",
       "id": "src_db_schema_promptsrelations",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "promptsrelations"
+    },
+    {
+      "label": "testCases",
+      "file_type": "code",
+      "source_file": "src/db/schema.ts",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "src_db_schema_testcases",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "testcases"
     },
     {
       "label": "testCasesRelations",
@@ -4161,19 +4305,8 @@
       "_origin": "ast",
       "id": "src_db_schema_testcasesrelations",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "testcasesrelations"
-    },
-    {
-      "label": "testResults",
-      "file_type": "code",
-      "source_file": "src/db/schema.ts",
-      "source_location": "L82",
-      "_origin": "ast",
-      "id": "src_db_schema_testresults",
-      "community": 0,
-      "community_name": "schema.ts",
-      "norm_label": "testresults"
     },
     {
       "label": "testResultsRelations",
@@ -4183,7 +4316,7 @@
       "_origin": "ast",
       "id": "src_db_schema_testresultsrelations",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "testresultsrelations"
     },
     {
@@ -4194,7 +4327,7 @@
       "_origin": "ast",
       "id": "src_db_schema_versions",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "versions"
     },
     {
@@ -4205,19 +4338,8 @@
       "_origin": "ast",
       "id": "src_db_schema_versionsrelations",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "versionsrelations"
-    },
-    {
-      "label": "webhooks",
-      "file_type": "code",
-      "source_file": "src/db/schema.ts",
-      "source_location": "L157",
-      "_origin": "ast",
-      "id": "src_db_schema_webhooks",
-      "community": 0,
-      "community_name": "schema.ts",
-      "norm_label": "webhooks"
     },
     {
       "label": "webhooksRelations",
@@ -4227,8 +4349,30 @@
       "_origin": "ast",
       "id": "src_db_schema_webhooksrelations",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "webhooksrelations"
+    },
+    {
+      "label": "action-error.ts",
+      "file_type": "code",
+      "source_file": "src/lib/action-error.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_action_error",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "action-error.ts"
+    },
+    {
+      "label": "prompts.ts",
+      "file_type": "code",
+      "source_file": "src/lib/actions/prompts.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_actions_prompts",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "prompts.ts"
     },
     {
       "label": "actions.test.ts",
@@ -4238,7 +4382,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_tests_actions_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "actions.test.ts"
     },
     {
@@ -4249,7 +4393,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_tests_tests_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "tests.test.ts"
     },
     {
@@ -4260,7 +4404,7 @@
       "_origin": "ast",
       "id": "src_lib_actions_versions",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "versions.ts"
     },
     {
@@ -4271,8 +4415,41 @@
       "_origin": "ast",
       "id": "src_lib_api_auth",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "api-auth.ts"
+    },
+    {
+      "label": "lib/auth.ts",
+      "file_type": "code",
+      "source_file": "src/lib/auth.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_auth",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "lib/auth.ts"
+    },
+    {
+      "label": "constants.ts",
+      "file_type": "code",
+      "source_file": "src/lib/constants.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_constants",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "constants.ts"
+    },
+    {
+      "label": "RECENT_VERSIONS_LIMIT",
+      "file_type": "code",
+      "source_file": "src/lib/constants.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "src_lib_constants_recent_versions_limit",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "recent_versions_limit"
     },
     {
       "label": "rate-limit.ts",
@@ -4282,7 +4459,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "rate-limit.ts"
     },
     {
@@ -4293,7 +4470,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_inprocesscounts",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "inprocesscounts"
     },
     {
@@ -4304,7 +4481,7 @@
       "_origin": "ast",
       "id": "src_lib_rate_limit_map_cleanup_threshold",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "map_cleanup_threshold"
     },
     {
@@ -4315,7 +4492,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_api_auth_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "api-auth.test.ts"
     },
     {
@@ -4326,7 +4503,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_api_key_lifecycle_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "api-key-lifecycle.test.ts"
     },
     {
@@ -4337,8 +4514,30 @@
       "_origin": "ast",
       "id": "src_lib_tests_api_security_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "api-security.test.ts"
+    },
+    {
+      "label": "auth.test.ts",
+      "file_type": "code",
+      "source_file": "src/lib/__tests__/auth.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_tests_auth_test",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "auth.test.ts"
+    },
+    {
+      "label": "authorization-bola.test.ts",
+      "file_type": "code",
+      "source_file": "src/lib/__tests__/authorization-bola.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_tests_authorization_bola_test",
+      "community": 0,
+      "community_name": "getAuthUserId",
+      "norm_label": "authorization-bola.test.ts"
     },
     {
       "label": "concurrency.test.ts",
@@ -4348,7 +4547,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_concurrency_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "concurrency.test.ts"
     },
     {
@@ -4359,7 +4558,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_concurrency_test_hasrealdb",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "hasrealdb"
     },
     {
@@ -4370,7 +4569,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_database_correctness_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "database-correctness.test.ts"
     },
     {
@@ -4381,7 +4580,7 @@
       "_origin": "ast",
       "id": "src_lib_tests_rate_limit_test",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "rate-limit.test.ts"
     },
     {
@@ -4392,7 +4591,7 @@
       "_origin": "ast",
       "id": "src_lib_webhooks",
       "community": 0,
-      "community_name": "schema.ts",
+      "community_name": "getAuthUserId",
       "norm_label": "lib/webhooks.ts"
     },
     {
@@ -4737,15 +4936,15 @@
       "norm_label": "webhooks-client.tsx"
     },
     {
-      "label": "delete-confirm-button.tsx",
+      "label": "webhooks",
       "file_type": "code",
-      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
-      "source_location": "L1",
+      "source_file": "src/db/schema.ts",
+      "source_location": "L157",
       "_origin": "ast",
-      "id": "src_components_domain_shared_delete_confirm_button",
+      "id": "src_db_schema_webhooks",
       "community": 10,
       "community_name": "actions/webhooks.ts",
-      "norm_label": "delete-confirm-button.tsx"
+      "norm_label": "webhooks"
     },
     {
       "label": "actions/webhooks.ts",
@@ -5551,6 +5750,28 @@
       "norm_label": "use-compare-runner.ts"
     },
     {
+      "label": "create-prompt-form.tsx",
+      "file_type": "code",
+      "source_file": "src/components/domain/prompts/create-prompt-form.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_domain_prompts_create_prompt_form",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "create-prompt-form.tsx"
+    },
+    {
+      "label": "delete-confirm-button.tsx",
+      "file_type": "code",
+      "source_file": "src/components/domain/shared/delete-confirm-button.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_domain_shared_delete_confirm_button",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "delete-confirm-button.tsx"
+    },
+    {
       "label": "testing/index.ts",
       "file_type": "code",
       "source_file": "src/components/domain/testing/index.ts",
@@ -5648,6 +5869,50 @@
       "community": 2,
       "community_name": "tests.ts",
       "norm_label": "validations.test.ts"
+    },
+    {
+      "label": "prompt.ts",
+      "file_type": "code",
+      "source_file": "src/lib/validations/prompt.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib_validations_prompt",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "prompt.ts"
+    },
+    {
+      "label": "createPromptSchema",
+      "file_type": "code",
+      "source_file": "src/lib/validations/prompt.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "src_lib_validations_prompt_createpromptschema",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "createpromptschema"
+    },
+    {
+      "label": "deletePromptSchema",
+      "file_type": "code",
+      "source_file": "src/lib/validations/prompt.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "src_lib_validations_prompt_deletepromptschema",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "deletepromptschema"
+    },
+    {
+      "label": "updatePromptSchema",
+      "file_type": "code",
+      "source_file": "src/lib/validations/prompt.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "src_lib_validations_prompt_updatepromptschema",
+      "community": 2,
+      "community_name": "tests.ts",
+      "norm_label": "updatepromptschema"
     },
     {
       "label": "test.ts",
@@ -5892,17 +6157,6 @@
       "norm_label": "(landing)/page.tsx"
     },
     {
-      "label": "dynamic",
-      "file_type": "code",
-      "source_file": "src/app/(landing)/page.tsx",
-      "source_location": "L10",
-      "_origin": "ast",
-      "id": "src_app_landing_page_dynamic",
-      "community": 3,
-      "community_name": "ui-tokens.tsx",
-      "norm_label": "dynamic"
-    },
-    {
       "label": "app/layout.tsx",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
@@ -5917,7 +6171,7 @@
       "label": "instrumentSerif",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "src_app_layout_instrumentserif",
       "community": 3,
@@ -5928,7 +6182,7 @@
       "label": "metadata",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "src_app_layout_metadata",
       "community": 3,
@@ -5939,23 +6193,12 @@
       "label": "plusJakartaSans",
       "file_type": "code",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "src_app_layout_plusjakartasans",
       "community": 3,
       "community_name": "ui-tokens.tsx",
       "norm_label": "plusjakartasans"
-    },
-    {
-      "label": "prompt-repositories-list.tsx",
-      "file_type": "code",
-      "source_file": "src/components/domain/dashboard/prompt-repositories-list.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_domain_dashboard_prompt_repositories_list",
-      "community": 3,
-      "community_name": "ui-tokens.tsx",
-      "norm_label": "prompt-repositories-list.tsx"
     },
     {
       "label": "dashboard-sidebar.tsx",
@@ -6497,6 +6740,83 @@
       "norm_label": "readme.md"
     },
     {
+      "label": "1. Clone & install dependencies",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L183",
+      "_origin": "ast",
+      "id": "readme_1_clone_install_dependencies",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "1. clone & install dependencies"
+    },
+    {
+      "label": "1. Clone repository",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L158",
+      "_origin": "ast",
+      "id": "readme_1_clone_repository",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "1. clone repository"
+    },
+    {
+      "label": "2. Configure environment",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L188",
+      "_origin": "ast",
+      "id": "readme_2_configure_environment",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "2. configure environment"
+    },
+    {
+      "label": "2. Set environment variables",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L162",
+      "_origin": "ast",
+      "id": "readme_2_set_environment_variables",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "2. set environment variables"
+    },
+    {
+      "label": "3. Push database schema",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L191",
+      "_origin": "ast",
+      "id": "readme_3_push_database_schema",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "3. push database schema"
+    },
+    {
+      "label": "3. Spin up application & database",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "readme_3_spin_up_application_database",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "3. spin up application & database"
+    },
+    {
+      "label": "4. Start development server",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L194",
+      "_origin": "ast",
+      "id": "readme_4_start_development_server",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "4. start development server"
+    },
+    {
       "label": "\ud83d\udccc About the Project",
       "file_type": "document",
       "source_file": "README.md",
@@ -6508,26 +6828,48 @@
       "norm_label": "\ud83d\udccc about the project"
     },
     {
-      "label": "\ud83c\udfd7\ufe0f Architecture & Monorepo Structure",
+      "label": "Add a test case and run evals locally",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L116",
+      "source_location": "L86",
       "_origin": "ast",
-      "id": "readme_architecture_monorepo_structure",
+      "id": "readme_add_a_test_case_and_run_evals_locally",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83c\udfd7\ufe0f architecture & monorepo structure"
+      "norm_label": "add a test case and run evals locally"
     },
     {
-      "label": "\ud83d\udc33 Docker Self-Hosting",
+      "label": "Authenticate with your cloud account",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L151",
+      "source_location": "L74",
       "_origin": "ast",
-      "id": "readme_docker_self_hosting",
+      "id": "readme_authenticate_with_your_cloud_account",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83d\udc33 docker self-hosting"
+      "norm_label": "authenticate with your cloud account"
+    },
+    {
+      "label": "Compare local versions",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L83",
+      "_origin": "ast",
+      "id": "readme_compare_local_versions",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "compare local versions"
+    },
+    {
+      "label": "Create or commit a new prompt version locally",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "readme_create_or_commit_a_new_prompt_version_locally",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "create or commit a new prompt version locally"
     },
     {
       "label": "\u2728 Features",
@@ -6552,70 +6894,92 @@
       "norm_label": "\ud83d\udda5\ufe0f `gfp` cli"
     },
     {
-      "label": "\ud83d\udcc4 License",
+      "label": "Global installation (registers both 'gfp' and 'gitforprompts' in PATH)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L213",
+      "source_location": "L65",
       "_origin": "ast",
-      "id": "readme_license",
+      "id": "readme_global_installation_registers_both_gfp_and_gitforprompts_in_path",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83d\udcc4 license"
+      "norm_label": "global installation (registers both 'gfp' and 'gitforprompts' in path)"
     },
     {
-      "label": "\ud83d\ude80 Local Development Quickstart",
+      "label": "Initialize a local prompt repository (.gfp/ directory)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L172",
+      "source_location": "L68",
       "_origin": "ast",
-      "id": "readme_local_development_quickstart",
+      "id": "readme_initialize_a_local_prompt_repository_gfp_directory",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83d\ude80 local development quickstart"
+      "norm_label": "initialize a local prompt repository (.gfp/ directory)"
     },
     {
-      "label": "Prerequisites",
+      "label": "Lint check (0 errors / 0 warnings)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L174",
+      "source_location": "L209",
       "_origin": "ast",
-      "id": "readme_prerequisites",
+      "id": "readme_lint_check_0_errors_0_warnings",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "prerequisites"
+      "norm_label": "lint check (0 errors / 0 warnings)"
     },
     {
-      "label": "Setup",
+      "label": "Or run directly with zero install:",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L178",
+      "source_location": "L71",
       "_origin": "ast",
-      "id": "readme_setup",
+      "id": "readme_or_run_directly_with_zero_install",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "setup"
+      "norm_label": "or run directly with zero install:"
     },
     {
-      "label": "\ud83e\uddea Testing",
+      "label": "Run unit & integration test suite (154 tests across 20 test files)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L198",
+      "source_location": "L203",
       "_origin": "ast",
-      "id": "readme_testing",
+      "id": "readme_run_unit_integration_test_suite_154_tests_across_20_test_files",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83e\uddea testing"
+      "norm_label": "run unit & integration test suite (154 tests across 20 test files)"
     },
     {
-      "label": "\ud83d\udce6 V2 Prompt Bundles",
+      "label": "Sync with Cloud",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L95",
+      "source_location": "L90",
       "_origin": "ast",
-      "id": "readme_v2_prompt_bundles",
+      "id": "readme_sync_with_cloud",
       "community": 40,
       "community_name": "README.md",
-      "norm_label": "\ud83d\udce6 v2 prompt bundles"
+      "norm_label": "sync with cloud"
+    },
+    {
+      "label": "Type-check entire workspace (0 errors)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L206",
+      "_origin": "ast",
+      "id": "readme_type_check_entire_workspace_0_errors",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "type-check entire workspace (0 errors)"
+    },
+    {
+      "label": "View local commit history",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L80",
+      "_origin": "ast",
+      "id": "readme_view_local_commit_history",
+      "community": 40,
+      "community_name": "README.md",
+      "norm_label": "view local commit history"
     },
     {
       "label": "ARCHITECTURE.md",
@@ -7116,7 +7480,7 @@
       "label": "[GFP \u2014 26.5s Master Launch Video Edit, Direction 1 Linear/Warp Organic Audio & 2026 Live Benchmarks] 2026-08-20",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L67",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "journal_gfp_26_5s_master_launch_video_edit_direction_1_linear_warp_organic_audio_2026_live_benchmarks_2026_08_20",
       "community": 44,
@@ -7138,7 +7502,7 @@
       "label": "[GFP \u2014 Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L41",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "journal_gfp_brutal_strategy_teardown_whole_repo_ponytail_cleanup_master_2k_launch_video_export_2026_08_21",
       "community": 44,
@@ -7149,7 +7513,7 @@
       "label": "[GFP \u2014 Color Token Purge, Vercel Pure Black Migration & Build Optimizations] 2026-08-10",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L151",
+      "source_location": "L162",
       "_origin": "ast",
       "id": "journal_gfp_color_token_purge_vercel_pure_black_migration_build_optimizations_2026_08_10",
       "community": 44,
@@ -7160,7 +7524,7 @@
       "label": "[GFP \u2014 Hero Dashboard Replica, Mobile Overhaul, SEO & GitHub Actions CI Fix] 2026-08-12",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L109",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "journal_gfp_hero_dashboard_replica_mobile_overhaul_seo_github_actions_ci_fix_2026_08_12",
       "community": 44,
@@ -7171,7 +7535,7 @@
       "label": "[GFP \u2014 Icon & Favicon Dark Background Standardization] 2026-08-13",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L99",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "journal_gfp_icon_favicon_dark_background_standardization_2026_08_13",
       "community": 44,
@@ -7182,7 +7546,7 @@
       "label": "[GFP \u2014 Master Design System, Motion Engineering, P0 Security Engine & CI Hardening] 2026-08-11",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L127",
+      "source_location": "L138",
       "_origin": "ast",
       "id": "journal_gfp_master_design_system_motion_engineering_p0_security_engine_ci_hardening_2026_08_11",
       "community": 44,
@@ -7193,7 +7557,7 @@
       "label": "[GFP \u2014 Remotion Launch Video Engine, File Reorganization & Codebase Pruning] 2026-08-19",
       "file_type": "document",
       "source_file": "JOURNAL.md",
-      "source_location": "L80",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "journal_gfp_remotion_launch_video_engine_file_reorganization_codebase_pruning_2026_08_19",
       "community": 44,
@@ -7421,6 +7785,39 @@
       "norm_label": "semantic badges & accents"
     },
     {
+      "label": "apple-icon.tsx",
+      "file_type": "code",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app_apple_icon",
+      "community": 47,
+      "community_name": "apple-icon.tsx",
+      "norm_label": "apple-icon.tsx"
+    },
+    {
+      "label": "contentType",
+      "file_type": "code",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "src_app_apple_icon_contenttype",
+      "community": 47,
+      "community_name": "apple-icon.tsx",
+      "norm_label": "contenttype"
+    },
+    {
+      "label": "size",
+      "file_type": "code",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "src_app_apple_icon_size",
+      "community": 47,
+      "community_name": "apple-icon.tsx",
+      "norm_label": "size"
+    },
+    {
       "label": "threat-model.md",
       "file_type": "document",
       "source_file": "docs/threat-model.md",
@@ -7516,7 +7913,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_new_page",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "new/page.tsx"
     },
     {
@@ -7527,7 +7924,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_new_page_dynamic",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "dynamic"
     },
     {
@@ -7538,30 +7935,8 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_new_page_metadata",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "metadata"
-    },
-    {
-      "label": "create-prompt-form.tsx",
-      "file_type": "code",
-      "source_file": "src/components/domain/prompts/create-prompt-form.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_domain_prompts_create_prompt_form",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "create-prompt-form.tsx"
-    },
-    {
-      "label": "create-sample-prompt-button.tsx",
-      "file_type": "code",
-      "source_file": "src/components/domain/prompts/create-sample-prompt-button.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_domain_prompts_create_sample_prompt_button",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "create-sample-prompt-button.tsx"
     },
     {
       "label": "prompts/index.ts",
@@ -7571,7 +7946,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_index",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "prompts/index.ts"
     },
     {
@@ -7582,7 +7957,7 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_detail_client",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "prompt-detail-client.tsx"
     },
     {
@@ -7593,85 +7968,19 @@
       "_origin": "ast",
       "id": "src_components_domain_prompts_prompt_subnav",
       "community": 5,
-      "community_name": "prompts.ts",
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "prompt-subnav.tsx"
     },
     {
-      "label": "action-error.ts",
+      "label": "version-history.tsx",
       "file_type": "code",
-      "source_file": "src/lib/action-error.ts",
+      "source_file": "src/components/domain/prompts/version-history.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "src_lib_action_error",
+      "id": "src_components_domain_prompts_version_history",
       "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "action-error.ts"
-    },
-    {
-      "label": "prompts.ts",
-      "file_type": "code",
-      "source_file": "src/lib/actions/prompts.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_actions_prompts",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "prompts.ts"
-    },
-    {
-      "label": "authorization-bola.test.ts",
-      "file_type": "code",
-      "source_file": "src/lib/__tests__/authorization-bola.test.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_tests_authorization_bola_test",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "authorization-bola.test.ts"
-    },
-    {
-      "label": "prompt.ts",
-      "file_type": "code",
-      "source_file": "src/lib/validations/prompt.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_validations_prompt",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "prompt.ts"
-    },
-    {
-      "label": "createPromptSchema",
-      "file_type": "code",
-      "source_file": "src/lib/validations/prompt.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "src_lib_validations_prompt_createpromptschema",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "createpromptschema"
-    },
-    {
-      "label": "deletePromptSchema",
-      "file_type": "code",
-      "source_file": "src/lib/validations/prompt.ts",
-      "source_location": "L16",
-      "_origin": "ast",
-      "id": "src_lib_validations_prompt_deletepromptschema",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "deletepromptschema"
-    },
-    {
-      "label": "updatePromptSchema",
-      "file_type": "code",
-      "source_file": "src/lib/validations/prompt.ts",
-      "source_location": "L8",
-      "_origin": "ast",
-      "id": "src_lib_validations_prompt_updatepromptschema",
-      "community": 5,
-      "community_name": "prompts.ts",
-      "norm_label": "updatepromptschema"
+      "community_name": "prompt-detail-client.tsx",
+      "norm_label": "version-history.tsx"
     },
     {
       "label": "relative-time.tsx",
@@ -7680,8 +7989,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_layout_relative_time",
-      "community": 50,
-      "community_name": "relative-time.tsx",
+      "community": 5,
+      "community_name": "prompt-detail-client.tsx",
       "norm_label": "relative-time.tsx"
     },
     {
@@ -7716,17 +8025,6 @@
       "community": 6,
       "community_name": "prompt-editor.tsx",
       "norm_label": "monacodiffeditor"
-    },
-    {
-      "label": "diff/index.ts",
-      "file_type": "code",
-      "source_file": "src/components/domain/diff/index.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_domain_diff_index",
-      "community": 6,
-      "community_name": "prompt-editor.tsx",
-      "norm_label": "diff/index.ts"
     },
     {
       "label": "bundle-editor.tsx",
@@ -7879,7 +8177,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_api_keys_page",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "api-keys/page.tsx"
     },
     {
@@ -7890,7 +8188,7 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_api_keys_page_dynamic",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "dynamic"
     },
     {
@@ -7901,96 +8199,8 @@
       "_origin": "ast",
       "id": "src_app_dashboard_dashboard_api_keys_page_metadata",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "metadata"
-    },
-    {
-      "label": "compare/page.tsx",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_compare_page",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "compare/page.tsx"
-    },
-    {
-      "label": "dynamic",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/compare/page.tsx",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_compare_page_dynamic",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "dynamic"
-    },
-    {
-      "label": "diff/page.tsx",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_diff_page",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "diff/page.tsx"
-    },
-    {
-      "label": "dynamic",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/diff/page.tsx",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_diff_page_dynamic",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "dynamic"
-    },
-    {
-      "label": "[id]/page.tsx",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_page",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "[id]/page.tsx"
-    },
-    {
-      "label": "tests/page.tsx",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_tests_page",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "tests/page.tsx"
-    },
-    {
-      "label": "dynamic",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/dashboard/prompts/[id]/tests/page.tsx",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "src_app_dashboard_dashboard_prompts_id_tests_page_dynamic",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "dynamic"
-    },
-    {
-      "label": "(dashboard)/layout.tsx",
-      "file_type": "code",
-      "source_file": "src/app/(dashboard)/layout.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_app_dashboard_layout",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "(dashboard)/layout.tsx"
     },
     {
       "label": "api-keys-manager.tsx",
@@ -8000,30 +8210,8 @@
       "_origin": "ast",
       "id": "src_components_domain_api_keys_api_keys_manager",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "api-keys-manager.tsx"
-    },
-    {
-      "label": "top-header-bar.tsx",
-      "file_type": "code",
-      "source_file": "src/components/layout/top-header-bar.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_layout_top_header_bar",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "top-header-bar.tsx"
-    },
-    {
-      "label": "testCases",
-      "file_type": "code",
-      "source_file": "src/db/schema.ts",
-      "source_location": "L64",
-      "_origin": "ast",
-      "id": "src_db_schema_testcases",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "testcases"
     },
     {
       "label": "api-keys.ts",
@@ -8033,52 +8221,8 @@
       "_origin": "ast",
       "id": "src_lib_actions_api_keys",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "api-keys.ts"
-    },
-    {
-      "label": "lib/auth.ts",
-      "file_type": "code",
-      "source_file": "src/lib/auth.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_auth",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "lib/auth.ts"
-    },
-    {
-      "label": "constants.ts",
-      "file_type": "code",
-      "source_file": "src/lib/constants.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_constants",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "constants.ts"
-    },
-    {
-      "label": "RECENT_VERSIONS_LIMIT",
-      "file_type": "code",
-      "source_file": "src/lib/constants.ts",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "src_lib_constants_recent_versions_limit",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "recent_versions_limit"
-    },
-    {
-      "label": "auth.test.ts",
-      "file_type": "code",
-      "source_file": "src/lib/__tests__/auth.test.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_lib_tests_auth_test",
-      "community": 8,
-      "community_name": "getAuthUserId",
-      "norm_label": "auth.test.ts"
     },
     {
       "label": "api-key.ts",
@@ -8088,7 +8232,7 @@
       "_origin": "ast",
       "id": "src_lib_validations_api_key",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "api-key.ts"
     },
     {
@@ -8099,7 +8243,7 @@
       "_origin": "ast",
       "id": "src_lib_validations_api_key_createapikeyschema",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "createapikeyschema"
     },
     {
@@ -8110,8 +8254,19 @@
       "_origin": "ast",
       "id": "src_lib_validations_api_key_deleteapikeyschema",
       "community": 8,
-      "community_name": "getAuthUserId",
+      "community_name": "api-keys.ts",
       "norm_label": "deleteapikeyschema"
+    },
+    {
+      "label": "testResults",
+      "file_type": "code",
+      "source_file": "src/db/schema.ts",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "src_db_schema_testresults",
+      "community": 9,
+      "community_name": "ai.ts",
+      "norm_label": "testresults"
     },
     {
       "label": "ai.ts",
@@ -12388,7 +12543,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L79",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
@@ -15832,7 +15987,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L79",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
@@ -18965,7 +19120,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L109",
+      "source_location": "L110",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "journal_log_entries",
+      "target": "journal_gfp_icon_favicon_dark_background_standardization_2026_08_13",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "JOURNAL.md",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
@@ -18976,7 +19142,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L127",
+      "source_location": "L138",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
@@ -18987,7 +19153,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L151",
+      "source_location": "L162",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
@@ -19009,7 +19175,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L41",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
@@ -19020,7 +19186,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L67",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
@@ -19031,22 +19197,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "JOURNAL.md",
-      "source_location": "L80",
+      "source_location": "L91",
       "weight": 1.0,
       "_origin": "ast",
       "source": "journal_log_entries",
       "target": "journal_gfp_remotion_launch_video_engine_file_reorganization_codebase_pruning_2026_08_19",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "JOURNAL.md",
-      "source_location": "L99",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "journal_log_entries",
-      "target": "journal_gfp_icon_favicon_dark_background_standardization_2026_08_13",
       "confidence_score": 1.0
     },
     {
@@ -20219,55 +20374,110 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L116",
+      "source_location": "L158",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_architecture_monorepo_structure",
+      "target": "readme_1_clone_repository",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L151",
+      "source_location": "L162",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_docker_self_hosting",
+      "target": "readme_2_set_environment_variables",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L172",
+      "source_location": "L166",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_local_development_quickstart",
+      "target": "readme_3_spin_up_application_database",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L198",
+      "source_location": "L183",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_testing",
+      "target": "readme_1_clone_install_dependencies",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L213",
+      "source_location": "L188",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_license",
+      "target": "readme_2_configure_environment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L191",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_3_push_database_schema",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L194",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_4_start_development_server",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L203",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_run_unit_integration_test_suite_154_tests_across_20_test_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_type_check_entire_workspace_0_errors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L209",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_lint_check_0_errors_0_warnings",
       "confidence_score": 1.0
     },
     {
@@ -20307,33 +20517,99 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L95",
+      "source_location": "L65",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme",
-      "target": "readme_v2_prompt_bundles",
+      "target": "readme_global_installation_registers_both_gfp_and_gitforprompts_in_path",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L174",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "readme_local_development_quickstart",
-      "target": "readme_prerequisites",
+      "source": "readme",
+      "target": "readme_initialize_a_local_prompt_repository_gfp_directory",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L178",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "readme_local_development_quickstart",
-      "target": "readme_setup",
+      "source": "readme",
+      "target": "readme_or_run_directly_with_zero_install",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_authenticate_with_your_cloud_account",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_create_or_commit_a_new_prompt_version_locally",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_view_local_commit_history",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_compare_local_versions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_add_a_test_case_and_run_evals_locally",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "readme_sync_with_cloud",
       "confidence_score": 1.0
     },
     {
@@ -20499,6 +20775,39 @@
       "_origin": "ast",
       "source": "src_app_api_v1_prompts_route",
       "target": "src_app_api_v1_prompts_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_apple_icon",
+      "target": "src_app_apple_icon_size",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_apple_icon",
+      "target": "src_app_apple_icon_contenttype",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/apple-icon.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_app_apple_icon",
+      "target": "src_app_apple_icon_appleicon",
       "confidence_score": 1.0
     },
     {
@@ -21077,18 +21386,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/(landing)/page.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_app_landing_page",
-      "target": "src_app_landing_page_dynamic",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/app/(landing)/page.tsx",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_landing_page",
@@ -21099,7 +21397,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
@@ -21110,7 +21408,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
@@ -21121,22 +21419,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L8",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
-      "target": "src_app_layout_instrumentserif",
+      "target": "src_app_layout_rootlayout",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/app/layout.tsx",
-      "source_location": "L82",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_app_layout",
-      "target": "src_app_layout_rootlayout",
+      "target": "src_app_layout_instrumentserif",
       "confidence_score": 1.0
     },
     {
@@ -22232,7 +22530,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L104",
+      "source_location": "L110",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22243,7 +22541,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L120",
+      "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22254,7 +22552,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22265,7 +22563,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22276,7 +22574,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22287,7 +22585,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22298,7 +22596,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22309,7 +22607,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L58",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22320,18 +22618,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_components_website_ui_tokens",
-      "target": "src_components_website_ui_tokens_checkicon",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L67",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -22342,7 +22629,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/website/ui-tokens.tsx",
-      "source_location": "L80",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_components_website_ui_tokens",
+      "target": "src_components_website_ui_tokens_checkicon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/website/ui-tokens.tsx",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_components_website_ui_tokens",
@@ -24003,5 +24301,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "affc8591f48db3d61273f2b820bb0fc6b9da119c"
+  "built_at_commit": "1af481b7894472e826709f63d02b9716a58e598c"
 }

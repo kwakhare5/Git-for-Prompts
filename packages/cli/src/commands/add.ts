@@ -1,10 +1,11 @@
 /**
- * gfp add — Create or update a prompt bundle in the local SQLite database.
+ * gitforprompts add — Create or update a prompt bundle in the local SQLite database.
  *
  * Usage:
- *   gfp add <name> --file <path>           Add from a file
- *   gfp add <name> --content "prompt text"  Add inline content
- *   gfp add <name> --bundle <json-path>     Add a full bundle from JSON file
+ *   gitforprompts add <name> [content]             Add inline content directly
+ *   gitforprompts add <name> --file <path>         Add from a text file
+ *   gitforprompts add <name> --content "text"      Add inline content with flag
+ *   gitforprompts add <name> --bundle <json-path>  Add a full bundle from JSON file
  */
 
 import { existsSync, readFileSync } from 'fs';
@@ -28,8 +29,9 @@ interface AddOptions {
 
 export async function cmdAdd(name: string, options: AddOptions): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp add <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts add <name> [content]');
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -44,7 +46,8 @@ export async function cmdAdd(name: string, options: AddOptions): Promise<void> {
       // Full bundle from JSON file
       if (!existsSync(options.bundle)) {
         console.error(`\x1b[31mError:\x1b[0m File not found: ${options.bundle}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
       const raw = readFileSync(options.bundle, 'utf8');
       promptBundle = validateBundle(JSON.parse(raw));
@@ -53,7 +56,8 @@ export async function cmdAdd(name: string, options: AddOptions): Promise<void> {
       // Text-only from file → wrap in legacy bundle
       if (!existsSync(options.file)) {
         console.error(`\x1b[31mError:\x1b[0m File not found: ${options.file}`);
-        process.exit(1);
+        process.exitCode = 1;
+        return;
       }
       promptContent = readFileSync(options.file, 'utf8');
       promptBundle = createBundleFromLegacy(promptContent);
@@ -62,8 +66,9 @@ export async function cmdAdd(name: string, options: AddOptions): Promise<void> {
       promptContent = options.content;
       promptBundle = createBundleFromLegacy(promptContent);
     } else {
-      console.error('\x1b[31mError:\x1b[0m Provide content with --file, --content, or --bundle');
-      process.exit(1);
+      console.error('\x1b[31mError:\x1b[0m Provide prompt content: gitforprompts add <name> "your prompt" or use --file / --bundle');
+      process.exitCode = 1;
+      return;
     }
 
     const variables = promptBundle

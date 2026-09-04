@@ -1,8 +1,8 @@
 /**
- * gfp list — Show all locally saved prompt bundles.
+ * gitforprompts list — Show all locally saved prompt bundles.
  *
  * Usage:
- *   gfp list
+ *   gitforprompts list
  */
 
 import { getDbPath } from '../config.js';
@@ -16,7 +16,7 @@ export async function cmdList(): Promise<void> {
     const prompts = await adapter.listPrompts();
 
     if (prompts.length === 0) {
-      console.log('\x1b[90mNo prompts yet. Run: gfp add <name> --content "your prompt"\x1b[0m');
+      console.log('\x1b[90mNo prompts yet. Run: gitforprompts add <name> [content]\x1b[0m');
       return;
     }
 
@@ -35,7 +35,7 @@ export async function cmdList(): Promise<void> {
     }
 
     console.log('');
-    console.log('\x1b[90mRun `gfp history <name>` to see versions for a prompt.\x1b[0m');
+    console.log('\x1b[90mRun `gitforprompts history <name>` to see versions for a prompt.\x1b[0m');
   } finally {
     adapter.close();
   }

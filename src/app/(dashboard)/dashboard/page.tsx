@@ -177,15 +177,15 @@ export default async function DashboardPage() {
             <div className="space-y-2 text-xs text-zinc-300">
               <div className="flex items-center gap-2">
                 <span className="text-zinc-500 select-none">$</span>
-                <code className="text-zinc-100 font-bold">npx gfp init my-prompt-repo</code>
+                <code className="text-zinc-100 font-bold">npx gitforprompts init my-prompt-repo</code>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-zinc-500 select-none">$</span>
-                <code className="text-zinc-100 font-bold">npx gfp commit -m &quot;Lower temperature to 0.2&quot;</code>
+                <code className="text-zinc-100 font-bold">npx gitforprompts add system &quot;You are a code assistant&quot;</code>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-zinc-500 select-none">$</span>
-                <code className="text-zinc-100 font-bold">npx gfp test</code>
+                <code className="text-zinc-100 font-bold">npx gitforprompts run system</code>
               </div>
             </div>
           </div>

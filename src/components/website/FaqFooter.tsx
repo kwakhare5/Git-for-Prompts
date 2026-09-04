@@ -22,15 +22,15 @@ export function FaqFooter() {
     },
     {
       q: 'What is a Prompt Bundle?',
-      a: 'A prompt bundle is the atomic unit of versioning in GFP v2. It includes the system prompt, user template, model configurations (provider, model, temperature, topP), tools, and Zod response format schema.'
+      a: 'A prompt bundle is the atomic unit of versioning in Git for Prompts v2. It includes the system prompt, user template, model configurations (provider, model, temperature, topP), tools, and Zod response format schema.'
     },
     {
       q: 'How do concurrent pushes handle version collisions?',
       a: 'Cloud sync uses PostgreSQL transaction advisory locking (`pg_advisory_xact_lock`) via `insertNextVersion` to ensure concurrent pushes never overwrite or collision version numbers.'
     },
     {
-      q: 'Can I migrate my existing raw prompt strings to GFP?',
-      a: 'Yes! Running `gfp init` automatically detects existing prompt templates and wraps them into valid v2 Prompt Bundles.'
+      q: 'Can I migrate my existing raw prompt strings to Git for Prompts?',
+      a: 'Yes! Running `gitforprompts init` automatically detects existing prompt templates and wraps them into valid v2 Prompt Bundles.'
     }
   ];
 
@@ -75,10 +75,10 @@ export function FaqFooter() {
             Start versioning your prompts locally in seconds
           </h3>
           <p className="text-zinc-400 text-xs max-w-md mx-auto mb-6 sm:mb-8 font-sans leading-relaxed">
-            Run `$ npx gfp init` inside any repository. Immutable history, offline SQLite, zero setup.
+            Run `$ npx gitforprompts init` inside any repository. Immutable history, offline SQLite, zero setup.
           </p>
           <Link 
-            href="/sign-in"
+            href="/dashboard"
             className="w-full sm:w-auto inline-flex items-center justify-center bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-6 py-3 rounded-xl btn-interactive"
           >
             Get Started Free →

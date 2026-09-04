@@ -32,13 +32,13 @@
 
 ## 📌 About the Project
 
-**Git for Prompts (`gfp`)** is a **local-first prompt package manager & version control system** built for developers working with LLMs.
+**Git for Prompts (`gitforprompts`)** is a **local-first prompt package manager & version control system** built for developers working with LLMs.
 
 Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded strings deep in codebase repositories. When a prompt changes and an AI feature degrades, nobody knows who changed what, why, or how to roll back.
 
-`gfp` fixes this by providing:
+`gitforprompts` fixes this by providing:
 1. **Local-first SQLite repository** — manage and version prompt bundles completely offline in your terminal (`.gfp/`).
-2. **Cloud Synchronization** — push local prompt bundles to the central cloud platform when you're ready to share or run hosted evaluations (`gfp push` / `gfp pull`).
+2. **Cloud Synchronization** — push local prompt bundles to the central cloud platform when you're ready to share or run hosted evaluations (`gitforprompts push` / `gitforprompts pull`).
 3. **Structured V2 Prompt Bundles** — version system prompts, user templates, model configs (provider, model, temperature, max tokens), tools, and response formats together as a single unit.
 
 ---
@@ -47,10 +47,10 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 
 | Status | Feature | Description |
 |:---:|---|---|
-| ✅ | **Local-First SQLite** | `gfp init` creates a Wasm-powered `.gfp/` SQLite database right inside your project directory. 100% offline. |
+| ✅ | **Local-First SQLite** | `gitforprompts init` creates a Wasm-powered `.gfp/` SQLite database right inside your project directory. 100% offline. |
 | ✅ | **V2 Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
 | ✅ | **Monaco Diff Engine** | Side-by-side visual comparison with line-level diffs and model config comparison header. |
-| ✅ | **Cloud Sync (`push` / `pull`)** | `gfp push <name>` and `gfp pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
+| ✅ | **Cloud Sync (`push` / `pull`)** | `gitforprompts push <name>` and `gitforprompts pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
 | ✅ | **Automated Eval Runner** | Run evaluations against local or cloud prompt versions using custom test cases and AI scoring criteria. |
 | ✅ | **Variable Interpolation** | Auto-detect `{{variable}}` placeholders in system & user prompts; inject at runtime via query params or CLI flags. |
 | ✅ | **HMAC-Signed Webhooks** | Fire-and-forget `version.created` events with HMAC-SHA256 signature verification. |
@@ -58,36 +58,39 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 
 ---
 
-## 🖥️ `gfp` CLI
+## 🖥️ `gitforprompts` CLI
 
-The `gfp` CLI is powered by an in-process Wasm SQLite engine (`sql.js`), enabling fast local operations without native build dependencies.
+The `gitforprompts` CLI is powered by an in-process Wasm SQLite engine (`sql.js`), enabling fast local operations without native build dependencies.
 
 ```bash
 # Global installation
-npm install -g @git-for-prompts/cli
+npm install -g gitforprompts
 
 # Initialize a local prompt repository (.gfp/ directory)
-gfp init
+gitforprompts init
+
+# Or run directly with zero install:
+npx gitforprompts init
 
 # Authenticate with your cloud account
-gfp auth gfp_live_your_key_here
+gitforprompts auth gfp_live_your_key_here
 
 # Create or commit a new prompt version locally
-gfp add "customer-support" -m "Adjusted temperature to 0.7 for tone"
+gitforprompts add "customer-support" -m "Adjusted temperature to 0.7 for tone"
 
 # View local commit history
-gfp history customer-support
+gitforprompts history customer-support
 
 # Compare local versions
-gfp diff customer-support 1 2
+gitforprompts diff customer-support 1 2
 
 # Add a test case and run evals locally
-gfp test-add customer-support -n "Greeting check" -i "Hi" -c "Polite tone"
-gfp run customer-support --provider groq
+gitforprompts test-add customer-support -n "Greeting check" -i "Hi" -c "Polite tone"
+gitforprompts run customer-support --provider groq
 
 # Sync with Cloud
-gfp push customer-support         # Push local bundle -> Cloud
-gfp pull customer-support         # Pull latest cloud version -> Local
+gitforprompts push customer-support         # Push local bundle -> Cloud
+gitforprompts pull customer-support         # Pull latest cloud version -> Local
 ```
 
 ---

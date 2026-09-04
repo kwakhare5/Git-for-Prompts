@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { track } from '@vercel/analytics';
 
 {/* SVG Icons — Zero Emojis */}
 export function CheckIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -77,12 +78,17 @@ export function ButtonPrimary({ children, onClick, className = "", disabled = fa
 }
 
 {/* 1-Click CLI Copy Button */}
-export function CliCopyButton({ command = "npx gfp init" }: { command?: string }) {
+export function CliCopyButton({ command = "npx gitforprompts init" }: { command?: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(command);
     setCopied(true);
+    try {
+      track('cli_command_copied', { command });
+    } catch {
+      // noop in dev/unsupported
+    }
     setTimeout(() => setCopied(false), 2000);
   };
 

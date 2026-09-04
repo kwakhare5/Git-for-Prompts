@@ -59,8 +59,8 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-04
-- **Current State:** Calibrated Scene 1 typewriter speed to 50 frames (~1.67s, ~24 chars/sec) followed by a 14-frame (~0.47s) motionless reading pause on "files" with synchronized keystroke sound cut (frames 2–52). Configured Remotion bundler webpack override to bypass monorepo PostCSS Tailwind v4 collision using prebuilt CSS (`tailwind.built.css`). Successfully rendered and exported master video to `launch-video/out/launch-video-master.mp4` (1.97 MB, H.264 CRF 12). Remotion Studio verified running at `http://localhost:3001`. Monorepo 100% clean with 154/154 Vitest passing and zero lint errors.
-- **Immediate next task:** Public launch and distribution.
+- **Current State:** Completed comprehensive inside-out audit and adversarial testing across CLI and UI. Standardized CLI package identity and all executable references to `gitforprompts` on npm (`gitforprompts@0.1.2` published live). Enhanced CLI `add` command to accept optional positional content. Fixed Node.js Windows libuv async exit assertion crash by draining event loop via `process.exitCode = 1; return;`. Unified website navigation: changed navbar authenticated CTA from "Workspace" to "Open Dashboard", pointed Hero CTA directly to `/dashboard`, turned static replica `+ Save Version` button into an interactive snapshot simulator with toast feedback, and wired sidebar links to internal preview tab switching. Cleared all legacy references. Full verification passed: 154/154 Vitest passing, zero ESLint errors, clean Next.js production build.
+- **Immediate next task:** Deploy final commit to Vercel and execute live end-to-end smoke test.
 - **Open blockers:** None.
 
 
