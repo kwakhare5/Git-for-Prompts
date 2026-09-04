@@ -166,7 +166,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
               </span>
               <span className="text-[9px] bg-zinc-800 px-1 rounded text-zinc-400">Offline</span>
             </div>
-            <code className="text-zinc-200 block text-[10px] truncate">$ npx gfp init</code>
+            <code className="text-zinc-200 block text-[10px] truncate">$ npx gitforprompts init</code>
           </div>
         )}
 

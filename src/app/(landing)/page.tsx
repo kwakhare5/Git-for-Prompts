@@ -7,7 +7,6 @@ import { EngineShowcase } from '@/components/website/EngineShowcase';
 import { FaqFooter } from '@/components/website/FaqFooter';
 import { JsonLd } from '@/components/website/json-ld';
 
-export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   return (

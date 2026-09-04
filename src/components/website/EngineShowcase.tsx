@@ -8,7 +8,7 @@ export function EngineShowcase() {
       {/* 4-Grid Engine Section */}
       <section id="features" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 font-sans">
-          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-2 sm:mb-3">THE GFP ENGINE</span>
+          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-2 sm:mb-3">THE CORE ENGINE</span>
           <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
             Built for software engineers, not prompt guessers
           </h2>
@@ -72,7 +72,7 @@ export function EngineShowcase() {
               Control your prompts directly from your terminal
             </h2>
             <p className="text-zinc-400 text-xs sm:text-base mb-5 sm:mb-6 leading-relaxed font-sans">
-              `gfp init`, `gfp run`, `gfp diff`, `gfp push`, `gfp pull`. Pure TypeScript engine shared between CLI and Next.js SaaS app.
+              `gitforprompts init`, `gitforprompts run`, `gitforprompts diff`, `gitforprompts push`, `gitforprompts pull`. Pure TypeScript engine shared between CLI and Next.js SaaS app.
             </p>
             <a href="https://github.com/kwakhare5/Git-for-Prompts#readme" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto inline-flex items-center justify-center bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-mono font-bold px-5 py-2.5 rounded-xl shadow-xs btn-interactive">
               Explore CLI Docs →
@@ -84,10 +84,10 @@ export function EngineShowcase() {
               <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500"></span>
               <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500"></span>
               <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500"></span>
-              <span className="ml-auto text-[10px]">zsh — gfp diff</span>
+              <span className="ml-auto text-[10px]">zsh — gitforprompts diff</span>
             </div>
 
-            <p className="text-emerald-300 font-bold mb-2 text-[11px] sm:text-xs truncate">$ gfp diff prompt-v1 prompt-v2</p>
+            <p className="text-emerald-300 font-bold mb-2 text-[11px] sm:text-xs truncate">$ gitforprompts diff prompt-v1 prompt-v2</p>
             <div className="space-y-1 bg-bg-panel p-3 rounded border border-zinc-800 text-[10px] sm:text-[11px] leading-relaxed overflow-x-auto">
               <p className="text-zinc-400 truncate">--- prompt-v1 (2026-08-06)</p>
               <p className="text-zinc-400 truncate">+++ prompt-v2 (2026-08-07)</p>

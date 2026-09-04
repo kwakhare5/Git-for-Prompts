@@ -29,10 +29,10 @@ export function HeroSection() {
       {/* Action CTAs */}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-6 font-sans max-w-md sm:max-w-none mx-auto">
         <div className="w-full sm:w-auto flex justify-center">
-          <CliCopyButton command="npx gfp init" />
+          <CliCopyButton command="npx gitforprompts init" />
         </div>
         <Link 
-          href="/sign-in"
+          href="/dashboard"
           className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-6 py-3 rounded-xl shadow-xs btn-interactive flex items-center justify-center gap-2 text-xs min-h-[48px] sm:min-h-[44px]"
         >
           <span>Open Cloud Dashboard →</span>

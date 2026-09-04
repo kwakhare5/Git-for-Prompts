@@ -71,7 +71,7 @@ export default async function Image() {
           Git for Prompts
         </h1>
 
-        {/* Bottom Hero Command Pill ($ npx gfp init) */}
+        {/* Bottom Hero Command Pill ($ npx gitforprompts init) */}
         <div
           style={{
             display: "flex",
@@ -107,7 +107,7 @@ export default async function Image() {
               letterSpacing: "-0.3px",
             }}
           >
-            $ npx gfp init
+            $ npx gitforprompts init
           </span>
         </div>
       </div>

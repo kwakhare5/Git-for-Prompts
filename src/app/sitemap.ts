@@ -15,13 +15,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/sign-in`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/sign-up`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.3,
     },
   ];
 }

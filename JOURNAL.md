@@ -41,7 +41,19 @@ During the Session End ritual (called automatically whenever significant changes
   - Resolved Remotion Webpack/PostCSS Tailwind v4 bundler collision by compiling static CSS and customizing webpack loader pipeline.
   - Calibrated Scene 1 typewriter speed to 50 frames (~1.67s, ~24 chars/sec) with a 14-frame (~0.47s) motionless reading pause and synchronized audio cut (frames 2–52).
   - Rendered and exported master launch video to `launch-video/out/launch-video-master.mp4` (1.97 MB, H.264 CRF 12).
-- **Vibe**: 💎 Master Video Rendered, Remotion Studio Active & Launch Ready!
+  - Configured CLI package identity to unclaimed `gitforprompts` on npm with dual bin exports (`"gitforprompts"` and `"gfp"`), perfectly preserving video terminal commands when installed globally.
+  - Installed `@vercel/speed-insights` in root layout to track real-user Core Web Vitals (LCP, CLS, INP) alongside existing Vercel Web Analytics.
+  - Added Schema.org `FAQPage` JSON-LD structured data to unlock Google SERP expandable accordion rich snippets for 5 developer FAQs.
+  - Hardened web assets: generated multi-resolution binary `public/favicon.ico` (32x32) and added dynamic `src/app/apple-icon.tsx` (180x180 PNG) for iOS Safari compatibility.
+  - Tightened `robots.ts` crawler disallow rules (`/dashboard`, `/api`) and removed `force-dynamic` from landing page for instant global Edge CDN delivery.
+  - Integrated `@vercel/analytics` custom conversion event tracking on CLI copy buttons and synchronized all UI/documentation references to `npx gitforprompts init`.
+  - Executed inside-out terminal, security, and UI UX audit: tested SQL injection resistance, path traversal safety, and variable prototype pollution safety in local SQLite store.
+  - Upgraded CLI to `gitforprompts@0.1.2` and published live to npm registry with zero-dependency standalone bundle.
+  - Enhanced CLI `add` command with positional inline argument support (`gitforprompts add <name> [content]`).
+  - Fixed Node.js Windows libuv async handle assertion crash on error exits by draining the event loop before termination.
+  - Unified website navigation: resolved "Workspace" vs "Open Dashboard" button discrepancy, eliminated authenticated visitor kickout on hero CTA, and converted static `+ Save Version` button into an interactive local SQLite snapshot simulator with toast feedback.
+  - Merged and consolidated release commits into a single clean conventional commit on `main`.
+- **Vibe**: 🚀 100% Launch Ready — gitforprompts@0.1.2 Live on NPM, UI Flow Unified, All Tests Green!
 
 ### [GFP — Brutal Strategy Teardown, Whole-Repo Ponytail Cleanup & Master 2K Launch Video Export] 2026-08-21
  

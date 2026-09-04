@@ -24,6 +24,7 @@
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.2",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "date-fns": "^4.4.0",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.33.0",

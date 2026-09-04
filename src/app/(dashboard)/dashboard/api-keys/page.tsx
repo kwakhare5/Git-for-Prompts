@@ -32,7 +32,7 @@ export default async function ApiKeysPage() {
           </span>
         </h1>
         <p className="text-xs text-zinc-400 mt-1">
-          Generate and manage API keys for Bearer token access to fetch prompts programmatically or sync via CLI (`gfp push` / `gfp pull`).
+          Generate and manage API keys for Bearer token access to fetch prompts programmatically or sync via CLI (`gitforprompts push` / `gitforprompts pull`).
         </p>
       </div>
 
@@ -55,7 +55,7 @@ Authorization: Bearer gfp_live_...`}
             <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">CLI Terminal Auth</h2>
             <p className="text-[11px] text-zinc-400 font-sans">Connect offline local CLI:</p>
             <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
-{`$ gfp auth gfp_live_...`}
+{`$ gitforprompts auth gfp_live_...`}
             </pre>
           </div>
         </aside>

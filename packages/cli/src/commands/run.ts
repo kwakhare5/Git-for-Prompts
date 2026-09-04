@@ -1,11 +1,11 @@
 /**
- * gfp run — Execute eval test cases locally against a prompt bundle.
+ * gitforprompts run — Execute eval test cases locally against a prompt bundle.
  *
  * Uses the user's own API key for AI calls.
  *
  * Usage:
- *   gfp run <name>                              Run with default provider
- *   gfp run <name> --provider openai --model gpt-4o --api-key sk-...
+ *   gitforprompts run <name>                              Run with default provider
+ *   gitforprompts run <name> --provider openai --model gpt-4o --api-key sk-...
  */
 
 import {
@@ -71,8 +71,9 @@ const PROVIDER_URLS: Record<string, string> = {
 
 export async function cmdRun(name: string, options: RunOptions): Promise<void> {
   if (!name) {
-    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gfp run <name>');
-    process.exit(1);
+    console.error('\x1b[31mError:\x1b[0m Prompt name is required. Usage: gitforprompts run <name>');
+    process.exitCode = 1;
+    return;
   }
 
   const dbPath = getDbPath();
@@ -86,7 +87,8 @@ export async function cmdRun(name: string, options: RunOptions): Promise<void> {
 
     if (!apiKey) {
       console.error(`\x1b[31mError:\x1b[0m No API key found. Provide with --api-key or set ${providerName.toUpperCase()}_API_KEY env var`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     const baseUrl = PROVIDER_URLS[providerName] ?? providerName; // Allow raw URL as provider
@@ -95,13 +97,15 @@ export async function cmdRun(name: string, options: RunOptions): Promise<void> {
     const prompt = await adapter.getPromptByName(name);
     if (!prompt) {
       console.error(`\x1b[31mError:\x1b[0m Prompt "${name}" not found`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     const latest = await adapter.getLatestVersion(prompt.id);
     if (!latest) {
       console.error(`\x1b[31mError:\x1b[0m No versions found for "${name}"`);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
 
     // Load test cases

@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -19,6 +20,13 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
   preload: true,
 });
+
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gitforprompts.vercel.app"),
@@ -40,10 +48,10 @@ export const metadata: Metadata = {
   publisher: "Git for Prompts",
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/apple-icon.svg", type: "image/svg+xml" },
     ],
-    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
   alternates: {
     canonical: "https://gitforprompts.vercel.app",
@@ -98,6 +106,7 @@ export default async function RootLayout({
       {children}
       <Toaster position="bottom-right" />
       <Analytics />
+      <SpeedInsights />
     </>
   );
 

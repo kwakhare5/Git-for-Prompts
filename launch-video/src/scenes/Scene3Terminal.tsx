@@ -4,20 +4,20 @@ import { useCurrentFrame } from 'remotion';
 export const Scene3Terminal: React.FC = () => {
   const local = useCurrentFrame();
 
-  const cmd1 = "npx gfp init";
+  const cmd1 = "npx gitforprompts init";
   const cmd1TypedChars = Math.min(cmd1.length, Math.floor(Math.max(0, local - 4) / 1.4));
   const showCmd1Cursor = local >= 4 && local < 20;
   const cmd1Running = local >= 20 && local < 32;
   const cmd1Done = local >= 32;
 
-  const cmd2 = "gfp run main";
+  const cmd2 = "gitforprompts run main";
   const showCmd2Line = local >= 38;
   const cmd2TypedChars = Math.min(cmd2.length, Math.floor(Math.max(0, local - 38) / 1.4));
   const showCmd2Cursor = local >= 38 && local < 58;
   const cmd2Running = local >= 58 && local < 76;
   const cmd2Done = local >= 76;
 
-  const cmd3 = "gfp push main";
+  const cmd3 = "gitforprompts push main";
   const showCmd3Line = local >= 82;
   const cmd3TypedChars = Math.min(cmd3.length, Math.floor(Math.max(0, local - 82) / 1.4));
   const showCmd3Cursor = local >= 82 && local < 110;
@@ -40,7 +40,7 @@ export const Scene3Terminal: React.FC = () => {
             <div className="w-3.5 h-3.5 rounded-full bg-[#27C93F]/80" />
           </div>
           <div className="text-xs text-zinc-300 font-mono font-semibold text-center flex-1 tracking-wide">
-            gfp — zsh — terminal
+            gitforprompts — zsh — terminal
           </div>
           <div className="w-24 text-right text-[11px] text-zinc-500 font-mono">
             v0.1.0

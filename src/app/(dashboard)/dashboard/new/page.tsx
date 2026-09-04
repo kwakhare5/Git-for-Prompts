@@ -53,7 +53,7 @@ export default function NewPromptPage() {
               Initialize locally offline, then connect and sync using your API token:
             </p>
             <pre className="bg-bg-page p-3 border border-zinc-800 rounded-xl text-zinc-200 text-[11px] leading-relaxed overflow-x-auto">
-{`$ gfp push`}
+{`$ gitforprompts push`}
             </pre>
           </div>
         </aside>
