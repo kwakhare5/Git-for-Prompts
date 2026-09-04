@@ -37,7 +37,7 @@
 Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded strings deep in codebase repositories. When a prompt changes and an AI feature degrades, nobody knows who changed what, why, or how to roll back.
 
 `gitforprompts` fixes this by providing:
-1. **Local-first SQLite repository** — manage and version prompt bundles completely offline in your terminal (`.gfp/`).
+1. **Local-first SQLite repository** — manage and version prompt bundles completely offline in your terminal (`.gitforprompts/`).
 2. **Cloud Synchronization** — push local prompt bundles to the central cloud platform when you're ready to share or run hosted evaluations (`gitforprompts push` / `gitforprompts pull`).
 3. **Structured V2 Prompt Bundles** — version system prompts, user templates, model configs (provider, model, temperature, max tokens), tools, and response formats together as a single unit.
 
@@ -47,7 +47,7 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 
 | Status | Feature | Description |
 |:---:|---|---|
-| ✅ | **Local-First SQLite** | `gitforprompts init` creates a Wasm-powered `.gfp/` SQLite database right inside your project directory. 100% offline. |
+| ✅ | **Local-First SQLite** | `gitforprompts init` creates a Wasm-powered `.gitforprompts/` SQLite database right inside your project directory. 100% offline. |
 | ✅ | **V2 Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
 | ✅ | **Monaco Diff Engine** | Side-by-side visual comparison with line-level diffs and model config comparison header. |
 | ✅ | **Cloud Sync (`push` / `pull`)** | `gitforprompts push <name>` and `gitforprompts pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
@@ -66,7 +66,7 @@ The `gitforprompts` CLI is powered by an in-process Wasm SQLite engine (`sql.js`
 # Global installation
 npm install -g gitforprompts
 
-# Initialize a local prompt repository (.gfp/ directory)
+# Initialize a local prompt repository (.gitforprompts/ directory)
 gitforprompts init
 
 # Or run directly with zero install:
@@ -97,7 +97,7 @@ gitforprompts pull customer-support         # Pull latest cloud version -> Local
 
 ## 📦 V2 Prompt Bundles
 
-`gfp` uses a structured JSON representation for prompt bundles defined in `@gfp/core`:
+`gitforprompts` uses a structured JSON representation for prompt bundles defined in `@gfp/core`:
 
 ```json
 {
@@ -123,7 +123,7 @@ gitforprompts pull customer-support         # Pull latest cloud version -> Local
 ```mermaid
 flowchart TD
     Core["@gfp/core (Shared Library)"]
-    CLI["gfp CLI (SQLite Wasm)"]
+    CLI["gitforprompts CLI (SQLite Wasm)"]
     Web["Next.js 16 Web Platform"]
     DB[(PostgreSQL)]
 
