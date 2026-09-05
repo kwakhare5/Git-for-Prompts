@@ -17,6 +17,17 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — GitHub Actions CI Package Filter Fix & Monorepo Alignment] 2026-09-05
+
+- **Commit**: `HEAD`
+- **Shipped**:
+  - Diagnosed failing GitHub Actions CI run on push: identified package build step error where `pnpm --filter @git-for-prompts/cli build` could not find any project.
+  - Root cause: CLI package was formally renamed to `gitforprompts` for npm release in `packages/cli/package.json`, causing the old `@git-for-prompts/cli` filter to fail in CI.
+  - Fixed `.github/workflows/ci.yml` build step to `pnpm --filter @gfp/core build && pnpm --filter gitforprompts build`.
+  - Verified package builds, full typecheck (`pnpm exec tsc --noEmit`), and test suite locally (154/154 Vitest tests passing).
+  - Aligned monorepo documentation in `.agents/AGENTS.md`.
+- **Vibe**: 🛠️ GitHub Actions CI green & aligned.
+
 ### [GFP — Adversarial Security Hardening, Whole-Repo Audit & Production Launch Readiness] 2026-09-04
 
 - **Commit**: `917cef3`

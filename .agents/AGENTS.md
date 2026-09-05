@@ -17,7 +17,7 @@
 - **Auth:** Clerk (`@clerk/nextjs` 7.7.9)
 - **Rate Limiting:** Upstash Redis (`@upstash/ratelimit`, `@upstash/redis`)
 - **Testing:** Vitest 4.1.11 (154/154 passing unit & security tests) + Playwright
-- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core` & `@git-for-prompts/cli`)
+- **Package Manager:** pnpm 11.20.0 (Monorepo with `@gfp/core` & `gitforprompts` CLI)
 
 ---
 
@@ -58,8 +58,8 @@ pnpm run save        # Run checkpoint script
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-09-04
-- **Current State:** Calibrated, verified, and re-rendered master launch video (`launch-video/out/launch-video-master.mp4`, 795/795 frames, 1.99 MB). Synchronized all 3 terminal commands in Scene 3 to uniform 1 char/frame (30 chars/sec) with sub-frame Holy Panda Enter and chime audio alignment. Purged all legacy `Local .gfp/` ➔ `Local .gitforprompts/` in Scene 4 Card 3, sharpened Scene 2 subtitle contrast, synchronized tactile audio triggers at settle frames, standardized button compression on `scale(0.96)` and container height `h-6`, and synchronized `launch-video-player.html`. All 154 unit & security tests green.
+**Last session date:** 2026-09-05
+- **Current State:** Fixed GitHub Actions CI failure: updated `pnpm --filter` target in `.github/workflows/ci.yml` to match published CLI package name `gitforprompts` (replacing legacy `@git-for-prompts/cli`). Verified full package build, root typecheck (`tsc --noEmit`), and Vitest test suite (154/154 passing unit/security tests). Master launch video calibrated and verified.
 - **Immediate next task:** Launch announcement and distribution.
 - **Open blockers:** None.
 
