@@ -107,12 +107,12 @@ export default async function DashboardPage() {
       <div className="flex items-center justify-between border-b border-zinc-800/90 pb-5">
         <div>
           <h1 className="text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2.5">
-            <span>Prompt Repositories</span>
+            <span>Prompts</span>
             <span className="text-xs font-sans font-normal bg-bg-panel text-zinc-400 px-2.5 py-0.5 rounded-full border border-zinc-800/60">
               Local & Cloud Synced
             </span>
           </h1>
-          <p className="text-xs text-zinc-400 mt-1">Manage, version, diff, and evaluate atomic prompt bundles.</p>
+          <p className="text-xs text-zinc-400 mt-1">Manage, version, diff, and evaluate your prompt templates.</p>
         </div>
         <Link
           href="/dashboard/new"
@@ -147,9 +147,9 @@ export default async function DashboardPage() {
         <div className="p-8 sm:p-10 border border-zinc-800/90 rounded-2xl bg-bg-card space-y-6 shadow-xl font-sans">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-zinc-800/80">
             <div className="text-center sm:text-left space-y-1">
-              <h3 className="text-lg font-bold text-zinc-100 font-mono">No Prompt Repositories Found</h3>
+              <h3 className="text-lg font-bold text-zinc-100 font-mono">No Prompts Yet</h3>
               <p className="text-xs text-zinc-400 max-w-md">
-                Create a prompt repository online or initialize locally with the 100% offline Wasm CLI tool.
+                Create a prompt in the web studio or initialize one locally in your terminal.
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0 flex-wrap">
@@ -158,7 +158,7 @@ export default async function DashboardPage() {
                 href="/dashboard/new"
                 className="px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-950 rounded-xl text-xs font-mono font-bold shadow-xs btn-interactive shrink-0"
               >
-                + Create Blank Bundle
+                + Create Blank Prompt
               </Link>
             </div>
           </div>
@@ -167,10 +167,10 @@ export default async function DashboardPage() {
           <div className="rounded-xl border border-zinc-800 bg-bg-page p-5 font-mono space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-blue-300 flex items-center gap-2">
-                <span>CLI Quickstart (Local-First VCS)</span>
+                <span>CLI Quickstart</span>
               </span>
               <span className="text-[10px] text-zinc-500 bg-bg-panel border border-zinc-800 px-2 py-0.5 rounded">
-                100% Offline SQLite Wasm
+                Local SQLite Engine
               </span>
             </div>
 

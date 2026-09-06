@@ -1,0 +1,170 @@
+# Git for Prompts — Full Documentation (llms-full.txt)
+
+> Local-first prompt package manager and version control for AI engineering. Treat your prompts like production code.
+
+---
+
+## 1. System Overview
+
+Git for Prompts is a developer toolkit and cloud platform providing version control semantics for AI prompts. Just as Git revolutionized source code collaboration, Git for Prompts brings immutability, branching, diffing, automated evaluations, and CI/CD pipelines to system prompts, user templates, and model configurations.
+
+### Target Audience
+- AI engineers designing prompt chains and agent workflows.
+- Backend engineers integrating LLM APIs into production services.
+- Product teams managing prompt quality with regression test suites.
+- Autonomous coding agents needing structured prompt interfaces.
+
+---
+
+## 2. When to Use Git for Prompts
+
+- **When to Reach for It**:
+  - When prompt changes need audit trails, commit messages, and author attribution.
+  - When prompt regressions occur silently and need automated evaluation benchmarks (accuracy, latency, schema conformance).
+  - When multiple developers or agents modify prompts concurrently and need conflict-free synchronization.
+  - When code requires validated Zod output schemas tied directly to prompt versions.
+  - When offline, local-first development is essential without cloud network dependencies.
+
+- **When NOT to Use It**:
+  - Do not use for generic git code repositories or binary file versioning.
+  - Do not use for high-frequency runtime prompt memory/scratchpad logs.
+
+---
+
+## 3. Architecture & Security Invariants
+
+1. **Local-First SQLite Engine**:
+   - The CLI (`gitforprompts`) initializes a `.gfp` repository containing a local SQLite database compiled to WebAssembly (`sql.js`).
+   - All mutations, snapshots, and evaluations run locally with zero network calls required.
+
+2. **PostgreSQL Advisory Locking**:
+   - The cloud service uses PostgreSQL transaction-level advisory locking (`pg_advisory_xact_lock(hashtext(prompt_id))`) within `insertNextVersion`.
+   - Concurrent team pushes to the same prompt repository never collide, race, or overwrite version sequences.
+
+3. **Zero API Key Storage**:
+   - Local evaluations run in the user's terminal using local environment variables (e.g. `GROQ_API_KEY`, `OPENROUTER_API_KEY`).
+   - Server-side API keys are hashed with SHA-256 before storage. The plaintext key is shown only once at creation time.
+
+4. **SSRF Guardrails**:
+   - External test execution and webhooks route through strict SSRF guards blocking internal private IPs (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `127.0.0.0/8`, cloud metadata `169.254.169.254`).
+
+---
+
+## 4. CLI Installation & Workflows
+
+### Installation
+```bash
+# Direct execution via npx
+npx gitforprompts --help
+
+# Or install globally
+npm install -g gitforprompts
+```
+
+### Quickstart Workflow
+```bash
+# 1. Initialize local repository
+npx gitforprompts init
+
+# 2. Stage and create a prompt version
+npx gitforprompts save security-audit --message "Initial prompt version with strict JSON output"
+
+# 3. Run evaluation suite
+npx gitforprompts run test-suite --all
+
+# 4. View visual diff between versions
+npx gitforprompts diff security-audit v1 v2
+
+# 5. Push to cloud studio
+npx gitforprompts push
+```
+
+---
+
+## 5. REST API Specifications
+
+Base URL: `https://gitforprompts.vercel.app/api/v1`
+
+### Authentication
+Include the `Authorization` header with all requests:
+```http
+Authorization: Bearer gfp_live_your_api_key_here
+```
+
+### Endpoints
+
+#### `GET /api/v1/prompts`
+List all prompt repositories for the authenticated user.
+- Response: `200 OK`
+```json
+{
+  "prompts": [
+    {
+      "id": "prompt_123",
+      "name": "security-reviewer",
+      "description": "Analyzes code for OWASP Top 10 vulnerabilities",
+      "currentVersionId": "ver_456",
+      "createdAt": "2026-08-20T00:00:00.000Z",
+      "updatedAt": "2026-08-22T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+#### `GET /api/v1/prompts/:id/latest`
+Fetch the active version bundle for a prompt.
+- Response: `200 OK`
+```json
+{
+  "prompt": {
+    "id": "prompt_123",
+    "name": "security-reviewer"
+  },
+  "version": {
+    "id": "ver_456",
+    "versionNumber": 3,
+    "systemPrompt": "You are a secure code reviewer...",
+    "userTemplate": "Review this code snippet: {{codeSnippet}}",
+    "modelProvider": "groq",
+    "modelName": "llama-3.3-70b-versatile",
+    "temperature": "0.20",
+    "topP": "0.95",
+    "maxTokens": 2048,
+    "responseFormat": {
+      "type": "json_object",
+      "schema": {}
+    }
+  }
+}
+```
+
+#### `GET /api/v1/prompts/:id/versions`
+List the immutable history of all versions for a prompt repository.
+
+#### `POST /api/v1/prompts`
+Create a new prompt repository.
+- Body:
+```json
+{
+  "name": "customer-support-tone",
+  "description": "Handles sensitive refund and support inquiries",
+  "systemPrompt": "You are an empathetic customer support agent...",
+  "userTemplate": "Customer message: {{message}}",
+  "modelProvider": "groq",
+  "modelName": "llama-3.3-70b-versatile"
+}
+```
+
+---
+
+## 6. Model Context Protocol (MCP) Integration
+
+Git for Prompts exposes standard MCP tools for integration into Claude Desktop, Cursor, or autonomous agent frameworks.
+
+Discovery Manifest: `https://gitforprompts.vercel.app/.well-known/mcp.json`
+
+Supported Tools:
+- `gfp_list_prompts`: Returns array of prompt summaries.
+- `gfp_get_prompt_version`: Returns complete prompt bundle for a given version.
+- `gfp_run_test_suite`: Runs local or remote test cases against specified models.
+- `gfp_save_version`: Commits a prompt snapshot.

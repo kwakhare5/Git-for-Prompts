@@ -1,0 +1,71 @@
+# Git for Prompts
+
+> Local-first prompt package manager and version control for AI engineering. Treat your prompts like production code.
+
+Git for Prompts (GFP) is an open-source, local-first platform for version controlling, diffing, running automated test evals, and deploying AI system prompts and schemas.
+
+## When to Use Git for Prompts
+
+Use Git for Prompts when:
+- **Managing Prompt Iterations**: You need immutable version history (v1, v2, v3) for LLM prompts with semantic diffs and rollback capabilities.
+- **Evaluating Prompt Performance**: You want to run automated regression evals and benchmark dual models (e.g. Groq Llama 3.3 vs Claude 3.5) before merging prompt changes.
+- **Validating Structured Outputs**: You are using strict JSON schemas or Zod validation and need to ensure prompt modifications never break downstream parser contracts.
+- **Local-First / CI Integration**: You want terminal-based evaluations (`npx gitforprompts run`) that execute 100% offline using local SQLite and environment API keys, or integrate into GitHub Actions CI/CD pipelines.
+- **Cloud API Delivery**: You need to serve approved production prompts to backend services via authenticated REST APIs (`/api/v1/prompts/:id/latest`) using SHA-256 API key credentials.
+
+Do NOT use Git for Prompts as a general-purpose git wrapper for code or binary assets; it is specialized specifically for AI prompts, templates, model hyperparameter bundles, and eval test cases.
+
+## Core Capabilities
+
+- **Atomic Prompt Bundles**: Versions encapsulate the system prompt, user template with variable interpolation (`{{var}}`), model hyperparameters (provider, model, temperature, top_p, max_tokens), tools, and structured output schemas.
+- **Local-First Architecture**: Powered by local SQLite in your workspace folder (`.gitforprompts/`). Save snapshots offline with zero network latency.
+- **Transactional Concurrency**: Cloud synchronization uses database transaction locks ensuring concurrent team pushes never cause version collisions or race conditions.
+- **Zero API Key Storage**: Local evaluations execute directly in your terminal using your local environment variables. Server-side API key credentials are stored as non-reversible SHA-256 hashes.
+- **Agent-Ready APIs & MCP**: Machine-readable endpoints and Model Context Protocol (MCP) server integration allowing autonomous coding agents (Claude Desktop, Cursor, Devin) to create, fetch, and evaluate prompts programmatically.
+
+## Developer Resources & Quick Links
+
+- [Official Documentation](https://gitforprompts.vercel.app): Primary documentation and workspace studio.
+- [GitHub Repository](https://github.com/kwakhare5/Git-for-Prompts): 100% open-source codebase (Next.js 16, TypeScript, Drizzle ORM).
+- [About Git for Prompts](https://gitforprompts.vercel.app/about): Architecture principles and team background.
+- [Contact & Support](https://gitforprompts.vercel.app/contact): Support channels, issue tracker, and contact information.
+- [Privacy Policy](https://gitforprompts.vercel.app/privacy): Security policy, data retention, and zero-key storage commitment.
+- [MCP Discovery Manifest](https://gitforprompts.vercel.app/.well-known/mcp.json): Model Context Protocol configuration.
+
+## CLI Usage
+
+Install or run directly via npm/npx:
+
+```bash
+# Initialize a Git for Prompts workspace in the current directory
+npx gitforprompts init
+
+# View status of local prompt bundles
+npx gitforprompts status
+
+# Run local evaluation test suite
+npx gitforprompts run test-suite --all
+
+# Compare two versions of a prompt bundle
+npx gitforprompts diff <prompt-id> v1 v2
+
+# Sync local snapshots to Git for Prompts cloud
+npx gitforprompts push
+```
+
+## REST API Reference
+
+All API routes are served over HTTPS under `/api/v1`. Authenticate requests with header `Authorization: Bearer <gfp_api_key>`.
+
+- `GET /api/v1/prompts` - List all prompts accessible to the authenticated user.
+- `GET /api/v1/prompts/:id/latest` - Fetch the latest active version snapshot of a prompt bundle.
+- `GET /api/v1/prompts/:id/versions` - List full immutable version history of a prompt bundle.
+- `POST /api/v1/prompts` - Create a new prompt repository.
+
+## Model Context Protocol (MCP) Tools
+
+Autonomous agents can invoke Git for Prompts via MCP:
+- `gfp_list_prompts`: Query available prompt repositories.
+- `gfp_get_prompt_version`: Fetch system prompt, user template, and model parameters for a specific version.
+- `gfp_run_test_suite`: Execute evals and return pass/fail assertion metrics.
+- `gfp_save_version`: Commit a new immutable version snapshot.

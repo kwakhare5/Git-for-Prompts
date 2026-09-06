@@ -1,0 +1,78 @@
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-static';
+
+const mcpManifest = {
+  $schema: 'https://modelcontextprotocol.io/schema/mcp-manifest.json',
+  name: 'git-for-prompts',
+  version: '1.0.0',
+  description: 'Model Context Protocol server for Git for Prompts version control, diffing, and evaluation studio.',
+  homepage: 'https://gitforprompts.vercel.app',
+  repository: 'https://github.com/kwakhare5/Git-for-Prompts',
+  transport: {
+    type: 'http',
+    endpoint: 'https://gitforprompts.vercel.app/api/v1/mcp',
+  },
+  capabilities: {
+    tools: true,
+    resources: true,
+    prompts: true,
+  },
+  tools: [
+    {
+      name: 'gfp_list_prompts',
+      description: 'List all prompt repositories and their latest versions.',
+      parameters: {
+        type: 'object',
+        properties: {
+          limit: { type: 'number', description: 'Maximum number of prompts to return' },
+        },
+      },
+    },
+    {
+      name: 'gfp_get_prompt_version',
+      description: 'Retrieve system prompt, user template, and model hyperparameter bundle for a given prompt version.',
+      parameters: {
+        type: 'object',
+        required: ['promptId'],
+        properties: {
+          promptId: { type: 'string', description: 'Unique prompt repository ID' },
+          versionNumber: { type: 'number', description: 'Optional specific version number' },
+        },
+      },
+    },
+    {
+      name: 'gfp_run_test_suite',
+      description: 'Execute automated evaluation test cases against dual AI models for a prompt.',
+      parameters: {
+        type: 'object',
+        required: ['promptId'],
+        properties: {
+          promptId: { type: 'string', description: 'Unique prompt repository ID' },
+        },
+      },
+    },
+    {
+      name: 'gfp_create_prompt',
+      description: 'Create a new prompt repository with system prompt, user template, and model configuration.',
+      parameters: {
+        type: 'object',
+        required: ['name', 'systemPrompt'],
+        properties: {
+          name: { type: 'string', description: 'Kebab-case name of the prompt repository' },
+          description: { type: 'string', description: 'Description of prompt purpose' },
+          systemPrompt: { type: 'string', description: 'Initial system prompt' },
+          userTemplate: { type: 'string', description: 'User template with variables' },
+        },
+      },
+    },
+  ],
+};
+
+export async function GET() {
+  return NextResponse.json(mcpManifest, {
+    headers: {
+      'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+    },
+  });
+}

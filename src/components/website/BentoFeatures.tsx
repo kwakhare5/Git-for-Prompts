@@ -10,15 +10,15 @@ export function BentoFeatures() {
       <section className="px-4 sm:px-6 max-w-5xl mx-auto mb-16 sm:mb-28 text-center">
         
         <BadgePastel variant="rose" className="mb-3 sm:mb-4">
-          PROBLEM → PROMISE
+          WHY VERSION CONTROL
         </BadgePastel>
 
         <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 mb-4 sm:mb-6 font-serif leading-tight [text-wrap:balance]">
-          Prompts break when versioning is an afterthought
+          Prompts break when you treat them like raw text
         </h2>
 
         <p className="text-zinc-400 text-xs sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed font-sans">
-          Hardcoded prompt strings lead to silent regressions, broken output schemas, and zero audit history. Git for Prompts brings git-like immutable snapshot versioning to AI engineering.
+          Hardcoded strings cause silent regressions, broken output schemas, and zero rollback history. Git for Prompts gives AI teams commit logs, visual diffs, and regression test suites.
         </p>
 
         {/* Problem → Promise Cards */}
@@ -26,23 +26,23 @@ export function BentoFeatures() {
           
           <div className="space-y-3 sm:space-y-4 p-4 sm:p-6 bg-bg-card rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
             <div className="inline-block bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
-              WITHOUT VERSION CONTROL (FRAGILE)
+              WITHOUT VERSION CONTROL
             </div>
-            <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono">Unversioned Raw Text Strings</h3>
+            <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono">Hardcoded Strings</h3>
             <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-              Prompt changes pushed directly to code repositories without isolated tests, schema validation, or rollback points.
+              Prompt edits pushed straight to code without isolated evals, schema checks, or rollback points.
             </p>
           </div>
 
           <div className="space-y-3 sm:space-y-4 p-4 sm:p-6 bg-bg-card rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
             <div className="inline-block bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
-              WITH GIT FOR PROMPTS (IMMUTABLE)
+              WITH GIT FOR PROMPTS
             </div>
             <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono flex items-center gap-2">
-              <TerminalIcon className="w-4 h-4 text-emerald-300 shrink-0" /> Atomic Prompt Bundles
+              <TerminalIcon className="w-4 h-4 text-emerald-300 shrink-0" /> Versioned Prompt Bundles
             </h3>
             <p className="text-xs text-zinc-300 leading-relaxed font-sans">
-              Append-only snapshots storing text template + model config + tool definitions + Zod schema in SQLite.
+              Immutable snapshots bundling your prompt template, model config, and structured output schema in local SQLite.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ export function BentoFeatures() {
               </div>
               <h3 className="font-bold text-zinc-100 text-base sm:text-lg mb-1.5 sm:mb-2 font-mono">gitforprompts init</h3>
               <p className="text-zinc-400 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed font-sans">
-                Initialize zero-dependency Wasm SQLite engine locally in your repo.
+                Initialize a local SQLite repository directly inside your project folder.
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-blue-300 flex items-center gap-1">
@@ -107,7 +107,7 @@ export function BentoFeatures() {
               </div>
               <h3 className="font-bold text-zinc-100 text-base sm:text-lg mb-1.5 sm:mb-2 font-mono">gitforprompts run &amp; eval</h3>
               <p className="text-zinc-400 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed font-sans">
-                Test prompts locally with user API keys against defined test cases.
+                Run local evaluations with your environment API keys against real test cases.
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1">
@@ -122,7 +122,7 @@ export function BentoFeatures() {
               </div>
               <h3 className="font-bold text-zinc-100 text-base sm:text-lg mb-1.5 sm:mb-2 font-mono">gitforprompts push</h3>
               <p className="text-zinc-400 text-xs sm:text-sm mb-4 sm:mb-6 leading-relaxed font-sans">
-                Sync immutable prompt versions to hosted cloud SaaS for team access.
+                Sync approved versions to the team dashboard or deploy over the REST API.
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-amber-300 flex items-center gap-1">
