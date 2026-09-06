@@ -4,6 +4,9 @@
 |-------|--------|----------------|----------------|---------------|----------------|-----------------|--------------------|------------------|
 | `/api/v1/prompts/[id]/latest` | `GET` | Bearer API Key | `prompts:read` | 60 req/min/IP | 120 req/min/Key | N/A (Cheap Read) | Generic 404 on cross-tenant read | Degrades gracefully (In-process fallback) |
 | `/api/v1/prompts/[id]/versions` | `POST` | Bearer API Key | `versions:write` | 60 req/min/IP | 120 req/min/Key | 20 req/min/Key (Expensive) | Generic 404 on cross-tenant update | Fails Closed (429 / 503 Retry-After) |
+| `/api/v1/openapi.json` | `GET` | None (Public CORS) | None | 60 req/min/IP | N/A | N/A | None (Public Spec) | Fail-Open |
+| `/api/v1/*` | `OPTIONS` | None (Preflight) | None | N/A | N/A | N/A | None (CORS Headers) | 204 No Content |
+| `/.well-known/security.txt` | `GET` | None (Public) | None | N/A | N/A | N/A | None (RFC 9116) | 200 OK |
 | `/api/status` | `GET` | None (Public) | None | 60 req/min/IP | N/A | N/A | None | Fail-Open |
 | `/api/cron/*` | `GET` | Cron Bearer Secret | None | N/A (Cron) | N/A | N/A | Admin | Fail-Closed (401 Unauthorized) |
 

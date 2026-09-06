@@ -66,12 +66,12 @@ git-for-prompts/
 │       ├── package.json
 │       └── tsconfig.json
 │
-├── src/                             # Next.js 16 cloud SaaS app (20 routes)
+├── src/                             # Next.js 16 cloud SaaS app (18 static routes + APIs)
 │   ├── app/
 │   │   ├── (auth)/                  # Route group — auth pages (sign-in, sign-up)
 │   │   ├── (dashboard)/             # Route group — protected app pages
-│   │   │   ├── layout.tsx           # Sidebar + nav wrapper
-│   │   │   ├── page.tsx             # Dashboard — prompt repositories table & metrics
+│   │   │   ├── layout.tsx           # Collapsible sidebar + path header wrapper
+│   │   │   ├── page.tsx             # Dashboard — prompt list & metrics
 │   │   │   ├── api-keys/            # API key manager page
 │   │   │   ├── webhooks/            # Webhook manager page
 │   │   │   └── prompts/[id]/
@@ -80,16 +80,23 @@ git-for-prompts/
 │   │   │       ├── diff/            # Visual bundle diff comparison
 │   │   │       ├── compare/         # A/B version comparison
 │   │   │       └── tests/           # Test suite runner
-│   │   ├── (landing)/               # Marketing landing page
+│   │   ├── (landing)/               # Marketing landing page (force-static, sub-50ms TTFB)
 │   │   │   └── page.tsx             # Landing page with interactive DashboardHeroReplica demo
+│   │   ├── about/, contact/, privacy/ # Static trust anchor pages & security policy
+│   │   ├── not-found.tsx            # Agent-friendly 404 with machine-readable recovery paths
+│   │   ├── .well-known/             # MCP discovery (mcp.json) & RFC 9116 security.txt
+│   │   ├── llms.txt/                # Plaintext LLM documentation index
+│   │   ├── openapi.json/            # Public OpenAPI 3.1 schema route
 │   │   └── api/
+│   │       ├── markdown/route.ts    # AcceptMarkdown content negotiation handler
 │   │       ├── v1/prompts/[id]/
 │   │       │   ├── latest/route.ts  # GET: fetch latest version (returns bundle)
 │   │       │   └── versions/route.ts # POST: push new version (accepts bundle)
+│   │       ├── v1/openapi.json/     # Scoped OpenAPI spec with CORS headers
 │   │       └── cron/regression-tests/ # Scheduled prompt regression evaluator
 │   ├── components/                  # React components
 │   │   ├── domain/
-│   │   │   ├── dashboard/prompt-repositories-list.tsx # Pure real dashboard prompt table/grid
+│   │   │   ├── dashboard/prompt-repositories-list.tsx # Real dashboard prompt table/grid
 │   │   │   ├── prompts/
 │   │   │   │   ├── prompt-editor.tsx        # Monaco editor (tabbed for bundle fields)
 │   │   │   │   └── version-history.tsx      # Timeline & tags
@@ -98,7 +105,8 @@ git-for-prompts/
 │   │   │   ├── compare/compare-runner.tsx   # A/B comparison runner
 │   │   │   ├── tests/test-runner.tsx        # Test suite runner
 │   │   │   └── api-keys/api-keys-manager.tsx # API key manager
-│   │   ├── website/DashboardHeroReplica.tsx  # Pure static demo preview sandbox
+│   │   ├── dashboard/feedback-modal.tsx      # In-app user feedback widget
+│   │   ├── website/                         # HeroSection, BentoFeatures, EngineShowcase, FaqFooter
 │   │   └── ui-tokens.tsx                    # Design system primitives
 │   ├── db/
 │   │   ├── schema.ts                # Drizzle schema — bundle JSONB column + BOLA indexes
@@ -108,6 +116,7 @@ git-for-prompts/
 │       ├── actions/                 # Next.js Server Actions
 │       ├── api-auth.ts              # Shared API key authentication (SHA-256)
 │       ├── rate-limit.ts            # Upstash Redis token bucket + fail-closed protection
+│       ├── security/ssrf.ts         # Outbound URL security firewall & IP-pinning
 │       ├── test-runner.ts           # Cloud test runner (delegates to @gfp/core eval)
 │       ├── webhooks.ts              # HMAC-SHA256 webhook delivery
 │       └── ai.ts                    # Groq + OpenRouter client

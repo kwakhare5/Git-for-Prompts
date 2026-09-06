@@ -59,8 +59,8 @@ pnpm run save        # Run checkpoint script
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-06
-- **Current State:** Completed full content copy de-slopping and clarity overhaul across Landing Page (Hero, Bento, Engine, FAQ), Trust pages (/about, /privacy), and Dashboard UI (standardizing on "Prompt" and "Prompt Bundle"). Verified monorepo production build (18/18 static routes generated), 154/154 passing Vitest unit & security tests, 0 ESLint errors/warnings, and updated AST knowledge graph (733 nodes, 64 communities).
-- **Immediate next task:** Commit changes (`/git-commit`), deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
+- **Current State:** Completed repository cleanup (deleted obsolete AUDIT_REPORT.md, docs/validation-playbook.md, and ephemeral coverage/ dir; relocated video spec to launch-video/README.md), synchronized architecture docs (README.md, ARCHITECTURE.md, CONTEXT.md, docs/api-security-matrix.md), completed copy de-slopping across all surfaces, and verified quality gates (18/18 static routes, 154/154 passing tests, 0 lint warnings, updated AST knowledge graph).
+- **Immediate next task:** Deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
 - **Open blockers:** Swap Clerk keys in Vercel Dashboard to production instance (`pk_live_...`) for public launch distribution.
 
 
