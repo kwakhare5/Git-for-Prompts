@@ -19,7 +19,7 @@ During the Session End ritual (called automatically whenever significant changes
 
 ### [GFP — Icon & Favicon Unification on src/app/icon.svg] 2026-09-07
 
-- **Commit**: `HEAD`
+- **Commit**: `90e5c51`
 - **Shipped**:
   - Resolved Vercel default favicon display: added internal rewrite in `next.config.ts` mapping `/favicon.ico` directly to `/icon.svg` so that automatic browser and crawler favicon requests receive `src/app/icon.svg` with `200 OK` rather than `404 Not Found`.
   - Standardized branding assets exclusively on `src/app/icon.svg`: purged redundant `public/logo.svg` to guarantee a single canonical icon source of truth.
