@@ -17,7 +17,7 @@ export function BrandLogo({ href = '/', onClick, className }: BrandLogoProps) {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/logo.svg"
+        src="/icon.svg"
         alt="Git for Prompts Logo"
         width={28}
         height={28}

@@ -54,7 +54,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
           <Link href="/" className="flex items-center gap-2.5 min-w-0 group" title="Return to Home Page">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.svg"
+              src="/icon.svg"
               alt="Git for Prompts Logo"
               width={28}
               height={28}

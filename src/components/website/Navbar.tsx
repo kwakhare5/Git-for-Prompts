@@ -25,7 +25,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2.5 group font-mono shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logo.svg"
+            src="/icon.svg"
             alt="Git for Prompts Logo"
             width={32}
             height={32}

@@ -69,7 +69,7 @@ export function FaqFooter() {
         <div className="bg-bg-card text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-center border border-zinc-800/90 shadow-2xl relative overflow-hidden font-mono">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-black/50 border border-zinc-800 flex items-center justify-center mx-auto mb-3 sm:mb-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg" />
+            <img src="/icon.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg" />
           </div>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif mb-3 sm:mb-4 text-zinc-100 [text-wrap:balance]">
             Start versioning your prompts locally in seconds
@@ -93,7 +93,7 @@ export function FaqFooter() {
           <div className="sm:col-span-2 space-y-3">
             <div className="flex items-center gap-2 text-zinc-100 font-bold text-base">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg shrink-0 shadow-md" />
+              <img src="/icon.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg shrink-0 shadow-md" />
               <span>Git for Prompts</span>
             </div>
             <p className="text-zinc-500 text-xs max-w-xs font-sans leading-relaxed">

@@ -17,6 +17,18 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — Icon & Favicon Unification on src/app/icon.svg] 2026-09-07
+
+- **Commit**: `HEAD`
+- **Shipped**:
+  - Resolved Vercel default favicon display: added internal rewrite in `next.config.ts` mapping `/favicon.ico` directly to `/icon.svg` so that automatic browser and crawler favicon requests receive `src/app/icon.svg` with `200 OK` rather than `404 Not Found`.
+  - Standardized branding assets exclusively on `src/app/icon.svg`: purged redundant `public/logo.svg` to guarantee a single canonical icon source of truth.
+  - Updated metadata icons in `src/app/layout.tsx` to serve `/icon.svg` for standard icon, shortcut icon, and apple-touch-icon.
+  - Unified all user interface components (`Navbar`, `FaqFooter`, `DashboardSidebar`, `BrandLogo`, `SignInPage`, `SignUpPage`) and `src/app/manifest.ts` to render `src="/icon.svg"`.
+  - Verified zero TypeScript errors, 0 ESLint warnings, 154/154 passing Vitest unit & security tests, 18/18 static pre-rendered routes, and synchronized AST knowledge graph.
+- **Vibe**: 🎨 Unified branding, zero duplicate assets & clean SVG favicon delivery across all browsers.
+
+
 ### [GFP — Speed Insights, Agentic Readiness & Post-Launch Infrastructure] 2026-09-06
 
 - **Commit**: `c7d5a86`

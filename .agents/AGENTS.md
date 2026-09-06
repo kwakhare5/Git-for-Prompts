@@ -59,8 +59,8 @@ pnpm run save        # Run checkpoint script
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-09-06
-- **Current State:** Diagnosed and fixed GitHub Actions CI failure where dummy Upstash credentials triggered fail-closed rate limit errors in `actions.test.ts` and `database-correctness.test.ts`. Verified full test suite (154/154 passing), typecheck (0 errors), linter (0 errors/warnings), production build (18/18 static routes), updated AST knowledge graph, and confirmed GitHub Actions CI run is 100% green (run 34028702596 success).
+**Last session date:** 2026-09-07
+- **Current State:** Standardized branding exclusively on `src/app/icon.svg`, purged `public/logo.svg`, added `/favicon.ico` -> `/icon.svg` rewrite in `next.config.ts` to eliminate Vercel 404s, and updated all UI and metadata components to use `/icon.svg`. Verified full test suite (154/154 passing), typecheck (0 errors), linter (0 errors/warnings), production build (18/18 static routes), and updated AST knowledge graph.
 - **Immediate next task:** Deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
 - **Open blockers:** Swap Clerk keys in Vercel Dashboard to production instance (`pk_live_...`) for public launch distribution.
 
