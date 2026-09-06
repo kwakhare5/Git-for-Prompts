@@ -19,7 +19,7 @@ During the Session End ritual (called automatically whenever significant changes
 
 ### [GFP — Speed Insights, Agentic Readiness & Post-Launch Infrastructure] 2026-09-06
 
-- **Commit**: `166d104`
+- **Commit**: `c7d5a86`
 - **Shipped**:
   - Eliminated dynamic SSR bailout on marketing homepage: removed `await auth()` from `RootLayout` in `src/app/layout.tsx`, converting `/` from `ƒ (Dynamic)` to `○ (Static)` (79.7 KB pre-rendered static HTML).
   - Bypassed Clerk test-mode cache stripping: scoped `clerkMiddleware` in `src/proxy.ts` strictly to protected (`/dashboard(.*)`) and auth routes, enabling Vercel Edge caching (`X-Vercel-Cache: HIT`) and cutting TTFB from ~600ms-1200ms to ~25ms.
@@ -37,7 +37,9 @@ During the Session End ritual (called automatically whenever significant changes
   - Standardized core product terminology across the dashboard: replaced ambiguous "Prompt Repositories" and "Blank Bundle" with "Prompts" and "Prompt Bundles" across overview and new prompt views.
   - Aligned public agent copy in `src/app/api/markdown/route.ts` and `public/llms.txt`.
   - Verified 18/18 static routes, 154/154 passing Vitest unit & security tests, 0 ESLint errors, and updated AST knowledge graph.
-- **Vibe**: 🚀 Blazing-fast static Edge delivery, fully agent-ready & razor-sharp human copy.
+  - Executed repository and documentation cleanup: removed obsolete `AUDIT_REPORT.md` and `docs/validation-playbook.md`, purged ephemeral `coverage/` directory, relocated launch video specification to `launch-video/README.md`, and synchronized `README.md`, `ARCHITECTURE.md`, `CONTEXT.md`, and `docs/api-security-matrix.md`.
+  - Diagnosed and resolved failing GitHub Actions CI check (`Typecheck & Test` failing after 2m at step 10): identified dummy Upstash Redis environment variables causing `checkRateLimit('expensive:...')` to timeout on DNS lookups and fail closed, breaking prompt/version creation and restoration tests; removed dummy Upstash credentials from `.github/workflows/ci.yml` to engage the built-in zero-infra in-process rate limiter, mocked rate-limit in `database-correctness.test.ts`, and isolated `actions.test.ts` in `beforeAll`.
+- **Vibe**: 🚀 Blazing-fast static Edge delivery, clean repository structure, green CI & razor-sharp human copy.
 
 
 ### [GFP — GitHub Actions CI Package Filter Fix & Monorepo Alignment] 2026-09-05

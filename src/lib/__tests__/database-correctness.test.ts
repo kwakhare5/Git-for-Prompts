@@ -7,6 +7,10 @@ vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }));
 
+vi.mock('@/lib/rate-limit', () => ({
+  checkRateLimit: vi.fn().mockResolvedValue({ success: true, remaining: 59 }),
+}));
+
 vi.mock('@/db', () => ({
   db: {
     select: vi.fn(),

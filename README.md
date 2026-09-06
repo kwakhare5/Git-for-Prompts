@@ -48,12 +48,15 @@ Most teams manage prompts in scattered Google Docs, Notion pages, or hardcoded s
 | Status | Feature | Description |
 |:---:|---|---|
 | ✅ | **Local-First SQLite** | `gitforprompts init` creates a Wasm-powered `.gitforprompts/` SQLite database right inside your project directory. 100% offline. |
-| ✅ | **Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & response schemas. |
+| ✅ | **Prompt Bundles** | Version system prompt, user template, model settings (Groq, OpenAI, Anthropic, Ollama), tools, & structured response schemas. |
 | ✅ | **Monaco Diff Engine** | Side-by-side visual comparison with line-level diffs and model config comparison header. |
 | ✅ | **Cloud Sync (`push` / `pull`)** | `gitforprompts push <name>` and `gitforprompts pull <name>` seamlessly synchronize local SQLite state with cloud Postgres via REST API. |
 | ✅ | **Automated Eval Runner** | Run evaluations against local or cloud prompt versions using custom test cases and AI scoring criteria. |
 | ✅ | **Variable Interpolation** | Auto-detect `{{variable}}` placeholders in system & user prompts; inject at runtime via query params or CLI flags. |
 | ✅ | **HMAC-Signed Webhooks** | Fire-and-forget `version.created` events with HMAC-SHA256 signature verification. |
+| ✅ | **Agent-Ready & MCP** | Spec-compliant AcceptMarkdown (`Accept: text/markdown`), `/llms.txt`, and live Model Context Protocol (MCP) discovery at `/.well-known/mcp.json`. |
+| ✅ | **OpenAPI 3.1 & CORS** | Public API specification at `/openapi.json` with permissive preflight CORS headers on `/api/v1/*`. |
+| ✅ | **Security & Trust Anchors** | RFC 9116 `security.txt`, static `/about`, `/contact`, and `/privacy` trust pages, and IndexNow instant indexing protocol. |
 | ✅ | **Docker Self-Hosting** | Spin up the full platform + PostgreSQL database offline with a single `docker compose up -d`. |
 
 ---
@@ -139,12 +142,15 @@ Git-for-Prompts/
 │   ├── core/                        # @gfp/core: Schemas, bundle types, diff engine, eval runner
 │   └── cli/                         # gitforprompts: SQLite Wasm CLI (init, add, push, pull, run)
 ├── src/
-│   ├── app/                         # Next.js 16 App Router (20 clean routes)
+│   ├── app/                         # Next.js 16 App Router (18 static routes + API routes)
 │   │   ├── (dashboard)/dashboard/   # Overview, prompt detail, bundle editor, diff, evals, API keys, webhooks
-│   │   ├── (landing)/               # Marketing landing page with interactive DashboardHeroReplica
-│   │   └── api/v1/                  # REST API endpoints (GET latest, POST versions, GET name lookup)
-│   ├── components/                  # Bundle editor, Monaco diff viewer, prompt-repositories-list, ui-tokens
-│   └── lib/                         # Server Actions, auth, webhooks, rate limiting, DB client
+│   │   ├── (landing)/               # Marketing landing page (force-static, sub-50ms edge caching)
+│   │   ├── about/, contact/, privacy/ # Static trust anchor pages & security disclosures
+│   │   ├── api/v1/                  # REST API endpoints & OpenAPI 3.1 specification (/api/v1/openapi.json)
+│   │   ├── api/markdown/            # AcceptMarkdown content negotiation route
+│   │   └── .well-known/             # MCP discovery manifest (mcp.json) & RFC 9116 security.txt
+│   ├── components/                  # Bundle editor, Monaco diff viewer, feedback modal, ui-tokens
+│   └── lib/                         # Server Actions, auth, webhooks, SSRF guard, rate limiting, DB client
 ├── Dockerfile                       # Multi-stage standalone build
 └── docker-compose.yml               # Local Docker orchestrator (Postgres 16 + Next.js App)
 ```
