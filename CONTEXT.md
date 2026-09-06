@@ -97,7 +97,7 @@ src/
 ├── app/
 │   ├── (auth)/                          ← sign-in, sign-up (Clerk)
 │   ├── (dashboard)/dashboard/
-│   │   ├── page.tsx                     ← Prompt repositories table & metrics
+│   │   ├── page.tsx                     ← Prompt list & metrics
 │   │   ├── new/page.tsx                 ← Create prompt
 │   │   ├── api-keys/page.tsx            ← API keys manager
 │   │   ├── webhooks/page.tsx            ← Webhook management
@@ -108,10 +108,19 @@ src/
 │   │       ├── compare/page.tsx         ← A/B compare runner
 │   │       └── tests/page.tsx           ← Eval test runner
 │   ├── (landing)/
-│   │   └── page.tsx                     ← Marketing page with DashboardHeroReplica
-│   └── api/v1/prompts/[id]/
-│       ├── latest/route.ts              ← GET: fetch latest version
-│       └── versions/route.ts            ← POST: push new version
+│   │   └── page.tsx                     ← Marketing page (force-static, sub-50ms TTFB)
+│   ├── about/, contact/, privacy/       ← Static trust anchor pages & security policy
+│   ├── not-found.tsx                    ← Machine-readable agent 404 recovery
+│   ├── .well-known/                     ← MCP discovery manifest & RFC 9116 security.txt
+│   ├── llms.txt/                        ← LLM documentation plain text index
+│   ├── openapi.json/                    ← Public OpenAPI 3.1 specification
+│   └── api/
+│       ├── markdown/route.ts            ← AcceptMarkdown content negotiation
+│       ├── v1/prompts/[id]/
+│       │   ├── latest/route.ts          ← GET: fetch latest version
+│       │   └── versions/route.ts        ← POST: push new version
+│       ├── v1/openapi.json/             ← OpenAPI spec with CORS preflight
+│       └── cron/regression-tests/       ← Scheduled regression test cron
 ├── components/
 │   ├── domain/
 │   │   ├── dashboard/prompt-repositories-list.tsx ← Real dashboard prompt list
@@ -123,7 +132,8 @@ src/
 │   │   ├── compare/compare-runner.tsx   ← A/B comparison runner
 │   │   ├── tests/test-runner.tsx        ← Test suite runner
 │   │   └── api-keys/api-keys-manager.tsx ← API key management
-│   ├── website/DashboardHeroReplica.tsx ← Static interactive demo sandbox
+│   ├── dashboard/feedback-modal.tsx     ← In-app user feedback widget
+│   ├── website/                         ← HeroSection, BentoFeatures, EngineShowcase, FaqFooter
 │   └── ui-tokens.tsx                    ← Design system primitives
 └── lib/
     ├── actions/
@@ -132,6 +142,7 @@ src/
     │   ├── tests.ts                     ← test runner actions
     │   └── webhooks.ts                  ← webhook CRUD actions
     ├── api-auth.ts                      ← Shared API key auth module
+    ├── security/ssrf.ts                 ← Outbound SSRF firewall & DNS IP-pinning
     ├── test-runner.ts                   ← Deep TestRunner module
     ├── webhooks.ts                      ← HMAC-SHA256 delivery & SSRF protection
     ├── variables.ts                     ← {{var}} extraction + interpolation
@@ -212,10 +223,10 @@ src/
 | 2026-08-09 | Auth Canvas & Sign-In Copy Redesign | Update AuthLayout header with official /logo.svg & badge; standardize Sign-In card copy to 'Sign in to Git for Prompts / Local-first prompt package manager for AI engineering'; position Google SSO at top |
 | 2026-08-09 | Dedicated Auth Canvas & Hide Floating Navbar | Hide floating Navbar on /sign-in and /sign-up; update email input label to 'Email' with 'developer@example.com' placeholder; add '← Back to Home' link |
 | 2026-08-09 | Single-Card Auth UI Redesign & Website Color Alignment | Redesign sign-in/sign-up cards to spacious max-w-md single container (rounded-3xl, bg-[#161619], border-zinc-800) with top logo header inside card, matching website dark charcoal & electric blue color system |
-
-
-
-
+| 2026-09-06 | Speed Insights Static Edge Caching | Remove await auth() from RootLayout, scope clerkMiddleware strictly to protected routes, enabling sub-50ms Edge cache HIT |
+| 2026-09-06 | Agentic Web Standards & Content Negotiation | Implement Accept: text/markdown negotiation on /, deploy /llms.txt, live MCP discovery manifest, and machine-readable agent 404 recovery |
+| 2026-09-06 | Trust Anchors, OpenAPI 3.1 & Post-Launch Infra | Static /about, /contact, and /privacy trust pages, RFC 9116 security.txt, OpenAPI 3.1 spec at /openapi.json, CORS for /api/v1/*, IndexNow protocol, and in-app dashboard feedback modal |
+| 2026-09-06 | Content Copy De-Slopping & Terminology Standardization | Overhaul landing page & dashboard copy into direct, human, developer-first language; standardize on 'Prompt' and 'Prompt Bundle' |
 
 ---
 

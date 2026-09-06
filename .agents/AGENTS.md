@@ -54,13 +54,14 @@ pnpm run save        # Run checkpoint script
 - [2026-08-12] Unchecked external webhook URLs triggered SSRF warnings → Route all outbound test requests through `validateDestinationUrl()`.
 - [2026-08-13] Monaco editor theme flicker on initial load → Synchronize theme initialization with `next-themes` mount state.
 - [2026-09-04] Prototype function leakage in variable interpolation → Enforce `Object.hasOwn()` + `typeof === 'string'`.
+- [2026-09-06] Dummy Redis environment variables in CI → Upstash rate limiter failed closed on expensive actions. Rely on in-process fallback in CI and isolate test suites.
 
 ---
 
 ## 7. SESSION RESUME
 **Last session date:** 2026-09-06
-- **Current State:** Completed full content copy de-slopping and clarity overhaul across Landing Page (Hero, Bento, Engine, FAQ), Trust pages (/about, /privacy), and Dashboard UI (standardizing on "Prompt" and "Prompt Bundle"). Verified monorepo production build (18/18 static routes generated), 154/154 passing Vitest unit & security tests, 0 ESLint errors/warnings, and updated AST knowledge graph (733 nodes, 64 communities).
-- **Immediate next task:** Commit changes (`/git-commit`), deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
+- **Current State:** Diagnosed and fixed GitHub Actions CI failure where dummy Upstash credentials triggered fail-closed rate limit errors in `actions.test.ts` and `database-correctness.test.ts`. Verified full test suite (154/154 passing), typecheck (0 errors), linter (0 errors/warnings), production build (18/18 static routes), updated AST knowledge graph, and confirmed GitHub Actions CI run is 100% green (run 34028702596 success).
+- **Immediate next task:** Deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
 - **Open blockers:** Swap Clerk keys in Vercel Dashboard to production instance (`pk_live_...`) for public launch distribution.
 
 

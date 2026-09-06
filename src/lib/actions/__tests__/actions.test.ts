@@ -45,6 +45,9 @@ describe('Server Actions Integration Tests', () => {
   const trackVersion = (id: string) => createdVersionIds.push(id);
 
   beforeAll(async () => {
+    delete process.env.UPSTASH_REDIS_REST_URL;
+    delete process.env.UPSTASH_REDIS_REST_TOKEN;
+
     // 4. Dynamically import modules to guarantee env variables are set
     const dbModule = await import('@/db');
     const schemaModule = await import('@/db/schema');
