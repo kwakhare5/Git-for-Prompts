@@ -19,7 +19,7 @@ During the Session End ritual (called automatically whenever significant changes
 
 ### [GFP — Speed Insights, Agentic Readiness & Post-Launch Infrastructure] 2026-09-06
 
-- **Commit**: `166d104`
+- **Commit**: `c7d5a86`
 - **Shipped**:
   - Eliminated dynamic SSR bailout on marketing homepage: removed `await auth()` from `RootLayout` in `src/app/layout.tsx`, converting `/` from `ƒ (Dynamic)` to `○ (Static)` (79.7 KB pre-rendered static HTML).
   - Bypassed Clerk test-mode cache stripping: scoped `clerkMiddleware` in `src/proxy.ts` strictly to protected (`/dashboard(.*)`) and auth routes, enabling Vercel Edge caching (`X-Vercel-Cache: HIT`) and cutting TTFB from ~600ms-1200ms to ~25ms.
