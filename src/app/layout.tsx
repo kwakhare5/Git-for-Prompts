@@ -84,24 +84,15 @@ export const metadata: Metadata = {
 };
 
 import { Navbar } from "@/components/website/Navbar";
-import { auth } from "@clerk/nextjs/server";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let userId: string | null = null;
-  try {
-    const authState = await auth();
-    userId = authState.userId;
-  } catch {
-    userId = null;
-  }
-
   const content = (
     <>
-      <Navbar userId={userId} />
+      <Navbar />
       {children}
       <Toaster position="bottom-right" />
       <Analytics />

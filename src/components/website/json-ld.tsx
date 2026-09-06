@@ -3,12 +3,46 @@ export function JsonLd() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://gitforprompts.vercel.app/#organization",
+        "name": "Git for Prompts",
+        "url": "https://gitforprompts.vercel.app",
+        "sameAs": ["https://github.com/kwakhare5/Git-for-Prompts"],
+        "email": "support@gitforprompts.org",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "developer and customer support",
+          "email": "support@gitforprompts.org",
+          "url": "https://gitforprompts.vercel.app/contact",
+          "availableLanguage": "English",
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Open Source Community",
+          "addressLocality": "San Francisco",
+          "addressRegion": "CA",
+          "postalCode": "94105",
+          "addressCountry": "US",
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://gitforprompts.vercel.app/#website",
+        "name": "Git for Prompts",
+        "alternateName": "Git for Prompts Studio",
+        "url": "https://gitforprompts.vercel.app",
+        "description": "Local-first prompt package manager and version control system for AI engineering.",
+        "publisher": { "@id": "https://gitforprompts.vercel.app/#organization" },
+        "sameAs": ["https://github.com/kwakhare5/Git-for-Prompts"],
+      },
+      {
         "@type": "SoftwareApplication",
+        "@id": "https://gitforprompts.vercel.app/#application",
         "name": "Git for Prompts",
         "operatingSystem": "All",
         "applicationCategory": "DeveloperApplication",
-        "softwareVersion": "0.1.0",
-        "description": "Local-first prompt package manager and version control system for AI engineering.",
+        "softwareVersion": "1.0.0",
+        "description": "Local-first prompt package manager and version control system for AI engineering. Treat your prompts like production code.",
         "url": "https://gitforprompts.vercel.app",
         "offers": {
           "@type": "Offer",
@@ -16,9 +50,13 @@ export function JsonLd() {
           "priceCurrency": "USD",
         },
         "author": {
-          "@type": "Organization",
-          "name": "Git for Prompts",
-          "url": "https://gitforprompts.vercel.app",
+          "@id": "https://gitforprompts.vercel.app/#organization",
+        },
+        "publisher": {
+          "@id": "https://gitforprompts.vercel.app/#organization",
+        },
+        "isPartOf": {
+          "@id": "https://gitforprompts.vercel.app/#website",
         },
       },
       {

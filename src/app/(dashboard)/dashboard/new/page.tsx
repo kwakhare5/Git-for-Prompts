@@ -14,11 +14,11 @@ export default function NewPromptPage() {
             className="text-xs font-mono font-bold text-zinc-400 hover:text-zinc-100 transition-colors shrink-0 flex items-center gap-1"
           >
             <span>←</span>
-            <span>Back to Repositories</span>
+            <span>Back to Prompts</span>
           </Link>
           <div className="h-4 w-px bg-zinc-800 shrink-0" aria-hidden="true" />
           <h1 className="text-2xl font-bold font-mono text-zinc-100 flex items-center gap-2.5">
-            <span>Create Prompt Repository</span>
+            <span>Create Prompt</span>
             <span className="text-xs font-sans font-normal bg-emerald-500/10 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
               Groq / OpenRouter AI
             </span>
@@ -33,14 +33,14 @@ export default function NewPromptPage() {
 
         <aside className="space-y-4 text-xs bg-bg-card p-5 border border-zinc-800/90 rounded-2xl shadow-xl font-mono">
           <div className="space-y-2">
-            <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">Prompt VCS Repositories</h2>
+            <h2 className="font-bold text-zinc-100 uppercase tracking-wider text-[11px]">Prompt Bundles</h2>
             <p className="text-[11px] text-zinc-400 font-sans leading-relaxed">
-              Prompt repositories represent atomic prompt bundles containing:
+              Each prompt version bundles together:
             </p>
             <ul className="list-disc pl-4 text-zinc-300 space-y-1 text-[11px] font-sans">
-              <li>System prompts & templates</li>
-              <li>LLM parameters (temperature, model, maxTokens)</li>
-              <li>Variables & Zod validation schemas</li>
+              <li>System prompt & user template</li>
+              <li>LLM parameters (temperature, model, max tokens)</li>
+              <li>Variables & structured output schemas</li>
               <li>Unit evaluation test suites</li>
             </ul>
           </div>

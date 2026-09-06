@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { GithubIcon } from './ui-tokens';
 
-export function Navbar({ userId }: { userId?: string | null }) {
+export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -63,21 +63,12 @@ export function Navbar({ userId }: { userId?: string | null }) {
             <span>GitHub</span>
           </a>
 
-          {userId ? (
-            <Link
-              href="/dashboard"
-              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center shrink-0"
-            >
-              Open Dashboard
-            </Link>
-          ) : (
-            <Link
-              href="/sign-in"
-              className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center shrink-0 whitespace-nowrap"
-            >
-              Get Started
-            </Link>
-          )}
+          <Link
+            href="/dashboard"
+            className="h-9 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold text-xs shadow-xs btn-interactive flex items-center justify-center shrink-0 whitespace-nowrap"
+          >
+            Open Dashboard
+          </Link>
 
           {/* Mobile Hamburger Button */}
           <button

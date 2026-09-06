@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
+import { FeedbackModal } from '@/components/dashboard/feedback-modal';
 import { BadgeVersion, Tooltip } from '@/components/website/ui-tokens';
 import {
   Home,
@@ -169,6 +170,9 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
             <code className="text-zinc-200 block text-[10px] truncate">$ npx gitforprompts init</code>
           </div>
         )}
+
+        {/* In-App Feedback Widget */}
+        <FeedbackModal isCollapsed={isCollapsed} />
 
         {/* User Profile */}
         <div className="flex items-center justify-between gap-3 pt-1">
