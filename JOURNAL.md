@@ -38,7 +38,8 @@ During the Session End ritual (called automatically whenever significant changes
   - Aligned public agent copy in `src/app/api/markdown/route.ts` and `public/llms.txt`.
   - Verified 18/18 static routes, 154/154 passing Vitest unit & security tests, 0 ESLint errors, and updated AST knowledge graph.
   - Executed repository and documentation cleanup: removed obsolete `AUDIT_REPORT.md` and `docs/validation-playbook.md`, purged ephemeral `coverage/` directory, relocated launch video specification to `launch-video/README.md`, and synchronized `README.md`, `ARCHITECTURE.md`, `CONTEXT.md`, and `docs/api-security-matrix.md`.
-- **Vibe**: 🚀 Blazing-fast static Edge delivery, clean repository structure, fully agent-ready & razor-sharp human copy.
+  - Diagnosed and resolved failing GitHub Actions CI check (`Typecheck & Test` failing after 2m at step 10): identified dummy Upstash Redis environment variables causing `checkRateLimit('expensive:...')` to timeout on DNS lookups and fail closed, breaking prompt/version creation and restoration tests; removed dummy Upstash credentials from `.github/workflows/ci.yml` to engage the built-in zero-infra in-process rate limiter, mocked rate-limit in `database-correctness.test.ts`, and isolated `actions.test.ts` in `beforeAll`.
+- **Vibe**: 🚀 Blazing-fast static Edge delivery, clean repository structure, green CI & razor-sharp human copy.
 
 
 ### [GFP — GitHub Actions CI Package Filter Fix & Monorepo Alignment] 2026-09-05
