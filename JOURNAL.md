@@ -17,6 +17,29 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — Speed Insights, Agentic Readiness & Post-Launch Infrastructure] 2026-09-06
+
+- **Commit**: `166d104`
+- **Shipped**:
+  - Eliminated dynamic SSR bailout on marketing homepage: removed `await auth()` from `RootLayout` in `src/app/layout.tsx`, converting `/` from `ƒ (Dynamic)` to `○ (Static)` (79.7 KB pre-rendered static HTML).
+  - Bypassed Clerk test-mode cache stripping: scoped `clerkMiddleware` in `src/proxy.ts` strictly to protected (`/dashboard(.*)`) and auth routes, enabling Vercel Edge caching (`X-Vercel-Cache: HIT`) and cutting TTFB from ~600ms-1200ms to ~25ms.
+  - Implemented AcceptMarkdown specification: added content negotiation for `Accept: text/markdown` on `/` returning clean markdown via `/api/markdown` with `Vary: Accept, Accept-Encoding`.
+  - Built trust anchor pages: created static `/about`, `/contact`, and `/privacy` pages with complete security disclosure, zero API key custody commitment, and maintainer contacts.
+  - Published autonomous agent infrastructure: generated `/llms.txt`, `/llms-full.txt`, and live Model Context Protocol (MCP) discovery manifest at `/.well-known/mcp.json` and `src/app/.well-known/mcp/route.ts`.
+  - Implemented RFC 9116 security disclosure: created `public/.well-known/security.txt` and route handler with vulnerability reporting protocols.
+  - Published OpenAPI 3.1 specification: generated `public/openapi.json` and served at `/openapi.json` and `/api/v1/openapi.json` documenting REST endpoints, authentication, schemas, and rate limits.
+  - Configured public API CORS preflight: added wildcard and method authorization headers for `/api/v1/*` in `src/proxy.ts`.
+  - Configured IndexNow instant search engine indexing protocol: generated verification key files in `public/` and route handler.
+  - Built in-app dashboard feedback widget: created `src/components/dashboard/feedback-modal.tsx` with bug/feature/feedback categories, satisfaction ratings, diagnostic context capture, and email/clipboard fallbacks; integrated into `dashboard-sidebar.tsx`.
+  - Hardened structured metadata: updated `src/components/website/json-ld.tsx` with complete `Organization` (`contactPoint`, `address`), `WebSite`, and `SoftwareApplication` schemas.
+  - Added agent-friendly 404 recovery page in `src/app/not-found.tsx` pointing agents to `/llms.txt` and `/sitemap.xml`.
+  - Completed full-project content copy de-slopping and clarity overhaul: sharpened HeroSection ("Git for your AI prompts", eliminated em dashes, replaced db locking jargon with "zero key custody"), overhauled BentoFeatures ("WHY VERSION CONTROL", "Hardcoded Strings" vs "Versioned Prompt Bundles", plain-English workflow steps), refined EngineShowcase (cut internal code paths `packages/cli` and `insertNextVersion`), and tightened FAQ/footer explanations.
+  - Standardized core product terminology across the dashboard: replaced ambiguous "Prompt Repositories" and "Blank Bundle" with "Prompts" and "Prompt Bundles" across overview and new prompt views.
+  - Aligned public agent copy in `src/app/api/markdown/route.ts` and `public/llms.txt`.
+  - Verified 18/18 static routes, 154/154 passing Vitest unit & security tests, 0 ESLint errors, and updated AST knowledge graph.
+- **Vibe**: 🚀 Blazing-fast static Edge delivery, fully agent-ready & razor-sharp human copy.
+
+
 ### [GFP — GitHub Actions CI Package Filter Fix & Monorepo Alignment] 2026-09-05
 
 - **Commit**: `HEAD`

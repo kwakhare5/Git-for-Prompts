@@ -14,23 +14,23 @@ export function FaqFooter() {
   const faqs = [
     {
       q: 'Does Git for Prompts store my LLM API keys?',
-      a: 'No. Local evals run directly in your terminal using your environment API keys. On the cloud SaaS, API keys are stored as non-reversible SHA-256 lookup hashes.'
+      a: 'No. Local evaluations run in your terminal using your local environment variables. On the cloud platform, API credentials are stored as non-reversible SHA-256 hashes.'
     },
     {
       q: 'How does local-first SQLite versioning work?',
-      a: 'packages/cli uses Wasm SQLite (sql.js) locally in your directory. Every prompt save creates an immutable version row without requiring a network connection.'
+      a: 'The CLI uses a lightweight SQLite database stored directly inside your project folder (.gitforprompts/). Every prompt change creates a local snapshot without touching the internet.'
     },
     {
       q: 'What is a Prompt Bundle?',
-      a: 'A prompt bundle is the atomic unit of versioning in Git for Prompts. It includes the system prompt, user template, model configurations (provider, model, temperature, topP), tools, and Zod response format schema.'
+      a: 'A prompt bundle packages your prompt template with its model settings (provider, temperature, max tokens), tools, and structured output schema into a single versioned unit.'
     },
     {
       q: 'How do concurrent pushes handle version collisions?',
-      a: 'Cloud sync uses PostgreSQL transaction advisory locking (`pg_advisory_xact_lock`) via `insertNextVersion` to ensure concurrent pushes never overwrite or collision version numbers.'
+      a: 'Cloud sync uses transaction locks to guarantee version numbers never collide or overwrite existing history, even when multiple team members push at the same time.'
     },
     {
       q: 'Can I migrate my existing raw prompt strings to Git for Prompts?',
-      a: 'Yes! Running `gitforprompts init` automatically detects existing prompt templates and wraps them into valid Prompt Bundles.'
+      a: 'Yes. Running `gitforprompts init` detects your existing prompt templates and wraps them into valid versioned prompt bundles.'
     }
   ];
 
@@ -97,7 +97,7 @@ export function FaqFooter() {
               <span>Git for Prompts</span>
             </div>
             <p className="text-zinc-500 text-xs max-w-xs font-sans leading-relaxed">
-              Open-source local-first prompt package manager. Immutable snapshots, Wasm SQLite engine, and zero-lockin cloud sync.
+              Open-source prompt version control and test runner. Immutable snapshots, local SQLite storage, and team sync.
             </p>
             <div className="text-[10px] text-emerald-300 flex items-center gap-1.5 pt-1">
               <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> MIT Open Source License
@@ -117,10 +117,11 @@ export function FaqFooter() {
           <div>
             <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">DOCUMENTATION</h5>
             <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/README.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">CLI Commands</a></li>
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Wasm SQLite Engine</a></li>
+              <li><Link href="/about" className="hover:text-zinc-200 transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-zinc-200 transition-colors">Contact &amp; Support</Link></li>
+              <li><Link href="/privacy" className="hover:text-zinc-200 transition-colors">Privacy Policy</Link></li>
+              <li><a href="/llms.txt" className="hover:text-zinc-200 transition-colors">Agent Index (llms.txt)</a></li>
               <li><Link href="/dashboard/api-keys" className="hover:text-zinc-200 transition-colors">API Keys API</Link></li>
-              <li><Link href="/dashboard/webhooks" className="hover:text-zinc-200 transition-colors">Webhooks API</Link></li>
             </ul>
           </div>
 
@@ -151,8 +152,10 @@ export function FaqFooter() {
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <span>SHA-256 Auth</span>
-            <span>Advisory Locking</span>
+            <Link href="/about" className="hover:text-zinc-300 transition-colors">About</Link>
+            <Link href="/contact" className="hover:text-zinc-300 transition-colors">Contact</Link>
+            <Link href="/privacy" className="hover:text-zinc-300 transition-colors">Privacy</Link>
+            <a href="/llms.txt" className="hover:text-zinc-300 transition-colors">llms.txt</a>
           </div>
         </div>
       </footer>

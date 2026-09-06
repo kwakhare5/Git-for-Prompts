@@ -8,7 +8,9 @@ import { FaqFooter } from '@/components/website/FaqFooter';
 import { JsonLd } from '@/components/website/json-ld';
 
 
-export default async function Home() {
+export const dynamic = 'force-static';
+
+export default function Home() {
   return (
     <div className="min-h-screen bg-bg-page text-zinc-100 font-sans antialiased selection:bg-blue-500/20 selection:text-blue-200">
       <JsonLd />
