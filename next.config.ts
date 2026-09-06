@@ -34,13 +34,19 @@ const nextConfig: NextConfig = {
       ],
     },
     {
-      source: "/(logo.svg|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|woff2|woff|ttf))",
+      source: "/(icon.svg|favicon.ico|.*\\.(?:png|jpg|jpeg|gif|webp|svg|woff2|woff|ttf))",
       headers: [
         {
           key: "Cache-Control",
           value: "public, max-age=31536000, immutable",
         },
       ],
+    },
+  ],
+  rewrites: async () => [
+    {
+      source: "/favicon.ico",
+      destination: "/icon.svg",
     },
   ],
 };
