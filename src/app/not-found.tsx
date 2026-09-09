@@ -32,6 +32,11 @@ export default function RootNotFound() {
               </a>
             </li>
             <li>
+              <Link href="/developers" className="hover:underline">
+                → /developers (Developer Portal &amp; API)
+              </Link>
+            </li>
+            <li>
               <a href="/sitemap.xml" className="hover:underline">
                 → /sitemap.xml (Public Routes)
               </a>
