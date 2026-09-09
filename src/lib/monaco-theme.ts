@@ -14,8 +14,8 @@ const GFP_THEME_DEFINITION = {
   inherit: true,
   rules: [],
   colors: {
-    'editor.background': '#0e0e0e',           // dark canvas
-    'editorGutter.background': '#0e0e0e',     // same as canvas
+    'editor.background': '#0a0a0a',           // dark canvas (--bg-page)
+    'editorGutter.background': '#0a0a0a',     // same as canvas
     'editorLineNumber.foreground': '#3f3f46', // zinc-700
     'editorLineNumber.activeForeground': '#71717a', // zinc-500
     'editor.lineHighlightBackground': '#18181b40',

@@ -4,6 +4,7 @@ import { DashboardHeroScreen } from '@/components/website/DashboardHeroScreen';
 import { BentoFeatures } from '@/components/website/BentoFeatures';
 import { PromptStudioShowcase } from '@/components/website/PromptStudioShowcase';
 import { EngineShowcase } from '@/components/website/EngineShowcase';
+import { AboutSection } from '@/components/website/AboutSection';
 import { FaqFooter } from '@/components/website/FaqFooter';
 import { JsonLd } from '@/components/website/json-ld';
 
@@ -19,6 +20,7 @@ export default function Home() {
       <BentoFeatures />
       <PromptStudioShowcase />
       <EngineShowcase />
+      <AboutSection />
       <FaqFooter />
     </div>
   );

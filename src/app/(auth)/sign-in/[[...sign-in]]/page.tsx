@@ -49,13 +49,13 @@ export default function SignInPage() {
               <span className="font-bold text-lg tracking-tight text-zinc-100">
                 Git for Prompts
               </span>
-              <span className="text-[10px] font-bold bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-800">
+              <span className="text-[10px] font-bold tracking-wider bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-800">
                 LOCAL-FIRST VCS
               </span>
             </div>
           </Link>
           <div className="space-y-1 pt-1">
-            <h1 className="text-xl font-bold text-zinc-100 font-mono tracking-tight">
+            <h1 className="text-xl font-bold text-zinc-100 font-mono tracking-normal">
               Sign in to Git for Prompts
             </h1>
             <p className="text-xs text-zinc-400 font-sans max-w-xs mx-auto leading-relaxed">
@@ -92,9 +92,9 @@ export default function SignInPage() {
           <div className="space-y-1.5 text-left">
             <div className="flex items-center justify-between">
               <label htmlFor="password" className="text-xs font-mono font-bold text-zinc-300 block">Password</label>
-              <span className="text-xs text-zinc-500 hover:text-zinc-300 tab-interactive font-mono">
+              <Link href="/contact" className="text-xs text-zinc-500 hover:text-zinc-300 font-mono">
                 Forgot password?
-              </span>
+              </Link>
             </div>
             <input
               id="password"

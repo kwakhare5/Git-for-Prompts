@@ -43,22 +43,22 @@ export function TestCaseCard({
         <div className="flex items-center gap-2.5 min-w-0 font-mono">
           <h3 className="text-sm font-bold text-zinc-100 truncate">{name}</h3>
           {status === 'running' && (
-            <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+            <span className="bg-blue-500/10 text-blue-300 border border-blue-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">
               RUNNING
             </span>
           )}
           {status === 'pass' && (
-            <span className="bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+            <span className="bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">
               ✓ PASS
             </span>
           )}
           {status === 'fail' && (
-            <span className="bg-rose-500/10 text-rose-300 border border-rose-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold">
+            <span className="bg-rose-500/10 text-rose-300 border border-rose-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold tracking-wider">
               ✕ FAIL
             </span>
           )}
           {status === 'ai-error' && (
-            <span className="bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold" title="AI Error / Not Persisted">
+            <span className="bg-amber-500/10 text-amber-300 border border-amber-500/20 text-[10px] px-2 py-0.5 rounded font-mono font-bold tracking-wider" title="AI Error / Not Persisted">
               ⚠️ AI ERROR
             </span>
           )}

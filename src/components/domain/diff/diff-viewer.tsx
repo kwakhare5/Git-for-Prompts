@@ -181,7 +181,7 @@ export function DiffViewer({
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             wordWrap: 'on',
-            fontFamily: 'var(--font-jetbrains-mono), monospace',
+            fontFamily: '"JetBrains Mono", "Fira Code", Menlo, monospace',
             fontSize: 13,
             lineHeight: 22,
             padding: { top: 12, bottom: 12 },

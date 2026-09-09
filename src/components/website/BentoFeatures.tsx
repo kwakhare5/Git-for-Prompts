@@ -7,13 +7,13 @@ export function BentoFeatures() {
   return (
     <>
       {/* Problem → Promise Section */}
-      <section className="px-4 sm:px-6 max-w-5xl mx-auto mb-16 sm:mb-28 text-center">
+      <section id="features" className="px-4 sm:px-6 max-w-5xl mx-auto mb-16 sm:mb-28 text-center">
         
         <BadgePastel variant="rose" className="mb-3 sm:mb-4">
           WHY VERSION CONTROL
         </BadgePastel>
 
-        <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 mb-4 sm:mb-6 font-serif leading-tight [text-wrap:balance]">
+        <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 mb-4 sm:mb-6 font-serif leading-tight [text-wrap:balance]">
           Prompts break when you treat them like raw text
         </h2>
 
@@ -72,10 +72,10 @@ export function BentoFeatures() {
       </section>
 
       {/* 3 Step Workflow */}
-      <section className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
+      <section id="workflow" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
           <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase block mb-2 sm:mb-3">THE WORKFLOW LOOP</span>
-          <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
+          <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
             A local-first engine for prompt engineering
           </h2>
           <p className="text-zinc-400 text-xs sm:text-base font-sans">

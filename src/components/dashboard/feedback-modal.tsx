@@ -44,7 +44,7 @@ export function FeedbackModal({ isCollapsed = false }: { isCollapsed?: boolean }
         }`}
         title="Share feedback or report an issue"
       >
-        <MessageSquare className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 shrink-0" />
+        <MessageSquare className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 shrink-0" strokeWidth={1.5} />
         {!isCollapsed && <span>Feedback</span>}
       </button>
 
@@ -67,9 +67,10 @@ export function FeedbackModal({ isCollapsed = false }: { isCollapsed?: boolean }
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="text-zinc-500 hover:text-zinc-200 p-1 cursor-pointer"
+                aria-label="Close dialog"
+                className="text-zinc-500 hover:text-zinc-200 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-zinc-800/60 cursor-pointer transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" strokeWidth={1.5} />
               </button>
             </div>
 
@@ -85,7 +86,7 @@ export function FeedbackModal({ isCollapsed = false }: { isCollapsed?: boolean }
                       : 'bg-bg-page text-zinc-400 border-zinc-800 hover:text-zinc-200'
                   }`}
                 >
-                  <Bug className="w-3.5 h-3.5" />
+                  <Bug className="w-3.5 h-3.5" strokeWidth={1.5} />
                   <span>Bug Report</span>
                 </button>
 
@@ -98,7 +99,7 @@ export function FeedbackModal({ isCollapsed = false }: { isCollapsed?: boolean }
                       : 'bg-bg-page text-zinc-400 border-zinc-800 hover:text-zinc-200'
                   }`}
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3.5 h-3.5" strokeWidth={1.5} />
                   <span>Feature</span>
                 </button>
 
@@ -163,7 +164,7 @@ export function FeedbackModal({ isCollapsed = false }: { isCollapsed?: boolean }
                   className="px-4 py-2 bg-zinc-100 hover:bg-white text-zinc-950 font-bold rounded-xl flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
                 >
                   <span>Submit to GitHub</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5" strokeWidth={1.5} />
                 </button>
               </div>
             </form>

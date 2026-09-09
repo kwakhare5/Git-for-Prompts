@@ -35,8 +35,8 @@
 
 | Role | Font Family | Size / Leading | Weight | Usage |
 |---|---|---|---|---|
-| **Hero Title** | `font-serif` | `text-5xl` to `text-7xl` | Bold (700) | Landing hero headline |
-| **Section Title** | `font-serif` | `text-3xl` to `text-5xl` | Bold (700) | Section headlines (`[text-wrap:balance]`) |
+| **Hero Title** | `font-serif` | `text-5xl` to `text-7xl` | Semibold (600) | Landing hero headline |
+| **Section Title** | `font-serif` | `text-3xl` to `text-5xl` | Semibold (600) | Section headlines (`[text-wrap:balance]`) |
 | **Card Title** | `font-mono` | `text-lg` | Bold (700) | Repository titles, card headers |
 | **Body Copy** | `font-sans` | `text-sm` / `text-base` | Regular (400) | Explanations, feature text |
 | **Metadata / Badges** | `font-mono` | `text-xs` / `text-[10px]` | Bold (700) | Version tags, CLI commands, badges |

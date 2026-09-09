@@ -6,10 +6,10 @@ export function EngineShowcase() {
   return (
     <>
       {/* 4-Grid Engine Section */}
-      <section id="features" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
+      <section id="engine" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 font-sans">
           <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-2 sm:mb-3">CORE CAPABILITIES</span>
-          <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
+          <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
             Engineered for developers who ship AI to production
           </h2>
           <p className="text-zinc-400 text-xs sm:text-base font-sans">
@@ -68,7 +68,7 @@ export function EngineShowcase() {
           
           <div className="lg:col-span-6">
             <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase block mb-2 sm:mb-3">COMMAND LINE INTERFACE</span>
-            <h2 className="text-2.5xl sm:text-4xl font-bold text-zinc-100 font-serif mb-3 sm:mb-4 leading-tight">
+            <h2 className="text-2.5xl sm:text-4xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 leading-tight">
               Control your prompts directly from your terminal
             </h2>
             <p className="text-zinc-400 text-xs sm:text-base mb-5 sm:mb-6 leading-relaxed font-sans">
@@ -102,7 +102,7 @@ export function EngineShowcase() {
 
       {/* Developer Testimonial Quote */}
       <section className="px-4 sm:px-6 max-w-4xl mx-auto mb-16 sm:mb-28 text-center">
-        <blockquote className="text-xl sm:text-3xl md:text-4xl font-serif font-bold text-zinc-100 leading-snug sm:leading-tight mb-6 sm:mb-8">
+        <blockquote className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold tracking-normal text-zinc-100 leading-snug sm:leading-tight mb-6 sm:mb-8">
           &ldquo;Git for Prompts completely eliminated our team&apos;s prompt regression headaches. Having immutable snapshots in local SQLite is pure genius.&rdquo;
         </blockquote>
 
