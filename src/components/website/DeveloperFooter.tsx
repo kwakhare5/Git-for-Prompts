@@ -33,6 +33,7 @@ export function DeveloperFooter() {
         <div>
           <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">DOCUMENTATION</h5>
           <ul className="space-y-2 text-zinc-400 text-[11px]">
+            <li><Link href="/developers" className="hover:text-zinc-200 transition-colors">Developer Portal &amp; API</Link></li>
             <li><Link href="/about" className="hover:text-zinc-200 transition-colors">About Us</Link></li>
             <li><Link href="/contact" className="hover:text-zinc-200 transition-colors">Contact &amp; Support</Link></li>
             <li><Link href="/privacy" className="hover:text-zinc-200 transition-colors">Privacy Policy</Link></li>
@@ -67,6 +68,7 @@ export function DeveloperFooter() {
           </a>
         </div>
         <div className="flex items-center gap-4">
+          <Link href="/developers" className="hover:text-zinc-300 transition-colors">Developers</Link>
           <Link href="/about" className="hover:text-zinc-300 transition-colors">About</Link>
           <Link href="/contact" className="hover:text-zinc-300 transition-colors">Contact</Link>
           <Link href="/privacy" className="hover:text-zinc-300 transition-colors">Privacy</Link>

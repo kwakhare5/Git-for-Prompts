@@ -43,7 +43,11 @@ export async function authenticateApiKey(
   // 1. Strict header format validation & size cap (max 512 bytes to prevent DOS)
   if (!authHeader || authHeader.length > 512 || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json(
-      { error: 'Missing or invalid Authorization header. Use: Authorization: Bearer <your-key>' },
+      {
+        error: 'Missing or invalid Authorization header. Use: Authorization: Bearer <your-key>',
+        code: 'UNAUTHORIZED',
+        hint: 'Include an active API key in the Authorization header: Bearer gfp_live_...',
+      },
       { status: 401 }
     );
   }
@@ -52,7 +56,14 @@ export async function authenticateApiKey(
 
   // 2. Validate key format & length
   if (!token.startsWith('gfp_live_') || token.length < 20 || token.length > 256) {
-    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+    return NextResponse.json(
+      {
+        error: 'Invalid or expired API key',
+        code: 'INVALID_API_KEY',
+        hint: 'Verify that your key starts with gfp_live_ and is active.',
+      },
+      { status: 401 }
+    );
   }
 
   // 3. SHA-256 hash for O(1) indexed lookup
@@ -73,17 +84,38 @@ export async function authenticateApiKey(
     .limit(1);
 
   if (!candidateKey) {
-    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+    return NextResponse.json(
+      {
+        error: 'Invalid or expired API key',
+        code: 'INVALID_API_KEY',
+        hint: 'The provided API key does not match any registered credentials.',
+      },
+      { status: 401 }
+    );
   }
 
   // 5. Check revocation (generic 401 failure to prevent status leakage)
   if (candidateKey.revokedAt !== null) {
-    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+    return NextResponse.json(
+      {
+        error: 'Invalid or expired API key',
+        code: 'REVOKED_API_KEY',
+        hint: 'This API key has been revoked. Generate a new key in the Developer Portal.',
+      },
+      { status: 401 }
+    );
   }
 
   // 6. Check expiration (generic 401 failure)
   if (candidateKey.expiresAt !== null && new Date(candidateKey.expiresAt) <= new Date()) {
-    return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
+    return NextResponse.json(
+      {
+        error: 'Invalid or expired API key',
+        code: 'EXPIRED_API_KEY',
+        hint: 'This API key has expired. Generate a new key in the Developer Portal.',
+      },
+      { status: 401 }
+    );
   }
 
   // 7. Check scope permission if required (with backward compatibility fallback)
@@ -93,7 +125,11 @@ export async function authenticateApiKey(
 
   if (requiredScope && !activeScopes.includes(requiredScope)) {
     return NextResponse.json(
-      { error: `API key lacks required scope '${requiredScope}'` },
+      {
+        error: `API key lacks required scope '${requiredScope}'`,
+        code: 'INSUFFICIENT_SCOPE',
+        hint: `This endpoint requires '${requiredScope}' permission.`,
+      },
       { status: 403 }
     );
   }

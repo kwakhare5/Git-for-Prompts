@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { eq, sql, desc } from 'drizzle-orm';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimit, getRateLimitHeaders } from '@/lib/rate-limit';
 import { fireWebhooks } from '@/lib/webhooks';
 import { authenticateApiKey } from '@/lib/api-auth';
 import { validateBundle, extractContentFromBundle, extractBundleVariables, extractVariables, promptBundleSchema } from '@gfp/core';
@@ -39,32 +39,51 @@ export async function POST(
       req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
       req.headers.get('x-real-ip') ??
       '127.0.0.1';
-    const { success } = await checkRateLimit(`api:${ip}`);
-    if (!success) {
+
+    const rl = await checkRateLimit(`api:${ip}`);
+    const headers = typeof getRateLimitHeaders === 'function' ? getRateLimitHeaders(rl) : {};
+
+    if (!rl.success) {
       return NextResponse.json(
-        { error: 'Rate limit exceeded. Max 60 requests per minute.' },
-        { status: 429, headers: { 'Retry-After': '60' } }
+        {
+          error: 'Rate limit exceeded. Max 60 requests per minute.',
+          code: 'RATE_LIMIT_EXCEEDED',
+          hint: 'Throttle requests according to RateLimit-Reset and Retry-After headers.',
+        },
+        { status: 429, headers }
       );
     }
 
     // 1. Authenticate API key with required scope
     const authResult = await authenticateApiKey(req, 'versions:write');
-    if (authResult instanceof NextResponse) return authResult;
+    if (authResult instanceof NextResponse) {
+      Object.entries(headers).forEach(([k, v]) => authResult.headers.set(k, v));
+      return authResult;
+    }
     const { ownerId, keyId } = authResult;
 
     // 2. Layered Rate Limit — Key-specific limit for expensive version creation (20 req/min/key)
     try {
-      const { success } = await checkRateLimit(`expensive:${keyId}`);
-      if (!success) {
+      const expensiveRl = await checkRateLimit(`expensive:${keyId}`);
+      if (!expensiveRl.success) {
+        const expHeaders = typeof getRateLimitHeaders === 'function' ? getRateLimitHeaders(expensiveRl) : {};
         return NextResponse.json(
-          { error: 'Expensive operations rate limit exceeded. Max 20 version creations per minute.' },
-          { status: 429, headers: { 'Retry-After': '60' } }
+          {
+            error: 'Expensive operations rate limit exceeded. Max 20 version creations per minute.',
+            code: 'RATE_LIMIT_EXCEEDED',
+            hint: 'Throttle push operations to stay within 20 version creations per minute per key.',
+          },
+          { status: 429, headers: expHeaders }
         );
       }
     } catch (err) {
       console.error('[POST /versions] Rate limiter failed (expensive operation fail-closed):', err);
       return NextResponse.json(
-        { error: 'Service temporarily unavailable. Please try again later.' },
+        {
+          error: 'Service temporarily unavailable. Please try again later.',
+          code: 'SERVICE_UNAVAILABLE',
+          hint: 'The rate limiter service is temporarily unavailable. Retry after 60 seconds.',
+        },
         { status: 503, headers: { 'Retry-After': '60' } }
       );
     }
@@ -76,7 +95,14 @@ export async function POST(
     try {
       body = bodySchema.parse(await req.json());
     } catch {
-      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Invalid request body',
+          code: 'INVALID_REQUEST_BODY',
+          hint: 'Provide either `content` (string <= 100,000 chars) or a valid `bundle` object, and optional `commitMessage` (string <= 500 chars).',
+        },
+        { status: 400, headers }
+      );
     }
 
     // Validate bundle if provided
@@ -97,7 +123,14 @@ export async function POST(
       .where(eq(prompts.id, promptId));
 
     if (!prompt || prompt.ownerId !== ownerId) {
-      return NextResponse.json({ error: 'Prompt not found' }, { status: 404 });
+      return NextResponse.json(
+        {
+          error: 'Prompt not found',
+          code: 'PROMPT_NOT_FOUND',
+          hint: 'Verify that the prompt ID exists and is owned by the authenticated account. You can discover prompts using GET /api/v1/prompts?name=<name>.',
+        },
+        { status: 404, headers }
+      );
     }
 
     // Use the same advisory-lock pattern as the server action — prevents
@@ -147,14 +180,24 @@ export async function POST(
       createdAt: newVersion.createdAt,
     });
 
-    return NextResponse.json({
-      versionId: newVersion.id,
-      versionNumber: newVersion.versionNumber,
-      variables: vars,
-      bundle: newVersion.bundle ?? null,
-      createdAt: newVersion.createdAt,
-    }, { status: 201 });
+    return NextResponse.json(
+      {
+        versionId: newVersion.id,
+        versionNumber: newVersion.versionNumber,
+        variables: vars,
+        bundle: newVersion.bundle ?? null,
+        createdAt: newVersion.createdAt,
+      },
+      { status: 201, headers }
+    );
   } catch {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+        code: 'INTERNAL_SERVER_ERROR',
+        hint: 'An unexpected server error occurred. Please try again later or open an issue on GitHub.',
+      },
+      { status: 500 }
+    );
   }
 }
