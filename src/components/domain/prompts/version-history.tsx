@@ -48,7 +48,7 @@ export function VersionHistory({
 
   if (versions.length === 0) {
     return (
-      <div className="py-8 text-center text-gray-500 font-sans">
+      <div className="py-8 text-center text-zinc-500 font-sans">
         <p className="text-sm">No versions yet.</p>
       </div>
     );
@@ -57,7 +57,7 @@ export function VersionHistory({
   return (
     <div className="flex flex-col gap-2 font-sans">
       {error && (
-        <p role="alert" className="text-xs text-red-600 bg-red-50 border border-red-200 rounded p-2">
+        <p role="alert" className="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/20 rounded p-2">
           {error}
         </p>
       )}

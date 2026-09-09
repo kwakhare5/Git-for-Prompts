@@ -72,10 +72,11 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
+            aria-label={isCollapsed ? 'Expand Sidebar (⌘B)' : 'Collapse Sidebar (⌘B)'}
             className="w-7 h-7 rounded-lg bg-bg-panel hover:bg-zinc-700 border border-zinc-800 text-zinc-400 hover:text-zinc-100 flex items-center justify-center transition-colors cursor-pointer shrink-0"
             title={isCollapsed ? 'Expand Sidebar (⌘B)' : 'Collapse Sidebar (⌘B)'}
           >
-            {isCollapsed ? <ChevronRight className="w-4 h-4 text-blue-300" /> : <ChevronLeft className="w-4 h-4" />}
+            {isCollapsed ? <ChevronRight className="w-4 h-4 text-blue-300" strokeWidth={1.5} /> : <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />}
           </button>
         </div>
 
@@ -95,7 +96,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
                     : 'text-zinc-400 hover:text-zinc-100 hover:bg-bg-panel'
                 } ${isCollapsed ? 'justify-center' : ''}`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-zinc-100' : 'text-zinc-400'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-zinc-100' : 'text-zinc-400'}`} strokeWidth={1.5} />
                 {!isCollapsed && <span>{item.label}</span>}
               </Link>
             );
@@ -115,7 +116,7 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
           <div className="pt-4 border-t border-zinc-800/80 space-y-2">
             <div className="flex items-center justify-between text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-wider px-1">
               <span className="flex items-center gap-1.5">
-                <FolderGit2 className="w-3 h-3 text-zinc-400" />
+                <FolderGit2 className="w-3 h-3 text-zinc-400" strokeWidth={1.5} />
                 Repositories ({prompts.length})
               </span>
               <Link href="/dashboard/new" className="text-zinc-300 hover:underline text-[10px] lowercase tab-interactive">
@@ -163,9 +164,9 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
           <div className="p-3 rounded-xl bg-bg-page border border-zinc-800 font-mono text-[11px] text-zinc-400 space-y-1">
             <div className="flex items-center justify-between text-zinc-200 font-bold text-[10px]">
               <span className="flex items-center gap-1">
-                <Terminal className="w-3 h-3 text-zinc-300" /> CLI Tool
+                <Terminal className="w-3 h-3 text-zinc-300" strokeWidth={1.5} /> CLI Tool
               </span>
-              <span className="text-[9px] bg-zinc-800 px-1 rounded text-zinc-400">Offline</span>
+              <span className="text-[9px] bg-bg-panel border border-zinc-800 px-1 rounded text-zinc-400">Offline</span>
             </div>
             <code className="text-zinc-200 block text-[10px] truncate">$ npx gitforprompts init</code>
           </div>

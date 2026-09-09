@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { DeveloperFooter } from '@/components/website/DeveloperFooter';
 
 export const metadata: Metadata = {
   title: 'Contact Git for Prompts',
@@ -14,14 +15,15 @@ export const dynamic = 'force-static';
 
 export default function ContactPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 font-sans">
+    <div className="min-h-screen flex flex-col justify-between bg-bg-page text-zinc-100 font-sans">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 font-sans w-full flex-1">
       <div className="space-y-12">
         {/* Header */}
         <div className="space-y-4 border-b border-zinc-800/90 pb-8">
           <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full">
             <span>GET IN TOUCH</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-zinc-100 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-zinc-100 tracking-normal">
             Contact &amp; Support
           </h1>
           <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl font-sans">
@@ -82,16 +84,18 @@ export default function ContactPage() {
               <div className="font-bold text-zinc-100 mb-1">Privacy &amp; Security</div>
               <div className="text-[11px] text-zinc-500 font-sans">Details on key custody and data isolation.</div>
             </Link>
-            <a
-              href="https://gitforprompts.vercel.app/llms.txt"
+            <Link
+              href="/llms.txt"
               className="p-4 rounded-xl border border-zinc-800 bg-bg-page hover:bg-bg-panel text-zinc-300 transition-colors block"
             >
               <div className="font-bold text-zinc-100 mb-1">Agent Index (llms.txt)</div>
               <div className="text-[11px] text-zinc-500 font-sans">Machine-readable index for autonomous agents.</div>
-            </a>
+            </Link>
           </div>
         </section>
       </div>
     </main>
+    <DeveloperFooter />
+  </div>
   );
 }

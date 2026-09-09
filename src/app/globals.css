@@ -52,6 +52,11 @@ body {
   font-family: var(--font-sans);
 }
 
+.font-serif {
+  letter-spacing: normal;
+  font-weight: 600;
+}
+
 /* Custom Design System Utility Classes */
 .bg-charcoal-page {
   background-color: var(--bg-page);

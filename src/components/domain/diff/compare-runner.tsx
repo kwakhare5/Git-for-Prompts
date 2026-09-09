@@ -203,10 +203,10 @@ function ResultBadge({ status }: { status: CellStatus | undefined }) {
     return <span className="text-xs font-mono text-blue-400 animate-pulse">Running…</span>;
   }
   if (status === 'ai-error') {
-    return <span className="text-xs font-mono bg-amber-500/10 border border-amber-500/20 text-amber-300 px-2 py-0.5 rounded-lg font-bold">ERR</span>;
+    return <span className="text-xs font-mono bg-amber-500/10 border border-amber-500/20 text-amber-300 px-2 py-0.5 rounded-lg font-bold tracking-wider">ERR</span>;
   }
   return (
-    <span className={`text-xs font-mono px-2 py-0.5 rounded-lg border font-bold ${status === 'pass' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300' : 'bg-rose-500/10 border-rose-500/20 text-rose-300'}`}>
+    <span className={`text-xs font-mono px-2 py-0.5 rounded-lg border font-bold tracking-wider ${status === 'pass' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-300' : 'bg-rose-500/10 border-rose-500/20 text-rose-300'}`}>
       {status === 'pass' ? 'PASS' : 'FAIL'}
     </span>
   );
