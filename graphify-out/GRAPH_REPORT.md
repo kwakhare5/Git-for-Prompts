@@ -1,7 +1,7 @@
 # Graph Report - Git for Prompts  (2026-09-09)
 
 ## Corpus Check
-- 168 files · ~72,242 words
+- 168 files · ~72,351 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1dd6cde6`
+- Built from commit: `6328c3c5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -99,16 +99,16 @@ Cohesion: 0.08
 Nodes (27): Webhook, WebhooksClientProps, CompareRunner(), CompareRunnerProps, DiffVersionSelector(), DiffVersionSelectorProps, Version, CellStatus (+19 more)
 
 ### Community 3 - "ui-tokens.tsx"
-Cohesion: 0.20
-Nodes (13): PromptRepositoriesList(), PromptRepositoriesListProps, PromptWithStats, DashboardHeroReplicaProps, DEMO_PROMPTS, PromptSummary, BadgeVersion(), ButtonPrimary() (+5 more)
+Cohesion: 0.19
+Nodes (13): PromptRepositoriesList(), PromptRepositoriesListProps, PromptWithStats, DashboardHeroReplicaProps, DEMO_PROMPTS, PromptSummary, BadgePastel(), ButtonPrimary() (+5 more)
 
 ### Community 4 - "createSqliteAdapter"
 Cohesion: 0.12
 Nodes (33): AddOptions, cmdAdd(), AuthOptions, cmdAuth(), cmdDiff(), cmdHistory(), cmdInit(), cmdList() (+25 more)
 
 ### Community 5 - "(landing)/page.tsx"
-Cohesion: 0.17
-Nodes (10): dynamic, AboutSection(), BentoFeatures(), EngineShowcase(), FaqFooter(), HeroSection(), JsonLd(), PromptStudioShowcase() (+2 more)
+Cohesion: 0.19
+Nodes (9): dynamic, AboutSection(), BentoFeatures(), EngineShowcase(), FaqFooter(), HeroSection(), JsonLd(), PromptStudioShowcase() (+1 more)
 
 ### Community 6 - "prompt-editor.tsx"
 Cohesion: 0.07
@@ -175,8 +175,8 @@ Cohesion: 0.25
 Nodes (7): 1. Product Identity & Aesthetics, 2. Color Palette & Dark Theme Tokens, 3. Typography Hierarchy, 4. Motion & Micro-Interactions, 5. Touch Target & Accessibility Standards, Git for Prompts — Design System Specification, Semantic Badges & Accents
 
 ### Community 47 - "(dashboard)/layout.tsx"
-Cohesion: 0.17
-Nodes (10): DashboardLayout(), Home(), FeedbackModal(), DashboardSidebar(), DashboardSidebarProps, PromptSummary, TopHeaderBar(), DashboardHeroReplica() (+2 more)
+Cohesion: 0.16
+Nodes (11): DashboardLayout(), Home(), FeedbackModal(), DashboardSidebar(), DashboardSidebarProps, PromptSummary, TopHeaderBar(), DashboardHeroReplica() (+3 more)
 
 ### Community 48 - "Threat Model — Git for Prompts"
 Cohesion: 0.40

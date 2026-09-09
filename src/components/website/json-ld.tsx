@@ -7,22 +7,22 @@ export function JsonLd() {
         "@id": "https://gitforprompts.vercel.app/#organization",
         "name": "Git for Prompts",
         "url": "https://gitforprompts.vercel.app",
-        "sameAs": ["https://github.com/kwakhare5/Git-for-Prompts"],
-        "email": "support@gitforprompts.org",
+        "sameAs": [
+          "https://github.com/kwakhare5/Git-for-Prompts",
+          "https://x.com/kwakhare5"
+        ],
+        "email": "kwakhare5@gmail.com",
+        "founder": {
+          "@type": "Person",
+          "name": "Karan Wakhare",
+          "url": "https://github.com/kwakhare5"
+        },
         "contactPoint": {
           "@type": "ContactPoint",
-          "contactType": "developer and customer support",
-          "email": "support@gitforprompts.org",
+          "contactType": "maintainer support",
+          "email": "kwakhare5@gmail.com",
           "url": "https://gitforprompts.vercel.app/contact",
           "availableLanguage": "English",
-        },
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Open Source Community",
-          "addressLocality": "San Francisco",
-          "addressRegion": "CA",
-          "postalCode": "94105",
-          "addressCountry": "US",
         },
       },
       {

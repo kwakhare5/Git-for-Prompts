@@ -100,19 +100,19 @@ export function EngineShowcase() {
         </div>
       </section>
 
-      {/* Developer Testimonial Quote */}
-      <section className="px-4 sm:px-6 max-w-4xl mx-auto mb-16 sm:mb-28 text-center">
-        <blockquote className="text-xl sm:text-3xl md:text-4xl font-serif font-semibold tracking-normal text-zinc-100 leading-snug sm:leading-tight mb-6 sm:mb-8">
-          &ldquo;Git for Prompts completely eliminated our team&apos;s prompt regression headaches. Having immutable snapshots in local SQLite is pure genius.&rdquo;
+      {/* Creator Engineering Note */}
+      <section className="px-4 sm:px-6 max-w-3xl mx-auto mb-16 sm:mb-28 text-center font-sans">
+        <blockquote className="text-xl sm:text-2.5xl md:text-3xl font-serif font-semibold tracking-normal text-zinc-100 leading-snug sm:leading-tight mb-5 sm:mb-6 [text-wrap:balance]">
+          &ldquo;Treat prompts like production code: version them, diff them, and test them in your terminal before they hit production.&rdquo;
         </blockquote>
 
         <div className="flex items-center justify-center gap-3 font-mono">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-bg-card text-emerald-300 font-bold flex items-center justify-center text-xs border border-zinc-800">
-            AI
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-bg-card text-emerald-300 font-bold flex items-center justify-center text-xs border border-zinc-800">
+            KW
           </div>
           <div className="text-left">
-            <div className="text-xs font-bold text-zinc-100">Lead AI Engineer</div>
-            <div className="text-[11px] text-zinc-500">Open Source Contributor</div>
+            <div className="text-xs font-bold text-zinc-200">Karan Wakhare</div>
+            <div className="text-[11px] text-zinc-500">Creator &bull; Git for Prompts</div>
           </div>
         </div>
       </section>

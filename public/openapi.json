@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "description": "Local-first prompt package manager and version control for AI engineering. Programmatic access to prompts, versions, and test suites.",
     "contact": {
-      "name": "Git for Prompts Support",
-      "email": "support@gitforprompts.org",
+      "name": "Karan Wakhare",
+      "email": "kwakhare5@gmail.com",
       "url": "https://gitforprompts.vercel.app/contact"
     },
     "license": {
