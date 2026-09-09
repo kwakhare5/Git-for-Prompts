@@ -39,9 +39,11 @@ During the Session End ritual (called automatically whenever significant changes
   - Integrated `<AboutSection id="about" />` directly onto the homepage with mission statement, 4-card architecture principles grid, and MIT open-source banner.
   - Reorganized Navbar desktop and mobile drawer to `Features` (`/#features`) → `Workflow` (`/#workflow`) → `About` (`/#about`) → `FAQ` (`/#faq`), enabling smooth in-page scrolling without page reloads.
   - Upgraded container widths of `about/page.tsx`, `contact/page.tsx`, and `privacy/page.tsx` from `max-w-4xl` to `max-w-6xl mx-auto px-4 sm:px-6`, eliminating excess side gutters and locking margins to the Navbar.
-  - Extracted modular `<DeveloperFooter />` component and attached it across `about`, `contact`, `privacy`, and `FaqFooter`.
+  - Purged fake AI testimonial in `EngineShowcase.tsx` and replaced with creator engineering note by Karan Wakhare ("Treat prompts like production code: version them, diff them, and test them in your terminal before they hit production.").
+  - Rewrote `/contact` page with zero-slop copy: directed bug reports to GitHub Issues & Discussions, and provided direct contact to Karan Wakhare (`kwakhare5@gmail.com` and X: `@kwakhare5`).
+  - Purged fabricated `support@gitforprompts.org` and placeholder San Francisco postal address from `json-ld.tsx` and `openapi.json`, establishing authentic maintainer metadata.
   - Verified zero TypeScript compilation errors with full Turbopack production build (18/18 static routes) and 154/154 passing Vitest tests.
-- **Vibe**: 📐 Seamless single-page navigation, unified max-w-6xl container grids & modular developer footer.
+- **Vibe**: 📐 Authentic creator identity, zero fake reviews, zero corporate slop & verified test suite.
 
 
 ### [GFP — Icon & Favicon Unification on src/app/icon.svg] 2026-09-07
