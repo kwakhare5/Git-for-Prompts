@@ -306,7 +306,7 @@ describe('Test Runner Server Actions', () => {
 
     it('rejects when rate limited', async () => {
       const { checkRateLimit } = await import('@/lib/rate-limit');
-      vi.mocked(checkRateLimit).mockResolvedValueOnce({ success: false, remaining: 0 });
+      vi.mocked(checkRateLimit).mockResolvedValueOnce({ success: false, remaining: 0, limit: 60, reset: 60 });
       await expect(
         runTestsForVersion({ versionId: versionIds[0] })
       ).rejects.toThrow('Rate limit exceeded');

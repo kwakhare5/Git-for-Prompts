@@ -14,6 +14,7 @@ export default function robots(): MetadataRoute.Robots {
           '/about',
           '/contact',
           '/privacy',
+          '/developers',
           '/llms.txt',
           '/llms-full.txt',
           '/openapi.json',
