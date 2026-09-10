@@ -40,14 +40,17 @@ export function Navbar() {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-zinc-400 font-mono">
-          <Link href="/dashboard" className="hover:text-zinc-100 tab-interactive">
-            Dashboard
+          <Link href="/#features" className="hover:text-zinc-100 tab-interactive">
+            Features
           </Link>
-          <Link href="/dashboard/api-keys" className="hover:text-zinc-100 tab-interactive">
-            API Keys
+          <Link href="/#workflow" className="hover:text-zinc-100 tab-interactive">
+            Workflow
           </Link>
-          <Link href="/dashboard/webhooks" className="hover:text-zinc-100 tab-interactive">
-            Webhooks
+          <Link href="/#about" className="hover:text-zinc-100 tab-interactive">
+            About
+          </Link>
+          <Link href="/#faq" className="hover:text-zinc-100 tab-interactive">
+            FAQ
           </Link>
         </nav>
 
@@ -106,7 +109,8 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-zinc-400 hover:text-zinc-100 p-1"
+                aria-label="Close menu"
+                className="text-zinc-400 hover:text-zinc-100 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-zinc-800/60 transition-colors"
               >
                 ✕
               </button>
@@ -114,27 +118,35 @@ export function Navbar() {
 
             <nav className="flex flex-col gap-2">
               <Link
-                href="/dashboard"
+                href="/#features"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3.5 py-3 rounded-xl text-zinc-200 hover:bg-zinc-800/80 flex items-center justify-between"
               >
-                <span>Prompt Studio</span>
+                <span>Features</span>
                 <span className="text-zinc-600 text-xs">→</span>
               </Link>
               <Link
-                href="/dashboard/api-keys"
+                href="/#workflow"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3.5 py-3 rounded-xl text-zinc-200 hover:bg-zinc-800/80 flex items-center justify-between"
               >
-                <span>API Keys &amp; SDK</span>
+                <span>Workflow</span>
                 <span className="text-zinc-600 text-xs">→</span>
               </Link>
               <Link
-                href="/dashboard/webhooks"
+                href="/#about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="px-3.5 py-3 rounded-xl text-zinc-200 hover:bg-zinc-800/80 flex items-center justify-between"
               >
-                <span>Webhooks &amp; Sync</span>
+                <span>About</span>
+                <span className="text-zinc-600 text-xs">→</span>
+              </Link>
+              <Link
+                href="/#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3.5 py-3 rounded-xl text-zinc-200 hover:bg-zinc-800/80 flex items-center justify-between"
+              >
+                <span>FAQ</span>
                 <span className="text-zinc-600 text-xs">→</span>
               </Link>
             </nav>

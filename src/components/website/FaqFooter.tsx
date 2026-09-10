@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { GithubIcon } from './ui-tokens';
+import { DeveloperFooter } from './DeveloperFooter';
 
 export function FaqFooter() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -37,9 +38,9 @@ export function FaqFooter() {
   return (
     <>
       {/* FAQ Accordion */}
-      <section id="docs" className="px-4 sm:px-6 max-w-4xl mx-auto mb-16 sm:mb-28">
+      <section id="faq" className="px-4 sm:px-6 max-w-4xl mx-auto mb-16 sm:mb-28">
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2.5xl sm:text-3xl font-bold text-zinc-100 font-serif mb-2 [text-wrap:balance]">Developer FAQ</h2>
+          <h2 className="text-2.5xl sm:text-3xl font-semibold tracking-normal text-zinc-100 font-serif mb-2 [text-wrap:balance]">Developer FAQ</h2>
           <p className="text-[11px] sm:text-xs font-mono text-zinc-500">Everything you need to know about Git for Prompts.</p>
         </div>
 
@@ -47,8 +48,17 @@ export function FaqFooter() {
           {faqs.map((faq, idx) => (
             <div 
               key={idx}
+              role="button"
+              tabIndex={0}
+              aria-expanded={openFaq === idx}
               onClick={() => toggleFaq(idx)}
-              className="bg-bg-card rounded-xl border border-zinc-800/90 p-3.5 sm:p-4 tab-interactive hover:border-zinc-700 shadow-xl overflow-hidden cursor-pointer select-none"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleFaq(idx);
+                }
+              }}
+              className="bg-bg-card rounded-xl border border-zinc-800/90 p-3.5 sm:p-4 tab-interactive hover:border-zinc-700 shadow-xl overflow-hidden cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50"
             >
               <div className="flex items-center justify-between text-xs font-bold text-zinc-100 gap-3">
                 <span className="font-mono leading-snug">{faq.q}</span>
@@ -71,7 +81,7 @@ export function FaqFooter() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/icon.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg" />
           </div>
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif mb-3 sm:mb-4 text-zinc-100 [text-wrap:balance]">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold tracking-normal mb-3 sm:mb-4 text-zinc-100 [text-wrap:balance]">
             Start versioning your prompts locally in seconds
           </h3>
           <p className="text-zinc-400 text-xs max-w-md mx-auto mb-6 sm:mb-8 font-sans leading-relaxed">
@@ -87,78 +97,7 @@ export function FaqFooter() {
       </section>
 
       {/* Full Dark Developer Footer */}
-      <footer className="bg-bg-page text-zinc-400 py-12 sm:py-16 px-4 sm:px-6 text-xs font-mono border-t border-zinc-800/80">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-10 sm:mb-12">
-          
-          <div className="sm:col-span-2 space-y-3">
-            <div className="flex items-center gap-2 text-zinc-100 font-bold text-base">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icon.svg" alt="Git for Prompts Logo" width={24} height={24} className="w-6 h-6 rounded-lg shrink-0 shadow-md" />
-              <span>Git for Prompts</span>
-            </div>
-            <p className="text-zinc-500 text-xs max-w-xs font-sans leading-relaxed">
-              Open-source prompt version control and test runner. Immutable snapshots, local SQLite storage, and team sync.
-            </p>
-            <div className="text-[10px] text-emerald-300 flex items-center gap-1.5 pt-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> MIT Open Source License
-            </div>
-          </div>
-
-          <div>
-            <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">CORE ARCHITECTURE</h5>
-            <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/core" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/core</a></li>
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/tree/main/packages/cli" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">packages/cli</a></li>
-              <li><Link href="/dashboard" className="hover:text-zinc-200 transition-colors">Prompt Studio Dashboard</Link></li>
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Bundle Zod Spec</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">DOCUMENTATION</h5>
-            <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li><Link href="/about" className="hover:text-zinc-200 transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="hover:text-zinc-200 transition-colors">Contact &amp; Support</Link></li>
-              <li><Link href="/privacy" className="hover:text-zinc-200 transition-colors">Privacy Policy</Link></li>
-              <li><a href="/llms.txt" className="hover:text-zinc-200 transition-colors">Agent Index (llms.txt)</a></li>
-              <li><Link href="/dashboard/api-keys" className="hover:text-zinc-200 transition-colors">API Keys API</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 className="text-zinc-200 font-bold mb-3 uppercase tracking-wider text-[10px]">REPOS &amp; COMMUNITY</h5>
-            <ul className="space-y-2 text-zinc-400 text-[11px]">
-              <li className="flex items-center gap-1.5">
-                <GithubIcon className="w-3.5 h-3.5" />
-                <a href="https://github.com/kwakhare5/Git-for-Prompts" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">GitHub Repository</a>
-              </li>
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Contribute</a></li>
-              <li><a href="https://github.com/kwakhare5/Git-for-Prompts/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Security &amp; License</a></li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div className="max-w-6xl mx-auto border-t border-zinc-800/80 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-zinc-500 text-center sm:text-left">
-          <div>
-            © 2026 Git for Prompts • Designed &amp; Built by{" "}
-            <a
-              href="https://github.com/kwakhare5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-300 hover:text-white font-semibold underline decoration-zinc-700 underline-offset-4 transition-colors"
-            >
-              Karan Wakhare
-            </a>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/about" className="hover:text-zinc-300 transition-colors">About</Link>
-            <Link href="/contact" className="hover:text-zinc-300 transition-colors">Contact</Link>
-            <Link href="/privacy" className="hover:text-zinc-300 transition-colors">Privacy</Link>
-            <a href="/llms.txt" className="hover:text-zinc-300 transition-colors">llms.txt</a>
-          </div>
-        </div>
-      </footer>
+      <DeveloperFooter />
     </>
   );
 }

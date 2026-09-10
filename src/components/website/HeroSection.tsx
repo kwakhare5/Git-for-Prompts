@@ -11,13 +11,13 @@ export function HeroSection() {
       <div className="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_80%_80%_at_50%_0%,rgba(16,185,129,0.12),rgba(255,255,255,0))] pointer-events-none -z-10" />
 
       {/* Kicker Badge */}
-      <div className="inline-flex items-center gap-2 mb-6 font-mono text-[10px] sm:text-xs font-bold bg-bg-card text-zinc-300 border border-zinc-800 px-3.5 py-1.5 rounded-full shadow-xl">
+      <div className="inline-flex items-center gap-2 mb-6 font-mono text-[10px] sm:text-xs font-bold tracking-wider bg-bg-card text-zinc-300 border border-zinc-800 px-3.5 py-1.5 rounded-full shadow-xl">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
         <span>OPEN SOURCE PROMPT VERSION CONTROL</span>
       </div>
 
       {/* Hero Title */}
-      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-zinc-100 leading-[1.08] mb-6 font-serif [text-wrap:balance]">
+      <h1 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-normal text-zinc-100 leading-[1.08] mb-6 font-serif [text-wrap:balance]">
         Git for your AI prompts
       </h1>
 

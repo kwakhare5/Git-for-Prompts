@@ -59,8 +59,8 @@ pnpm run save        # Run checkpoint script
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-09-07
-- **Current State:** Standardized branding exclusively on `src/app/icon.svg`, purged `public/logo.svg`, added `/favicon.ico` -> `/icon.svg` rewrite in `next.config.ts` to eliminate Vercel 404s, and updated all UI and metadata components to use `/icon.svg`. Verified full test suite (154/154 passing), typecheck (0 errors), linter (0 errors/warnings), production build (18/18 static routes), and updated AST knowledge graph.
+**Last session date:** 2026-09-09
+- **Current State:** Completed comprehensive codebase consistency overhaul (P0–P3), typography harmonization, and layout standardization (`better-layout`, `better-typography`, `better-writing`, `better-ui`). Configured Instrument Serif headings to `font-semibold` (weight 600) with normal letter-spacing, and integrated a responsive `<AboutSection id="about" />` on the homepage. Updated Navbar navigation order to `Features` (`/#features`) → `Workflow` (`/#workflow`) → `About` (`/#about`) → `FAQ` (`/#faq`) for fluid single-page scrolling. Unified container width across `/about`, `/contact`, and `/privacy` to `max-w-6xl mx-auto px-4 sm:px-6` (matching Navbar margins) and attached modular `<DeveloperFooter />`. Verified 154/154 passing unit & security tests, 18/18 static pre-rendered routes on Next.js 16 (0 type errors), and updated AST knowledge graph.
 - **Immediate next task:** Deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
 - **Open blockers:** Swap Clerk keys in Vercel Dashboard to production instance (`pk_live_...`) for public launch distribution.
 

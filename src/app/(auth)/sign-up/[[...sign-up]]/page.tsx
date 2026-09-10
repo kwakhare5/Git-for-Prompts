@@ -49,13 +49,13 @@ export default function SignUpPage() {
               <span className="font-bold text-lg tracking-tight text-zinc-100">
                 Git for Prompts
               </span>
-              <span className="text-[10px] font-bold bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-800">
+              <span className="text-[10px] font-bold tracking-wider bg-zinc-100/10 text-zinc-100 px-2 py-0.5 rounded-md border border-zinc-800">
                 LOCAL-FIRST VCS
               </span>
             </div>
           </Link>
           <div className="space-y-1 pt-1">
-            <h1 className="text-xl font-bold text-zinc-100 font-mono tracking-tight">
+            <h1 className="text-xl font-bold text-zinc-100 font-mono tracking-normal">
               Create Your Account
             </h1>
             <p className="text-xs text-zinc-400 font-sans max-w-xs mx-auto leading-relaxed">

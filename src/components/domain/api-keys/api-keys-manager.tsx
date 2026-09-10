@@ -105,10 +105,10 @@ export function ApiKeysManager({ initialKeys }: Props) {
             <button
               type="button"
               onClick={dismissNewKey}
-              className="text-zinc-500 hover:text-white transition-colors cursor-pointer"
+              className="text-zinc-500 hover:text-white transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-zinc-800/60"
               aria-label="Dismiss"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4" strokeWidth={1.5} />
             </button>
           </div>
 
@@ -119,9 +119,9 @@ export function ApiKeysManager({ initialKeys }: Props) {
             <button
               id="copy-api-key-btn"
               onClick={handleCopy}
-              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-zinc-700 text-zinc-200 flex items-center gap-1.5 btn-interactive"
+              className="px-3.5 py-2 border border-zinc-800 rounded-xl text-xs font-mono font-bold bg-bg-panel hover:bg-bg-card hover:border-zinc-700 text-zinc-200 flex items-center gap-1.5 btn-interactive min-h-[44px] sm:min-h-[36px]"
             >
-              {copied ? <Check className="h-3.5 w-3.5 text-emerald-300 icon-pop" /> : <Copy className="h-3.5 w-3.5 text-zinc-400" />}
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-300 icon-pop" strokeWidth={1.5} /> : <Copy className="h-3.5 w-3.5 text-zinc-400" strokeWidth={1.5} />}
               {copied ? 'Copied' : 'Copy Key'}
             </button>
           </div>

@@ -58,7 +58,7 @@ export function PanelElevated({ children, className = "" }: { children: React.Re
 
 export function BadgeVersion({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-mono font-bold tabular-nums tracking-tight ${className}`}>
+    <span className={`bg-zinc-100/10 text-zinc-100 border border-zinc-800 px-2 py-0.5 rounded text-[11px] font-mono font-bold tabular-nums tracking-normal ${className}`}>
       {children}
     </span>
   );
@@ -98,7 +98,7 @@ export function CliCopyButton({ command = "npx gitforprompts init" }: { command?
       className="bg-bg-card hover:bg-bg-panel text-zinc-200 border border-zinc-800 font-mono text-xs px-3.5 sm:px-4 py-2.5 rounded-full flex items-center justify-between gap-2 sm:gap-3 shadow-xl active:scale-[0.96] transition-all duration-150 ease-out group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 cursor-pointer max-w-full overflow-hidden"
     >
       <TerminalIcon className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-      <span className="text-emerald-400 font-mono font-bold tracking-tight whitespace-nowrap overflow-x-auto scrollbar-none text-[11px] sm:text-xs">$ {command}</span>
+      <span className="text-emerald-400 font-mono font-bold tracking-normal whitespace-nowrap overflow-x-auto scrollbar-none text-[11px] sm:text-xs">$ {command}</span>
       <div className="w-6 h-6 rounded-full bg-bg-page/60 text-zinc-400 group-hover:text-emerald-300 flex items-center justify-center shrink-0 transition-colors">
         {copied ? <CheckIcon className="w-3.5 h-3.5 text-emerald-400 icon-pop" /> : <CopyIcon className="w-3 h-3" />}
       </div>

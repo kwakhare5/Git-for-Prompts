@@ -17,6 +17,33 @@ During the Session End ritual (called automatically whenever significant changes
 
 ## Log Entries
 
+### [GFP — Letter-Spacing & Navbar Harmonization] 2026-09-09
+
+- **Commit**: `HEAD`
+- **Shipped**:
+  - Enforced normal letter-spacing on Instrument Serif (`font-serif`) globally in `globals.css` and across all headings: `HeroSection` ("Git for your AI prompts"), `BentoFeatures`, `EngineShowcase`, `PromptStudioShowcase`, `FaqFooter`, `/about`, `/contact`, and `/privacy`.
+  - Audited typography and letter-spacing across all files in `src/` via `better-typography`: verified 100% compliance for all body copy and prose (zero negative tracking on paragraphs).
+  - Fixed small uppercase optical cramping by adding `tracking-wider` to Hero kicker badge (`OPEN SOURCE PROMPT VERSION CONTROL`), auth header badges (`LOCAL-FIRST VCS`), test status badges (`PASS`, `FAIL`, `RUNNING`, `AI ERROR`, `88/88 PASSED`), and Clerk divider text.
+  - Eliminated monospace character squishing: changed `tracking-tight` to `tracking-normal` on `BadgeVersion`, `CliCopyButton` (`$ npx gitforprompts init`), and auth modal `font-mono` headers.
+  - Streamlined public marketing navigation in `Navbar.tsx`: replaced internal dashboard setting links with high-converting landing anchors (`Features`, `Workflow`, `FAQ`, `About`), matched mobile menu drawer, and preserved `Open Dashboard →` as the singular primary CTA.
+  - Added section anchor IDs `#workflow` in `BentoFeatures.tsx` and `#faq` in `FaqFooter.tsx`.
+  - Configured Instrument Serif headings to `font-semibold` (weight 600) across 12 headings (`HeroSection`, `BentoFeatures`, `EngineShowcase`, `PromptStudioShowcase`, `FaqFooter`, `about`, `contact`, `privacy`), updating `.font-serif` in `globals.css` and aligning `DESIGN.md`.
+  - Resolved light-mode pink error styling in `version-history.tsx`, converting to dark token `text-rose-300 bg-rose-500/10 border-rose-500/20` and replacing isolated `gray-500` with `zinc-500`.
+  - Synchronized landing page anchor flow: placed `id="features"` on `BentoFeatures.tsx` and `id="engine"` on `EngineShowcase.tsx` for natural top-to-bottom scroll order.
+  - Connected dead interactive elements: converted "Run Local Evals →" to working `<Link href="/dashboard">` and linked "Forgot password?" to `/contact`.
+  - Fixed undefined CSS variable in `diff-viewer.tsx` with standard monospace font stack.
+  - Calibrated Lucide icons to `strokeWidth={1.5}` across dashboard components (`sidebar`, `feedback-modal`, `api-keys-manager`, `DashboardHeroReplica`).
+  - Added full keyboard accessibility (Enter/Space) to the Developer FAQ accordion in `FaqFooter.tsx`.
+  - Added `min-h-[44px]` touch targets and `aria-label`s on mobile menu and sidebar toggle buttons.
+  - Harmonized system tokens: synced `themeColor` and `manifest.ts` to `#0a0a0a` and Monaco canvas to `#0a0a0a`.
+  - Integrated `<AboutSection id="about" />` directly onto the homepage with mission statement, 4-card architecture principles grid, and MIT open-source banner.
+  - Reorganized Navbar desktop and mobile drawer to `Features` (`/#features`) → `Workflow` (`/#workflow`) → `About` (`/#about`) → `FAQ` (`/#faq`), enabling smooth in-page scrolling without page reloads.
+  - Upgraded container widths of `about/page.tsx`, `contact/page.tsx`, and `privacy/page.tsx` from `max-w-4xl` to `max-w-6xl mx-auto px-4 sm:px-6`, eliminating excess side gutters and locking margins to the Navbar.
+  - Extracted modular `<DeveloperFooter />` component and attached it across `about`, `contact`, `privacy`, and `FaqFooter`.
+  - Verified zero TypeScript compilation errors with full Turbopack production build (18/18 static routes) and 154/154 passing Vitest tests.
+- **Vibe**: 📐 Seamless single-page navigation, unified max-w-6xl container grids & modular developer footer.
+
+
 ### [GFP — Icon & Favicon Unification on src/app/icon.svg] 2026-09-07
 
 - **Commit**: `90e5c51`

@@ -384,7 +384,7 @@ export function DashboardHeroReplica({
                     <option value="groq">groq</option>
                     <option value="openrouter">openrouter</option>
                   </select>
-                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" strokeWidth={1.5} />
                 </div>
               </div>
               <div>
@@ -394,7 +394,7 @@ export function DashboardHeroReplica({
                     <option value="llama-3.3-70b-versatile">llama-3.3-70b</option>
                     <option value="mixtral-8x7b-32768">mixtral-8x7b</option>
                   </select>
-                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" />
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400 pointer-events-none" strokeWidth={1.5} />
                 </div>
               </div>
               <div>

@@ -2,7 +2,7 @@ import { dark } from "@clerk/themes";
 
 /**
  * Single source of truth for Clerk component appearance.
- * Aligned with Git for Prompts design system tokens (#111111, #161616, #f5f0eb).
+ * Aligned with Git for Prompts design system tokens (#0a0a0a, #141414, #1e1e1e, #f4f4f5).
  */
 export const clerkAppearance = {
   baseTheme: dark,
@@ -20,7 +20,7 @@ export const clerkAppearance = {
     identityPreviewText: "text-foreground text-sm font-sans",
     identityPreviewEditButton: "text-muted-foreground hover:text-foreground text-sm font-sans",
     dividerLine: "bg-border",
-    dividerText: "text-muted-foreground text-xs font-sans uppercase font-medium",
+    dividerText: "text-muted-foreground text-xs font-sans uppercase font-medium tracking-wider",
     socialButtonsBlockButton:
       "border border-border bg-background text-foreground hover:bg-accent transition-all rounded-md text-sm font-medium font-sans h-9 px-4 cursor-pointer",
     socialButtonsBlockButtonText: "text-foreground font-medium text-sm font-sans",

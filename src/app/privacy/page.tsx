@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { DeveloperFooter } from '@/components/website/DeveloperFooter';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -14,14 +15,15 @@ export const dynamic = 'force-static';
 
 export default function PrivacyPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24 font-sans">
+    <div className="min-h-screen flex flex-col justify-between bg-bg-page text-zinc-100 font-sans">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 font-sans w-full flex-1">
       <div className="space-y-12">
         {/* Header */}
         <div className="space-y-4 border-b border-zinc-800/90 pb-8">
           <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
             <span>PRIVACY &amp; SECURITY POLICY</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-zinc-100 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-zinc-100 tracking-normal">
             Security by Architecture, Not Just Policy
           </h1>
           <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl font-sans">
@@ -92,5 +94,7 @@ export default function PrivacyPage() {
         </section>
       </div>
     </main>
+    <DeveloperFooter />
+  </div>
   );
 }

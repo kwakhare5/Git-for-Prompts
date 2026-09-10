@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { TerminalIcon, CheckIcon } from './ui-tokens';
 
 export function PromptStudioShowcase() {
@@ -13,7 +14,7 @@ export function PromptStudioShowcase() {
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 inline-block mb-3 sm:mb-4">
             PROMPT EVALUATION SUITE
           </span>
-          <h2 className="text-2.5xl sm:text-3.5xl md:text-4xl font-bold text-zinc-100 font-serif mb-3 sm:mb-4 leading-tight [text-wrap:balance]">
+          <h2 className="text-2.5xl sm:text-3.5xl md:text-4xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 leading-tight [text-wrap:balance]">
             Test &amp; Evaluate prompt bundles before pushing
           </h2>
           <p className="text-zinc-400 text-xs sm:text-sm mb-6 leading-relaxed font-sans">
@@ -39,9 +40,12 @@ export function PromptStudioShowcase() {
             </li>
           </ul>
 
-          <button className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-5 py-2.5 rounded-xl shadow-xs btn-interactive flex items-center justify-center">
+          <Link
+            href="/dashboard"
+            className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-5 py-2.5 rounded-xl shadow-xs btn-interactive inline-flex items-center justify-center min-h-[44px] sm:min-h-[38px]"
+          >
             Run Local Evals →
-          </button>
+          </Link>
         </div>
 
         {/* Right Dashboard Mockup */}
@@ -53,7 +57,7 @@ export function PromptStudioShowcase() {
                 <TerminalIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300 shrink-0" />
                 <span className="truncate text-[11px] sm:text-xs">gitforprompts run test-suite --all</span>
               </div>
-              <span className="text-emerald-300 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold shrink-0">
+              <span className="text-emerald-300 text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-mono font-bold tracking-wider shrink-0">
                 88/88 PASSED
               </span>
             </div>
