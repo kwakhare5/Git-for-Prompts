@@ -39,7 +39,7 @@ export default function SignInPage() {
           <Link href="/" className="flex items-center gap-2.5 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logo.svg"
+              src="/icon.svg"
               alt="Git for Prompts Logo"
               width={36}
               height={36}
