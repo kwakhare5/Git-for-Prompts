@@ -48,6 +48,14 @@ const nextConfig: NextConfig = {
       source: "/favicon.ico",
       destination: "/icon.svg",
     },
+    {
+      source: "/docs",
+      destination: "/developers",
+    },
+    {
+      source: "/.well-known/mcp",
+      destination: "/.well-known/mcp.json",
+    },
   ],
 };
 

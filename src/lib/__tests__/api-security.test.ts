@@ -14,7 +14,8 @@ vi.mock('@/lib/api-auth', () => ({
 }));
 
 vi.mock('@/lib/rate-limit', () => ({
-  checkRateLimit: vi.fn().mockResolvedValue({ success: true, remaining: 59 }),
+  checkRateLimit: vi.fn().mockResolvedValue({ success: true, remaining: 59, limit: 60, reset: 60 }),
+  getRateLimitHeaders: vi.fn().mockReturnValue({ 'RateLimit-Limit': '60', 'RateLimit-Remaining': '59', 'RateLimit-Reset': '60' }),
   inProcessCounts: new Map(),
 }));
 

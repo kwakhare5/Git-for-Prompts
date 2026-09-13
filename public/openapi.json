@@ -28,50 +28,56 @@
   "paths": {
     "/prompts": {
       "get": {
-        "summary": "List prompt repositories",
-        "description": "Retrieve all prompt repositories accessible to the authenticated user.",
+        "summary": "Resolve prompt by name or list prompts",
+        "description": "Retrieve prompt repository ID and details by unique name for the authenticated user.",
         "operationId": "listPrompts",
         "parameters": [
           {
-            "name": "limit",
+            "name": "name",
             "in": "query",
-            "description": "Maximum number of prompts to return (1-100)",
+            "description": "Unique prompt repository name",
             "required": false,
             "schema": {
-              "type": "integer",
-              "default": 20,
-              "minimum": 1,
-              "maximum": 100
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of prompt repositories",
+            "description": "Prompt details and repository ID",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "prompts": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PromptSummary"
-                      }
-                    }
-                  }
+                    "promptId": { "type": "string" },
+                    "promptName": { "type": "string" }
+                  },
+                  "required": ["promptId", "promptName"]
                 }
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
           }
         }
       },
       "post": {
         "summary": "Create prompt repository",
-        "description": "Initialize a new prompt repository with an initial version snapshot.",
+        "description": "Initialize a new prompt repository owned by the authenticated key holder.",
         "operationId": "createPrompt",
         "requestBody": {
           "required": true,
@@ -91,10 +97,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "prompt": {
-                      "$ref": "#/components/schemas/PromptSummary"
-                    }
-                  }
+                    "promptId": { "type": "string" },
+                    "promptName": { "type": "string" }
+                  },
+                  "required": ["promptId", "promptName"]
                 }
               }
             }
@@ -104,6 +110,15 @@
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
           }
         }
       }
@@ -111,34 +126,40 @@
     "/prompts/{id}/latest": {
       "get": {
         "summary": "Get latest prompt version snapshot",
-        "description": "Fetch the latest immutable version snapshot of a prompt repository including system prompt, user template, and model hyperparameter configuration.",
+        "description": "Fetch the latest immutable version snapshot of a prompt repository including system prompt, user template, variables, and model hyperparameter configuration. Supports runtime variable interpolation via query params.",
         "operationId": "getLatestPromptVersion",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Unique prompt repository ID or UUID",
+            "description": "Unique prompt repository ID",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "variables",
+            "in": "query",
+            "style": "deepObject",
+            "explode": true,
+            "required": false,
+            "description": "Key-value map of runtime template variables (e.g. ?variables[user_name]=Alice)",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "The latest active prompt version",
+            "description": "The latest active prompt version snapshot",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "prompt": {
-                      "$ref": "#/components/schemas/PromptSummary"
-                    },
-                    "version": {
-                      "$ref": "#/components/schemas/PromptVersion"
-                    }
-                  }
+                  "$ref": "#/components/schemas/LatestPromptVersionResponse"
                 }
               }
             }
@@ -148,15 +169,21 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
           }
         }
       }
     },
     "/prompts/{id}/versions": {
-      "get": {
-        "summary": "List prompt version history",
-        "description": "Fetch the chronological, immutable version commit history of a prompt.",
-        "operationId": "listPromptVersions",
+      "post": {
+        "summary": "Push new prompt version",
+        "description": "Create and commit an immutable new version snapshot of a prompt. Protected by transactional database locks to prevent sequence collisions.",
+        "operationId": "createPromptVersion",
         "parameters": [
           {
             "name": "id",
@@ -168,30 +195,49 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVersionInput"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "List of historical prompt versions",
+          "201": {
+            "description": "New prompt version snapshot created",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "versions": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PromptVersion"
-                      }
-                    }
-                  }
+                    "versionId": { "type": "string" },
+                    "versionNumber": { "type": "integer" },
+                    "variables": { "type": "array", "items": { "type": "string" } },
+                    "bundle": { "type": ["object", "null"] },
+                    "createdAt": { "type": "string", "format": "date-time" }
+                  },
+                  "required": ["versionId", "versionNumber", "variables", "createdAt"]
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimitExceeded"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
           }
         }
       }
@@ -219,51 +265,57 @@
         },
         "required": ["id", "name"]
       },
-      "PromptVersion": {
+      "LatestPromptVersionResponse": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
+          "promptId": { "type": "string" },
+          "promptName": { "type": "string" },
           "versionNumber": { "type": "integer" },
           "commitMessage": { "type": ["string", "null"] },
-          "systemPrompt": { "type": "string" },
-          "userTemplate": { "type": "string" },
-          "modelProvider": { "type": "string", "enum": ["groq", "openrouter", "openai", "anthropic"] },
-          "modelName": { "type": "string" },
-          "temperature": { "type": "string" },
-          "topP": { "type": "string" },
-          "maxTokens": { "type": "integer" },
-          "responseFormat": { "type": ["object", "null"] },
+          "content": { "type": "string" },
+          "variables": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "bundle": { "type": ["object", "null"] },
           "createdAt": { "type": "string", "format": "date-time" }
         },
-        "required": ["id", "versionNumber", "systemPrompt", "userTemplate", "modelProvider", "modelName"]
+        "required": ["promptId", "promptName", "versionNumber", "content", "variables", "createdAt"]
       },
       "CreatePromptInput": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "description": "Unique prompt name" },
-          "description": { "type": "string" },
-          "systemPrompt": { "type": "string" },
-          "userTemplate": { "type": "string" },
-          "modelProvider": { "type": "string", "default": "groq" },
-          "modelName": { "type": "string", "default": "llama-3.3-70b-versatile" },
-          "temperature": { "type": "number", "default": 0.2 },
-          "topP": { "type": "number", "default": 0.95 },
-          "maxTokens": { "type": "integer", "default": 2048 }
+          "name": { "type": "string", "description": "Unique kebab-case prompt name" },
+          "description": { "type": "string", "description": "Optional description of prompt purpose" }
         },
-        "required": ["name", "systemPrompt"]
+        "required": ["name"]
+      },
+      "CreateVersionInput": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string", "maxLength": 100000, "description": "Raw prompt text template" },
+          "commitMessage": { "type": "string", "maxLength": 500, "description": "Commit message describing prompt changes" },
+          "bundle": { "type": "object", "description": "Standardized prompt bundle JSON" }
+        }
       },
       "ErrorResponse": {
         "type": "object",
         "properties": {
-          "error": { "type": "string" },
-          "code": { "type": "string" }
+          "error": { "type": "string", "description": "Human-readable description of error" },
+          "code": { "type": "string", "description": "Machine-readable error classification code" },
+          "hint": { "type": "string", "description": "Actionable directive for self-healing AI agents or developers" }
         },
         "required": ["error"]
       }
     },
     "responses": {
       "Unauthorized": {
-        "description": "Missing or invalid Bearer authentication key",
+        "description": "Missing, invalid, expired, or revoked Bearer authentication key",
+        "headers": {
+          "RateLimit-Limit": { "schema": { "type": "integer" }, "description": "Request limit per window" },
+          "RateLimit-Remaining": { "schema": { "type": "integer" }, "description": "Remaining requests in current window" },
+          "RateLimit-Reset": { "schema": { "type": "integer" }, "description": "Seconds until window resets" }
+        },
         "content": {
           "application/json": {
             "schema": {
@@ -273,7 +325,12 @@
         }
       },
       "BadRequest": {
-        "description": "Validation failure or malformed payload",
+        "description": "Validation failure, missing parameters, or malformed JSON payload",
+        "headers": {
+          "RateLimit-Limit": { "schema": { "type": "integer" }, "description": "Request limit per window" },
+          "RateLimit-Remaining": { "schema": { "type": "integer" }, "description": "Remaining requests in current window" },
+          "RateLimit-Reset": { "schema": { "type": "integer" }, "description": "Seconds until window resets" }
+        },
         "content": {
           "application/json": {
             "schema": {
@@ -283,7 +340,53 @@
         }
       },
       "NotFound": {
-        "description": "Prompt repository or version not found",
+        "description": "Prompt repository or version not found, or not owned by key holder",
+        "headers": {
+          "RateLimit-Limit": { "schema": { "type": "integer" }, "description": "Request limit per window" },
+          "RateLimit-Remaining": { "schema": { "type": "integer" }, "description": "Remaining requests in current window" },
+          "RateLimit-Reset": { "schema": { "type": "integer" }, "description": "Seconds until window resets" }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "A prompt with this name already exists for the authenticated user",
+        "headers": {
+          "RateLimit-Limit": { "schema": { "type": "integer" }, "description": "Request limit per window" },
+          "RateLimit-Remaining": { "schema": { "type": "integer" }, "description": "Remaining requests in current window" },
+          "RateLimit-Reset": { "schema": { "type": "integer" }, "description": "Seconds until window resets" }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimitExceeded": {
+        "description": "Rate limit threshold exceeded. Standard limit: 60 req/min per IP. Expensive mutation limit: 20 req/min per key.",
+        "headers": {
+          "RateLimit-Limit": { "schema": { "type": "integer" }, "description": "Maximum requests in window" },
+          "RateLimit-Remaining": { "schema": { "type": "integer" }, "description": "0 remaining" },
+          "RateLimit-Reset": { "schema": { "type": "integer" }, "description": "Seconds until reset" },
+          "Retry-After": { "schema": { "type": "integer" }, "description": "Seconds client must wait before retrying" }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Unexpected server error",
         "content": {
           "application/json": {
             "schema": {

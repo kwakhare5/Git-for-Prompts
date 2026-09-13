@@ -27,7 +27,7 @@ export function cleanupExpiredInProcessEntries(now: number = Date.now()): number
   return cleaned;
 }
 
-function inProcessRateLimit(key: string, limit: number): { success: boolean; remaining: number } {
+function inProcessRateLimit(key: string, limit: number): RateLimitResult {
   const now = Date.now();
 
   // Bounded deterministic sweep when size exceeds threshold
@@ -38,13 +38,24 @@ function inProcessRateLimit(key: string, limit: number): { success: boolean; rem
   const record = inProcessCounts.get(key);
 
   if (!record || record.resetAt <= now) {
-    inProcessCounts.set(key, { count: 1, resetAt: now + IN_PROCESS_WINDOW_MS });
-    return { success: true, remaining: limit - 1 };
+    const resetAt = now + IN_PROCESS_WINDOW_MS;
+    inProcessCounts.set(key, { count: 1, resetAt });
+    return {
+      success: true,
+      remaining: limit - 1,
+      limit,
+      reset: Math.ceil(resetAt / 1000),
+    };
   }
 
   record.count++;
   const remaining = Math.max(0, limit - record.count);
-  return { success: record.count <= limit, remaining };
+  return {
+    success: record.count <= limit,
+    remaining,
+    limit,
+    reset: Math.ceil(record.resetAt / 1000),
+  };
 }
 
 // ─── Upstash singletons (lazy-initialized on first use) ──────────────────────
@@ -81,6 +92,25 @@ async function getExpensiveRatelimit(): Promise<import('@upstash/ratelimit').Rat
 export interface RateLimitResult {
   success: boolean;
   remaining: number;
+  limit: number;
+  reset: number;
+}
+
+/**
+ * Standard RFC headers for rate limiting and deprecation signaling.
+ */
+export function getRateLimitHeaders(result: RateLimitResult): Record<string, string> {
+  const nowSeconds = Math.ceil(Date.now() / 1000);
+  const headers: Record<string, string> = {
+    'RateLimit-Limit': String(result.limit),
+    'RateLimit-Remaining': String(result.remaining),
+    'RateLimit-Reset': String(result.reset),
+    'Sunset': 'Wed, 01 Sep 2027 00:00:00 GMT',
+  };
+  if (!result.success) {
+    headers['Retry-After'] = String(Math.max(1, result.reset - nowSeconds));
+  }
+  return headers;
 }
 
 /**
@@ -99,12 +129,25 @@ export async function checkRateLimit(key: string): Promise<RateLimitResult> {
         ? await getExpensiveRatelimit()
         : await getStandardRatelimit();
       const result = await ratelimit.limit(key);
-      return { success: result.success, remaining: result.remaining };
+      const resetInSeconds = result.reset
+        ? (result.reset > 1_000_000_000_000 ? Math.ceil(result.reset / 1000) : result.reset)
+        : Math.ceil((Date.now() + 60_000) / 1000);
+      return {
+        success: result.success,
+        remaining: result.remaining,
+        limit: maxLimit,
+        reset: resetInSeconds,
+      };
     } catch (err) {
       console.warn('[RateLimit] Upstash Redis unavailable:', err);
       // Expensive operations fail closed on Redis outage
       if (isExpensive) {
-        return { success: false, remaining: 0 };
+        return {
+          success: false,
+          remaining: 0,
+          limit: maxLimit,
+          reset: Math.ceil((Date.now() + 60_000) / 1000),
+        };
       }
     }
   }

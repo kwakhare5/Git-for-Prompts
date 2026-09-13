@@ -26,6 +26,7 @@ Do NOT use Git for Prompts as a general-purpose git wrapper for code or binary a
 ## Developer Resources & Quick Links
 
 - [Official Documentation](https://gitforprompts.vercel.app): Primary documentation and workspace studio.
+- [Developer Portal & API Reference](https://gitforprompts.vercel.app/developers): Complete developer reference, CLI manual, RFC rate limiting, and Cursor/Claude Desktop MCP configuration.
 - [GitHub Repository](https://github.com/kwakhare5/Git-for-Prompts): 100% open-source codebase (Next.js 16, TypeScript, Drizzle ORM).
 - [About Git for Prompts](https://gitforprompts.vercel.app/about): Architecture principles and team background.
 - [Contact & Support](https://gitforprompts.vercel.app/contact): Support channels, issue tracker, and contact information.
