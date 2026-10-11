@@ -9,7 +9,7 @@
  * All data is persisted to disk via manual save after each write operation.
  */
 
-import initSqlJs, { type Database, type SqlValue } from 'sql.js';
+import initSqlJs, { type Database } from 'sql.js';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { randomUUID } from 'crypto';
 import type {
@@ -46,98 +46,13 @@ export async function createSqliteAdapter(dbPath: string): Promise<SqliteStorage
   return new SqliteStorageAdapter(db, dbPath);
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function parseBundle(raw: string | null): PromptBundle | null {
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw) as PromptBundle;
-  } catch {
-    return null;
-  }
-}
-
-function parseVariables(raw: string | null): string[] {
-  if (!raw) return [];
-  try {
-    return JSON.parse(raw) as string[];
-  } catch {
-    return [];
-  }
-}
-
-type RawRow = Record<string, unknown>;
-
-function mapPrompt(row: RawRow): Prompt & { cloudPromptId: string | null } {
-  return {
-    id: row['id'] as string,
-    name: row['name'] as string,
-    description: (row['description'] as string) ?? null,
-    currentVersionId: (row['current_version_id'] as string) ?? null,
-    cloudPromptId: (row['cloud_prompt_id'] as string) ?? null,
-    createdAt: row['created_at'] as string,
-    updatedAt: row['updated_at'] as string,
-  };
-}
-
-function mapVersion(row: RawRow): Version {
-  return {
-    id: row['id'] as string,
-    promptId: row['prompt_id'] as string,
-    versionNumber: row['version_number'] as number,
-    content: row['content'] as string,
-    bundle: parseBundle(row['bundle'] as string | null),
-    commitMessage: (row['commit_message'] as string) ?? null,
-    variables: parseVariables(row['variables'] as string | null),
-    createdBy: row['created_by'] as string,
-    createdAt: row['created_at'] as string,
-  };
-}
-
-function mapTestCase(row: RawRow): TestCase {
-  return {
-    id: row['id'] as string,
-    promptId: row['prompt_id'] as string,
-    name: row['name'] as string,
-    inputText: row['input_text'] as string,
-    expectedCriteria: row['expected_criteria'] as string,
-    createdAt: row['created_at'] as string,
-  };
-}
-
-function mapTestResult(row: RawRow): TestResult {
-  return {
-    id: row['id'] as string,
-    versionId: row['version_id'] as string,
-    testCaseId: row['test_case_id'] as string,
-    passed: (row['passed'] as number) === 1,
-    actualOutput: row['actual_output'] as string,
-    score: (row['score'] as number) ?? null,
-    runAt: row['run_at'] as string,
-  };
-}
-
-/**
- * Run a SELECT query and return results as an array of objects.
- * sql.js returns column-oriented data; this converts to row-oriented.
- */
-function query(db: Database, sql: string, params: SqlValue[] = []): RawRow[] {
-  const stmt = db.prepare(sql);
-  stmt.bind(params);
-
-  const rows: RawRow[] = [];
-  while (stmt.step()) {
-    const columns = stmt.getColumnNames();
-    const values = stmt.get();
-    const row: RawRow = {};
-    for (let i = 0; i < columns.length; i++) {
-      row[columns[i]] = values[i];
-    }
-    rows.push(row);
-  }
-  stmt.free();
-  return rows;
-}
+import {
+  query,
+  mapPrompt,
+  mapVersion,
+  mapTestCase,
+  mapTestResult,
+} from './mappers.js';
 
 // ─── SQLite Adapter ──────────────────────────────────────────────────────────
 

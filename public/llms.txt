@@ -41,27 +41,30 @@ Install or run directly via npm/npx:
 # Initialize a Git for Prompts workspace in the current directory
 npx gitforprompts init
 
-# View status of local prompt bundles
-npx gitforprompts status
+# List local prompt repositories
+npx gitforprompts list
 
-# Run local evaluation test suite
-npx gitforprompts run test-suite --all
+# Create or update a prompt version locally
+npx gitforprompts add <prompt-name> "Prompt content" -m "commit message"
 
-# Compare two versions of a prompt bundle
-npx gitforprompts diff <prompt-id> v1 v2
+# Run local evaluations for a prompt
+npx gitforprompts run <prompt-name>
+
+# Compare two versions of a prompt
+npx gitforprompts diff <prompt-name> 1 2
 
 # Sync local snapshots to Git for Prompts cloud
-npx gitforprompts push
+npx gitforprompts push <prompt-name>
 ```
 
 ## REST API Reference
 
 All API routes are served over HTTPS under `/api/v1`. Authenticate requests with header `Authorization: Bearer <gfp_api_key>`.
 
-- `GET /api/v1/prompts` - List all prompts accessible to the authenticated user.
+- `GET /api/v1/prompts?name=<name>` - Resolve prompt repository ID by unique name.
 - `GET /api/v1/prompts/:id/latest` - Fetch the latest active version snapshot of a prompt bundle.
-- `GET /api/v1/prompts/:id/versions` - List full immutable version history of a prompt bundle.
-- `POST /api/v1/prompts` - Create a new prompt repository.
+- `POST /api/v1/prompts/:id/versions` - Push and commit an immutable new version snapshot.
+- `POST /api/v1/prompts` - Create a new prompt repository with `{ name, description }`.
 
 ## Model Context Protocol (MCP) Tools
 

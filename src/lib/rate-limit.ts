@@ -105,7 +105,6 @@ export function getRateLimitHeaders(result: RateLimitResult): Record<string, str
     'RateLimit-Limit': String(result.limit),
     'RateLimit-Remaining': String(result.remaining),
     'RateLimit-Reset': String(result.reset),
-    'Sunset': 'Wed, 01 Sep 2027 00:00:00 GMT',
   };
   if (!result.success) {
     headers['Retry-After'] = String(Math.max(1, result.reset - nowSeconds));

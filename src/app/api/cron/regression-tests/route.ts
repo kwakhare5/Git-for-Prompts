@@ -19,6 +19,10 @@ import { fireWebhooks } from '@/lib/webhooks';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // 5-minute Vercel function timeout
 
+export async function GET(req: NextRequest) {
+  return POST(req);
+}
+
 export async function POST(req: NextRequest) {
   // Auth — bearer token validation against CRON_SECRET
   const cronSecret = process.env.CRON_SECRET;

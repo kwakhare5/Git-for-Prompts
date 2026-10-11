@@ -5,17 +5,7 @@ export function handleActionError(err: unknown, defaultMessage: string): never {
     throw new Error(err.issues[0]?.message ?? defaultMessage);
   }
   if (err instanceof Error) {
-    if (
-      err.message === 'Unauthorized' ||
-      err.message.includes('not found') ||
-      err.message.includes('access denied') ||
-      err.message.includes('Rate limit') ||
-      err.message.includes('does not belong')
-    ) {
-      throw err;
-    }
-    console.error(`[Action Error] ${defaultMessage}:`, err);
-    throw new Error(err.message || defaultMessage);
+    throw err;
   }
   throw new Error(defaultMessage);
 }

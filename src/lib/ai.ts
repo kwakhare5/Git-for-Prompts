@@ -1,61 +1,20 @@
 import { z } from 'zod';
+import {
+  extractJson,
+  runWithConcurrency,
+  GROQ_URL,
+  OPENROUTER_URL,
+  DEFAULT_GROQ_EXECUTION_MODEL,
+  DEFAULT_GROQ_EVALUATION_MODEL,
+  DEFAULT_OPENROUTER_EXECUTION_MODEL,
+  DEFAULT_OPENROUTER_EVALUATION_MODEL,
+  OPENROUTER_FALLBACK_EXECUTION_MODELS,
+  OPENROUTER_FALLBACK_EVALUATION_MODELS,
+  DEFAULT_AI_TIMEOUT_MS,
+  DEFAULT_MAX_CONCURRENT_TESTS,
+} from '@gfp/core';
 
-/**
- * Robustly extracts the first complete JSON object from a string.
- *
- * Replaces the old `indexOf('{')` / `lastIndexOf('}')` approach, which
- * silently grabs the WRONG closing brace whenever:
- *   - the model appends any explanation after the JSON that happens to
- *     contain a '}' (e.g. a trailing aside, a smiley ":}", a second example)
- *   - the JSON contains a string value with an unbalanced-looking brace
- *   - the model emits more than one JSON-like fragment in the same reply
- *
- * This version walks the string once, tracks brace depth, and is
- * string/escape-aware so braces inside quoted values never affect depth.
- * It returns the first syntactically-balanced object starting at the
- * first '{', which is what `JSON.parse` can then safely consume.
- */
-export function extractJson(text: string): unknown {
-  const start = text.indexOf('{');
-  if (start === -1) {
-    throw new SyntaxError('No JSON object found in response');
-  }
-
-  let depth = 0;
-  let inString = false;
-  let escaped = false;
-
-  for (let i = start; i < text.length; i++) {
-    const char = text[i];
-
-    if (inString) {
-      if (escaped) {
-        escaped = false;
-      } else if (char === '\\') {
-        escaped = true;
-      } else if (char === '"') {
-        inString = false;
-      }
-      continue;
-    }
-
-    if (char === '"') {
-      inString = true;
-      continue;
-    }
-
-    if (char === '{') depth++;
-    if (char === '}') {
-      depth--;
-      if (depth === 0) {
-        const candidate = text.slice(start, i + 1);
-        return JSON.parse(candidate);
-      }
-    }
-  }
-
-  throw new SyntaxError('No JSON object found in response');
-}
+export { extractJson, runWithConcurrency };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -80,19 +39,6 @@ const evaluationResultSchema = z.object({
   reason: z.string(),
 });
 
-import {
-  GROQ_URL,
-  OPENROUTER_URL,
-  DEFAULT_GROQ_EXECUTION_MODEL,
-  DEFAULT_GROQ_EVALUATION_MODEL,
-  DEFAULT_OPENROUTER_EXECUTION_MODEL,
-  DEFAULT_OPENROUTER_EVALUATION_MODEL,
-  OPENROUTER_FALLBACK_EXECUTION_MODELS,
-  OPENROUTER_FALLBACK_EVALUATION_MODELS,
-  DEFAULT_AI_TIMEOUT_MS,
-  DEFAULT_MAX_CONCURRENT_TESTS,
-} from '@gfp/core';
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Configuration — centralized defaults overridden via process.env
 // ─────────────────────────────────────────────────────────────────────────────
@@ -106,28 +52,6 @@ type AIPurpose = 'execution' | 'evaluation';
 
 const AI_TIMEOUT_MS = DEFAULT_AI_TIMEOUT_MS;
 const MAX_CONCURRENT_TESTS = DEFAULT_MAX_CONCURRENT_TESTS;
-
-/**
- * Simple concurrency limiter.
- */
-export async function runWithConcurrency<T>(
-  tasks: (() => Promise<T>)[],
-  limit: number
-): Promise<T[]> {
-  const results: T[] = new Array(tasks.length);
-  let nextIndex = 0;
-
-  async function worker() {
-    while (nextIndex < tasks.length) {
-      const i = nextIndex++;
-      results[i] = await tasks[i]();
-    }
-  }
-
-  const workers = Array.from({ length: Math.min(limit, tasks.length) }, () => worker());
-  await Promise.all(workers);
-  return results;
-}
 
 /**
  * Core fetch wrapper with resilient fallback logic:

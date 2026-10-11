@@ -1,6 +1,6 @@
 # Global Port Sanitization Protocol
 # Scans and kills processes on common project ports
-$ports = @(3000, 3001, 8765, 8000, 5173)
+$ports = @(3000, 3001)
 
 Write-Host ">>> Port Sanitization Protocol Initiated..." -ForegroundColor Cyan
 

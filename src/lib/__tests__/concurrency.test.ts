@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 import { db } from '@/db';
 import { prompts, versions } from '@/db/schema';
 import { insertNextVersion } from '@/lib/actions/versions';
 import { eq, count } from 'drizzle-orm';
 
-const hasRealDb = Boolean(process.env.DATABASE_URL);
-
-describe.skipIf(!hasRealDb)('Real PostgreSQL Concurrency & Advisory Lock Suite', () => {
+describe('Real PostgreSQL Concurrency & Advisory Lock Suite', () => {
   it('handles 10, 50, and 100 concurrent version saves without version collisions or lost writes', async () => {
     // 1. Create a test prompt for concurrency testing
     const [testPrompt] = await db

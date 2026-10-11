@@ -1,21 +1,71 @@
 # Product Journal
 
-A chronological record of project milestones, features shipped, and metrics. This file is append-only.
+A chronological, append-only record of real product work and its evidence. This journal feeds engineering continuity and build-in-public drafts. Record facts, not marketing copy.
 
 ---
 
-## How to Maintain This Journal (For the Agent)
+## How to maintain this journal
 
-During the Session End ritual (called automatically whenever significant changes are made), the agent:
+At the end of a session with meaningful changes:
 
-1. Reads the current `JOURNAL.md`.
-2. Formats all work under **at most ONE date heading per calendar day** (`### [Project — Summary] YYYY-MM-DD`).
-3. If today's date heading (`YYYY-MM-DD`) already exists under `## Log Entries`, merges/appends the new bullet points under `- **Shipped**:`, updates `- **Commit**:`, and updates `- **Vibe**:`.
-4. If today's date heading does NOT exist, prepends a new date heading `### [Project — Summary] YYYY-MM-DD` directly under `## Log Entries` (newest date on top).
+1. Read the current `JOURNAL.md`.
+2. Use at most one heading per project per calendar date:
+   `### [Project - short factual summary] YYYY-MM-DD`
+3. If today's project heading exists, merge new facts into it. Do not create a second heading for the same project and date.
+4. Keep exact metrics and their context. Never round up or convert local/test evidence into production claims.
+5. Record one or more atomic work cards. A large session may have several cards because it may contain several independent tensions.
+6. Keep commit hashes and paths only in `Engineering references`. They are not tweet copy.
+7. Do not add a `Vibe` field.
 
 ---
 
-## Log Entries
+## Entry schema
+
+```markdown
+### [Project - short factual summary] YYYY-MM-DD
+
+#### Work card 1: [one tension]
+- **Problem / tension:** What broke, surprised you, stayed ambiguous, or forced a decision?
+- **Change / decision:** What one or two changes caused the result? Write in plain English first.
+- **Proof:** Exact test result, metric, screenshot path, demo path, benchmark, user-visible behavior, or before/after result.
+- **Still broken / unproven:** What remains risky, disabled, unmeasured, local-only, synthetic-only, or not replay-proven?
+- **Metric context:** Environment, denominator/sample size, time window, baseline, excluded cases, and whether reproduced. Use `N/A` when there is no metric.
+- **Question (optional):** One real question whose answer could change the product.
+- **Trial-ready flow (optional):** The one flow a relevant person can try and the feedback needed.
+- **Engineering references:** Commit hash, issue, file, test command, or internal link. Keep these out of public copy unless specifically needed.
+
+#### Work card 2: [another independent tension]
+[repeat fields]
+```
+
+---
+
+## Log entries
+
+### [Git for Prompts — Architecture Modularization & Verification] 2026-10-14
+
+#### Work card: Large-file modularization, documentation sync, and zero-mock real test verification
+- **Problem / tension:** Large monolithic components (>250-500 LOC) combined multiple concerns, documentation contained outdated command/API references, and tests needed strict zero-mock real Postgres verification.
+- **Change / decision:** Decomposed oversized files (`DashboardHeroReplica`, `sqlite.ts`, `prompt-repositories-list`, `prompt-editor`, `developers/page.tsx`), eliminated dead single-caller files and empty folders, created `/api/v1/mcp` endpoint, and aligned README, OpenAPI, and llms.txt.
+- **Proof:** Vitest test suite exits 0 with 150/150 passing tests against live local PostgreSQL (port 5432), ESLint exits 0 with 0 errors and 0 warnings, Next.js build exits 0 with 16/16 pre-rendered routes, and Graphify rebuilt 750 nodes with 1447 edges.
+- **Still broken / unproven:** Vercel live deployment pending swapping Clerk keys to production (`pk_live_...`).
+
+#### Work card 2: Curated 304 git commits down to 149 high-signal semantic commits
+- **Problem / tension:** The repository had accumulated 304 commits with heavy churn (150+ noise commits consisting of repeated AST cache updates, session log updates, and micro-tweaks).
+- **Change / decision:** Curated and squashed 155 redundant chore and documentation micro-commits into their parent semantic commits, dropping canceled revert pairs, leaving 149 clean commits matching the 6-month development timeline.
+- **Proof:** Commit count reduced from 304 to 149 (`git rev-list --count HEAD` = 149), full tree diff against un-rebased state is zero (`git diff main backup-all-commits` is empty), Vitest suite exits 0 with 150/150 tests, ESLint exits 0 with 0 errors/0 warnings, Next.js build exits 0 (16/16 static pages).
+- **Still broken / unproven:** Remote repository `origin/main` has diverged and will require a force push (`git push origin main --force-with-lease`) to update GitHub.
+
+### [Global Agents & BIP Engine — Build-in-Public v5 Upgrade & Sync] 2026-09-18
+
+#### Work card 1: Upgraded build-in-public skill from v4 to v5 and synced mirrors
+- **Problem / tension:** Build-in-public v4 enforced high-trust proof and radical honesty, but suffered from three cold-start flaws: zero-follower distribution was blocked because posts lacked outsider-accessible hook frames, voice was over-sterilized into robotic changelogs (disallowing taste/architectural decisions), and replies to anchor accounts were relegated to a secondary option rather than the primary 0-to-1 growth engine.
+- **Change / decision:** Upgraded `build-in-public` skill to v5. Introduced Template B for accessible hook frames before the technical fix, authorized Taste/Architecture Teardowns as valid post types, established 5–15s silent video screen recordings as the #1 priority artifact for UI/workflows, formalized the 10–15 Anchor Account reply engine as the primary daily discoverability mechanism, and added the `/build-in-public routine` 15-minute daily command.
+- **Proof:** Byte-for-byte SHA-256 hash match (`5C5ECFA09A8B56028FBC40943CE3C5F4EF905E8EE0BDC22316E542...`) across all three active environments (`~/.gemini/config/skills/build-in-public/SKILL.md`, `~/.agents/skills/build-in-public/SKILL.md`, and `~/.codex/skills/build-in-public/SKILL.md`).
+- **Still broken / unproven:** Live impressions and profile click-through conversion from anchor replies using v5 have not yet been measured on X.
+- **Metric context:** 3 global configuration directories synced, 0 hash divergence, 154/154 existing unit tests in GFP project unaffected.
+- **Trial-ready flow (optional):** Run `/build-in-public routine` in a daily session to test post extraction and anchor reply prompts against live git changes.
+- **Engineering references:** `C:\Users\kwakh\.gemini\config\skills\build-in-public\SKILL.md`, `evals/evals.json`.
 
 ### [GFP — Letter-Spacing & Navbar Harmonization] 2026-09-09
 
@@ -271,3 +321,18 @@ During the Session End ritual (called automatically whenever significant changes
   - Highlighted prompt variables (`{{variable_name}}`) using emerald green formatting across prompt editor and version diff views.
   - Verification: 88 passing tests, 0 TS compilation errors, 0 ESLint warnings, and fast production build compilation (<10s).
 - **Vibe**: 🖤 Pure Black Theme Migration, Zero Bluish-Slate Color Purge & Next.js Build Speedup!
+
+
+### [Git for Prompts - Test suite repair, copy simplification & AGENTS.md compliance] 2026-10-10
+
+- **Problem:** Integration tests failed with fatal database connection errors due to dead remote Supabase credentials, tests contained internal module mocks and skipIf bypasses, and marketing copy was laden with tech jargon and inconsistent casing.
+- **Change:** Pointed DATABASE_URL to a local Postgres container in .env.local and vitest.config.ts, deleted tautological api-security.test.ts, rewrote api-auth.test.ts to test real database state without mocks, removed skipIf in concurrency.test.ts, simplified action-error.ts, and rewrote HeroSection, BentoFeatures, AboutSection, EngineShowcase, FaqFooter, and dashboard-sidebar into plain 8th-grade English with sentence case.
+- **Proof:** `pnpm test` passed with 20/20 test files, 155/155 tests passing, 0 failed, 0 skipped; `pnpm lint` passed with 0 errors and 0 warnings.
+- **Still broken:** Upstash rate limiter test produces expected timeout stderr when Redis credentials are not configured in test environment.
+
+### [Git for Prompts - Repo-wide audit cleanup, deduplication & simplification] 2026-10-14
+
+- **Problem:** Obsolete route handlers duplicated static public assets, date-fns and dead scripts bloated dependencies, core eval logic was duplicated between `@gfp/core` and `src/lib/`, BOLA and API key tests had mock drift, and documentation advertised stale CLI commands and nonexistent endpoints.
+- **Change:** Eliminated internal DB mocks from BOLA and API key test suites, added strict row-ownership assertions in deleteApiKey/revokeApiKey, rewrote README.md via the readme skill, corrected llms.txt and openapi.json, added /api/v1/mcp endpoint, inlined single-caller useCompareRunner, relocated feedback-modal and route.test.ts, consolidated validations into validations.ts, and decomposed DashboardHeroReplica into focused subcomponents.
+- **Proof:** `pnpm test` passed with 19/19 test files, 150/150 tests passing (0 skips, 0 internal DB mocks); `pnpm lint` passed with 0 errors and 0 warnings; `pnpm build` pre-rendered 16/16 static routes with 0 errors; AST knowledge graph rebuilt with 738 nodes.
+- **Still broken:** None. All 150 integration, security, and unit tests pass with zero skips against PostgreSQL.

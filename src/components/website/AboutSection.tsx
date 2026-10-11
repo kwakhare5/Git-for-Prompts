@@ -9,29 +9,29 @@ export function AboutSection() {
   const principles = [
     {
       number: '01',
-      title: 'Local-First Engineering',
-      desc: 'Developers should never be blocked by network connectivity or cloud outages. The CLI operates on a local SQLite database directly inside your project (.gitforprompts/). Create prompts, commit snapshots, and run evals completely offline.',
+      title: 'Local-first workflow',
+      desc: 'You never need an internet connection. The CLI saves prompts in a local SQLite database inside your project (.gitforprompts/). Create prompts, save versions, and run tests completely offline.',
       icon: Database,
       accent: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20',
     },
     {
       number: '02',
-      title: 'Transactional Concurrency',
-      desc: 'When syncing prompt versions across teams, cloud mutations use database transaction locks to guarantee version numbers never collide or overwrite existing history.',
+      title: 'Safe version history',
+      desc: 'When syncing prompt versions across a team, database locks ensure version numbers never collide or overwrite someone else work.',
       icon: Terminal,
       accent: 'text-blue-300 bg-blue-500/10 border-blue-500/20',
     },
     {
       number: '03',
-      title: 'Zero Key Custody',
-      desc: 'Your LLM API keys belong to you. Local evaluations run using your workstation environment variables. Cloud API credentials are stored solely as non-reversible SHA-256 hashes for authenticated delivery.',
+      title: 'Your keys stay private',
+      desc: 'We never store your AI API keys. Tests run using your own local environment variables, so your secrets never leave your machine.',
       icon: ShieldCheck,
       accent: 'text-amber-300 bg-amber-500/10 border-amber-500/20',
     },
     {
       number: '04',
-      title: 'Autonomous Agent Readiness',
-      desc: 'Engineered for human developers and autonomous coding agents. Features full support for the Model Context Protocol (MCP), structured schemas, and standard llms.txt endpoints.',
+      title: 'Built for developers and AI agents',
+      desc: 'Built for both human developers and AI coding assistants. Supports clean schemas, standard API endpoints, and direct CLI commands.',
       icon: Bot,
       accent: 'text-purple-300 bg-purple-500/10 border-purple-500/20',
     },
@@ -42,13 +42,13 @@ export function AboutSection() {
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
         <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-emerald-300 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 uppercase inline-block mb-3 sm:mb-4">
-          ABOUT GIT FOR PROMPTS
+          About Git for Prompts
         </span>
         <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
           Version control built for AI engineering
         </h2>
         <p className="text-zinc-400 text-xs sm:text-base leading-relaxed font-sans">
-          Prompts govern production application behavior, but teams still manage them as raw strings scattered across codebases. Git for Prompts brings the discipline of code versioning to AI prompts: immutable commits, visual diffs, automated regression tests, and zero-lockin local storage.
+          Prompts control how AI apps behave, but most teams still keep them scattered across code files. Git for Prompts brings git-like version control to your prompts: clean version history, side-by-side diffs, automated testing, and local storage.
         </p>
       </div>
 
@@ -86,7 +86,7 @@ export function AboutSection() {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="text-[11px] font-mono font-bold tracking-wider text-emerald-300 uppercase">
-              100% OPEN SOURCE &bull; MIT LICENSE
+              100% open source &bull; MIT license
             </span>
           </div>
           <p className="text-zinc-300 text-xs sm:text-sm font-sans">

@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DeveloperFooter } from '@/components/website/DeveloperFooter';
+import { EndpointsSection } from './endpoints-section';
 import { Terminal, Shield, Cpu, Key, ExternalLink, RefreshCw, BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -79,13 +80,13 @@ export default function DevelopersPage() {
               <div className="text-zinc-500"># 1. Initialize local repository in your current directory</div>
               <div className="text-emerald-400 font-bold">$ npx gitforprompts init</div>
               <div className="text-zinc-500 pt-2"># 2. Stage and commit a prompt bundle locally</div>
-              <div>$ npx gitforprompts commit -m &quot;Refactor system prompt to enforce strict JSON output&quot;</div>
-              <div className="text-zinc-500 pt-2"># 3. View visual diff between two commits or against HEAD</div>
-              <div>$ npx gitforprompts diff HEAD~1</div>
+              <div>$ npx gitforprompts add customer-support &quot;You are a support agent&quot; -m &quot;Enforce strict JSON output&quot;</div>
+              <div className="text-zinc-500 pt-2"># 3. View visual diff between two versions</div>
+              <div>$ npx gitforprompts diff customer-support 1 2</div>
               <div className="text-zinc-500 pt-2"># 4. Push local changes to cloud repository</div>
-              <div>$ npx gitforprompts push &lt;promptId&gt; prompt.bundle.json</div>
+              <div>$ npx gitforprompts push customer-support</div>
               <div className="text-zinc-500 pt-2"># 5. Pull latest cloud snapshot into your local workspace</div>
-              <div>$ npx gitforprompts pull &lt;promptId&gt;</div>
+              <div>$ npx gitforprompts pull customer-support</div>
             </div>
           </section>
 
@@ -118,54 +119,7 @@ export default function DevelopersPage() {
           </section>
 
           {/* REST API Endpoints */}
-          <section className="space-y-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-zinc-100 font-mono flex items-center gap-2">
-              <Cpu className="w-5 h-5 text-blue-400" strokeWidth={1.5} />
-              <span>3. REST API Endpoints</span>
-            </h2>
-
-            {/* GET /api/v1/prompts */}
-            <div className="p-5 rounded-2xl bg-bg-card border border-zinc-800/90 space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">GET</span>
-                <code className="text-sm font-mono text-zinc-200">/api/v1/prompts?name=&lt;name&gt;</code>
-              </div>
-              <p className="text-xs sm:text-sm text-zinc-400">
-                Resolve a prompt name to its unique ID for the authenticated key owner.
-              </p>
-              <pre className="bg-zinc-950 p-3 rounded-xl font-mono text-xs text-zinc-300 overflow-x-auto">{`curl -H "Authorization: Bearer $GFP_API_KEY" \\
-  "https://gitforprompts.vercel.app/api/v1/prompts?name=customer-support-agent"`}</pre>
-            </div>
-
-            {/* GET /api/v1/prompts/[id]/latest */}
-            <div className="p-5 rounded-2xl bg-bg-card border border-zinc-800/90 space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">GET</span>
-                <code className="text-sm font-mono text-zinc-200">/api/v1/prompts/:id/latest</code>
-              </div>
-              <p className="text-xs sm:text-sm text-zinc-400">
-                Retrieve the latest active version snapshot with optional runtime variable interpolation via query params (<code className="text-emerald-400 font-mono text-xs">?variables[user_name]=Alice</code>).
-              </p>
-              <pre className="bg-zinc-950 p-3 rounded-xl font-mono text-xs text-zinc-300 overflow-x-auto">{`curl -H "Authorization: Bearer $GFP_API_KEY" \\
-  "https://gitforprompts.vercel.app/api/v1/prompts/pr_abc123/latest?variables[user_name]=Alice"`}</pre>
-            </div>
-
-            {/* POST /api/v1/prompts/[id]/versions */}
-            <div className="p-5 rounded-2xl bg-bg-card border border-zinc-800/90 space-y-3">
-              <div className="flex items-center gap-3">
-                <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">POST</span>
-                <code className="text-sm font-mono text-zinc-200">/api/v1/prompts/:id/versions</code>
-              </div>
-              <p className="text-xs sm:text-sm text-zinc-400">
-                Push a new immutable version snapshot. Protected by advisory transactional database locks to prevent concurrent sequence collisions.
-              </p>
-              <pre className="bg-zinc-950 p-3 rounded-xl font-mono text-xs text-zinc-300 overflow-x-auto">{`curl -X POST \\
-  -H "Authorization: Bearer $GFP_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{"content":"You are a billing specialist...","commitMessage":"Update refund escalation policy"}' \\
-  "https://gitforprompts.vercel.app/api/v1/prompts/pr_abc123/versions"`}</pre>
-            </div>
-          </section>
+          <EndpointsSection />
 
           {/* Rate Limiting & RFC Headers */}
           <section className="space-y-4">

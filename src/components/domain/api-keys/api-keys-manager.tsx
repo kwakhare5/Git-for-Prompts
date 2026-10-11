@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useSyncExternalStore, useTransition } from 'react';
-import { formatDistanceToNow } from 'date-fns';
+import { RelativeTime } from '@/components/layout/relative-time';
 import { generateApiKey, deleteApiKey } from '@/lib/actions/api-keys';
 import { Check, X, Copy } from 'lucide-react';
 
@@ -199,9 +199,9 @@ export function ApiKeysManager({ initialKeys }: Props) {
                     </code>
                   </div>
                   <div className="mt-1 flex items-center gap-3 text-[11px] text-zinc-400">
-                    <span>Created {formatDistanceToNow(new Date(key.createdAt), { addSuffix: true })}</span>
+                    <span>Created <RelativeTime date={key.createdAt} /></span>
                     <span>·</span>
-                    <span>{key.lastUsedAt ? `Last used ${formatDistanceToNow(new Date(key.lastUsedAt), { addSuffix: true })}` : 'Never used'}</span>
+                    <span>{key.lastUsedAt ? <>Last used <RelativeTime date={key.lastUsedAt} /></> : 'Never used'}</span>
                   </div>
                 </div>
 

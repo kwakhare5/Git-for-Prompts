@@ -10,7 +10,7 @@ export function BentoFeatures() {
       <section id="features" className="px-4 sm:px-6 max-w-5xl mx-auto mb-16 sm:mb-28 text-center">
         
         <BadgePastel variant="rose" className="mb-3 sm:mb-4">
-          WHY VERSION CONTROL
+          Why version control
         </BadgePastel>
 
         <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 mb-4 sm:mb-6 font-serif leading-tight [text-wrap:balance]">
@@ -18,7 +18,7 @@ export function BentoFeatures() {
         </h2>
 
         <p className="text-zinc-400 text-xs sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed font-sans">
-          Hardcoded strings cause silent regressions, broken output schemas, and zero rollback history. Git for Prompts gives AI teams commit logs, visual diffs, and regression test suites.
+          When prompts are hardcoded in application files, small edits break formatting with no way to undo bad changes. Git for Prompts gives you clear commit history, side-by-side diffs, and test suites.
         </p>
 
         {/* Problem → Promise Cards */}
@@ -26,23 +26,23 @@ export function BentoFeatures() {
           
           <div className="space-y-3 sm:space-y-4 p-4 sm:p-6 bg-bg-card rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
             <div className="inline-block bg-rose-500/10 border border-rose-500/20 text-rose-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
-              WITHOUT VERSION CONTROL
+              Without version control
             </div>
-            <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono">Hardcoded Strings</h3>
+            <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono">Hardcoded strings</h3>
             <p className="text-xs text-zinc-400 leading-relaxed font-sans">
-              Prompt edits pushed straight to code without isolated evals, schema checks, or rollback points.
+              Prompt edits pushed straight to code without test runs, schema checks, or rollback points.
             </p>
           </div>
 
           <div className="space-y-3 sm:space-y-4 p-4 sm:p-6 bg-bg-card rounded-2xl border border-zinc-800/90 shadow-xl card-interactive">
             <div className="inline-block bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
-              WITH GIT FOR PROMPTS
+              With Git for Prompts
             </div>
             <h3 className="text-base sm:text-lg font-bold text-zinc-100 font-mono flex items-center gap-2">
-              <TerminalIcon className="w-4 h-4 text-emerald-300 shrink-0" /> Versioned Prompt Bundles
+              <TerminalIcon className="w-4 h-4 text-emerald-300 shrink-0" /> Versioned prompts
             </h3>
             <p className="text-xs text-zinc-300 leading-relaxed font-sans">
-              Immutable snapshots bundling your prompt template, model config, and structured output schema in local SQLite.
+              Snapshots saving your prompt template, model choice, and output format in a local SQLite file.
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export function BentoFeatures() {
       {/* 3 Step Workflow */}
       <section id="workflow" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase block mb-2 sm:mb-3">THE WORKFLOW LOOP</span>
+          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase block mb-2 sm:mb-3">The workflow loop</span>
           <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
             A local-first engine for prompt engineering
           </h2>
@@ -96,7 +96,7 @@ export function BentoFeatures() {
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-blue-300 flex items-center gap-1">
-              Local DB Setup →
+              Local setup →
             </span>
           </div>
 
@@ -111,7 +111,7 @@ export function BentoFeatures() {
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-emerald-300 flex items-center gap-1">
-              Run Evals →
+              Run tests →
             </span>
           </div>
 
@@ -126,7 +126,7 @@ export function BentoFeatures() {
               </p>
             </div>
             <span className="text-xs font-mono font-bold text-amber-300 flex items-center gap-1">
-              Cloud Sync →
+              Cloud sync →
             </span>
           </div>
 

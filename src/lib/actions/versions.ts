@@ -185,11 +185,6 @@ export async function restoreVersion(input: unknown) {
       })
     );
 
-    await db
-      .update(prompts)
-      .set({ currentVersionId: restoredVersion.id, updatedAt: new Date() })
-      .where(eq(prompts.id, validated.promptId));
-
     // Fire webhooks after commit — fire-and-forget, never blocks the save
     void fireWebhooks(userId, {
       event: 'version.created',

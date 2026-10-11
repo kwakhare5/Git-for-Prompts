@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { GithubIcon } from './ui-tokens';
 import { DeveloperFooter } from './DeveloperFooter';
 
 export function FaqFooter() {
@@ -85,13 +84,13 @@ export function FaqFooter() {
             Start versioning your prompts locally in seconds
           </h3>
           <p className="text-zinc-400 text-xs max-w-md mx-auto mb-6 sm:mb-8 font-sans leading-relaxed">
-            Run `$ npx gitforprompts init` inside any repository. Immutable history, offline SQLite, zero setup.
+            Run `$ npx gitforprompts init` in your project folder. Complete history, works offline, zero setup.
           </p>
           <Link 
             href="/dashboard"
             className="w-full sm:w-auto inline-flex items-center justify-center bg-zinc-100 hover:bg-white text-zinc-950 text-xs font-bold font-mono px-6 py-3 rounded-xl btn-interactive"
           >
-            Get Started Free →
+            Get started free →
           </Link>
         </div>
       </section>

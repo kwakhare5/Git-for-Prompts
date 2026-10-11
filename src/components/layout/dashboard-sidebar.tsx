@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton } from '@clerk/nextjs';
-import { FeedbackModal } from '@/components/dashboard/feedback-modal';
+import { FeedbackModal } from './feedback-modal';
 import { BadgeVersion, Tooltip } from '@/components/website/ui-tokens';
 import {
   Home,
@@ -34,10 +34,10 @@ export function DashboardSidebar({ prompts = [] }: DashboardSidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const navItems = [
-    { label: 'Home Page', href: '/', icon: Home },
+    { label: 'Home', href: '/', icon: Home },
     { label: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-    { label: 'Create Prompt', href: '/dashboard/new', icon: PlusCircle },
-    { label: 'API Credentials', href: '/dashboard/api-keys', icon: Key },
+    { label: 'Create prompt', href: '/dashboard/new', icon: PlusCircle },
+    { label: 'API keys', href: '/dashboard/api-keys', icon: Key },
     { label: 'Webhooks', href: '/dashboard/webhooks', icon: Webhook },
   ];
 

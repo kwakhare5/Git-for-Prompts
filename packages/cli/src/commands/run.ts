@@ -11,6 +11,8 @@
 import {
   runEvaluations,
   createBundleFromLegacy,
+  GROQ_URL,
+  OPENROUTER_URL,
   type AIProvider,
   type ChatMessage,
   type PromptBundle,
@@ -64,8 +66,8 @@ function createProvider(
 
 const PROVIDER_URLS: Record<string, string> = {
   openai: 'https://api.openai.com/v1/chat/completions',
-  groq: 'https://api.groq.com/openai/v1/chat/completions',
-  openrouter: 'https://openrouter.ai/api/v1/chat/completions',
+  groq: GROQ_URL,
+  openrouter: OPENROUTER_URL,
   ollama: 'http://localhost:11434/v1/chat/completions',
 };
 

@@ -8,12 +8,12 @@ export function EngineShowcase() {
       {/* 4-Grid Engine Section */}
       <section id="engine" className="px-4 sm:px-6 max-w-6xl mx-auto mb-16 sm:mb-28">
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 font-sans">
-          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-2 sm:mb-3">CORE CAPABILITIES</span>
+          <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase block mb-2 sm:mb-3">Core capabilities</span>
           <h2 className="text-2.5xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-zinc-100 font-serif mb-3 sm:mb-4 [text-wrap:balance]">
-            Engineered for developers who ship AI to production
+            Built for developers who ship AI to production
           </h2>
           <p className="text-zinc-400 text-xs sm:text-base font-sans">
-            Version control prompt templates, model parameters, and structured outputs without cloud lock-in.
+            Version control your prompts, model settings, and structured outputs without cloud lock-in.
           </p>
         </div>
 
@@ -23,9 +23,9 @@ export function EngineShowcase() {
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center justify-center font-mono font-bold mb-3 sm:mb-4 text-xs sm:text-base">
               01
             </div>
-            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Immutable Snapshots</h3>
+            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Saved versions</h3>
             <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-sans">
-              Every save creates a new immutable version with full audit history. Roll back instantly or diff changes side-by-side.
+              Every save creates a new version with full change history. Roll back instantly or view changes side-by-side.
             </p>
           </div>
 
@@ -33,9 +33,9 @@ export function EngineShowcase() {
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 text-blue-300 border border-blue-500/20 flex items-center justify-center font-mono font-bold mb-3 sm:mb-4 text-xs sm:text-base">
               02
             </div>
-            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Offline SQLite Engine</h3>
+            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Offline SQLite storage</h3>
             <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-sans">
-              The CLI runs completely offline in your terminal using local SQLite. Zero external servers required.
+              The CLI runs completely offline in your terminal using local SQLite. No cloud account required.
             </p>
           </div>
 
@@ -43,9 +43,9 @@ export function EngineShowcase() {
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/20 flex items-center justify-center font-mono font-bold mb-3 sm:mb-4 text-xs sm:text-base">
               03
             </div>
-            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Prompt Bundle Specification</h3>
+            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Everything versioned together</h3>
             <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-sans">
-              Keep system prompts, templates, model parameters, tools, and structured response schemas versioned together.
+              Keep your system prompt, model settings, and response schemas saved together in one place.
             </p>
           </div>
 
@@ -53,9 +53,9 @@ export function EngineShowcase() {
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-purple-500/10 text-purple-300 border border-purple-500/20 flex items-center justify-center font-mono font-bold mb-3 sm:mb-4 text-xs sm:text-base">
               04
             </div>
-            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Authenticated Team Sync</h3>
+            <h3 className="text-base sm:text-xl font-bold text-zinc-100 mb-1.5 sm:mb-2 font-mono">Secure team sync</h3>
             <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed font-sans">
-              Push prompt versions to the web dashboard and serve them to your apps using SHA-256 hashed API keys.
+              Push prompt versions to the web dashboard and serve them to your apps using secure API keys.
             </p>
           </div>
 
