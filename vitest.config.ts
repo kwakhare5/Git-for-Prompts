@@ -13,6 +13,11 @@ export default defineConfig({
     sequence: {
       concurrent: false,
     },
+    env: {
+      DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/git_for_prompts',
+      OPENROUTER_API_KEY: 'test-mock-openrouter-key',
+      GROQ_API_KEY: 'test-mock-groq-key',
+    },
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'packages/**/*.test.ts'],
   },
   resolve: {

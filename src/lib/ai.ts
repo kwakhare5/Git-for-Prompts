@@ -75,8 +75,12 @@ async function callAI(
     }
   }
 
-  // 2. Try OpenRouter with model fallback chain
-  if (process.env.OPENROUTER_API_KEY) {
+  // 2. Try OpenRouter with model fallback chain (or test-mode mock dispatch)
+  const openrouterKey =
+    process.env.OPENROUTER_API_KEY ||
+    (process.env.NODE_ENV === 'test' ? 'test-mock-openrouter-key' : undefined);
+
+  if (openrouterKey) {
     const fallbackList =
       purpose === 'evaluation'
         ? [OPENROUTER_EVALUATION_MODEL, ...OPENROUTER_FALLBACK_EVALUATION_MODELS.filter((m) => m !== OPENROUTER_EVALUATION_MODEL)]
@@ -86,7 +90,7 @@ async function callAI(
 
     for (const model of fallbackList) {
       try {
-        return await fetchWithTimeout(OPENROUTER_URL, process.env.OPENROUTER_API_KEY, model, messages, jsonMode);
+        return await fetchWithTimeout(OPENROUTER_URL, openrouterKey, model, messages, jsonMode);
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : String(err);
         lastError = err instanceof Error ? err : new Error(errorMsg);
