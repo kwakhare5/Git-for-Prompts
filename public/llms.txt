@@ -27,7 +27,7 @@ Do NOT use Git for Prompts as a general-purpose git wrapper for code or binary a
 
 - [Official Documentation](https://gitforprompts.vercel.app): Primary documentation and workspace studio.
 - [Developer Portal & API Reference](https://gitforprompts.vercel.app/developers): Complete developer reference, CLI manual, RFC rate limiting, and Cursor/Claude Desktop MCP configuration.
-- [GitHub Repository](https://github.com/kwakhare5/Git-for-Prompts): 100% open-source codebase (Next.js 16, TypeScript, Drizzle ORM).
+- [GitHub Repository](https://github.com/kwakhare5/git-for-prompts): 100% open-source codebase (Next.js 16, TypeScript, Drizzle ORM).
 - [About Git for Prompts](https://gitforprompts.vercel.app/about): Architecture principles and team background.
 - [Contact & Support](https://gitforprompts.vercel.app/contact): Support channels, issue tracker, and contact information.
 - [Privacy Policy](https://gitforprompts.vercel.app/privacy): Security policy, data retention, and zero-key storage commitment.
@@ -72,4 +72,4 @@ Autonomous agents can invoke Git for Prompts via MCP:
 - `gfp_list_prompts`: Query available prompt repositories.
 - `gfp_get_prompt_version`: Fetch system prompt, user template, and model parameters for a specific version.
 - `gfp_run_test_suite`: Execute evals and return pass/fail assertion metrics.
-- `gfp_save_version`: Commit a new immutable version snapshot.
+- `gfp_create_prompt`: Create a new prompt repository with system prompt, user template, and model configuration.

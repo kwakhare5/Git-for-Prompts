@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Model Context Protocol server for Git for Prompts version control, diffing, and evaluation studio.",
   "homepage": "https://gitforprompts.vercel.app",
-  "repository": "https://github.com/kwakhare5/Git-for-Prompts",
+  "repository": "https://github.com/kwakhare5/git-for-prompts",
   "transport": {
     "type": "http",
     "endpoint": "https://gitforprompts.vercel.app/api/v1/mcp"

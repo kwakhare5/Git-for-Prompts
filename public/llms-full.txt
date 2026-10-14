@@ -105,7 +105,7 @@ Resolve prompt repository ID by unique name for the authenticated user.
 
 #### `GET /api/v1/prompts/:id/latest`
 Fetch the active version snapshot and bundle for a prompt repository.
-- Query parameters: optional variable substitution (e.g. `?codeSnippet=print(1)`).
+- Query parameters: optional variable substitution (e.g. `?variables[codeSnippet]=print(1)`).
 - Response: `200 OK`
 ```json
 {
@@ -167,4 +167,4 @@ Supported Tools:
 - `gfp_list_prompts`: Returns array of prompt summaries.
 - `gfp_get_prompt_version`: Returns complete prompt bundle for a given version.
 - `gfp_run_test_suite`: Runs local or remote test cases against specified models.
-- `gfp_save_version`: Commits a prompt snapshot.
+- `gfp_create_prompt`: Create a new prompt repository with system prompt, user template, and model configuration.

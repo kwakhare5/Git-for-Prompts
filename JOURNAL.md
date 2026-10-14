@@ -62,6 +62,12 @@ At the end of a session with meaningful changes:
 - **Proof:** `pnpm test` passes 150/150 with zero skips even when `.env.local` is completely removed, `pnpm lint` exits 0 (0 warnings), Next.js build exits 0 (16/16 static pages), and logo renders in README.
 - **Still broken / unproven:** None. Ready for green CI execution on GitHub.
 
+#### Work card 4: Repository documentation sync, Remotion skills purge, and architecture alignment
+- **Problem / tension:** Stale dated graph snapshots, leftover caches, and 283 irrelevant Remotion skills in `.agents/skills/` cluttered the repository and lockfile, while docs needed synchronization with actual code.
+- **Change / decision:** Retained `launch-video/` intact per user instruction; purged all 13 Remotion skills from `.agents/skills/` (283 files), pruned `skills-lock.json` down to 8 active UI skills, purged 6 dated snapshot directories in `graphify-out/`, updated `ARCHITECTURE.md` (full monorepo file tree, 16 static routes + 9 API route count, circular FK, SHA-256 API key invariants, and 6 recent ADRs up to 2026-10-14), synchronized `README.md`, `.agents/AGENTS.md`, and static files (`public/llms.txt`, `public/llms-full.txt`, `public/.well-known/mcp.json`, `public/openapi.json`), created `packages/core/README.md`, and added `graphify-out/20*` and `!.env.example` to `.gitignore`.
+- **Proof:** `pnpm test` passes 150/150 across 19 suites with 0 skips, `pnpm lint` exits 0 with 0 errors/0 warnings, `graphify update .` cleanly updated 764 AST nodes with 1460 edges across 54 communities, and Vercel preview builds were safely pruned.
+- **Still broken / unproven:** None. Workspace is clean and verified.
+
 ### [Global Agents & BIP Engine — Build-in-Public v5 Upgrade & Sync] 2026-09-18
 
 #### Work card 1: Upgraded build-in-public skill from v4 to v5 and synced mirrors
