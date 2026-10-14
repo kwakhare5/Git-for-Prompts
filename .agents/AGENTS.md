@@ -28,13 +28,12 @@ pnpm build           # Build @gfp/core and Next.js app
 pnpm test            # Run Vitest test suite
 pnpm test:unit       # Fast zero-network unit & security test suite
 pnpm lint            # Run ESLint validation
-pnpm run save        # Run checkpoint script
 ```
 
 ---
 
 ## 4. LOCAL RULES & DESIGN INVARIANTS
-1. **Graphify First:** `graphify-out/graph.json` exists with 828 AST nodes. Always inspect `GRAPH_REPORT.md` / `graph.json` before raw grepping.
+1. **Graphify First:** `graphify-out/graph.json` exists with 764 AST nodes (1460 edges). Always inspect `GRAPH_REPORT.md` / `graph.json` before raw grepping.
 2. **Strict SSRF & Auth Guards:** All prompt test execution must route through SSRF guards in `src/lib/security/ssrf.ts` and auth checks in `src/lib/api-auth.ts`.
 3. **Monaco Editor Theme Sync:** Monaco editor tokens must sync with `globals.css` and `DESIGN.md`.
 4. **Zero AI Slop:** High contrast typography, calibrated Lucide icons (`strokeWidth={1.5}`), clean double-bezel card borders.
@@ -59,8 +58,8 @@ pnpm run save        # Run checkpoint script
 ---
 
 ## 7. SESSION RESUME
-**Last session date:** 2026-09-09
-- **Current State:** Completed comprehensive codebase consistency overhaul (P0–P3), typography harmonization, layout standardization, and AI slop purge (`no-ai-slop`, `better-layout`, `better-typography`, `better-writing`, `better-ui`). Configured Instrument Serif headings to `font-semibold` (weight 600) with normal letter-spacing, and integrated a responsive `<AboutSection id="about" />` on the homepage. Updated Navbar navigation order to `Features` (`/#features`) → `Workflow` (`/#workflow`) → `About` (`/#about`) → `FAQ` (`/#faq`) for fluid single-page scrolling. Unified container width across `/about`, `/contact`, and `/privacy` to `max-w-6xl mx-auto px-4 sm:px-6` (matching Navbar margins) and attached modular `<DeveloperFooter />`. Replaced fake testimonial in `EngineShowcase.tsx` with Karan Wakhare creator note, and rewrote `/contact` with real maintainer channels (`kwakhare5@gmail.com` and X `@kwakhare5`). Verified 154/154 passing unit & security tests, 18/18 static pre-rendered routes on Next.js 16 (0 type errors), and updated AST knowledge graph.
+**Last session date:** 2026-10-14
+- **Current State:** Completed comprehensive codebase consistency overhaul (P0–P3), typography harmonization, layout standardization, and AI slop purge (`no-ai-slop`, `better-layout`, `better-typography`, `better-writing`, `better-ui`). Configured Instrument Serif headings to `font-semibold` (weight 600) with normal letter-spacing, and integrated a responsive `<AboutSection id="about" />` on the homepage. Updated Navbar navigation order to `Features` (`/#features`) → `Workflow` (`/#workflow`) → `About` (`/#about`) → `FAQ` (`/#faq`) for fluid single-page scrolling. Unified container width across `/about`, `/contact`, and `/privacy` to `max-w-6xl mx-auto px-4 sm:px-6` (matching Navbar margins) and attached modular `<DeveloperFooter />`. Replaced fake testimonial in `EngineShowcase.tsx` with Karan Wakhare creator note, and rewrote `/contact` with real maintainer channels (`kwakhare5@gmail.com` and X `@kwakhare5`). Curated git history down to 150 semantic commits, established hermetic zero-mock CI testing, and pruned stale deployments. Verified 150/150 passing unit, integration & security tests against real PostgreSQL port 5432, 16 static pre-rendered routes on Next.js 16.3.1 (0 type errors), and updated AST knowledge graph (752 nodes).
 - **Immediate next task:** Deploy to Vercel production (`/deploy`), and verify with `npx is-agentic gitforprompts.vercel.app`.
 - **Open blockers:** Swap Clerk keys in Vercel Dashboard to production instance (`pk_live_...`) for public launch distribution.
 

@@ -13,7 +13,7 @@
   ![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
   ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
   ![Language](https://img.shields.io/badge/Language-TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
-  ![Framework](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)
+  ![Framework](https://img.shields.io/badge/Next.js-16.3.1-black?style=for-the-badge&logo=next.js)
   ![Database](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
   <br/>
@@ -50,7 +50,7 @@ Git for Prompts (`gitforprompts`) treats prompt templates, hyperparameter config
 - **Framework**: Next.js 16.3.1 (Turbopack + App Router) + React 19.2.8 + TypeScript 6.0
 - **Editor & UI**: Monaco Editor (`@monaco-editor/react`) + Tailwind CSS v4 + Lucide Icons
 - **Database & ORM**: PostgreSQL 16 + Drizzle ORM (`drizzle-orm` 0.45.2, `drizzle-kit` 0.31.10)
-- **Local CLI Database**: WebAssembly SQLite (`sql.js` 1.14.1)
+- **Local CLI Database**: WebAssembly SQLite (`sql.js` ^1.14.2)
 - **Authentication**: Clerk (`@clerk/nextjs` 7.7.9)
 - **Rate Limiting**: Upstash Redis (`@upstash/ratelimit`, `@upstash/redis`) with in-memory fallback
 - **Monorepo Architecture**: pnpm workspaces (`@gfp/core` shared domain engine + `gitforprompts` CLI)
@@ -142,8 +142,10 @@ Git-for-Prompts/
 │   ├── core/                        # @gfp/core: Domain bundle types, diff calculation, variable interpolation
 │   └── cli/                         # gitforprompts CLI: sql.js WebAssembly SQLite repository, commands (init, add, run, diff, push, pull)
 ├── src/
-│   ├── app/                         # Next.js App Router
-│   │   ├── (dashboard)/             # Authenticated workspace: prompts, versions, test cases, diff, API keys, webhooks
+│   ├── app/                         # Next.js 16.3.1 App Router (16 static routes + 9 API route handlers)
+│   │   ├── (auth)/                  # Clerk authentication flows (sign-in, sign-up)
+│   │   ├── (dashboard)/             # Authenticated workspace layout
+│   │   │   └── dashboard/           # Studio dashboard: prompt repositories, versions, test runner, diff, API keys, webhooks
 │   │   ├── (landing)/               # High-contrast marketing homepage with real-time prompt editor preview
 │   │   ├── about/, contact/, privacy/ # Static trust anchor pages & security disclosures
 │   │   ├── developers/              # Public API documentation, CLI quickstart, & MCP instructions
@@ -152,14 +154,14 @@ Git-for-Prompts/
 │   │       ├── v1/mcp/              # MCP Server manifest endpoint
 │   │       └── cron/                # Scheduled regression tests handler
 │   ├── components/
-│   │   ├── domain/                  # Studio feature components: prompt-editor, compare-runner, test-runner, api-keys-manager
-│   │   ├── layout/                  # Navbar, developer footer, dashboard sidebar, feedback modal
-│   │   └── website/                 # Landing page sections, hero preview, bento grid, showcase
+│   │   ├── domain/                  # Studio feature components (prompts/, diff/, testing/, dashboard/, api-keys/)
+│   │   ├── layout/                  # Dashboard sidebar, feedback modal, header bars
+│   │   └── website/                 # Landing page sections, Navbar, DeveloperFooter, hero preview, showcase
 │   ├── db/                          # Drizzle ORM schema definitions and PostgreSQL connection client
 │   └── lib/                         # Server actions, authentication guards, SSRF validator, rate limiting
-├── public/                          # Static assets, llms.txt, openapi.json, .well-known/mcp.json
-├── docker-compose.yml               # Production container configuration
-└── vitest.config.ts                 # Vitest test runner configuration
+├── public/                          # Static assets, icon.svg, llms.txt, openapi.json, .well-known/mcp.json
+├── docker-compose.yml               # Local PostgreSQL container configuration
+└── vitest.config.ts                 # Hermetic Vitest test runner configuration (150 passing tests)
 ```
 
 ### Request Lifecycle
@@ -295,12 +297,12 @@ webhooks
 | Command | Action |
 |---|---|
 | `pnpm dev` | Start local Next.js development server with Turbopack |
-| `pnpm build` | Build `@gfp/core`, CLI package, and compile Next.js production build |
+| `pnpm build` | Build `@gfp/core` and compile Next.js production build |
 | `pnpm test` | Run complete Vitest suite (unit, BOLA security, and real DB integration) |
 | `pnpm test:unit` | Run fast zero-network unit tests |
 | `pnpm lint` | Run ESLint validation across the workspace |
 | `pnpm db:push` | Push Drizzle schema changes directly to PostgreSQL |
-| `pnpm db:studio` | Launch Drizzle Studio database viewer in browser |
+| `pnpm kill` | Terminate dangling processes on development ports 3000 and 3001 |
 
 ---
 
@@ -321,14 +323,25 @@ pnpm test -- --watch
 pnpm test src/lib/__tests__/authorization-bola.test.ts
 ```
 
-### Test Organization
+### Test Organization (19 Test Suites, 150 Passing Tests)
 
-- `src/lib/__tests__/authorization-bola.test.ts`: Cross-tenant Broken Object Level Authorization (BOLA) security matrix verifying strict isolation across prompts, versions, API keys, test cases, and webhooks.
-- `src/lib/__tests__/api-auth.test.ts`: SHA-256 API key authentication, scope permissions, and expiration validation against real PostgreSQL tables.
-- `src/lib/__tests__/api-key-lifecycle.test.ts`: Real DB lifecycle testing verifying key generation caps (`MAX_ACTIVE_KEYS_PER_USER = 10`), soft revocation, and `lastUsedAt` throttling.
-- `src/lib/__tests__/database-correctness.test.ts`: PostgreSQL transaction lock verification and prompt bundle JSONB preservation.
-- `src/lib/__tests__/ssrf.test.ts`: SSRF defense testing blocking private IP subnets, loopbacks, AWS/GCP metadata endpoints (`169.254.169.254`), and malformed protocol schemes.
-- `packages/core/src/__tests__/`: Unit tests for bundle schemas, template variable extraction (`{{var}}`), and semantic diff generation.
+- **Security & Authorization**:
+  - `src/lib/__tests__/authorization-bola.test.ts`: Cross-tenant Broken Object Level Authorization (BOLA) security matrix verifying tenant isolation across prompts, versions, API keys, test cases, and webhooks.
+  - `src/lib/__tests__/api-auth.test.ts`: SHA-256 API key authentication, scope permissions, and expiration checks against live PostgreSQL.
+  - `src/lib/__tests__/api-key-lifecycle.test.ts`: Key generation limits (`MAX_ACTIVE_KEYS_PER_USER = 10`), revocation, and `lastUsedAt` write-throttling.
+  - `src/lib/__tests__/ssrf.test.ts`: SSRF defense testing blocking private RFC1918 subnets, loopbacks, AWS/GCP metadata (`169.254.169.254`), and non-HTTP schemes.
+  - `src/lib/__tests__/rate-limit.test.ts`: Upstash Redis rate limiting and in-memory fallback guards.
+- **Database & Server Actions**:
+  - `src/lib/__tests__/actions.test.ts`: Server action mutations for prompt repositories, bundles, versions, and webhooks.
+  - `src/lib/__tests__/database-correctness.test.ts`: Advisory locking (`pg_advisory_xact_lock`) and JSONB bundle preservation.
+  - `src/lib/__tests__/concurrency.test.ts`: Multi-threaded parallel push conflict avoidance and auto-increment version numbering.
+  - `src/lib/__tests__/tests.test.ts`: Evaluation test case execution, dual-model comparison, and metric assertion scoring.
+- **REST APIs & Schemas**:
+  - `src/app/api/v1/prompts/__tests__/`: REST endpoint verification for prompt creation, version retrieval, and variable interpolation.
+  - `src/lib/__tests__/validations.test.ts`: Zod schema validation rules for inputs, model hyperparameters, and bundles.
+- **CLI & Core Engine**:
+  - `packages/cli/src/__tests__/cli-sqlite.test.ts`: WebAssembly SQLite repository creation, offline snapshot storage, and schema migrations.
+  - `packages/core/src/__tests__/`: Bundle serialization, variable interpolation (`{{var}}`), and semantic diff computation.
 
 ---
 

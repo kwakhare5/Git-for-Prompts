@@ -38,6 +38,7 @@ git-for-prompts/
 ├── packages/
 │   ├── core/                        # @gfp/core — shared engine (pure TS, zero deps)
 │   │   ├── src/
+│   │   │   ├── ai-config.ts         # Central AI timeouts, default models, and system parameters
 │   │   │   ├── bundle.ts            # Bundle Zod schema, validation, type exports
 │   │   │   ├── diff.ts              # Structural bundle diff engine (text + JSON)
 │   │   │   ├── eval.ts              # Provider-agnostic evaluation runner
@@ -54,76 +55,81 @@ git-for-prompts/
 │       │   │   ├── init.ts          # gitforprompts init — create .gitforprompts/ + SQLite DB
 │       │   │   ├── add.ts           # gitforprompts add — create/update prompt bundle
 │       │   │   ├── run.ts           # gitforprompts run — execute evals locally
+│       │   │   ├── list.ts          # gitforprompts list — list local prompts and active versions
+│       │   │   ├── test-add.ts      # gitforprompts test-add — add evaluation test cases
 │       │   │   ├── history.ts       # gitforprompts history — show version log
 │       │   │   ├── diff.ts          # gitforprompts diff — compare two versions
 │       │   │   ├── push.ts          # gitforprompts push — sync local → cloud
 │       │   │   ├── pull.ts          # gitforprompts pull — sync cloud → local
 │       │   │   └── auth.ts          # gitforprompts auth — set API key for cloud sync
 │       │   ├── db/
-│       │   │   ├── sqlite.ts        # sql.js (Wasm SQLite) adapter (implements @gfp/core StorageAdapter)
+│       │   │   ├── sqlite.ts        # sql.js (Wasm SQLite) adapter (implements StorageAdapter)
+│       │   │   ├── mappers.ts       # Row serialization and bundle mapper helpers
 │       │   │   └── migrations.ts    # SQLite schema migrations
 │       │   └── config.ts            # .gitforprompts/config.json reader/writer
 │       ├── package.json
 │       └── tsconfig.json
 │
-├── src/                             # Next.js 16 cloud SaaS app (18 static routes + APIs)
+├── src/                             # Next.js 16.3.1 cloud SaaS app (16 static routes + 9 API route handlers)
 │   ├── app/
 │   │   ├── (auth)/                  # Route group — auth pages (sign-in, sign-up)
-│   │   ├── (dashboard)/             # Route group — protected app pages
+│   │   ├── (dashboard)/             # Route group — protected app layout
 │   │   │   ├── layout.tsx           # Collapsible sidebar + path header wrapper
-│   │   │   ├── page.tsx             # Dashboard — prompt list & metrics
-│   │   │   ├── api-keys/            # API key manager page
-│   │   │   ├── webhooks/            # Webhook manager page
-│   │   │   └── prompts/[id]/
-│   │   │       ├── page.tsx         # Prompt detail + version history
-│   │   │       ├── edit/            # Edit prompt bundle (tabbed Monaco editor)
-│   │   │       ├── diff/            # Visual bundle diff comparison
-│   │   │       ├── compare/         # A/B version comparison
-│   │   │       └── tests/           # Test suite runner
+│   │   │   ├── error.tsx            # Dashboard error boundary
+│   │   │   ├── not-found.tsx        # Dashboard not-found boundary
+│   │   │   └── dashboard/           # Workspace pages
+│   │   │       ├── page.tsx         # Dashboard — prompt list & metrics
+│   │   │       ├── new/page.tsx     # Create prompt repository
+│   │   │       ├── api-keys/        # API key manager page
+│   │   │       ├── webhooks/        # Webhook manager page
+│   │   │       └── prompts/[id]/
+│   │   │           ├── page.tsx     # Prompt detail + version history
+│   │   │           ├── edit/        # Edit prompt bundle (tabbed Monaco editor)
+│   │   │           ├── diff/        # Visual bundle diff comparison
+│   │   │           ├── compare/     # A/B version comparison
+│   │   │           └── tests/       # Test suite runner
 │   │   ├── (landing)/               # Marketing landing page (force-static, sub-50ms TTFB)
-│   │   │   └── page.tsx             # Landing page with interactive DashboardHeroReplica demo
+│   │   │   └── page.tsx             # Landing page with interactive hero and showcase
 │   │   ├── about/, contact/, privacy/ # Static trust anchor pages & security policy
+│   │   ├── developers/              # Public API documentation, CLI quickstart, & MCP instructions
 │   │   ├── not-found.tsx            # Agent-friendly 404 with machine-readable recovery paths
-│   │   ├── .well-known/             # MCP discovery (mcp.json) & RFC 9116 security.txt
-│   │   ├── llms.txt/                # Plaintext LLM documentation index
-│   │   ├── openapi.json/            # Public OpenAPI 3.1 schema route
+│   │   ├── llms.txt/route.ts        # Dynamic plaintext LLM documentation endpoint
 │   │   └── api/
 │   │       ├── markdown/route.ts    # AcceptMarkdown content negotiation handler
+│   │       ├── status/route.ts      # Health check and service status endpoint
+│   │       ├── v1/mcp/route.ts      # Model Context Protocol server manifest
+│   │       ├── v1/openapi.json/     # Scoped OpenAPI 3.1 spec with CORS headers
+│   │       ├── v1/prompts/          # REST endpoints: prompt listing and creation
 │   │       ├── v1/prompts/[id]/
 │   │       │   ├── latest/route.ts  # GET: fetch latest version (returns bundle)
 │   │       │   └── versions/route.ts # POST: push new version (accepts bundle)
-│   │       ├── v1/openapi.json/     # Scoped OpenAPI spec with CORS headers
 │   │       └── cron/regression-tests/ # Scheduled prompt regression evaluator
 │   ├── components/                  # React components
-│   │   ├── domain/
-│   │   │   ├── dashboard/prompt-repositories-list.tsx # Real dashboard prompt table/grid
-│   │   │   ├── prompts/
-│   │   │   │   ├── prompt-editor.tsx        # Monaco editor (tabbed for bundle fields)
-│   │   │   │   └── version-history.tsx      # Timeline & tags
-│   │   │   ├── bundle/bundle-editor.tsx     # Visual editor for model config + tools + schema
-│   │   │   ├── diff/diff-viewer.tsx         # Monaco diff (multi-section bundle diff)
-│   │   │   ├── compare/compare-runner.tsx   # A/B comparison runner
-│   │   │   ├── tests/test-runner.tsx        # Test suite runner
-│   │   │   └── api-keys/api-keys-manager.tsx # API key manager
-│   │   ├── dashboard/feedback-modal.tsx      # In-app user feedback widget
-│   │   ├── website/                         # HeroSection, BentoFeatures, EngineShowcase, FaqFooter
-│   │   └── ui-tokens.tsx                    # Design system primitives
+│   │   ├── domain/                  # Feature domain components
+│   │   │   ├── dashboard/           # prompt-repositories-list.tsx, dashboard-sidebar.tsx
+│   │   │   ├── prompts/             # prompt-editor.tsx, bundle-editor.tsx, version-history.tsx
+│   │   │   ├── diff/                # diff-viewer.tsx, compare-runner.tsx
+│   │   │   ├── testing/             # test-runner.tsx, use-test-runner-state.ts
+│   │   │   └── api-keys/            # api-keys-manager.tsx
+│   │   ├── layout/                  # brand-logo.tsx, feedback-modal.tsx, top-header-bar.tsx
+│   │   └── website/                 # Navbar.tsx, DeveloperFooter.tsx, HeroSection.tsx, AboutSection.tsx
 │   ├── db/
 │   │   ├── schema.ts                # Drizzle schema — bundle JSONB column + BOLA indexes
 │   │   ├── index.ts                 # Drizzle client instance
 │   │   └── migrations/              # Drizzle migrations
 │   └── lib/
-│       ├── actions/                 # Next.js Server Actions
+│       ├── actions/                 # Server Actions: prompts.ts, versions.ts, tests.ts, api-keys.ts, webhooks.ts
+│       ├── validations/             # Zod schema validation: prompt.ts, version.ts, test.ts, api-key.ts
 │       ├── api-auth.ts              # Shared API key authentication (SHA-256)
 │       ├── rate-limit.ts            # Upstash Redis token bucket + fail-closed protection
 │       ├── security/ssrf.ts         # Outbound URL security firewall & IP-pinning
 │       ├── test-runner.ts           # Cloud test runner (delegates to @gfp/core eval)
 │       ├── webhooks.ts              # HMAC-SHA256 webhook delivery
-│       └── ai.ts                    # Groq + OpenRouter client
+│       └── ai.ts                    # Groq + OpenRouter client with test-mode fallback
 │
-├── docker-compose.yml               # One-command self-hosted deployment
-├── Dockerfile                        # Multi-stage container image for self-hosting
-└── README.md                        # Local-first prompt package manager docs
+├── public/                          # Static assets (icon.svg, llms.txt, openapi.json, .well-known/mcp.json)
+├── docker-compose.yml               # Local PostgreSQL container configuration
+└── vitest.config.ts                 # Hermetic Vitest test runner configuration (150 passing tests)
 ```
 
 ### Data Flow
@@ -231,8 +237,24 @@ CREATE TABLE IF NOT EXISTS test_results (
 );
 ```
 
-### Other tables
-Tables `prompts`, `test_cases`, `test_results`, `api_keys`, `webhooks` remain as defined in `src/db/schema.ts`.
+### Schema Invariants & Supporting Tables
+
+1. **Circular Foreign Key Relationship**:
+   - `prompts.currentVersionId` references `versions.id` with `onDelete: "set null"`.
+   - `versions.promptId` references `prompts.id` with `onDelete: "cascade"`.
+   - Initial prompt insertion creates the prompt row first, followed immediately by `versions` snapshot insertion and atomic pointer update within an advisory transaction.
+
+2. **Table: `api_keys` (Zero Plaintext Storage)**:
+   - `keyLookupHash`: `varchar(64)` with unique index — SHA-256 hash of the full secret key (`gfp_live_...`). Enables $O(1)$ constant-time lookup without exposing plaintext.
+   - `keyPrefix`: `varchar(10)` — Plaintext prefix (`gfp_live_`) for UI identification.
+   - `scopes`: `text[]` — Granular API scopes (`['prompts:read', 'prompts:write', 'versions:write']`).
+   - `lastUsedAt`: `timestamp` — Throttled write invariant (updated at most once per 10-minute window per key to prevent write amplification).
+   - `revokedAt`, `expiresAt`, `createdAt`: Soft-revocation and expiration timestamps.
+
+3. **Supporting Tables**:
+   - `test_cases`: Test criteria and input parameters tied to `prompts.id`.
+   - `test_results`: Multi-model run outputs and scoring metrics.
+   - `webhooks`: Endpoint URLs guarded by SSRF firewall with secret HMAC signing keys.
 
 ## 4. DEEP MODULE ARCHITECTURE & SEAMS
 
@@ -287,3 +309,9 @@ gitforprompts pull <prompt-name>
 | 2026-08 | `sql.js` (Wasm SQLite) for local | Zero native C++ compilation dependencies, runs identically on any OS |
 | 2026-08 | User-provided API key for local evals | No key storage on our side. User controls their own provider. |
 | 2026-08 | MIT license | Maximum adoption and community trust |
+| 2026-09 | Speed Insights & Edge Caching | Removed RootLayout blocking auth, enabling sub-50ms TTFB static cache HIT |
+| 2026-09 | Agentic Standards & MCP Discovery | Added Accept: text/markdown negotiation, public/llms.txt, and /api/v1/mcp endpoint |
+| 2026-09 | Public Developer Portal & OpenAPI 3.1 | Interactive /developers portal with scoped OpenAPI 3.1 schema and CORS headers |
+| 2026-10 | Module Decomposition & Ponytail Audit | Decomposed oversized files (>250 LOC) into focused single-responsibility modules |
+| 2026-10 | Hermetic Zero-Mock Verification | 150/150 tests pass hermetically in CI without ambient external API keys |
+| 2026-10 | Semantic Git History Curation | Curated 304 commits to 150 clean semantic commits matching engineering timeline |
