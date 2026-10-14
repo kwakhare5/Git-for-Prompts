@@ -25,24 +25,33 @@ import type {
 vi.mock('@clerk/nextjs/server', () => ({ auth: vi.fn() }));
 vi.mock('next/cache', () => ({ revalidatePath: vi.fn() }));
 
-// Mock AI so tests don't require network access or API keys
-vi.mock('@/lib/ai', () => ({
-  runSingleTestCase: vi.fn().mockResolvedValue({
-    passed: true,
-    actualOutput: 'Mock AI output',
-    reason: 'Mock reason — AI is mocked',
-  }),
-  runWithConcurrency: vi.fn().mockImplementation(
-    async (tasks: (() => Promise<unknown>)[]) =>
-      Promise.all(tasks.map((t) => t()))
-  ),
-  MAX_CONCURRENT_TESTS: 3,
-}));
+// Mock only external billable 3rd-party LLM APIs via fetch (allowed by AGENTS.md)
+const originalFetch = globalThis.fetch;
 
-// Mock rate limit to always succeed
-vi.mock('@/lib/rate-limit', () => ({
-  checkRateLimit: vi.fn().mockResolvedValue({ success: true, remaining: 59 }),
-}));
+beforeAll(() => {
+  globalThis.fetch = vi.fn().mockImplementation(async (input: string | URL | Request) => {
+    const urlStr = typeof input === 'string' ? input : input instanceof URL ? input.toString() : input.url;
+    if (urlStr.includes('api.groq.com') || urlStr.includes('openrouter.ai') || urlStr.includes('openai.com')) {
+      return new Response(
+        JSON.stringify({
+          choices: [
+            {
+              message: {
+                content: '{"passed": true, "reason": "Evaluated successfully"}',
+              },
+            },
+          ],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+    return originalFetch(input);
+  }) as typeof fetch;
+});
+
+afterAll(() => {
+  globalThis.fetch = originalFetch;
+});
 
 import { auth } from '@clerk/nextjs/server';
 
@@ -265,7 +274,7 @@ describe('Test Runner Server Actions', () => {
       expect(results[0]).toMatchObject({
         testCaseId: tc.id,
         passed: true,
-        actualOutput: 'Mock AI output',
+        actualOutput: expect.any(String),
         persisted: true,
       });
 
@@ -305,11 +314,12 @@ describe('Test Runner Server Actions', () => {
     });
 
     it('rejects when rate limited', async () => {
-      const { checkRateLimit } = await import('@/lib/rate-limit');
-      vi.mocked(checkRateLimit).mockResolvedValueOnce({ success: false, remaining: 0, limit: 60, reset: 60 });
+      const rateLimitModule = await import('@/lib/rate-limit');
+      const spy = vi.spyOn(rateLimitModule, 'checkRateLimit').mockResolvedValueOnce({ success: false, remaining: 0, limit: 60, reset: 60 });
       await expect(
         runTestsForVersion({ versionId: versionIds[0] })
       ).rejects.toThrow('Rate limit exceeded');
+      spy.mockRestore();
     });
   });
 

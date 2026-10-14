@@ -28,7 +28,7 @@
   "paths": {
     "/prompts": {
       "get": {
-        "summary": "Resolve prompt by name or list prompts",
+        "summary": "Resolve prompt ID by name",
         "description": "Retrieve prompt repository ID and details by unique name for the authenticated user.",
         "operationId": "listPrompts",
         "parameters": [
@@ -36,7 +36,7 @@
             "name": "name",
             "in": "query",
             "description": "Unique prompt repository name",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }

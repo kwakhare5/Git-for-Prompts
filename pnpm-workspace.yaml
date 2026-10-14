@@ -1,6 +1,5 @@
 packages:
   - 'packages/*'
-  - 'launch-video'
 
 allowBuilds:
   '@clerk/shared': true

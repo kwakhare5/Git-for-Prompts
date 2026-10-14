@@ -13,7 +13,7 @@ export function HeroSection() {
       {/* Kicker Badge */}
       <div className="inline-flex items-center gap-2 mb-6 font-mono text-[10px] sm:text-xs font-bold tracking-wider bg-bg-card text-zinc-300 border border-zinc-800 px-3.5 py-1.5 rounded-full shadow-xl">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-        <span>OPEN SOURCE PROMPT VERSION CONTROL</span>
+        <span>Open-source prompt version control</span>
       </div>
 
       {/* Hero Title */}
@@ -23,7 +23,7 @@ export function HeroSection() {
 
       {/* Hero Subtitle */}
       <p className="text-base sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-8 leading-relaxed font-sans">
-        Version-control system prompts, model configs, and output schemas. Track changes, run terminal evals, and catch regressions before production. 100% offline via CLI or synced to the cloud.
+        Save versions of your AI prompts, test changes before shipping, and roll back if something breaks. Works completely offline with your local CLI or synced to the cloud.
       </p>
 
       {/* Action CTAs */}
@@ -35,13 +35,13 @@ export function HeroSection() {
           href="/dashboard"
           className="w-full sm:w-auto bg-zinc-100 hover:bg-white text-zinc-950 font-mono font-bold px-6 py-3 rounded-xl shadow-xs btn-interactive flex items-center justify-center gap-2 text-xs min-h-[48px] sm:min-h-[44px]"
         >
-          <span>Open Cloud Dashboard →</span>
+          <span>Open cloud dashboard →</span>
         </Link>
       </div>
 
       {/* Micro Text */}
       <p className="text-xs text-zinc-500 font-mono tracking-wide">
-        open source • local sqlite • zero key custody
+        Open source • Works offline with SQLite • Your keys stay on your machine
       </p>
 
     </section>

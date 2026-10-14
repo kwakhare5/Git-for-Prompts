@@ -34,7 +34,7 @@ Git for Prompts is a developer toolkit and cloud platform providing version cont
 ## 3. Architecture & Security Invariants
 
 1. **Local-First SQLite Engine**:
-   - The CLI (`gitforprompts`) initializes a `.gfp` repository containing a local SQLite database compiled to WebAssembly (`sql.js`).
+   - The CLI (`gitforprompts`) initializes a `.gitforprompts/` repository containing a local SQLite database compiled to WebAssembly (`sql.js`).
    - All mutations, snapshots, and evaluations run locally with zero network calls required.
 
 2. **PostgreSQL Advisory Locking**:
@@ -63,20 +63,20 @@ npm install -g gitforprompts
 
 ### Quickstart Workflow
 ```bash
-# 1. Initialize local repository
+# 1. Initialize local repository (.gitforprompts/)
 npx gitforprompts init
 
-# 2. Stage and create a prompt version
-npx gitforprompts save security-audit --message "Initial prompt version with strict JSON output"
+# 2. Stage and create a prompt version locally
+npx gitforprompts add security-audit "You are a security reviewer" -m "Initial prompt version"
 
-# 3. Run evaluation suite
-npx gitforprompts run test-suite --all
+# 3. Run evaluation suite locally
+npx gitforprompts run security-audit
 
 # 4. View visual diff between versions
-npx gitforprompts diff security-audit v1 v2
+npx gitforprompts diff security-audit 1 2
 
 # 5. Push to cloud studio
-npx gitforprompts push
+npx gitforprompts push security-audit
 ```
 
 ---
@@ -93,53 +93,57 @@ Authorization: Bearer gfp_live_your_api_key_here
 
 ### Endpoints
 
-#### `GET /api/v1/prompts`
-List all prompt repositories for the authenticated user.
+#### `GET /api/v1/prompts?name=<name>`
+Resolve prompt repository ID by unique name for the authenticated user.
 - Response: `200 OK`
 ```json
 {
-  "prompts": [
-    {
-      "id": "prompt_123",
-      "name": "security-reviewer",
-      "description": "Analyzes code for OWASP Top 10 vulnerabilities",
-      "currentVersionId": "ver_456",
-      "createdAt": "2026-08-20T00:00:00.000Z",
-      "updatedAt": "2026-08-22T00:00:00.000Z"
-    }
-  ]
+  "promptId": "73d72224-b15c-426b-8006-03099908daec",
+  "promptName": "security-reviewer"
 }
 ```
 
 #### `GET /api/v1/prompts/:id/latest`
-Fetch the active version bundle for a prompt.
+Fetch the active version snapshot and bundle for a prompt repository.
+- Query parameters: optional variable substitution (e.g. `?codeSnippet=print(1)`).
 - Response: `200 OK`
 ```json
 {
-  "prompt": {
-    "id": "prompt_123",
-    "name": "security-reviewer"
-  },
-  "version": {
-    "id": "ver_456",
-    "versionNumber": 3,
+  "promptId": "73d72224-b15c-426b-8006-03099908daec",
+  "promptName": "security-reviewer",
+  "versionNumber": 3,
+  "commitMessage": "Added strict JSON output formatting",
+  "content": "You are a security reviewer...",
+  "variables": ["codeSnippet"],
+  "bundle": {
     "systemPrompt": "You are a secure code reviewer...",
     "userTemplate": "Review this code snippet: {{codeSnippet}}",
-    "modelProvider": "groq",
-    "modelName": "llama-3.3-70b-versatile",
-    "temperature": "0.20",
-    "topP": "0.95",
-    "maxTokens": 2048,
-    "responseFormat": {
-      "type": "json_object",
-      "schema": {}
-    }
-  }
+    "modelConfig": {
+      "provider": "groq",
+      "model": "llama-3.3-70b-versatile",
+      "temperature": 0.2,
+      "maxTokens": 2048
+    },
+    "tools": [],
+    "responseFormat": { "type": "text" }
+  },
+  "createdAt": "2026-08-20T00:00:00.000Z"
 }
 ```
 
-#### `GET /api/v1/prompts/:id/versions`
-List the immutable history of all versions for a prompt repository.
+#### `POST /api/v1/prompts/:id/versions`
+Push and commit an immutable new version snapshot of a prompt.
+- Body:
+```json
+{
+  "content": "You are a security reviewer...",
+  "commitMessage": "Tune temperature to 0.2",
+  "bundle": {
+    "systemPrompt": "You are a security reviewer...",
+    "userTemplate": "Review: {{codeSnippet}}"
+  }
+}
+```
 
 #### `POST /api/v1/prompts`
 Create a new prompt repository.
@@ -147,11 +151,7 @@ Create a new prompt repository.
 ```json
 {
   "name": "customer-support-tone",
-  "description": "Handles sensitive refund and support inquiries",
-  "systemPrompt": "You are an empathetic customer support agent...",
-  "userTemplate": "Customer message: {{message}}",
-  "modelProvider": "groq",
-  "modelName": "llama-3.3-70b-versatile"
+  "description": "Handles sensitive refund and support inquiries"
 }
 ```
 

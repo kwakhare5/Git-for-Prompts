@@ -1,123 +1,125 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, afterAll, beforeEach } from 'vitest';
 import * as authModule from '@/lib/auth';
 import { generateApiKey, revokeApiKey } from '@/lib/actions/api-keys';
-
-const MAX_ACTIVE_KEYS_PER_USER = 10;
 import { touchApiKeyLastUsed } from '@/lib/api-auth';
 import { db } from '@/db';
+import * as schema from '@/db/schema';
+import { eq } from 'drizzle-orm';
+
+const MAX_ACTIVE_KEYS_PER_USER = 10;
 
 vi.mock('next/cache', () => ({
   revalidatePath: vi.fn(),
 }));
 
-vi.mock('@/db', () => ({
-  db: {
-    select: vi.fn(),
-    insert: vi.fn(),
-    update: vi.fn(),
-    delete: vi.fn(),
-  },
-}));
+describe('Stage 2C — API Key Lifecycle & Limits (Real DB)', () => {
+  const TEST_USER = `user_keys_${Date.now()}`;
+  const createdKeyIds: string[] = [];
 
-describe('Stage 2C — API Key Lifecycle & Limits', () => {
+  afterAll(async () => {
+    for (const id of createdKeyIds) {
+      await db.delete(schema.apiKeys).where(eq(schema.apiKeys.id, id));
+    }
+  });
+
   beforeEach(() => {
     vi.restoreAllMocks();
   });
 
   it('generates high-entropy API key with gfp_live_ prefix without storing plaintext', async () => {
-    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue('user_gen_1');
-
-    vi.mocked(db.select).mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockResolvedValue([]), // 0 existing active keys
-      }),
-    } as unknown as ReturnType<typeof db.select>);
-
-    let insertedRecord: Record<string, unknown> | undefined;
-    vi.mocked(db.insert).mockReturnValue({
-      values: vi.fn().mockImplementation((vals: Record<string, unknown>) => {
-        insertedRecord = vals;
-        return {
-          returning: vi.fn().mockResolvedValue([
-            {
-              id: 'key_new_1',
-              name: vals.name,
-              createdAt: new Date(),
-              expiresAt: null,
-              scopes: vals.scopes,
-            },
-          ]),
-        };
-      }),
-    } as unknown as ReturnType<typeof db.insert>);
+    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue(TEST_USER);
 
     const res = await generateApiKey({ name: 'Prod Key' });
-
     expect(res).toBeDefined();
     expect(res.plainKey).toMatch(/^gfp_live_[a-f0-9]{32}$/);
-    expect(insertedRecord).toBeDefined();
-    expect(insertedRecord?.keyLookupHash).toBeDefined();
-    expect(insertedRecord?.keyLookupHash).not.toEqual(res.plainKey);
-    expect(insertedRecord).not.toHaveProperty('plainKey');
+    createdKeyIds.push(res.id);
+
+    // Verify against real Postgres database
+    const [stored] = await db
+      .select()
+      .from(schema.apiKeys)
+      .where(eq(schema.apiKeys.id, res.id));
+
+    expect(stored).toBeDefined();
+    expect(stored.name).toBe('Prod Key');
+    expect(stored.ownerId).toBe(TEST_USER);
+    expect(stored.keyHash).toBeDefined();
+    expect(stored.keyHash).not.toEqual(res.plainKey);
+    expect(stored).not.toHaveProperty('plainKey');
   });
 
-  it('enforces MAX_ACTIVE_KEYS_PER_USER cap', async () => {
-    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue('user_spammer');
+  it('enforces MAX_ACTIVE_KEYS_PER_USER cap with real database rows', async () => {
+    const SPAM_USER = `user_spam_${Date.now()}`;
+    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue(SPAM_USER);
 
-    // Return 10 active keys
-    const mockActiveKeys = Array.from({ length: MAX_ACTIVE_KEYS_PER_USER }, (_, i) => ({
-      id: `key_${i}`,
+    // Seed 10 active keys in PostgreSQL
+    const seededKeys = Array.from({ length: MAX_ACTIVE_KEYS_PER_USER }, (_, i) => ({
+      ownerId: SPAM_USER,
+      name: `Key ${i + 1}`,
+      keyPrefix: 'gfp_live_',
+      keyHash: `hash_spam_${i}_${Date.now()}`,
+      keyLookupHash: `lookup_hash_spam_${i}_${Date.now()}`,
     }));
 
-    vi.mocked(db.select).mockReturnValue({
-      from: vi.fn().mockReturnValue({
-        where: vi.fn().mockResolvedValue(mockActiveKeys),
-      }),
-    } as unknown as ReturnType<typeof db.select>);
+    const inserted = await db.insert(schema.apiKeys).values(seededKeys).returning();
+    inserted.forEach((k) => createdKeyIds.push(k.id));
 
+    // Attempt to generate the 11th key
     await expect(generateApiKey({ name: 'Excess Key' })).rejects.toThrow(
       `Maximum active API keys limit (${MAX_ACTIVE_KEYS_PER_USER}) reached`
     );
   });
 
-  it('soft-revokes API key via revokeApiKey', async () => {
-    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue('user_owner');
+  it('soft-revokes API key via revokeApiKey in real database', async () => {
+    vi.spyOn(authModule, 'getAuthUserId').mockResolvedValue(TEST_USER);
 
-    let updateArgs: Record<string, unknown> | undefined;
-    vi.mocked(db.update).mockReturnValue({
-      set: vi.fn().mockImplementation((setVals: Record<string, unknown>) => {
-        updateArgs = setVals;
-        return {
-          where: vi.fn().mockResolvedValue([]),
-        };
-      }),
-    } as unknown as ReturnType<typeof db.update>);
+    const created = await generateApiKey({ name: 'To Revoke' });
+    createdKeyIds.push(created.id);
 
-    await revokeApiKey({ id: '11111111-1111-4111-a111-111111111111' });
+    await revokeApiKey({ id: created.id });
 
-    expect(updateArgs).toBeDefined();
-    expect(updateArgs?.revokedAt).toBeInstanceOf(Date);
+    const [updated] = await db
+      .select()
+      .from(schema.apiKeys)
+      .where(eq(schema.apiKeys.id, created.id));
+
+    expect(updated).toBeDefined();
+    expect(updated.revokedAt).toBeInstanceOf(Date);
   });
 
-  it('throttles lastUsedAt updates within 10-minute window', async () => {
-    const keyId = 'key_throttle_1';
-
-    vi.mocked(db.update).mockClear();
+  it('throttles lastUsedAt updates within 10-minute window in real database', async () => {
+    const [key] = await db
+      .insert(schema.apiKeys)
+      .values({
+        ownerId: TEST_USER,
+        name: 'Throttled Key',
+        keyPrefix: 'gfp_live_',
+        keyHash: `hash_thrt_${Date.now()}`,
+        keyLookupHash: `lookup_thrt_${Date.now()}`,
+      })
+      .returning();
+    createdKeyIds.push(key.id);
 
     // 1. Recently updated 2 minutes ago -> should NOT trigger DB update
     const recentDate = new Date(Date.now() - 2 * 60 * 1000);
-    await touchApiKeyLastUsed(keyId, recentDate);
-    expect(db.update).not.toHaveBeenCalled();
+    await touchApiKeyLastUsed(key.id, recentDate);
+
+    const [unmodified] = await db
+      .select({ lastUsedAt: schema.apiKeys.lastUsedAt })
+      .from(schema.apiKeys)
+      .where(eq(schema.apiKeys.id, key.id));
+
+    expect(unmodified.lastUsedAt).toBeNull();
 
     // 2. Updated 15 minutes ago -> SHOULD trigger DB update
     const oldDate = new Date(Date.now() - 15 * 60 * 1000);
-    vi.mocked(db.update).mockReturnValue({
-      set: vi.fn().mockReturnValue({
-        where: vi.fn().mockResolvedValue([]),
-      }),
-    } as unknown as ReturnType<typeof db.update>);
+    await touchApiKeyLastUsed(key.id, oldDate);
 
-    await touchApiKeyLastUsed(keyId, oldDate);
-    expect(db.update).toHaveBeenCalled();
+    const [modified] = await db
+      .select({ lastUsedAt: schema.apiKeys.lastUsedAt })
+      .from(schema.apiKeys)
+      .where(eq(schema.apiKeys.id, key.id));
+
+    expect(modified.lastUsedAt).toBeInstanceOf(Date);
   });
 });

@@ -7,8 +7,8 @@ import { createVersion } from '@/lib/actions/versions';
 import { GFP_THEME_NAME, registerGfpTheme, GFP_LINE_NUMBER_OPTIONS } from '@/lib/monaco-theme';
 import { extractVariables, createBundleFromLegacy } from '@gfp/core';
 import { BundleEditor } from './bundle-editor';
+import { PromptReadOnlyViewer } from './prompt-read-only-viewer';
 import type { PromptBundle } from '@gfp/core';
-import { toast } from 'sonner';
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
   ssr: false,
@@ -44,7 +44,6 @@ export function PromptEditor({
   const [content, setContent] = useState(initialContent);
   const [commitMessage, setCommitMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const isDirty = !readOnly && content !== initialContent;
@@ -101,68 +100,7 @@ export function PromptEditor({
   const handleEditorWillMount = registerGfpTheme;
 
   if (readOnly) {
-    return (
-      <div className="flex flex-col gap-2 font-sans">
-        <div className="rounded-2xl overflow-hidden border border-zinc-800/90 flex flex-col bg-bg-card shadow-xl">
-          <div className="flex items-center gap-3 bg-bg-page border-b border-zinc-800/90 px-4 py-2.5 text-xs font-mono">
-            <span className="text-zinc-300 font-bold mr-auto">prompt.bundle</span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(content);
-                    setCopied(true);
-                    toast.success('Prompt copied to clipboard!');
-                    setTimeout(() => setCopied(false), 2000);
-                  } catch {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = content;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    setCopied(true);
-                    toast.success('Prompt copied to clipboard!');
-                    setTimeout(() => setCopied(false), 2000);
-                  }
-                }}
-                className="text-xs text-blue-300 hover:text-blue-200 font-mono font-bold tab-interactive"
-                aria-label="Copy prompt to clipboard"
-              >
-                {copied ? '✓ Copied' : 'Copy Text'}
-              </button>
-              <span className="text-[10px] font-mono font-bold text-zinc-400 bg-bg-panel border border-zinc-800/60 px-2 py-0.5 rounded">read-only</span>
-            </div>
-          </div>
-          <div role="region" aria-label="Prompt content (read-only)">
-            <MonacoEditor
-              height={height}
-              language="plaintext"
-              theme={GFP_THEME_NAME}
-              beforeMount={handleEditorWillMount}
-              value={content}
-              options={{
-                readOnly: true,
-                minimap: { enabled: false },
-                ...GFP_LINE_NUMBER_OPTIONS,
-                scrollBeyondLastLine: false,
-                wordWrap: 'on',
-                fontFamily: '"JetBrains Mono", "Fira Code", Menlo, monospace',
-                fontSize: 13,
-                lineHeight: 22,
-                padding: { top: 12, bottom: 12 },
-                renderLineHighlight: 'none',
-                scrollbar: { vertical: 'auto', horizontal: 'auto', alwaysConsumeMouseWheel: false },
-                overviewRulerLanes: 0,
-                hideCursorInOverviewRuler: true,
-                glyphMargin: false,
-                folding: false,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    return <PromptReadOnlyViewer content={content} height={height} />;
   }
 
   if (mode === 'v2') {

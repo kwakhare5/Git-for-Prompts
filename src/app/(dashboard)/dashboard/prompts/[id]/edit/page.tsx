@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { PromptEditor } from '@/components/domain/prompts';
 import type { Metadata } from 'next';
+import type { PromptBundle } from '@gfp/core';
 
 export const dynamic = 'force-dynamic';
 
@@ -85,6 +86,7 @@ export default async function EditPromptPage({
       <PromptEditor
         promptId={id}
         initialContent={initialContent}
+        initialBundle={(latestVersion?.bundle as PromptBundle) ?? null}
       />
     </div>
   );

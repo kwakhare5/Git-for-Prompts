@@ -19,8 +19,6 @@ export function runMigrations(db: Database): void {
       updated_at TEXT DEFAULT (datetime('now'))
     )
   `);
-  // Idempotent migration for existing Phase 3 DBs — silently ignore if already exists
-  try { db.run('ALTER TABLE prompts ADD COLUMN cloud_prompt_id TEXT'); } catch { /* already exists */ }
 
   db.run(`
     CREATE TABLE IF NOT EXISTS versions (

@@ -110,14 +110,18 @@ export async function revokeApiKey(input: unknown) {
   try {
     const { id } = deleteApiKeySchema.parse(input);
 
-    await db
+    const [updated] = await db
       .update(apiKeys)
       .set({ revokedAt: new Date() })
-      .where(and(eq(apiKeys.id, id), eq(apiKeys.ownerId, userId)));
+      .where(and(eq(apiKeys.id, id), eq(apiKeys.ownerId, userId)))
+      .returning({ id: apiKeys.id });
+
+    if (!updated) throw new Error('API key not found or access denied');
 
     revalidatePath('/dashboard/api-keys');
+    return { success: true };
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
+    if (err instanceof Error && (err.message === 'Unauthorized' || err.message === 'API key not found or access denied')) throw err;
     throw new Error('Failed to revoke API key');
   }
 }
@@ -132,13 +136,17 @@ export async function deleteApiKey(input: unknown) {
   try {
     const { id } = deleteApiKeySchema.parse(input);
 
-    await db
+    const [deleted] = await db
       .delete(apiKeys)
-      .where(and(eq(apiKeys.id, id), eq(apiKeys.ownerId, userId)));
+      .where(and(eq(apiKeys.id, id), eq(apiKeys.ownerId, userId)))
+      .returning({ id: apiKeys.id });
+
+    if (!deleted) throw new Error('API key not found or access denied');
 
     revalidatePath('/dashboard/api-keys');
+    return { success: true };
   } catch (err) {
-    if (err instanceof Error && err.message === 'Unauthorized') throw err;
+    if (err instanceof Error && (err.message === 'Unauthorized' || err.message === 'API key not found or access denied')) throw err;
     throw new Error('Failed to delete API key');
   }
 }

@@ -23,19 +23,11 @@ import { db } from '@/db';
 import { testResults } from '@/db/schema';
 import { runSingleTestCase, runWithConcurrency, MAX_CONCURRENT_TESTS } from '@/lib/ai';
 import { sql } from 'drizzle-orm';
+import type { TestCaseInput, EvalAttempt } from '@gfp/core';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type TestCaseInput = {
-  id: string;
-  name: string;
-  inputText: string;
-  expectedCriteria: string;
-};
-
-export type EvalAttempt =
-  | { ok: true; testCaseId: string; result: { passed: boolean; actualOutput: string; reason: string } }
-  | { ok: false; testCaseId: string; message: string };
+export type { TestCaseInput, EvalAttempt };
 
 export type PersistResult = {
   saved: Map<string, { passed: boolean; actualOutput: string }>;

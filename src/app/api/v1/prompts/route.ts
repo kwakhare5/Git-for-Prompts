@@ -4,7 +4,7 @@ import { prompts } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { checkRateLimit, getRateLimitHeaders } from '@/lib/rate-limit';
 import { authenticateApiKey } from '@/lib/api-auth';
-import { z } from 'zod';
+import { createPromptSchema } from '@/lib/validations/prompt';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/prompts?name=<name>
@@ -110,11 +110,6 @@ export async function GET(req: NextRequest) {
 //   429 — rate limited
 // ─────────────────────────────────────────────────────────────────────────────
 
-const createPromptBodySchema = z.object({
-  name: z.string().min(1).max(255),
-  description: z.string().max(1000).optional(),
-});
-
 export async function POST(req: NextRequest) {
   try {
     const ip =
@@ -143,9 +138,9 @@ export async function POST(req: NextRequest) {
     }
     const { ownerId } = authResult;
 
-    let body: z.infer<typeof createPromptBodySchema>;
+    let body: { name: string; description?: string };
     try {
-      body = createPromptBodySchema.parse(await req.json());
+      body = createPromptSchema.parse(await req.json());
     } catch {
       return NextResponse.json(
         {
