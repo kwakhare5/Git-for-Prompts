@@ -30,6 +30,8 @@ jobs:
       DATABASE_URL: postgres://postgres:password@localhost:5432/git_for_prompts_test
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_dummy
       CLERK_SECRET_KEY: sk_test_dummy
+      OPENROUTER_API_KEY: test-mock-openrouter-key
+      GROQ_API_KEY: test-mock-groq-key
 
     steps:
       - name: Checkout repository

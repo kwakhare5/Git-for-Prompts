@@ -54,7 +54,13 @@ At the end of a session with meaningful changes:
 - **Problem / tension:** The repository had accumulated 304 commits with heavy churn (150+ noise commits consisting of repeated AST cache updates, session log updates, and micro-tweaks).
 - **Change / decision:** Curated and squashed 155 redundant chore and documentation micro-commits into their parent semantic commits, dropping canceled revert pairs, leaving 149 clean commits matching the 6-month development timeline.
 - **Proof:** Commit count reduced from 304 to 149 (`git rev-list --count HEAD` = 149), full tree diff against un-rebased state is zero (`git diff main backup-all-commits` is empty), Vitest suite exits 0 with 150/150 tests, ESLint exits 0 with 0 errors/0 warnings, Next.js build exits 0 (16/16 static pages).
-- **Still broken / unproven:** Remote repository `origin/main` has diverged and will require a force push (`git push origin main --force-with-lease`) to update GitHub.
+- **Still broken / unproven:** None (pushed successfully to remote).
+
+#### Work card 3: Permanent hermetic test environment fix & logo restoration
+- **Problem / tension:** GitHub Actions CI failed at step 10 ("Run tests") because `src/lib/ai.ts` halted before mocked `fetch` calls when external API keys were missing from zero-env runners.
+- **Change / decision:** Hardened Vitest config with default test environment keys, added test-mode fallback in `src/lib/ai.ts` to allow mock dispatch without live keys, set mock keys in `ci.yml`, and added the official logo to `README.md`.
+- **Proof:** `pnpm test` passes 150/150 with zero skips even when `.env.local` is completely removed, `pnpm lint` exits 0 (0 warnings), Next.js build exits 0 (16/16 static pages), and logo renders in README.
+- **Still broken / unproven:** None. Ready for green CI execution on GitHub.
 
 ### [Global Agents & BIP Engine — Build-in-Public v5 Upgrade & Sync] 2026-09-18
 

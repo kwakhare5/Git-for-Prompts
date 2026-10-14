@@ -1,5 +1,9 @@
 <div align="center">
 
+  <a href="https://gitforprompts.vercel.app">
+    <img src="public/icon.svg" alt="Git for Prompts Logo" width="72" height="72" />
+  </a>
+
   # Git for Prompts
 
   ### *The local-first prompt package manager. Version, diff, and evaluate your AI prompts.*
