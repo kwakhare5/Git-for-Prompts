@@ -1,5 +1,8 @@
 # AGENTS.md - Git for Prompts
 
+> **MANDATORY INSTRUCTION:** Read and obey the global master rules at C:\Users\kwakh\.agents\AGENTS.md. Treat this file as project-specific facts and invariants that override or extend global rules.
+
+
 ## What this is
 Prompt versioning, staging, diffing, and automated testing studio for AI prompts. Launch Ready.
 
